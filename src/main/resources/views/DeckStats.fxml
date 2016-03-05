@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.*?>
+<ScrollPane xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.DeckStats">
+    <GridPane>
+        <PieChart fx:id="colors" legendVisible="false" maxWidth="1.7976931348623157E308" title="Couleurs (n'incluant pas les terrains)"/>
+        <PieChart fx:id="types" maxWidth="1.7976931348623157E308" title="Types" GridPane.columnIndex="1"/>
+        <PieChart fx:id="rarity" maxWidth="1.7976931348623157E308" title="Raretés" GridPane.rowIndex="1"/>
+        <PieChart fx:id="cmc" maxWidth="1.7976931348623157E308" title="Coûts de mana convertis (n'incluant pas les terrains)" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+    </GridPane>
+</ScrollPane>

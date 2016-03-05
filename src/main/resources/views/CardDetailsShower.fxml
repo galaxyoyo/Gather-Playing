@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.WebView?>
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.CardDetailsShower" fx:id="box"
+      alignment="CENTER">
+    <ImageView fx:id="image" fitHeight="310.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
+        <VBox.margin>
+            <Insets top="10" bottom="10" />
+        </VBox.margin>
+    </ImageView>
+    <GridPane VBox.vgrow="ALWAYS">
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS"/>
+            <ColumnConstraints hgrow="ALWAYS"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints vgrow="ALWAYS"/>
+            <RowConstraints vgrow="ALWAYS"/>
+            <RowConstraints vgrow="ALWAYS"/>
+            <RowConstraints vgrow="ALWAYS"/>
+            <RowConstraints vgrow="ALWAYS"/>
+            <RowConstraints vgrow="ALWAYS"/>
+            <RowConstraints vgrow="ALWAYS"/>
+            <RowConstraints vgrow="ALWAYS"/>
+        </rowConstraints>
+        <Label text="Nom anglais :"/>
+        <Label text="Nom français :" GridPane.rowIndex="1" fx:id="nameTRLbl"/>
+        <Label text="Type :" GridPane.rowIndex="2"/>
+        <Label text="Coût de mana :" GridPane.rowIndex="3" fx:id="manaCostLbl"/>
+        <Label text="Force / Endurance :" GridPane.rowIndex="4" fx:id="powerLbl"/>
+        <Label text="Extension :" GridPane.rowIndex="5"/>
+        <Label text="Rareté :" GridPane.rowIndex="6"/>
+        <Label text="Description :" GridPane.rowIndex="7"/>
+        <Label GridPane.columnIndex="1" fx:id="name_EN"/>
+        <Label GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="name_TR"/>
+        <Label GridPane.rowIndex="2" GridPane.columnIndex="1" fx:id="type"/>
+        <Label GridPane.rowIndex="3" GridPane.columnIndex="1" fx:id="manaCost"/>
+        <Label GridPane.rowIndex="4" GridPane.columnIndex="1" fx:id="power"/>
+        <Label GridPane.rowIndex="5" GridPane.columnIndex="1" fx:id="set"/>
+        <Label GridPane.rowIndex="6" GridPane.columnIndex="1" fx:id="rarity"/>
+    </GridPane>
+    <WebView VBox.vgrow="ALWAYS" fx:id="desc"/>
+</VBox>

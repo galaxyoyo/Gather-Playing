@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.WebView?>
+<BorderPane fx:id="parent" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.GameMenu">
+    <right>
+        <VBox alignment="CENTER" prefWidth="223.0" BorderPane.alignment="CENTER">
+            <ImageView fx:id="image" fitHeight="310.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true"/>
+            <WebView fx:id="chat" VBox.vgrow="ALWAYS"/>
+            <TextField fx:id="chatBar"/>
+        </VBox>
+    </right>
+    <left>
+        <GridPane BorderPane.alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints vgrow="ALWAYS"/>
+                <RowConstraints vgrow="ALWAYS"/>
+            </rowConstraints>
+            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: transparent;">
+                <fx:include fx:id="infosPanel" source="PlayerInfos.fxml"/>
+            </ScrollPane>
+            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: transparent;" GridPane.rowIndex="1">
+                <fx:include source="PlayerInfos.fxml"/>
+            </ScrollPane>
+        </GridPane>
+    </left>
+    <center>
+        <HBox fx:id="battlefield">
+            <GridPane BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints vgrow="ALWAYS"/>
+                    <RowConstraints vgrow="ALWAYS"/>
+                    <RowConstraints vgrow="ALWAYS"/>
+                    <RowConstraints vgrow="ALWAYS"/>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                </rowConstraints>
+                <ScrollPane fitToWidth="true" prefHeight="105.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER">
+                    <HBox fx:id="adverseHand" alignment="BOTTOM_CENTER"/>
+                </ScrollPane>
+                <ScrollPane fitToWidth="true" prefHeight="105.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" GridPane.rowIndex="1">
+                    <HBox fx:id="adverseLands" alignment="BOTTOM_LEFT" style="-fx-background-color: green;"/>
+                </ScrollPane>
+                <ScrollPane fitToWidth="true" prefHeight="105.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" GridPane.rowIndex="2">
+                    <HBox fx:id="adversePlayed" alignment="BOTTOM_CENTER">
+                        <HBox fx:id="adverseCreatures" style="-fx-background-color: blue;" HBox.hgrow="ALWAYS"/>
+                        <HBox fx:id="adverseEnchants" style="-fx-background-color: red;" HBox.hgrow="NEVER"/>
+                    </HBox>
+                </ScrollPane>
+                <ScrollPane fitToWidth="true" prefHeight="118.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" GridPane.rowIndex="3">
+                    <HBox fx:id="played" alignment="BOTTOM_CENTER">
+                        <HBox fx:id="creatures" style="-fx-background-color: blue;" HBox.hgrow="ALWAYS"/>
+                        <HBox fx:id="enchants" style="-fx-background-color: red;" HBox.hgrow="NEVER"/>
+                    </HBox>
+                </ScrollPane>
+                <ScrollPane fitToWidth="true" prefHeight="118.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" GridPane.rowIndex="4">
+                    <HBox fx:id="lands" alignment="BOTTOM_LEFT" style="-fx-background-color: green;"/>
+                </ScrollPane>
+                <ScrollPane fitToWidth="true" prefHeight="118.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" GridPane.rowIndex="5">
+                    <HBox fx:id="hand" alignment="BOTTOM_CENTER"/>
+                </ScrollPane>
+            </GridPane>
+            <VBox fx:id="phases" alignment="CENTER_RIGHT" prefWidth="42.0" HBox.hgrow="NEVER"/>
+        </HBox>
+    </center>
+</BorderPane>

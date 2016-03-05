@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.FreeModeMenu">
+    <children>
+        <Label fx:id="play" text="Combat" VBox.vgrow="ALWAYS">
+            <font>
+                <Font size="42.0" />
+            </font>
+        </Label>
+        <Label fx:id="giant" text="Troll à 2 têtes" VBox.vgrow="ALWAYS">
+            <font>
+                <Font size="42.0" />
+            </font>
+        </Label>
+        <Label fx:id="god" alignment="CENTER" text="Dieu" VBox.vgrow="ALWAYS">
+            <font>
+                <Font size="42.0" />
+            </font>
+        </Label>
+        <Label fx:id="conquest" alignment="CENTER" text="Conquête" VBox.vgrow="ALWAYS">
+            <font>
+                <Font size="42.0" />
+            </font>
+        </Label>
+        <Label fx:id="deckEditor" text="Éditeur de decks" VBox.vgrow="ALWAYS">
+            <font>
+                <Font size="42.0" />
+            </font>
+        </Label>
+        <Label fx:id="back" text="Retour" VBox.vgrow="ALWAYS">
+            <font>
+                <Font size="42.0" />
+            </font>
+        </Label>
+    </children>
+</VBox>

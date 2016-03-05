@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.DeckShower">
+    <top>
+        <HBox>
+            <Button fx:id="add" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS"/>
+            <Button fx:id="sideboard" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS"/>
+            <Button fx:id="remove" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </top>
+    <center>
+        <VBox>
+            <TextField fx:id="name" promptText="Nom du deck ..." VBox.vgrow="NEVER"/>
+            <ListView fx:id="cards" VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </center>
+    <bottom>
+        <VBox>
+            <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onAction="#showstats" text="Statistiques"/>
+            <HBox>
+                <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onAction="#load" text="Charger" HBox.hgrow="ALWAYS"/>
+                <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onAction="#save" text="Sauvegarder" HBox.hgrow="ALWAYS"/>
+            </HBox>
+            <HBox>
+                <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onAction="#importDeck" text="Importer" HBox.hgrow="ALWAYS"/>
+                <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onAction="#exportDeck" text="Exporter" HBox.hgrow="ALWAYS"/>
+                <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onAction="#quit" text="Quitter" HBox.hgrow="ALWAYS"/>
+            </HBox>
+        </VBox>
+    </bottom>
+</BorderPane>

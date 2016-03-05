@@ -1,0 +1,224 @@
+package fr.galaxyoyo.gatherplaying.client.gui;
+
+import fr.galaxyoyo.gatherplaying.*;
+import fr.galaxyoyo.gatherplaying.client.Client;
+import fr.galaxyoyo.gatherplaying.client.Config;
+import java8.util.stream.RefStreams;
+import java8.util.stream.StreamSupport;
+import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.IntegerBinding;
+import javafx.beans.property.ObjectPropertyBase;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+
+public class DeckEditor extends AbstractController implements Initializable
+{
+	public static DeckEditorFilter filters;
+	public static CardDetailsShower cardShower;
+	public static DeckShower deckShower;
+
+	@FXML
+	private TableView<Card> table;
+	@FXML
+	private TableColumn<Card, String> name_EN;
+	@FXML
+	private TableColumn<Card, String> name_FR;
+	@FXML
+	private TableColumn<Card, Set> set;
+	@FXML
+	private TableColumn<Card, ManaColor[]> manaCost;
+	@FXML
+	private Label cardsCount;
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources)
+	{
+		table.prefWidthProperty().bind(Client.getStage().widthProperty().divide(2));
+
+		ObservableList<Card> allCards = FXCollections.observableArrayList(MySQL.getAllCards());
+		allCards.sort(Card::compareTo);
+		ObservableList<Card> cards;
+		if (Config.getStackCards())
+		{
+			ObservableList<Card> stackedCards = FXCollections.observableArrayList();
+			ObservableSet<String> added = FXCollections.observableSet();
+			StreamSupport.stream(allCards).filter(card -> !added.contains(card.name.get("en"))).forEach(card -> {
+				stackedCards.add(card);
+				added.add(card.name.get("en"));
+			});
+			cards = new SortedList<>(stackedCards);
+		}
+		else
+			cards = new SortedList<>(allCards);
+		FilteredList<Card> filtered = new FilteredList<>(cards, card -> {
+			if (card.layout == Layout.TOKEN)
+				return false;
+			if ((card.layout == Layout.DOUBLE_FACED || card.layout == Layout.FLIP) && card.manaCost == null)
+				return false;
+			if (filters.rarity.getSelectionModel().isEmpty() || filters.color.getSelectionModel().isEmpty() || filters.cmc.getSelectionModel().isEmpty() ||
+				filters.type.getSelectionModel().isEmpty() || filters.subtypes.getSelectionModel().isEmpty() || filters.set.getSelectionModel().isEmpty())
+				return false;
+			if (!filters.name.getText().isEmpty() && !card.name.get("en").toLowerCase().contains(filters.name.getText().toLowerCase()) &&
+				!card.getTranslatedName().get().toLowerCase().contains(filters.name.getText().toLowerCase()))
+				return false;
+			if (!filters.ability.getText().isEmpty())
+			{
+				if (card.ability.get("en") == null || card.ability.get("en").isEmpty())
+					return false;
+				if (!card.ability.get("en").contains(filters.ability.getText()) && !card.getAbility().contains(filters.ability.getText()))
+					return false;
+			}
+			List<ManaColor> colors = filters.color.getSelectionModel().getSelectedItems();
+			if (RefStreams.of(card.colors).noneMatch(colors::contains))
+				return false;
+			if (!filters.cmc.getSelectionModel().getSelectedItems().contains((int) card.cmc))
+				return false;
+			if (!filters.rarity.getSelectionModel().getSelectedItems().contains(card.rarity))
+				return false;
+			if (!filters.type.getSelectionModel().getSelectedItems().contains(card.type))
+				return false;
+			List<SubType> subtypes = filters.subtypes.getSelectionModel().getSelectedItems();
+			if (card.subtypes.length == 0)
+			{
+				if (subtypes.get(0) != null)
+					return false;
+			}
+			else if (RefStreams.of(card.subtypes).noneMatch(subtypes::contains))
+				return false;
+			return filters.set.getSelectionModel().getSelectedItems().contains(card.set) && card.isLegal(filters.rules.getSelectionModel().getSelectedItem());
+		});
+		name_EN.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().name.get("en")));
+		name_FR.setCellValueFactory(param -> param.getValue().getTranslatedName());
+		set.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().set));
+		set.setCellFactory(param -> new TableCell<Card, Set>()
+		{
+			@Override
+			protected void updateItem(Set item, boolean empty)
+			{
+				super.updateItem(item, empty);
+				setAlignment(Pos.CENTER);
+				if (item != null)
+					setText(item.code);
+				else
+					setText(null);
+			}
+		});
+		manaCost.setCellValueFactory(param -> new SimpleObjectProperty<>(
+				param.getValue().manaCost == null ? param.getValue().type.is(CardType.LAND) ? null : new ManaColor[] {ManaColor.NEUTRAL_0} : param.getValue().manaCost));
+		manaCost.setCellFactory(param -> new TableCell<Card, ManaColor[]>()
+		{
+			@Override
+			protected void updateItem(ManaColor[] item, boolean empty)
+			{
+				super.updateItem(item, empty);
+				HBox box = new HBox();
+				setGraphic(box);
+				if (item == null)
+					return;
+				for (ManaColor mc : item)
+					box.getChildren().add(new ImageView(CardImageManager.getIcon(mc)));
+			}
+		});
+		manaCost.setComparator((o1, o2) -> {
+			int cmc1 = 0, cmc2 = 0;
+			if (o1 == null)
+				o1 = new ManaColor[0];
+			if (o2 == null)
+				o2 = new ManaColor[0];
+			for (ManaColor mc : o1)
+			{
+				if (mc == ManaColor.NEUTRAL_X)
+					continue;
+				if (mc.name().contains("NEUTRAL"))
+					cmc1 += Integer.parseInt(mc.getAbbreviate());
+				else if (mc.name().contains("2"))
+					cmc1 += 2;
+				else
+					++cmc1;
+			}
+			for (ManaColor mc : o2)
+			{
+				if (mc == ManaColor.NEUTRAL_X)
+					continue;
+				if (mc.name().contains("NEUTRAL"))
+					cmc2 += Integer.parseInt(mc.getAbbreviate());
+				else if (mc.name().contains("2"))
+					cmc2 += 2;
+				else
+					++cmc2;
+			}
+			int ret = Integer.compare(cmc1, cmc2);
+			if (ret == 0)
+				ret = 0;
+			return ret;
+		});
+		SortedList<Card> sorted = new SortedList<>(filtered);
+		sorted.comparatorProperty().bind(table.comparatorProperty());
+		table.setItems(sorted);
+		IntegerBinding size = Bindings.createIntegerBinding(filtered::size, filtered.predicateProperty());
+		cardsCount.textProperty().bind(size.asString()
+				.concat(Bindings.when(Bindings.createBooleanBinding(() -> filtered.size() > 1, filtered.predicateProperty())).then(" cartes trouvées")
+						.otherwise(" carte " + "trouvée")));
+		set.setSortType(TableColumn.SortType.DESCENDING);
+		table.getSortOrder().setAll(set);
+
+		ChangeListener<Object> l = (observable, oldValue, newValue) -> Platform.runLater(() -> {
+			try
+			{
+				Method m = ObjectPropertyBase.class.getDeclaredMethod("markInvalid");
+				m.setAccessible(true);
+				m.invoke(filtered.predicateProperty());
+				SortedList<Card> s = new SortedList<>(filtered);
+				s.comparatorProperty().bind(table.comparatorProperty());
+				table.setItems(s);
+			}
+			catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored)
+			{
+			}
+		});
+
+		table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> cardShower.updateCard(newValue)));
+
+		filters.name.textProperty().addListener(l);
+		filters.ability.textProperty().addListener(l);
+		filters.rarity.getSelectionModel().selectedItemProperty().addListener(l);
+		filters.color.getSelectionModel().selectedItemProperty().addListener(l);
+		filters.cmc.getSelectionModel().selectedItemProperty().addListener(l);
+		filters.type.getSelectionModel().selectedItemProperty().addListener(l);
+		filters.subtypes.getSelectionModel().selectedItemProperty().addListener(l);
+		filters.set.getSelectionModel().selectedItemProperty().addListener(l);
+		filters.rules.getSelectionModel().selectedItemProperty().addListener(l);
+
+		DeckShower.table = table;
+	}
+
+	@Override
+	public void onKeyReleased(KeyEvent event)
+	{
+		System.out.println(event.getCode() + ", " + event.getText());
+		deckShower.onKeyReleased(event);
+	}
+}

@@ -1,0 +1,7 @@
+.label, .button, .list-view, .table-view, .text-field {
+    -fx-font-size: 10px;
+}
+
+.image-view {
+    -fx-fit-width: 74px;
+}

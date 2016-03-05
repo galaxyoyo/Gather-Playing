@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:id="parent" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.LoginDialog">
+    <center>
+        <GridPane BorderPane.alignment="CENTER" alignment="CENTER">
+            <Label fx:id="usernameLabel" text="Pseudo :" visible="false" GridPane.vgrow="ALWAYS"/>
+            <Label fx:id="emailLabel" text="E-mail / pseudo :" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS"/>
+            <Label text="Mot de passe :" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS"/>
+            <Label fx:id="cfPswdLabel" text="Confirmer mot de passe :" visible="false" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS"/>
+            <TextField fx:id="username" visible="false" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS"/>
+            <TextField fx:id="email" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS"/>
+            <PasswordField fx:id="password" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS"/>
+            <PasswordField fx:id="confirmPassword" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS"/>
+            <CheckBox fx:id="stayLogged" text="Rester connecté" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4"
+                      GridPane.vgrow="ALWAYS"/>
+            <RadioButton fx:id="login" contentDisplay="CENTER" mnemonicParsing="false" selected="true" text="Se connecter" GridPane.halignment="CENTER"
+                         GridPane.rowIndex="5" GridPane.vgrow="ALWAYS"/>
+            <RadioButton fx:id="register" contentDisplay="CENTER" mnemonicParsing="false" text="S'inscrire" GridPane.columnIndex="1" GridPane.halignment="CENTER"
+                         GridPane.rowIndex="5" GridPane.vgrow="ALWAYS"/>
+        </GridPane>
+    </center>
+    <bottom>
+        <Button fx:id="submit" mnemonicParsing="false" onAction="#submit" text="Se connecter" defaultButton="true" BorderPane.alignment="CENTER"/>
+    </bottom>
+</BorderPane>

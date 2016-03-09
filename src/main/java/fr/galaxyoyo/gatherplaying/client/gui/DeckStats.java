@@ -48,17 +48,17 @@ public class DeckStats extends AbstractController
 
 		for (OwnedCard card : deck.getAllCards())
 		{
-			if (card.getCard().type.is(CardType.LAND))
+			if (card.getCard().getType().is(CardType.LAND))
 			{
 				sizeWithoutColors.set(sizeWithoutColors.get() - 1);
 				continue;
 			}
 
-			if (card.getCard().colors.length > 1)
+			if (card.getCard().getColors().length > 1)
 				multicolor.setPieValue(multicolor.getPieValue() + 1);
 			else
 			{
-				PieChart.Data data = colorData.get(card.getCard().colors[0]);
+				PieChart.Data data = colorData.get(card.getCard().getColors()[0]);
 				data.setPieValue(data.getPieValue() + 1);
 			}
 		}
@@ -75,7 +75,7 @@ public class DeckStats extends AbstractController
 		}
 
 		Map<Rarity, PieChart.Data> rarities = Maps.newHashMap();
-		for (Rarity r : new Rarity[] {Rarity.COMMON, Rarity.UNCOMMON, Rarity.RARE, Rarity.MYTHIC, Rarity.BASIC_LAND})
+		for (Rarity r : new Rarity[]{Rarity.COMMON, Rarity.UNCOMMON, Rarity.RARE, Rarity.MYTHIC, Rarity.BASIC_LAND})
 		{
 			PieChart.Data data = new PieChart.Data("", 0);
 			data.nameProperty().bind(r.getTranslatedName().concat(" ").concat(data.pieValueProperty().divide(size).multiply(100.0D).asString("%.1f")).concat(" %"));
@@ -84,15 +84,15 @@ public class DeckStats extends AbstractController
 		}
 
 		for (OwnedCard card : deck.getAllCards())
-			rarities.get(card.getCard().rarity).setPieValue(rarities.get(card.getCard().rarity).getPieValue() + 1);
+			rarities.get(card.getCard().getRarity()).setPieValue(rarities.get(card.getCard().getRarity()).getPieValue() + 1);
 
 		//noinspection MismatchedQueryAndUpdateOfCollection
 		Map<Integer, DoubleProperty> cmcData = new DefaultTreeMap<>(Integer::compare, SimpleDoubleProperty::new);
 		for (OwnedCard card : deck.getAllCards())
 		{
-			if (card.getCard().type.is(CardType.LAND))
+			if (card.getCard().getType().is(CardType.LAND))
 				continue;
-			cmcData.get((int) card.getCard().cmc).set(cmcData.get((int) card.getCard().cmc).get() + 1);
+			cmcData.get((int) card.getCard().getCmc()).set(cmcData.get((int) card.getCard().getCmc()).get() + 1);
 		}
 
 		StreamSupport.stream(cmcData.entrySet()).forEach(entry -> cmc.getData()

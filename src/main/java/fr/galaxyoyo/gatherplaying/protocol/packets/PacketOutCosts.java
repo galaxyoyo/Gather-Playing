@@ -18,27 +18,27 @@ public class PacketOutCosts extends Packet
 		{
 			String muId = readUTF(buf);
 			Card card = MySQL.getCard(muId);
-			set = card.set;
-			card.cost = buf.readDouble();
-			card.foilCost = buf.readDouble();
-			card.rarity = Rarity.values()[buf.readByte()];
+			set = card.getSet();
+			card.setCost(buf.readDouble());
+			card.setFoilCost(buf.readDouble());
+			card.setRarity(Rarity.values()[buf.readByte()]);
 		}
 		if (set != null)
-			System.out.println(set.geName() + " (" + set.code + ") : " + set.cards.size() + " cartes");
+			System.out.println(set.geName() + " (" + set.getCode() + ") : " + set.getCards().size() + " cartes");
 	}
 
 	@Override
 	public void write(ByteBuf buf)
 	{
-		for (Card card : set.cards)
+		for (Card card : set.getCards())
 		{
-			if (card.cost == 0.0D)
+			if (card.getCost() == 0.0D)
 				continue;
 			buf.writeByte(0);
-			writeUTF(card.muId.get("en"), buf);
-			buf.writeDouble(card.cost);
-			buf.writeDouble(card.foilCost);
-			buf.writeByte(card.rarity.ordinal());
+			writeUTF(card.getMuId("en"), buf);
+			buf.writeDouble(card.getCost());
+			buf.writeDouble(card.getFoilCost());
+			buf.writeByte(card.getRarity().ordinal());
 		}
 		buf.writeByte(-1);
 	}

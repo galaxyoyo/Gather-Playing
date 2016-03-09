@@ -4,7 +4,6 @@ import com.google.common.collect.Maps;
 import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.protocol.packets.*;
-import fr.galaxyoyo.gatherplaying.Player;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -161,8 +160,7 @@ public class PlayerInfos extends AbstractController implements Initializable
 						PacketManager.sendPacketToServer(pkt);
 
 					});
-				}
-				else
+				} else
 				{
 					com.gluonhq.charm.glisten.control.Dialog<Integer> dialog = new com.gluonhq.charm.glisten.control.Dialog<>("Définition des points de vie");
 					Spinner<Integer> spinner = new Spinner<>(0, 9999, player.getData().getHp());
@@ -257,8 +255,7 @@ public class PlayerInfos extends AbstractController implements Initializable
 						pkt.count = integer;
 						PacketManager.sendPacketToServer(pkt);
 					});
-				}
-				else
+				} else
 				{
 					com.gluonhq.charm.glisten.control.Dialog<Integer> dialog = new com.gluonhq.charm.glisten.control.Dialog<>("Piocher des cartes");
 					Spinner<Integer> spinner = new Spinner<>(1, 1, getLibrary());
@@ -324,8 +321,7 @@ public class PlayerInfos extends AbstractController implements Initializable
 						Object[] objs = (Object[]) type.filter.getDeclaredMethod("values").invoke(null);
 						for (Object obj : objs)
 							filter.getItems().add(obj);
-					}
-					catch (Exception ex)
+					} catch (Exception ex)
 					{
 						ex.printStackTrace();
 					}
@@ -352,8 +348,7 @@ public class PlayerInfos extends AbstractController implements Initializable
 						pkt.filter = filter.getValue();
 						PacketManager.sendPacketToServer(pkt);
 					});
-				}
-				else
+				} else
 				{
 					com.gluonhq.charm.glisten.control.Dialog<ButtonType> dialog = new com.gluonhq.charm.glisten.control.Dialog<>("Chercher une carte");
 					dialog.setContent(pane);
@@ -376,7 +371,7 @@ public class PlayerInfos extends AbstractController implements Initializable
 
 		graveyard.setOnMouseEntered(event -> {
 			if (graveyard.getImage() != null)
-				GameMenu.INSTANCE.setImage(graveyard.getImage());
+				GameMenu.instance().setImage(graveyard.getImage());
 		});
 		graveyard.setOnMouseReleased(event -> {
 			if (event.getButton() != MouseButton.SECONDARY || !Client.getRunningParty().isStarted())
@@ -405,8 +400,7 @@ public class PlayerInfos extends AbstractController implements Initializable
 					dialog.getDialogPane().setContent(pane);
 					dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
 					dialog.showAndWait();
-				}
-				else
+				} else
 				{
 					com.gluonhq.charm.glisten.control.Dialog<Object> dialog = new com.gluonhq.charm.glisten.control.Dialog<>("Visualisation du cimetière");
 					dialog.setContent(box);
@@ -422,7 +416,7 @@ public class PlayerInfos extends AbstractController implements Initializable
 
 		exile.setOnMouseEntered(event -> {
 			if (exile.getImage() != null)
-				GameMenu.INSTANCE.setImage(exile.getImage());
+				GameMenu.instance().setImage(exile.getImage());
 		});
 		exile.setOnMouseReleased(event -> {
 			if (event.getButton() != MouseButton.SECONDARY || !Client.getRunningParty().isStarted())
@@ -459,9 +453,9 @@ public class PlayerInfos extends AbstractController implements Initializable
 		exile.setEffect(ca);
 
 		Platform.runLater(() -> {
-			if (GameMenu.INSTANCE.adverseInfos == null)
+			if (GameMenu.instance().adverseInfos == null)
 			{
-				GameMenu.INSTANCE.adverseInfos = this;
+				GameMenu.instance().adverseInfos = this;
 				life.prefWidthProperty().unbind();
 				life.prefWidthProperty().bind(name.widthProperty());
 				GridPane.setRowIndex(life, 0);
@@ -473,15 +467,21 @@ public class PlayerInfos extends AbstractController implements Initializable
 				pane.getChildren().add(life);
 				VBox box = (VBox) name.getParent();
 				FXCollections.reverse(box.getChildren());
-			}
-			else
+			} else
 			{
-				GameMenu.INSTANCE.playerInfos = this;
+				GameMenu.instance().playerInfos = this;
 				setPlayer(Client.localPlayer);
 				ScrollPane scrollPane = (ScrollPane) library.getParent().getParent().getParent().getParent();
-				scrollPane.prefWidthProperty().bind(Bindings.max(library.widthProperty(), GameMenu.INSTANCE.adverseInfos.library.widthProperty()).add(20));
+				scrollPane.prefWidthProperty().bind(Bindings.max(library.widthProperty(), GameMenu.instance().adverseInfos.library.widthProperty()).add(20));
 			}
 		});
+	}
+
+	public int getLibrary()
+	{
+		//noinspection StatementWithEmptyBody
+		while (library.getText().isEmpty()) ;
+		return Integer.parseInt(library.getText());
 	}
 
 	public void setPlayer(Player player)
@@ -490,6 +490,11 @@ public class PlayerInfos extends AbstractController implements Initializable
 		infosByPlayer.put(player, this);
 		editable = player == Client.localPlayer;
 		Platform.runLater(() -> name.setText(player.name));
+	}
+
+	public void setLibrary(int size)
+	{
+		Platform.runLater(() -> library.setText(String.valueOf(size)));
 	}
 
 	public void updateLife()
@@ -505,18 +510,6 @@ public class PlayerInfos extends AbstractController implements Initializable
 			}
 			this.life.setText(Integer.toString(player.getData().getHp()));
 		});
-	}
-
-	public int getLibrary()
-	{
-		//noinspection StatementWithEmptyBody
-		while (library.getText().isEmpty());
-		return Integer.parseInt(library.getText());
-	}
-
-	public void setLibrary(int size)
-	{
-		Platform.runLater(() -> library.setText(String.valueOf(size)));
 	}
 
 	public void addLibrary()

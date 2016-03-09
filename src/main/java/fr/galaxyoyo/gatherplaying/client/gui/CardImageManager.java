@@ -25,7 +25,7 @@ public class CardImageManager
 	private static final File DIR = Utils.newFile("pics");
 	private static final Image FOIL = new Image(CardImageManager.class.getResourceAsStream("/templates/foil.png"));
 
-	public static Image getImage(PlayedCard card)
+	static Image getImage(PlayedCard card)
 	{
 		if (card == null)
 			return getImage((Card) null);
@@ -37,13 +37,13 @@ public class CardImageManager
 
 	public static Image getImage(Card card)
 	{
-		String muId = card == null ? null : card.muId.get("en");
+		String muId = card == null ? null : card.getMuId("en");
 		String locale = Config.getLocaleCode();
-		if (images.containsKey(card == null ? null : muId))
-			return images.get(card == null ? null : muId);
+		if (images.containsKey(card == null ? "" : muId))
+			return images.get(card == null ? "" : muId);
 		try
 		{
-			File file = new File(DIR, card == null ? "back.png" : card.set.code.replace("CON", "CON ") + File.separatorChar + card.getPreferredMuID() + ".png");
+			File file = new File(DIR, card == null ? "back.png" : card.getSet().getCode().replace("CON", "CON ") + File.separatorChar + card.getPreferredMuID() + ".png");
 			if (!file.getParentFile().exists())
 				//noinspection ResultOfMethodCallIgnored
 				file.getParentFile().mkdirs();
@@ -51,15 +51,14 @@ public class CardImageManager
 			{
 				if (Config.getHqCards())
 				{
-					File f = new File(DIR, card.set.code.replace("CON", "CON ") + File.separatorChar + card.getPreferredMuID() + "_HQ.png");
+					File f = new File(DIR, card.getSet().getCode().replace("CON", "CON ") + File.separatorChar + card.getPreferredMuID() + "_HQ.png");
 					if (f.exists())
 					{
 						Image img = new Image(f.toURI().toURL().toString(), true);
 						images.put(muId, img);
 						return img;
 					}
-				}
-				else
+				} else
 				{
 					if (file.exists())
 					{
@@ -76,7 +75,7 @@ public class CardImageManager
 			{
 				if (Config.getHqCards() && locale.equals("fr"))
 				{
-					Image img = new Image("http://gatherplaying.arathia.fr/scanshq/fr/" + card.set.code + "/" + card.muId.get("fr") + ".jpg");
+					Image img = new Image("http://gatherplaying.arathia.fr/scanshq/fr/" + card.getSet().getCode() + "/" + card.getMuId("fr") + ".jpg");
 					if (!img.isError())
 					{
 						img.progressProperty().addListener((observable, oldValue, newValue) -> {
@@ -84,14 +83,13 @@ public class CardImageManager
 							{
 								try
 								{
-									File f = new File(DIR, card.set.code.replace("CON", "CON ") + File.separatorChar + card.getPreferredMuID() + "_HQ.png");
+									File f = new File(DIR, card.getSet().getCode().replace("CON", "CON ") + File.separatorChar + card.getPreferredMuID() + "_HQ.png");
 									if (Utils.isDesktop())
 										ImageIO.write(SwingFXUtils.fromFXImage(img, null), "PNG", f);
 									else
-										FileUtils.copyURLToFile(new URL("http://gatherplaying.arathia.fr/scanshq/fr/" + card.muId.get("fr") + ".jpg"), f);
+										FileUtils.copyURLToFile(new URL("http://gatherplaying.arathia.fr/scanshq/fr/" + card.getMuId("fr") + ".jpg"), f);
 									images.put(card == null ? null : muId, img);
-								}
-								catch (IOException ex)
+								} catch (IOException ex)
 								{
 									ex.printStackTrace();
 								}
@@ -102,11 +100,11 @@ public class CardImageManager
 				}
 
 				if (muId.contains("_"))
-					url = new URL("http://magiccards.info/scans/" + (card.name.get(locale) != null ? "fr" : "en") + "/" + card.set.magicCardsInfoCode + "/" +
-								  MoreObjects.firstNonNull(card.mciNumber, card.cardId) + ".jpg");
+					url = new URL("http://magiccards.info/scans/" + (card.getName().get(locale) != null ? "fr" : "en") + "/" + card.getSet().getMagicCardsInfoCode() + "/" +
+							MoreObjects.firstNonNull(card.getMciNumber(), card.getCardId()) + ".jpg");
 				else
 					url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" +
-								  (card.muId.get(locale) != null ? card.muId.get(locale) : muId.replaceAll("[^\\d]", "")) + "&type=card");
+							(card.getMuId(locale) != null ? card.getMuId(locale) : muId.replaceAll("[^\\d]", "")) + "&type=card");
 			}
 			HttpURLConnection co = (HttpURLConnection) url.openConnection();
 			co.connect();
@@ -136,8 +134,7 @@ public class CardImageManager
 							ImageIO.write(SwingFXUtils.fromFXImage(img, null), "PNG", file);
 						else
 							FileUtils.copyURLToFile(url, file);
-					}
-					catch (IOException ex)
+					} catch (IOException ex)
 					{
 						ex.printStackTrace();
 					}
@@ -145,8 +142,7 @@ public class CardImageManager
 			});
 			images.put(card == null ? null : muId, img);
 			return img;
-		}
-		catch (IOException ex)
+		} catch (IOException ex)
 		{
 			//	ex.printStackTrace();
 			if (card != null)
@@ -155,7 +151,7 @@ public class CardImageManager
 		}
 	}
 
-	public static Image getImage(Token token)
+	private static Image getImage(Token token)
 	{
 		if (tokens.containsKey(token))
 			return tokens.get(token);
@@ -171,11 +167,11 @@ public class CardImageManager
 				tokens.put(token, img);
 				return img;
 			}
-			String url = "http://cartes.mtgfrance.com/images/cards/fr/token/" + token.set.magicCardsInfoCode.toLowerCase() + "/" + token.number + ".jpg";
+			String url = "http://cartes.mtgfrance.com/images/cards/fr/token/" + token.getSet().getMagicCardsInfoCode().toLowerCase() + "/" + token.getNumber() + ".jpg";
 			Image img = new Image(url, 223.0D, 310.0D, true, true);
 			if (img.isError())
 			{
-				url = "http://cartes.mtgfrance.com/images/cards/en/token/" + token.set.magicCardsInfoCode.toLowerCase() + "/" + token.number + ".jpg";
+				url = "http://cartes.mtgfrance.com/images/cards/en/token/" + token.getSet().getMagicCardsInfoCode().toLowerCase() + "/" + token.getNumber() + ".jpg";
 				img = new Image(url, 223.0D, 310.0D, true, true);
 				if (img.isError())
 				{
@@ -190,8 +186,7 @@ public class CardImageManager
 				FileUtils.copyURLToFile(new URL(url), file);
 			tokens.put(token, img);
 			return img;
-		}
-		catch (IOException ex)
+		} catch (IOException ex)
 		{
 			ex.printStackTrace();
 			return null;
@@ -203,9 +198,7 @@ public class CardImageManager
 
 	public static Image getIcon(ManaColor mc) { return getIcon(mc, true); }
 
-	public static Image getIcon(ManaColor mc, boolean small) { return getIcon0(mc.getAbbreviate(), small); }
-
-	public static Image getIcon(String id, boolean small) { return getIcon0(id, small); }
+	private static Image getIcon(ManaColor mc, boolean small) { return getIcon0(mc.getAbbreviate(), small); }
 
 	private static Image getIcon0(String id, boolean small)
 	{
@@ -240,8 +233,7 @@ public class CardImageManager
 			else
 				FileUtils.copyURLToFile(new URL(url), file);
 			return img;
-		}
-		catch (IOException | IllegalArgumentException ex)
+		} catch (IOException | IllegalArgumentException ex)
 		{
 			System.err.println("Couldn't get icon for " + id);
 			return null;
@@ -249,4 +241,6 @@ public class CardImageManager
 	}
 
 	public static File getIconFile(String icon, boolean small) { return new File(DIR, "icons" + File.separatorChar + icon + (small ? "_small" : "") + ".png"); }
+
+	public static Image getIcon(String id, boolean small) { return getIcon0(id, small); }
 }

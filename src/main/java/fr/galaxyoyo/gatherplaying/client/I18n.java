@@ -45,14 +45,12 @@ public class I18n
 			for (int i = 0; i < args.length; ++i)
 				args[i] = strTr(args[i]);
 			return String.format(bundle.getString(toTranslate), (Object[]) args);
-		}
-		catch (MissingResourceException ex)
+		} catch (MissingResourceException ex)
 		{
 			try
 			{
 				return bundle_EN.getString(toTranslate);
-			}
-			catch (MissingResourceException e)
+			} catch (MissingResourceException e)
 			{
 				return toTranslate;
 			}
@@ -67,8 +65,7 @@ public class I18n
 			for (int i = 0; i < args.length; ++i)
 				args[i] = entr(args[i]);
 			return String.format(bundle_EN.getString(toTranslate), (Object[]) args);
-		}
-		catch (MissingResourceException ex)
+		} catch (MissingResourceException ex)
 		{
 			return toTranslate;
 		}

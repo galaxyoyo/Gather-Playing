@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.PartyCreater" alignment="CENTER">
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/null" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.PartyCreater" alignment="CENTER">
     <TextField fx:id="name" maxWidth="1.7976931348623157E308" promptText="Nom de la partie" VBox.vgrow="ALWAYS"/>
     <Spinner fx:id="playerNumber" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS"/>
     <ComboBox fx:id="rules" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS"/>

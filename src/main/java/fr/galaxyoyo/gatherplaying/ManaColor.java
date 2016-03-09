@@ -26,8 +26,8 @@ public enum ManaColor
 
 	public String getAbbreviate() { return String.valueOf(symbol); }
 
-	public StringBinding getTranslatedName() { return I18n.tr("color." + name().toLowerCase()); }
-
 	@Override
 	public String toString() { return getTranslatedName().get(); }
+
+	public StringBinding getTranslatedName() { return I18n.tr("color." + name().toLowerCase()); }
 }

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.web.WebView?>
-<?import javafx.geometry.Insets?>
-<VBox xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.CardDetailsShower" fx:id="box"
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/null" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.CardDetailsShower" fx:id="box"
       alignment="CENTER">
     <ImageView fx:id="image" fitHeight="310.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
         <VBox.margin>
-            <Insets top="10" bottom="10" />
+            <Insets top="10" bottom="10"/>
         </VBox.margin>
     </ImageView>
     <GridPane VBox.vgrow="ALWAYS">

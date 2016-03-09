@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.GridPane?>
-
-<GridPane fx:id="parent" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.HelpAndSettings">
-    <Label fx:id="localeLbl" alignment="BASELINE_RIGHT" maxWidth="1.7976931348623157E308" text="Langue :" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
-    <ChoiceBox fx:id="locale" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" fx:id="parent" xmlns="http://javafx.com/javafx/null" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.HelpAndSettings">
+    <Label fx:id="localeLbl" alignment="BASELINE_RIGHT" maxWidth="1.7976931348623157E308" text="Langue :" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"/>
+    <ChoiceBox fx:id="locale" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"/>
     <CheckBox fx:id="stayLogged" text="Rester connecté" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1"
-              GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+              GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS"/>
     <CheckBox fx:id="hqCards" text="Préferer une version HQ des images (français uniquement)" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS"
-              GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+              GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS"/>
     <CheckBox fx:id="stackCards" text="Éditeur de decks - préférer la dernière version de la carte" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS"
-              GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+              GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS"/>
     <Button fx:id="save" alignment="CENTER" defaultButton="true" maxWidth="1.7976931348623157E308" onAction="#save" text="Sauvegarder" textAlignment="CENTER"
-            GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" />
+            GridPane.hgrow="ALWAYS" GridPane.rowIndex="4"/>
     <Button fx:id="cancel" alignment="CENTER" maxWidth="1.7976931348623157E308" onAction="#cancel" text="Annuler" textAlignment="CENTER" GridPane.columnIndex="1"
-            GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" />
+            GridPane.hgrow="ALWAYS" GridPane.rowIndex="4"/>
 </GridPane>

@@ -6,7 +6,7 @@
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.layout.VBox?>
-<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.Loading">
+<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" xmlns="http://javafx.com/javafx/null" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.Loading">
     <Label alignment="CENTER" style="-fx-font-size: 42pt;" text="Connexion à la base de données ..." VBox.vgrow="ALWAYS" fx:id="label">
         <effect>
             <Reflection>

@@ -1,10 +1,10 @@
 package fr.galaxyoyo.gatherplaying.protocol.packets;
 
-import fr.galaxyoyo.gatherplaying.Utils;
 import fr.galaxyoyo.gatherplaying.Party;
-import fr.galaxyoyo.gatherplaying.Side;
-import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.Player;
+import fr.galaxyoyo.gatherplaying.Side;
+import fr.galaxyoyo.gatherplaying.Utils;
+import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.server.Server;
 import io.netty.buffer.ByteBuf;
 
@@ -28,11 +28,10 @@ public class PacketMixEditLife extends Packet
 			pkt.p = p;
 			PacketManager.sendPacketToParty(party, pkt);
 			if (diff > 0)
-				Server.sendChat(party,  p.name + " gagne " + diff + " point" + (diff > 1 ? "s" : "") + " de vie", "color: green;");
+				Server.sendChat(party, p.name + " gagne " + diff + " point" + (diff > 1 ? "s" : "") + " de vie", "color: green;");
 			else
 				Server.sendChat(party, p.name + " perd " + -diff + " point" + (diff < -1 ? "s" : "") + " de vie", "color: green;");
-		}
-		else
+		} else
 		{
 			buf.readInt();
 			Party party = Client.getRunningParty();
@@ -45,7 +44,7 @@ public class PacketMixEditLife extends Packet
 	@Override
 	public void write(ByteBuf buf)
 	{
-		buf.writeInt(p.runningParty.id);
+		buf.writeInt(p.runningParty.getId());
 		writeUUID(p.uuid, buf);
 		buf.writeInt(newLife);
 	}

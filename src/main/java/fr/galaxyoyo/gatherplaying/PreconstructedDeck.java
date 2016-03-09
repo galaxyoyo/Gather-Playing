@@ -20,34 +20,8 @@ public class PreconstructedDeck
 	private transient Set set;
 	private String name;
 	private ManaColor[] colors;
+	private Card foilCard;
 	private List<Card> cards;
-
-	public Set getSet() { return set; }
-
-	public String getName() { return name; }
-
-	public ManaColor[] getColors() { return colors; }
-
-	public List<Card> getCards() { return cards; }
-
-	public Deck buy(Player player)
-	{
-		Deck deck = new Deck();
-		deck.owner = player;
-		boolean alreadyFoiled = false;
-		for (Card card : cards)
-		{
-			boolean foil = !alreadyFoiled && Utils.RANDOM.nextInt(60) == 42;
-			alreadyFoiled |= foil;
-			deck.cards.add(new OwnedCard(card, player, foil));
-		}
-		deck.calculateColors();
-		deck.calculateLegalities();
-		player.cards.addAll(StreamSupport.stream(deck.cards).collect(Collectors.toList()));
-		MySQL.savePlayer(player);
-		MySQL.saveDeck(deck);
-		return deck;
-	}
 
 	public static void loadAll()
 	{
@@ -66,14 +40,40 @@ public class PreconstructedDeck
 							gson.fromJson(IOUtils.toString(PreconstructedDeck.class.getResourceAsStream("/preconstructeds/" + name + ".json"), StandardCharsets.UTF_8),
 									PreconstructedDeck.class);
 					deck.set = set;
-					set.preconstructeds.add(deck);
+					set.getPreconstructeds().add(deck);
 					System.out.println(deck.cards.size());
 				}
 			}
-		}
-		catch (JsonSyntaxException | IOException ex)
+		} catch (JsonSyntaxException | IOException ex)
 		{
 			ex.printStackTrace();
 		}
+	}
+
+	public Set getSet() { return set; }
+
+	public String getName() { return name; }
+
+	public ManaColor[] getColors() { return colors; }
+
+	public List<Card> getCards() { return cards; }
+
+	public Card getFoilCard()
+	{
+		return foilCard;
+	}
+
+	public Deck buy(Player player)
+	{
+		Deck deck = new Deck();
+		deck.setOwner(player);
+		for (Card card : cards)
+			deck.getCards().add(new OwnedCard(card, player, card == foilCard));
+		deck.calculateColors();
+		deck.calculateLegalities();
+		player.cards.addAll(StreamSupport.stream(deck.getCards()).collect(Collectors.toList()));
+		MySQL.savePlayer(player);
+		MySQL.saveDeck(deck);
+		return deck;
 	}
 }

@@ -3,7 +3,6 @@ package fr.galaxyoyo.gatherplaying.protocol.packets;
 import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.client.gui.CardShower;
 import fr.galaxyoyo.gatherplaying.client.gui.GameMenu;
-import fr.galaxyoyo.gatherplaying.Player;
 import fr.galaxyoyo.gatherplaying.server.Server;
 import io.netty.buffer.ByteBuf;
 import javafx.application.Platform;
@@ -24,31 +23,29 @@ public class PacketMixInvokeToken extends Packet
 		player.runningParty.getData(p).getPlayed().add(card);
 		if (Utils.getSide() == Side.SERVER)
 		{
-			if (token.type != CardType.EMBLEM)
+			if (token.getType() != CardType.EMBLEM)
 				Server.sendChat(player.runningParty, "chat.invoketoken", "color: blue;", player.name, "token." + token.name().toLowerCase().replaceAll("\\d|_", ""));
 			else
 				Server.sendChat(player.runningParty, "chat.invokeemblem", "color: blue;", player.name);
 			sendToParty();
-		}
-		else
+		} else
 		{
 			Platform.runLater(() -> {
 				CardShower shower = new CardShower(card);
-				card.power.set(token.power);
-				card.toughness.set(token.toughness);
-				if (token.type.is(CardType.CREATURE))
+				card.setPower(token.getPower());
+				card.setToughness(token.getToughness());
+				if (token.getType().is(CardType.CREATURE))
 				{
 					if (player == p)
-						GameMenu.INSTANCE.creatures.getChildren().add(shower);
+						GameMenu.instance().creatures.getChildren().add(shower);
 					else
-						GameMenu.INSTANCE.adverseCreatures.getChildren().add(shower);
-				}
-				else
+						GameMenu.instance().adverseCreatures.getChildren().add(shower);
+				} else
 				{
 					if (player == p)
-						GameMenu.INSTANCE.enchants.getChildren().add(shower);
+						GameMenu.instance().enchants.getChildren().add(shower);
 					else
-						GameMenu.INSTANCE.adverseEnchants.getChildren().add(shower);
+						GameMenu.instance().adverseEnchants.getChildren().add(shower);
 				}
 				HBox.setMargin(shower, new Insets(0.0D, 10.5D, 0.0D, 10.5D));
 			});

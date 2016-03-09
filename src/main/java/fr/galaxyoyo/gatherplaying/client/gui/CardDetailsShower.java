@@ -36,7 +36,8 @@ public class CardDetailsShower extends AbstractController implements Initializab
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
-		DeckEditor.cardShower = DeckShower.shower = this;
+		DeckEditor.setCardShower(this);
+		DeckShower.setShower(this);
 		nameTRLbl.visibleProperty().bind(name_TR.visibleProperty());
 		powerLbl.visibleProperty().bind(power.visibleProperty());
 		box.prefWidthProperty().bind(Client.getStage().widthProperty().multiply(0.375));
@@ -45,8 +46,7 @@ public class CardDetailsShower extends AbstractController implements Initializab
 		{
 			image.setFitWidth(74.0D);
 			image.setFitHeight(103.0D);
-		}
-		else if (Config.getHqCards())
+		} else if (Config.getHqCards())
 		{
 			image.setFitWidth(360.0D);
 			image.setFitHeight(510.0D);
@@ -58,43 +58,40 @@ public class CardDetailsShower extends AbstractController implements Initializab
 		if (card == null)
 			return;
 		Executors.newSingleThreadExecutor().submit(() -> Platform.runLater(() -> image.setImage(CardImageManager.getImage(card))));
-		name_EN.setText(card.name.get("en"));
-		if (!Objects.equals(card.getTranslatedName().get(), card.name.get("en")))
+		name_EN.setText(card.getName().get("en"));
+		if (!Objects.equals(card.getTranslatedName().get(), card.getName().get("en")))
 		{
 			name_TR.setVisible(true);
 			name_TR.textProperty().bind(card.getTranslatedName());
-		}
-		else
+		} else
 			name_TR.setVisible(false);
-		type.setText(card.type.toString());
+		type.setText(card.getType().toString());
 		HBox manas = new HBox();
-		if (!card.type.is(CardType.LAND))
+		if (!card.getType().is(CardType.LAND))
 		{
-			for (ManaColor color : MoreObjects.firstNonNull(card.manaCost, new ManaColor[] {ManaColor.NEUTRAL_0}))
+			for (ManaColor color : MoreObjects.firstNonNull(card.getColors(), new ManaColor[]{ManaColor.NEUTRAL_0}))
 				manas.getChildren().add(new ImageView(CardImageManager.getIcon(color)));
 		}
 		manaCost.setGraphic(manas);
 
-		if (card.type.is(CardType.CREATURE))
+		if (card.getType().is(CardType.CREATURE))
 		{
 			power.setVisible(true);
 			powerLbl.setText("Force / Endurance :");
-			power.setText(card.power + "/" + card.toughness);
-		}
-		else if (card.type.is(CardType.PLANESWALKER))
+			power.setText(card.getPower() + "/" + card.getToughness());
+		} else if (card.getType().is(CardType.PLANESWALKER))
 		{
 			power.setVisible(true);
 			powerLbl.setText("Loyauté :");
-			power.setText(Integer.toString(card.loyalty));
-		}
-		else
+			power.setText(Integer.toString(card.getLoyalty()));
+		} else
 			power.setVisible(false);
 
-		set.setText(card.set.geName() + " (" + card.set.code + ")");
-		rarity.setText(card.rarity.toString());
+		set.setText(card.getSet().geName() + " (" + card.getSet().getCode() + ")");
+		rarity.setText(card.getRarity().toString());
 
 		String html = "<div style=\"\">";
-		if (card.ability.get("en") != null)
+		if (card.getAbilityMap().get("en") != null)
 		{
 			for (String line : card.getAbility().split("£|\n"))
 			{

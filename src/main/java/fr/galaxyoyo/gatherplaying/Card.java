@@ -11,32 +11,40 @@ import java.util.Date;
 
 public class Card implements Comparable<Card>
 {
-	public ObservableMap<String, String> muId = FXCollections.observableHashMap();
-	public String cardId;
-	public String mciNumber;
-	public transient Set set;
-	int[] variations;
-	public ObservableMap<String, String> name = FXCollections.observableHashMap();
-	public ObservableMap<String, String> ability = FXCollections.observableHashMap();
-	ObservableMap<String, String> flavor = FXCollections.observableHashMap();
-	public CardType type;
-	public SubType[] subtypes = new SubType[0];
-	boolean legendary, world, snow, ongoing;
-	public boolean basic;
-	public Rarity rarity;
-	public String power, toughness;
-	public int loyalty;
-	public ManaColor[] colors;
-	ManaColor[] colorIdentity;
-	public ManaColor[] manaCost;
-	public double cmc;
-	int vanguardHand, vanguardLife;
-	boolean reserved;
-	Date releaseDate;
-	public Layout layout;
-	String border;
-	String artist, imageName, watermark;
-	public double cost, foilCost;
+	private ObservableMap<String, String> muId = FXCollections.observableHashMap();
+	private String cardId;
+	private String mciNumber;
+	private transient Set set;
+	private ObservableMap<String, String> name = FXCollections.observableHashMap();
+	private ObservableMap<String, String> ability = FXCollections.observableHashMap();
+	private CardType type;
+	private SubType[] subtypes = new SubType[0];
+	private boolean basic;
+	private Rarity rarity;
+	private String power;
+	private String toughness;
+	private int loyalty;
+	private ManaColor[] colors;
+	private ManaColor[] manaCost;
+	private double cmc;
+	private Layout layout;
+	private double cost;
+	private double foilCost;
+	private int[] variations;
+	private ObservableMap<String, String> flavor = FXCollections.observableHashMap();
+	private boolean legendary;
+	private boolean world;
+	private boolean snow;
+	private boolean ongoing;
+	private ManaColor[] colorIdentity;
+	private int vanguardHand;
+	private int vanguardLife;
+	private boolean reserved;
+	private Date releaseDate;
+	private String border;
+	private String artist;
+	private String imageName;
+	private String watermark;
 
 	public boolean isLegal(Rules rules) { return rules == Rules.FREEFORM || rules.isLegal(this) || isRestricted(rules); }
 
@@ -44,10 +52,17 @@ public class Card implements Comparable<Card>
 
 	public String getPreferredMuID()
 	{
-		String enMuId = muId.get("en");
-		String muId = this.muId.get(Config.getLocaleCode());
+		String enMuId = getMuId("en");
+		String muId = this.getMuId(Config.getLocaleCode());
 		return muId == null ? enMuId : muId;
 	}
+
+	public String getMuId(String locale)
+	{
+		return muId.get(locale);
+	}
+
+	public StringBinding getTranslatedName() { return getTranslatedName(false); }
 
 	public StringBinding getTranslatedName(boolean force)
 	{
@@ -58,8 +73,6 @@ public class Card implements Comparable<Card>
 			return name != null ? name : this.name.get("en");
 		});
 	}
-
-	public StringBinding getTranslatedName() { return getTranslatedName(false); }
 
 	@Override
 	public int hashCode() { return name.get("en").hashCode() << 16 | (type == null ? 0 : type.hashCode()); }
@@ -75,6 +88,7 @@ public class Card implements Comparable<Card>
 		String ability = this.ability.get(Config.getLocaleCode());
 		return ability == null || ability.equals("N/A") || ability.trim().isEmpty() ? enAbility : ability;
 	}
+
 
 	public String getFlavor()
 	{
@@ -98,7 +112,329 @@ public class Card implements Comparable<Card>
 		if (ret == 0)
 			ret = String.CASE_INSENSITIVE_ORDER.compare(name.get("en"), o.name.get("en"));
 		if (ret == 0)
-			ret = String.CASE_INSENSITIVE_ORDER.compare(o.muId.get("en"), o.muId.get("en"));
+			ret = String.CASE_INSENSITIVE_ORDER.compare(o.getMuId("en"), o.getMuId("en"));
 		return ret;
+	}
+
+	public ObservableMap<String, String> getMuId()
+	{
+		return muId;
+	}
+
+	public String getCardId()
+	{
+		return cardId;
+	}
+
+	public void setCardId(String cardId)
+	{
+		this.cardId = cardId;
+	}
+
+	public String getMciNumber()
+	{
+		return mciNumber;
+	}
+
+	public void setMciNumber(String mciNumber)
+	{
+		this.mciNumber = mciNumber;
+	}
+
+	public Set getSet()
+	{
+		return set;
+	}
+
+	public void setSet(Set set)
+	{
+		this.set = set;
+	}
+
+	public ObservableMap<String, String> getName()
+	{
+		return name;
+	}
+
+	public void setName(ObservableMap<String, String> name)
+	{
+		this.name = name;
+	}
+
+	public ObservableMap<String, String> getAbilityMap()
+	{
+		return ability;
+	}
+
+	public CardType getType()
+	{
+		return type;
+	}
+
+	public void setType(CardType type) { this.type = type; }
+
+	public SubType[] getSubtypes()
+	{
+		return subtypes;
+	}
+
+	public void setSubtypes(SubType[] subtypes)
+	{
+		this.subtypes = subtypes;
+	}
+
+	public boolean isBasic()
+	{
+		return basic;
+	}
+
+	public void setBasic(boolean basic)
+	{
+		this.basic = basic;
+	}
+
+	public Rarity getRarity()
+	{
+		return rarity;
+	}
+
+	public void setRarity(Rarity rarity)
+	{
+		this.rarity = rarity;
+	}
+
+	public String getPower()
+	{
+		return power;
+	}
+
+	public void setPower(String power)
+	{
+		this.power = power;
+	}
+
+	public String getToughness()
+	{
+		return toughness;
+	}
+
+	public void setToughness(String toughness)
+	{
+		this.toughness = toughness;
+	}
+
+	public int getLoyalty()
+	{
+		return loyalty;
+	}
+
+	public void setLoyalty(int loyalty)
+	{
+		this.loyalty = loyalty;
+	}
+
+	public ManaColor[] getColors()
+	{
+		return colors;
+	}
+
+	public void setColors(ManaColor[] colors)
+	{
+		this.colors = colors;
+	}
+
+	public ManaColor[] getManaCost()
+	{
+		return manaCost;
+	}
+
+	public void setManaCost(ManaColor[] manaCost)
+	{
+		this.manaCost = manaCost;
+	}
+
+	public double getCmc()
+	{
+		return cmc;
+	}
+
+	public void setCmc(double cmc)
+	{
+		this.cmc = cmc;
+	}
+
+	public Layout getLayout()
+	{
+		return layout;
+	}
+
+	public void setLayout(Layout layout)
+	{
+		this.layout = layout;
+	}
+
+	public double getCost()
+	{
+		return cost;
+	}
+
+	public void setCost(double cost)
+	{
+		this.cost = cost;
+	}
+
+	public double getFoilCost()
+	{
+		return foilCost;
+	}
+
+	public void setFoilCost(double foilCost)
+	{
+		this.foilCost = foilCost;
+	}
+
+	public int[] getVariations()
+	{
+		return variations;
+	}
+
+	public void setVariations(int[] variations)
+	{
+		this.variations = variations;
+	}
+
+	public ObservableMap<String, String> getFlavorMap()
+	{
+		return flavor;
+	}
+
+	public boolean isLegendary()
+	{
+		return legendary;
+	}
+
+	public void setLegendary(boolean legendary)
+	{
+		this.legendary = legendary;
+	}
+
+	public boolean isWorld()
+	{
+		return world;
+	}
+
+	public void setWorld(boolean world)
+	{
+		this.world = world;
+	}
+
+	public boolean isSnow()
+	{
+		return snow;
+	}
+
+	public void setSnow(boolean snow)
+	{
+		this.snow = snow;
+	}
+
+	public boolean isOngoing()
+	{
+		return ongoing;
+	}
+
+	public void setOngoing(boolean ongoing)
+	{
+		this.ongoing = ongoing;
+	}
+
+	public ManaColor[] getColorIdentity()
+	{
+		return colorIdentity;
+	}
+
+	public void setColorIdentity(ManaColor[] colorIdentity)
+	{
+		this.colorIdentity = colorIdentity;
+	}
+
+	public int getVanguardHand()
+	{
+		return vanguardHand;
+	}
+
+	public void setVanguardHand(int vanguardHand)
+	{
+		this.vanguardHand = vanguardHand;
+	}
+
+	public int getVanguardLife()
+	{
+		return vanguardLife;
+	}
+
+	public void setVanguardLife(int vanguardLife)
+	{
+		this.vanguardLife = vanguardLife;
+	}
+
+	public boolean isReserved()
+	{
+		return reserved;
+	}
+
+	public void setReserved(boolean reserved)
+	{
+		this.reserved = reserved;
+	}
+
+	public Date getReleaseDate()
+	{
+		return releaseDate;
+	}
+
+	public void setReleaseDate(Date releaseDate)
+	{
+		this.releaseDate = releaseDate;
+	}
+
+	public String getBorder()
+	{
+		return border;
+	}
+
+	public void setBorder(String border)
+	{
+		this.border = border;
+	}
+
+	public String getArtist()
+	{
+		return artist;
+	}
+
+	public void setArtist(String artist)
+	{
+		this.artist = artist;
+	}
+
+	public String getImageName()
+	{
+		return imageName;
+	}
+
+	public void setImageName(String imageName)
+	{
+		this.imageName = imageName;
+	}
+
+	public String getWatermark()
+	{
+		return watermark;
+	}
+
+	public void setWatermark(String watermark)
+	{
+		this.watermark = watermark;
 	}
 }

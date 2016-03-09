@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<BorderPane xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.DeckShower">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/null" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.DeckShower">
     <top>
         <HBox>
             <Button fx:id="add" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS"/>

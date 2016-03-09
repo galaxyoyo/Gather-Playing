@@ -17,37 +17,37 @@ import java.util.ResourceBundle;
 public class DeckEditorFilter extends AbstractController implements Initializable
 {
 	@FXML
-	public TextField name;
+	private TextField name;
 
 	@FXML
-	public TextArea ability;
+	private TextArea ability;
 
 	@FXML
-	public ListView<ManaColor> color;
+	private ListView<ManaColor> color;
 
 	@FXML
-	public ListView<Rarity> rarity;
+	private ListView<Rarity> rarity;
 
 	@FXML
-	public ListView<Integer> cmc;
+	private ListView<Integer> cmc;
 
 	@FXML
-	public ListView<CardType> type;
+	private ListView<CardType> type;
 
 	@FXML
-	public ListView<SubType> subtypes;
+	private ListView<SubType> subtypes;
 
 	@FXML
-	public ListView<Set> set;
+	private ListView<Set> set;
 
 	@FXML
-	public ListView<Rules> rules;
+	private ListView<Rules> rules;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
 		name.setPromptText("Nom d'une carte ... (ex : " + Lists.newArrayList(MySQL.getAllCards()).get(Utils.RANDOM.nextInt(MySQL.getAllCards().size())).getTranslatedName().get()
-						   + ")");
+				+ ")");
 
 		color.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		color.getItems().addAll(ManaColor.RED, ManaColor.WHITE, ManaColor.BLUE, ManaColor.GREEN, ManaColor.BLACK, ManaColor.COLORLESS);
@@ -85,7 +85,7 @@ public class DeckEditorFilter extends AbstractController implements Initializabl
 		type.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		type.getItems().addAll(RefStreams.of(CardType.values())
 				.filter(type -> !type.name().contains("TOKEN") && type != CardType.EMBLEM && type != CardType.PHENOMENON && type != CardType.PLANE && type != CardType.SCHEME &&
-								type != CardType.PLAYER && type != CardType.CREATURE_PLANESWALKER).collect(Collectors.toList()));
+						type != CardType.PLAYER && type != CardType.CREATURE_PLANESWALKER).collect(Collectors.toList()));
 		type.getSelectionModel().selectAll();
 
 		subtypes.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -118,15 +118,60 @@ public class DeckEditorFilter extends AbstractController implements Initializabl
 				super.updateItem(item, empty);
 				if (item == null)
 					return;
-				setText(item.code);
+				setText(item.getCode());
 			}
 		});
 
 		rules.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		rules.getItems().addAll(Rules.values());
 		rules.getSelectionModel().select(Rules.LEGACY);
-		DeckShower.rulesProp = rules.getSelectionModel().selectedItemProperty();
+		DeckShower.setRulesProp(rules.getSelectionModel().selectedItemProperty());
 
-		DeckEditor.filters = this;
+		DeckEditor.setFilters(this);
+	}
+
+	public TextField getName()
+	{
+		return name;
+	}
+
+	public TextArea getAbility()
+	{
+		return ability;
+	}
+
+	public ListView<ManaColor> getColor()
+	{
+		return color;
+	}
+
+	public ListView<Rarity> getRarity()
+	{
+		return rarity;
+	}
+
+	public ListView<Integer> getCmc()
+	{
+		return cmc;
+	}
+
+	public ListView<CardType> getType()
+	{
+		return type;
+	}
+
+	public ListView<SubType> getSubtypes()
+	{
+		return subtypes;
+	}
+
+	public ListView<Set> getSet()
+	{
+		return set;
+	}
+
+	public ListView<Rules> getRules()
+	{
+		return rules;
 	}
 }

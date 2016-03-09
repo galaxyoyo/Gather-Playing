@@ -39,7 +39,7 @@ import java.util.ResourceBundle;
 
 public class GameMenu extends AbstractController implements Initializable
 {
-	public static GameMenu INSTANCE;
+	private static GameMenu INSTANCE;
 	@FXML
 	public HBox battlefield;
 	@FXML
@@ -56,10 +56,16 @@ public class GameMenu extends AbstractController implements Initializable
 	private TextField chatBar;
 	@FXML
 	private VBox phases;
+	private VBox pauseMenu;
 
 	public static void chat(String msg)
 	{
 		Platform.runLater(() -> INSTANCE.chat.getEngine().loadContent(INSTANCE.content = INSTANCE.content.replace("</body>", msg + "<br></body>")));
+	}
+
+	public static GameMenu instance()
+	{
+		return INSTANCE;
 	}
 
 	@Override
@@ -69,7 +75,7 @@ public class GameMenu extends AbstractController implements Initializable
 		image.setImage(CardImageManager.getImage((Card) null));
 		chat.getEngine()
 				.loadContent(content = "<!doctype html><html><head><script>function a(){window.scrollTo(0, document.body.scrollHeight)}</script></head><body " + "onload=\"a()" +
-									   "\"></body></html>");
+						"\"></body></html>");
 		chatBar.setOnKeyReleased(event -> {
 			if (event.getCode() == KeyCode.ENTER)
 			{
@@ -140,7 +146,6 @@ public class GameMenu extends AbstractController implements Initializable
 		});
 	}
 
-	private VBox pauseMenu;
 	@Override
 	public void onKeyReleased(KeyEvent event)
 	{

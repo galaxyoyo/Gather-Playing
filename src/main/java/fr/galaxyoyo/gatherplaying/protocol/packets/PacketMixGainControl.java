@@ -1,11 +1,11 @@
 package fr.galaxyoyo.gatherplaying.protocol.packets;
 
-import fr.galaxyoyo.gatherplaying.Utils;
 import fr.galaxyoyo.gatherplaying.PlayedCard;
+import fr.galaxyoyo.gatherplaying.Player;
 import fr.galaxyoyo.gatherplaying.Side;
+import fr.galaxyoyo.gatherplaying.Utils;
 import fr.galaxyoyo.gatherplaying.client.gui.CardShower;
 import fr.galaxyoyo.gatherplaying.client.gui.GameMenu;
-import fr.galaxyoyo.gatherplaying.Player;
 import fr.galaxyoyo.gatherplaying.server.Server;
 import io.netty.buffer.ByteBuf;
 import javafx.application.Platform;
@@ -23,28 +23,26 @@ public class PacketMixGainControl extends Packet
 		index = buf.readInt();
 		PlayedCard card = player.runningParty.getData(oldController).getPlayed().remove(index);
 		player.runningParty.getData(newController).getPlayed().add(card);
-		card.controller = newController;
+		card.setController(newController);
 		if (Utils.getSide() == Side.SERVER)
 		{
 			sendToParty();
-			if (newController != card.owner)
+			if (newController != card.getOwner())
 				Server.sendChat(player.runningParty, "chat.gaincontrol", null, newController.name, "<i>" + card.getTranslatedName().get() + "</i>",
-						card.owner.name);
+						card.getOwner().name);
 			else
 				Server.sendChat(player.runningParty, "chat.recovercontrol", null, newController.name, "<i>" + card.getTranslatedName().get() + "</i>");
-		}
-		else
+		} else
 		{
 			CardShower shower = CardShower.getShower(card);
 			if (player == newController)
 			{
-				Platform.runLater(() -> GameMenu.INSTANCE.adverseCreatures.getChildren().remove(shower));
-				Platform.runLater(() -> GameMenu.INSTANCE.creatures.getChildren().add(shower));
-			}
-			else
+				Platform.runLater(() -> GameMenu.instance().adverseCreatures.getChildren().remove(shower));
+				Platform.runLater(() -> GameMenu.instance().creatures.getChildren().add(shower));
+			} else
 			{
-				Platform.runLater(() -> GameMenu.INSTANCE.creatures.getChildren().remove(shower));
-				Platform.runLater(() -> GameMenu.INSTANCE.adverseCreatures.getChildren().add(shower));
+				Platform.runLater(() -> GameMenu.instance().creatures.getChildren().remove(shower));
+				Platform.runLater(() -> GameMenu.instance().adverseCreatures.getChildren().add(shower));
 			}
 		}
 	}

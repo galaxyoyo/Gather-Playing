@@ -11,6 +11,17 @@ import java.net.InetSocketAddress;
 public class ServerChannelHandler extends ChannelHandlerAdapter
 {
 	@Override
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception
+	{
+		if (cause instanceof IOException)
+		{
+			System.err.println(cause.getClass().getName() + " : " + cause.getMessage());
+			Server.disconnect(ctx.channel());
+		} else
+			cause.printStackTrace();
+	}
+
+	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception
 	{
 		ctx.channel().config().setMaxMessagesPerRead(1);
@@ -24,16 +35,4 @@ public class ServerChannelHandler extends ChannelHandlerAdapter
 
 	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception { ctx.flush(); }
-
-	@Override
-	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception
-	{
-		if (cause instanceof IOException)
-		{
-			System.err.println(cause.getClass().getName() + " : " + cause.getMessage());
-			Server.disconnect(ctx.channel());
-		}
-		else
-			cause.printStackTrace();
-	}
 }

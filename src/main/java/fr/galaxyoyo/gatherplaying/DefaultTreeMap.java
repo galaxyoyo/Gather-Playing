@@ -1,9 +1,8 @@
 package fr.galaxyoyo.gatherplaying;
 
-import java.util.function.Supplier;
-
 import java.util.Comparator;
 import java.util.TreeMap;
+import java.util.function.Supplier;
 
 public class DefaultTreeMap<K, V> extends TreeMap<K, V>
 {

@@ -94,8 +94,7 @@ public class LoginDialog extends AbstractController implements Initializable
 				username.setVisible(false);
 				emailLabel.setText("Email / Pseudo :");
 				submit.setText("Se connecter");
-			}
-			else
+			} else
 			{
 				username.setVisible(true);
 				emailLabel.setText("Email :");
@@ -109,8 +108,7 @@ public class LoginDialog extends AbstractController implements Initializable
 				username.setVisible(false);
 				emailLabel.setText("Email / Pseudo :");
 				submit.setText("Se connecter");
-			}
-			else
+			} else
 			{
 				username.setVisible(true);
 				emailLabel.setText("Email :");

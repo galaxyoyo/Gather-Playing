@@ -27,15 +27,14 @@ public class PacketMixUpdatePartyInfos extends Packet
 				PacketMixUpdatePartyInfos pkt = PacketManager.createPacket(getClass());
 				pkt.type = type;
 				PacketManager.sendPacketToPlayer(player, pkt);
-			}
-			else if (type == Type.CREATE)
+			} else if (type == Type.CREATE)
 			{
 				party = new Party();
-				party.id = Party.getNextID();
-				party.name = readUTF(buf);
-				party.desc = readUTF(buf);
-				party.rules = Rules.values()[buf.readByte()];
-				party.size = buf.readByte();
+				party.setId(Party.getNextID());
+				party.setName(readUTF(buf));
+				party.setDesc(readUTF(buf));
+				party.setRules(Rules.values()[buf.readByte()]);
+				party.setSize(buf.readByte());
 				party.addPlayer(player);
 				player.runningParty = party;
 				Server.createParty(party);
@@ -43,8 +42,7 @@ public class PacketMixUpdatePartyInfos extends Packet
 				pkt.type = type;
 				pkt.party = party;
 				PacketManager.sendPacketToPlayer(player, pkt);
-			}
-			else if (type == Type.JOIN)
+			} else if (type == Type.JOIN)
 			{
 				party = Server.getParty(buf.readInt());
 				player.runningParty = party;
@@ -62,8 +60,7 @@ public class PacketMixUpdatePartyInfos extends Packet
 						PacketManager.sendPacketToPlayer(p, pckt);
 					}*/
 				}
-			}
-			else if (type == Type.LEAVE)
+			} else if (type == Type.LEAVE)
 			{
 				if (player.runningParty == null)
 					return;
@@ -81,20 +78,19 @@ public class PacketMixUpdatePartyInfos extends Packet
 					Server.endParty(player.runningParty);
 				player.runningParty = null;
 			}
-		}
-		else
+		} else
 		{
 			if (type == Type.GET)
 			{
-				SelectPartyMenu.PARTIES.clear();
+				SelectPartyMenu.getParties().clear();
 				while (buf.isReadable())
 				{
 					Party party = new Party();
-					party.id = buf.readInt();
-					party.name = readUTF(buf);
-					party.desc = readUTF(buf);
-					party.rules = Rules.values()[buf.readByte()];
-					party.size = buf.readByte();
+					party.setId(buf.readInt());
+					party.setName(readUTF(buf));
+					party.setDesc(readUTF(buf));
+					party.setRules(Rules.values()[buf.readByte()]);
+					party.setSize(buf.readByte());
 					int numPlayers = buf.readByte();
 					for (int i = 0; i < numPlayers; ++i)
 					{
@@ -105,15 +101,13 @@ public class PacketMixUpdatePartyInfos extends Packet
 						p.runningParty = party;
 						party.addPlayer(p);
 					}
-					SelectPartyMenu.PARTIES.add(party);
+					SelectPartyMenu.getParties().add(party);
 				}
-			}
-			else if (type == Type.CREATE)
+			} else if (type == Type.CREATE)
 			{
 				party = Client.getRunningParty();
-				party.id = buf.readInt();
-			}
-			else if (type == Type.JOIN || type == Type.LEAVE)
+				party.setId(buf.readInt());
+			} else if (type == Type.JOIN || type == Type.LEAVE)
 			{
 				party = Client.getRunningParty();
 				HashSet<UUID> connecteds = Sets.newHashSet();
@@ -143,27 +137,25 @@ public class PacketMixUpdatePartyInfos extends Packet
 		{
 			if (type == Type.CREATE)
 			{
-				writeUTF(party.name, buf);
-				writeUTF(party.desc, buf);
-				buf.writeByte(party.rules.ordinal());
-				buf.writeByte(party.size);
-			}
-			else if (type == Type.JOIN)
-				buf.writeInt(party.id);
-		}
-		else
+				writeUTF(party.getName(), buf);
+				writeUTF(party.getDesc(), buf);
+				buf.writeByte(party.getRules().ordinal());
+				buf.writeByte(party.getSize());
+			} else if (type == Type.JOIN)
+				buf.writeInt(party.getId());
+		} else
 		{
 			if (type == Type.GET)
 			{
 				for (Party party : Server.getParties())
 				{
-					if (party.getOnlinePlayers().size() == party.size)
+					if (party.getOnlinePlayers().size() == party.getSize())
 						continue;
-					buf.writeInt(party.id);
-					writeUTF(party.name, buf);
-					writeUTF(party.desc, buf);
-					buf.writeByte(party.rules.ordinal());
-					buf.writeByte(party.size);
+					buf.writeInt(party.getId());
+					writeUTF(party.getName(), buf);
+					writeUTF(party.getDesc(), buf);
+					buf.writeByte(party.getRules().ordinal());
+					buf.writeByte(party.getSize());
 					buf.writeByte(party.getOnlinePlayers().size());
 					for (Player player : party.getOnlinePlayers())
 					{
@@ -171,9 +163,8 @@ public class PacketMixUpdatePartyInfos extends Packet
 						writeUTF(player.name, buf);
 					}
 				}
-			}
-			else if (type == Type.CREATE)
-				buf.writeInt(party.id);
+			} else if (type == Type.CREATE)
+				buf.writeInt(party.getId());
 			else if (type == Type.JOIN || type == Type.LEAVE)
 			{
 				for (Player p : party.getOnlinePlayers())

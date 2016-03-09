@@ -23,6 +23,16 @@ public abstract class Packet implements Cloneable
 
 	protected void sendToParty() { PacketManager.sendPacketToParty(player.runningParty, this); }
 
+	public final UUID readUUID(ByteBuf buf) { return new UUID(buf.readLong(), buf.readLong()); }
+
+	public final void writeUUID(UUID uuid, ByteBuf buf)
+	{
+		buf.writeLong(uuid.getMostSignificantBits());
+		buf.writeLong(uuid.getLeastSignificantBits());
+	}
+
+	public final Card readCard(ByteBuf buf) { return MySQL.getCard(readUTF(buf)); }
+
 	public final String readUTF(ByteBuf buf)
 	{
 		short length = buf.readShort();
@@ -32,6 +42,8 @@ public abstract class Packet implements Cloneable
 		buf.readBytes(array);
 		return new String(array, StandardCharsets.UTF_8);
 	}
+
+	public final void writeCard(Card card, ByteBuf buf) { writeUTF(card.getMuId("en"), buf); }
 
 	public final void writeUTF(String utf, ByteBuf buf)
 	{
@@ -47,18 +59,6 @@ public abstract class Packet implements Cloneable
 		buf.writeBytes(array);
 	}
 
-	public final UUID readUUID(ByteBuf buf) { return new UUID(buf.readLong(), buf.readLong()); }
-
-	public final void writeUUID(UUID uuid, ByteBuf buf)
-	{
-		buf.writeLong(uuid.getMostSignificantBits());
-		buf.writeLong(uuid.getLeastSignificantBits());
-	}
-
-	public final Card readCard(ByteBuf buf) { return MySQL.getCard(readUTF(buf)); }
-
-	public final void writeCard(Card card, ByteBuf buf) { writeUTF(card.muId.get("en"), buf); }
-
 	public Player getPlayer() { return player; }
 
 	public <T extends Packet> T createPacket() { return (T) PacketManager.createPacket(getClass()); }
@@ -72,8 +72,7 @@ public abstract class Packet implements Cloneable
 			try
 			{
 				helper.add(field.getName(), field.get(this));
-			}
-			catch (IllegalArgumentException | IllegalAccessException ex)
+			} catch (IllegalArgumentException | IllegalAccessException ex)
 			{
 				ex.printStackTrace();
 			}

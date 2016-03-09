@@ -33,22 +33,21 @@ public class OwnedCard implements Cloneable
 		try
 		{
 			return (OwnedCard) super.clone();
-		}
-		catch (CloneNotSupportedException ex)
+		} catch (CloneNotSupportedException ex)
 		{
 			ex.printStackTrace();
 			return null;
 		}
 	}
 
-	public StringBinding getTranslatedName()
-	{
-		return card.getTranslatedName();
-	}
-
 	@Override
 	public String toString()
 	{
 		return getTranslatedName().get();
+	}
+
+	public StringBinding getTranslatedName()
+	{
+		return card.getTranslatedName();
 	}
 }

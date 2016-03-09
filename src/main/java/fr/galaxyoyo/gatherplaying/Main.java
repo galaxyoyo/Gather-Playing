@@ -64,8 +64,7 @@ public class Main
 						Client.launch(Client.class, args);
 					else
 						Client.MobileClient.launch(Client.MobileClient.class, args);
-				}
-				catch (Throwable t)
+				} catch (Throwable t)
 				{
 					t.printStackTrace();
 				}
@@ -78,10 +77,10 @@ public class Main
 		tokens.sort((o1, o2) -> String.CASE_INSENSITIVE_ORDER.compare(o1.getEnglishName(), o2.getEnglishName()));
 		for (Token token : tokens)
 		{
-		//	if (token.type == CardType.EMBLEM)
+		//	if (token) == CardType.EMBLEM)
 		//		continue;
 			content += "\"" + token.getEnglishName() + "\",\"" + token.getTranslatedName().get() + "\"," + token.set.code + ",\"";
-			String type = token.type.toString();
+			String type = token).toString();
 			if (token.legendary)
 				type = type.replace("-jeton", " légendaire-jeton");
 			if (token.subtypes.length > 0)
@@ -121,8 +120,7 @@ public class Main
 		try
 		{
 			Class.forName(clazz);
-		}
-		catch (ClassNotFoundException e)
+		} catch (ClassNotFoundException e)
 		{
 			try
 			{
@@ -144,8 +142,7 @@ public class Main
 					bos.close();
 				}
 				addURL(file.toURI().toURL());
-			}
-			catch (IOException ex)
+			} catch (IOException ex)
 			{
 				ex.printStackTrace();
 			}
@@ -160,8 +157,7 @@ public class Main
 			Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
 			method.setAccessible(true);
 			method.invoke(sysloader, url);
-		}
-		catch (Throwable t)
+		} catch (Throwable t)
 		{
 			t.printStackTrace();
 		}
@@ -170,7 +166,7 @@ public class Main
 	@SuppressWarnings("unused")
 	private static void generateDraft(int players) throws IOException
 	{
-	//	StreamSupport.stream(MySQL.getAllCards()).filter(card -> "Lande".equals(card.name.get("fr"))).forEach(card -> card.rarity = Rarity.COMMON);
+		//	StreamSupport.stream(MySQL.getAllCards()).filter(card -> "Lande".equals(card.name.get("fr"))).forEach(card -> card.rarity = Rarity.COMMON);
 		for (int i = 0; i < players * 3; ++i)
 		{
 			BufferedImage img = new BufferedImage(4320, 3060, BufferedImage.TYPE_INT_RGB);
@@ -182,7 +178,7 @@ public class Main
 				Card card = booster[j];
 				if (card == null)
 					continue;
-				BufferedImage subimg = ImageIO.read(new File("pics\\OGW", card.muId.get("fr") + ".png"));
+				BufferedImage subimg = ImageIO.read(new File("pics\\OGW", card.getMuId().get("fr") + ".png"));
 				g.drawImage(subimg, x, y, 720, 1020, null);
 				if (booster.length - j > 14)
 					g.drawImage(SwingFXUtils.fromFXImage(CardImageManager.getFoilCover(), null), x, y, 720, 1020, null);

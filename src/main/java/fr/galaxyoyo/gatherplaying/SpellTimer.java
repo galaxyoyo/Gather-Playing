@@ -21,8 +21,7 @@ public class SpellTimer
 		{
 			Thread.sleep(3000L);
 			handle();
-		}
-		catch (InterruptedException ignored)
+		} catch (InterruptedException ignored)
 		{
 		}
 	};
@@ -52,51 +51,49 @@ public class SpellTimer
 		}
 	}
 
-	public void handle()
+	private void handle()
 	{
 		for (CardShower shower : spells)
 		{
 			PlayedCard card = shower.played;
 			if (Utils.getSide() == Side.SERVER)
 				shower.destroy();
-			if (card.type.isPermanent())
+			if (card.getType().isPermanent())
 			{
-				party.getData(card.controller).getPlayed().add(card);
+				party.getData(card.getController()).getPlayed().add(card);
 				if (Utils.getSide() == Side.CLIENT)
 				{
 					Platform.runLater(() -> Client.getStackPane().getChildren().remove(shower));
-					if ((card.type.is(CardType.ENCHANTMENT) && !card.subtypes.contains(SubType.valueOf("Aura"))) || card.type.is(CardType.ARTIFACT) ||
-							 card.type.is(CardType.PLANESWALKER))
+					if ((card.getType().is(CardType.ENCHANTMENT) && !card.getSubtypes().contains(SubType.valueOf("Aura"))) || card.getType().is(CardType.ARTIFACT) ||
+							card.getType().is(CardType.PLANESWALKER))
 					{
-						if (card.owner == Client.localPlayer)
-							Platform.runLater(() -> GameMenu.INSTANCE.enchants.getChildren().add(shower));
+						if (card.getOwner() == Client.localPlayer)
+							Platform.runLater(() -> GameMenu.instance().enchants.getChildren().add(shower));
 						else
-							Platform.runLater(() -> GameMenu.INSTANCE.adverseEnchants.getChildren().add(shower));
-					}
-					else
+							Platform.runLater(() -> GameMenu.instance().adverseEnchants.getChildren().add(shower));
+					} else
 					{
-						if (card.owner == Client.localPlayer)
-							Platform.runLater(() -> GameMenu.INSTANCE.creatures.getChildren().add(shower));
+						if (card.getOwner() == Client.localPlayer)
+							Platform.runLater(() -> GameMenu.instance().creatures.getChildren().add(shower));
 						else
-							Platform.runLater(() -> GameMenu.INSTANCE.adverseCreatures.getChildren().add(shower));
+							Platform.runLater(() -> GameMenu.instance().adverseCreatures.getChildren().add(shower));
 					}
 					Platform.runLater(() -> HBox.setMargin(shower, new Insets(0.0D, 10.5D, 0.0D, 10.5D)));
 				}
-			}
-			else
+			} else
 			{
 				shower.destroy();
-				party.getData(card.controller).getGraveyard().add(new OwnedCard(card.getCard(), card.owner, card.foiled));
+				party.getData(card.getController()).getGraveyard().add(new OwnedCard(card.getCard(), card.getOwner(), card.isFoiled()));
 				if (Utils.getSide() == Side.CLIENT)
 				{
 					Platform.runLater(() -> Client.getStackPane().getChildren().remove(shower));
-					if (card.owner == Client.localPlayer)
-						GameMenu.INSTANCE.playerInfos.graveyard(card);
+					if (card.getOwner() == Client.localPlayer)
+						GameMenu.instance().playerInfos.graveyard(card);
 					else
-						GameMenu.INSTANCE.adverseInfos.graveyard(card);
+						GameMenu.instance().adverseInfos.graveyard(card);
 				}
 			}
 		}
-		party.currentSpell = null;
+		party.setCurrentSpell(null);
 	}
 }

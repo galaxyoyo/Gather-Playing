@@ -9,6 +9,6 @@ public class Changeling extends Capacity
 	public Changeling(PlayedCard card)
 	{
 		super(card);
-		card.subtypes.addAll(Lists.newArrayList(SubType.values()));
+		card.getSubtypes().addAll(Lists.newArrayList(SubType.values()));
 	}
 }

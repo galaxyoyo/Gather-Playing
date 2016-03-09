@@ -16,10 +16,10 @@ public abstract class Capacity
 
 	public static ObservableList<Capacity> guessCapacities(PlayedCard card)
 	{
-		String enAbility = card.getCard().ability.get("en");
+		String enAbility = card.getCard().getAbilityMap().get("en");
 		if (enAbility == null || enAbility.isEmpty())
 			return FXCollections.emptyObservableList();
-		ObservableList<Capacity> capacities = FXCollections.emptyObservableList();;
+		ObservableList<Capacity> capacities = FXCollections.emptyObservableList();
 		for (String ability : enAbility.split("£|\n"))
 		{
 			if (ability.startsWith("Haste"))

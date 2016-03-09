@@ -37,9 +37,9 @@ public class PartyCreater extends AbstractController implements Initializable
 	public void create()
 	{
 		Party party = new Party();
-		party.name = name.getText();
-		party.rules = rules.getValue();
-		party.size = playerNumber.getValue();
+		party.setName(name.getText());
+		party.setRules(rules.getValue());
+		party.setSize(playerNumber.getValue());
 		party.addPlayer(Client.localPlayer);
 		Client.localPlayer.runningParty = party;
 		PacketMixUpdatePartyInfos pkt = PacketManager.createPacket(PacketMixUpdatePartyInfos.class);
@@ -60,8 +60,7 @@ public class PartyCreater extends AbstractController implements Initializable
 				p.library = new Library(deck);
 				PacketManager.sendPacketToServer(p);
 			});
-		}
-		else
+		} else
 		{
 			Dialog<Deck> deckSelector = new Dialog<>("Sélectionnez votre deck à jouer");
 			ComboBox<Deck> box = new ComboBox<>(FXCollections.observableArrayList(Client.localPlayer.decks));

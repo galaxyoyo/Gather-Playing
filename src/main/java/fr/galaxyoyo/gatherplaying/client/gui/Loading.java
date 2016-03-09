@@ -1,7 +1,7 @@
 package fr.galaxyoyo.gatherplaying.client.gui;
 
-import fr.galaxyoyo.gatherplaying.Utils;
 import fr.galaxyoyo.gatherplaying.Side;
+import fr.galaxyoyo.gatherplaying.Utils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,15 +17,15 @@ public class Loading extends AbstractController implements Initializable
 	@FXML
 	private Label label;
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources)
-	{
-		INSTANCE = this;
-	}
-
 	public static void setLabel(String text)
 	{
 		if (Utils.getSide() == Side.CLIENT && INSTANCE != null)
 			Platform.runLater(() -> INSTANCE.label.setText(text));
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources)
+	{
+		INSTANCE = this;
 	}
 }

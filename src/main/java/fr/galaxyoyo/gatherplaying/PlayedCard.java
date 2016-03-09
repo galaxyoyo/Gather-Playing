@@ -19,21 +19,23 @@ import java.util.List;
 
 public class PlayedCard
 {
-	public final Player owner;
-	public final boolean foiled;
-	public final ObservableList<Capacity> capacities;
+	private final Player owner;
+	private final boolean foiled;
+	private final ObservableList<Capacity> capacities;
 	public ObjectProperty<Object> card;
-	public Player controller;
-	public CardType type;
-	public HashSet<SubType> subtypes;
-	public boolean tapped = false;
-	public boolean summoningSickness;
-	public List<Marker> markers = Lists.newArrayList();
-	public IntegerProperty power = new SimpleIntegerProperty(0), toughness = new SimpleIntegerProperty(0), loyalty = new SimpleIntegerProperty(0);
-	public ObservableList<PlayedCard> associatedCards = FXCollections.observableArrayList();
-	public PlayedCard associatedCard;
-	public Card relatedCard = null;
-	public boolean hided = false;
+	private Player controller;
+	private CardType type;
+	private HashSet<SubType> subtypes;
+	private boolean summoningSickness;
+	private List<Marker> markers = Lists.newArrayList();
+	private IntegerProperty power = new SimpleIntegerProperty(0);
+	private IntegerProperty toughness = new SimpleIntegerProperty(0);
+	private IntegerProperty loyalty = new SimpleIntegerProperty(0);
+	private ObservableList<PlayedCard> associatedCards = FXCollections.observableArrayList();
+	private PlayedCard associatedCard;
+	private Card relatedCard = null;
+	private boolean hided = false;
+	private boolean tapped = false;
 
 	public PlayedCard(OwnedCard card)
 	{
@@ -41,28 +43,27 @@ public class PlayedCard
 		this.owner = card.getOwner();
 		this.controller = this.owner;
 		this.foiled = card.isFoiled();
-		this.type = card.getCard().type;
-		this.subtypes = Sets.newHashSet(card.getCard().subtypes);
+		this.type = card.getCard().getType();
+		this.subtypes = Sets.newHashSet(card.getCard().getSubtypes());
 		this.summoningSickness = type.is(CardType.CREATURE);
 		this.capacities = Capacity.guessCapacities(this);
-		if (card.getCard().layout == Layout.DOUBLE_FACED || card.getCard().layout == Layout.FLIP || card.getCard().layout == Layout.SPLIT)
+		if (card.getCard().getLayout() == Layout.DOUBLE_FACED || card.getCard().getLayout() == Layout.FLIP || card.getCard().getLayout() == Layout.SPLIT)
 		{
-			String number = card.getCard().mciNumber.replaceAll("[^\\d]", "");
-			String letter = card.getCard().mciNumber.replace(number, "");
+			String number = card.getCard().getMciNumber().replaceAll("[^\\d]", "");
+			String letter = card.getCard().getMciNumber().replace(number, "");
 			if (letter.equals("a"))
-				relatedCard = StreamSupport.stream(MySQL.getAllCards()).filter(c -> c.set == card.getCard().set && (number + "b").equals(c.mciNumber)).findAny().get();
-			else if (letter.equals("b") && card.getCard().muId.get("en").equals("74358"))
-				relatedCard = StreamSupport.stream(MySQL.getAllCards()).filter(c -> c.set == card.getCard().set && (number + "c").equals(c.mciNumber)).findAny().get();
+				relatedCard = StreamSupport.stream(MySQL.getAllCards()).filter(c -> c.getSet() == card.getCard().getSet() && (number + "b").equals(c.getMciNumber())).findAny().get();
+			else if (letter.equals("b") && card.getCard().getMuId("en").equals("74358"))
+				relatedCard = StreamSupport.stream(MySQL.getAllCards()).filter(c -> c.getSet() == card.getCard().getSet() && (number + "c").equals(c.getMciNumber())).findAny().get();
 			else if (letter.equals("b"))
-				relatedCard = StreamSupport.stream(MySQL.getAllCards()).filter(c -> c.set == card.getCard().set && (number + "a").equals(c.mciNumber)).findAny().get();
+				relatedCard = StreamSupport.stream(MySQL.getAllCards()).filter(c -> c.getSet() == card.getCard().getSet() && (number + "a").equals(c.getMciNumber())).findAny().get();
 			else if (letter.equals("c"))
-				relatedCard = StreamSupport.stream(MySQL.getAllCards()).filter(c -> c.set == card.getCard().set && (number + "d").equals(c.mciNumber)).findAny().get();
+				relatedCard = StreamSupport.stream(MySQL.getAllCards()).filter(c -> c.getSet() == card.getCard().getSet() && (number + "d").equals(c.getMciNumber())).findAny().get();
 			else if (letter.equals("d"))
-				relatedCard = StreamSupport.stream(MySQL.getAllCards()).filter(c -> c.set == card.getCard().set && (number + "e").equals(c.mciNumber)).findAny().get();
+				relatedCard = StreamSupport.stream(MySQL.getAllCards()).filter(c -> c.getSet() == card.getCard().getSet() && (number + "e").equals(c.getMciNumber())).findAny().get();
 			else
-				relatedCard = StreamSupport.stream(MySQL.getAllCards()).filter(c -> c.set == card.getCard().set && (number + "a").equals(c.mciNumber)).findAny().get();
-		}
-		else if (card.getCard().ability.get("en") != null && card.getCard().ability.get("en").contains("Morph"))
+				relatedCard = StreamSupport.stream(MySQL.getAllCards()).filter(c -> c.getSet() == card.getCard().getSet() && (number + "a").equals(c.getMciNumber())).findAny().get();
+		} else if (card.getCard().getAbilityMap().get("en") != null && card.getCard().getAbilityMap().get("en").contains("Morph"))
 			relatedCard = card.getCard();
 		if (Utils.getSide() == Side.CLIENT)
 		{
@@ -78,8 +79,8 @@ public class PlayedCard
 		this.owner = player;
 		this.controller = player;
 		this.foiled = false;
-		this.type = token.type;
-		this.subtypes = Sets.newHashSet(token.subtypes);
+		this.type = token.getType();
+		this.subtypes = Sets.newHashSet(token.getSubtypes());
 		if (Utils.getSide() == Side.CLIENT)
 		{
 			this.power.addListener((observable, oldValue, newValue) -> CardShower.getShower(this).updatePower());
@@ -100,13 +101,7 @@ public class PlayedCard
 		tapped = false;
 	}
 
-	public boolean isCard() { return card.get() instanceof Card; }
-
-	public Card getCard() { return (Card) card.get(); }
-
 	public boolean isToken() { return card.get() instanceof Token; }
-
-	public Token getToken() { return (Token) card.get(); }
 
 	@Override
 	public boolean equals(Object obj)
@@ -119,6 +114,12 @@ public class PlayedCard
 		return owner == other.owner && card == other.card && foiled == other.foiled && capacities.equals(other.capacities) && tapped == other.tapped && this == obj;
 	}
 
+	@Override
+	public String toString()
+	{
+		return getTranslatedName().get();
+	}
+
 	public StringBinding getTranslatedName()
 	{
 		if (isCard())
@@ -127,9 +128,164 @@ public class PlayedCard
 			return getToken().getTranslatedName();
 	}
 
-	@Override
-	public String toString()
+	public boolean isCard() { return card.get() instanceof Card; }
+
+	public Card getCard() { return (Card) card.get(); }
+
+	public Token getToken() { return (Token) card.get(); }
+
+	public int getPower()
 	{
-		return getTranslatedName().get();
+		return power.get();
+	}
+
+	public void setPower(int power)
+	{
+		this.power.set(power);
+	}
+
+	public IntegerProperty powerProperty()
+	{
+		return power;
+	}
+
+	public int getToughness()
+	{
+		return toughness.get();
+	}
+
+	public void setToughness(int toughness)
+	{
+		this.toughness.set(toughness);
+	}
+
+	public IntegerProperty toughnessProperty()
+	{
+		return toughness;
+	}
+
+	public int getLoyalty()
+	{
+		return loyalty.get();
+	}
+
+	public void setLoyalty(int loyalty)
+	{
+		this.loyalty.set(loyalty);
+	}
+
+	public IntegerProperty loyaltyProperty()
+	{
+		return loyalty;
+	}
+
+	public ObjectProperty<Object> cardProperty()
+	{
+		return card;
+	}
+
+	public Player getOwner()
+	{
+		return owner;
+	}
+
+	public boolean isFoiled()
+	{
+		return foiled;
+	}
+
+	public ObservableList<Capacity> getCapacities()
+	{
+		return capacities;
+	}
+
+	public Player getController()
+	{
+		return controller;
+	}
+
+	public void setController(Player controller)
+	{
+		this.controller = controller;
+	}
+
+	public CardType getType()
+	{
+		return type;
+	}
+
+	public void setType(CardType type)
+	{
+		this.type = type;
+	}
+
+	public HashSet<SubType> getSubtypes()
+	{
+		return subtypes;
+	}
+
+	public void setSubtypes(HashSet<SubType> subtypes)
+	{
+		this.subtypes = subtypes;
+	}
+
+	public boolean isSummoningSickness()
+	{
+		return summoningSickness;
+	}
+
+	public void setSummoningSickness(boolean summoningSickness)
+	{
+		this.summoningSickness = summoningSickness;
+	}
+
+	public List<Marker> getMarkers()
+	{
+		return markers;
+	}
+
+	public void setMarkers(List<Marker> markers)
+	{
+		this.markers = markers;
+	}
+
+	public ObservableList<PlayedCard> getAssociatedCards()
+	{
+		return associatedCards;
+	}
+
+	public void setAssociatedCards(ObservableList<PlayedCard> associatedCards)
+	{
+		this.associatedCards = associatedCards;
+	}
+
+	public PlayedCard getAssociatedCard()
+	{
+		return associatedCard;
+	}
+
+	public void setAssociatedCard(PlayedCard associatedCard)
+	{
+		this.associatedCard = associatedCard;
+	}
+
+	public Card getRelatedCard()
+	{
+		return relatedCard;
+	}
+
+	public void setRelatedCard(Card relatedCard)
+	{
+		this.relatedCard = relatedCard;
+	}
+
+	public boolean isHided()
+	{
+		return hided;
+	}
+
+	public void setHided(boolean hided)
+	{
+		this.hided = hided;
 	}
 }

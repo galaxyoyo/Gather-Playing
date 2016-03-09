@@ -12,20 +12,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Party
 {
 	private static final AtomicInteger NEXT_ID = new AtomicInteger(0);
-	public int id;
-	public int size;
-	public String name;
-	public String desc;
-	public Rules rules;
-	public Player player;
-	public SpellTimer currentSpell;
-	public ObservableMap<Player, PlayerData> datas = FXCollections.observableHashMap();
+	private int id;
+	private int size;
+	private String name;
+	private String desc;
+	private Rules rules;
+	private Player player;
+	private SpellTimer currentSpell;
+	private ObservableMap<Player, PlayerData> datas = FXCollections.observableHashMap();
 	private Phase currentPhase = Phase.MAIN;
 	private boolean started = false;
 
 	public static int getNextID() { return NEXT_ID.getAndIncrement(); }
-
-	public java.util.Set<Player> getOnlinePlayers() { return datas.keySet(); }
 
 	public void start()
 	{
@@ -53,8 +51,7 @@ public class Party
 				}
 				PacketManager.sendPacketToParty(this, draw);
 			}
-		}
-		else
+		} else
 		{
 			System.out.println("Partie démarrée !");
 			setCurrentPhase(Phase.MAIN);
@@ -84,7 +81,7 @@ public class Party
 		if (phase == Phase.END)
 		{
 			for (PlayedCard card : getData(player).getPlayed())
-				card.summoningSickness = false;
+				card.setSummoningSickness(false);
 		}
 		if (Utils.getSide() == Side.CLIENT)
 			return;
@@ -102,8 +99,7 @@ public class Party
 				PacketManager.sendPacketToParty(this, pkt);
 			}
 			nextPhase();
-		}
-		else if (phase == Phase.UPKEEP)
+		} else if (phase == Phase.UPKEEP)
 			nextPhase();
 		else if (phase == Phase.DRAW)
 		{
@@ -115,8 +111,7 @@ public class Party
 			pkt.cards.add(card);
 			PacketManager.sendPacketToParty(this, pkt);
 			nextPhase();
-		}
-		else if (phase == Phase.END)
+		} else if (phase == Phase.END)
 		{
 			PacketMixSetPhase pkt = PacketManager.createPacket(PacketMixSetPhase.class);
 			pkt.phase = Phase.UNTAP;
@@ -137,25 +132,27 @@ public class Party
 		setCurrentPhase(pkt.phase);
 	}
 
-	public Player getPlayer(UUID uuid) { return getOnlinePlayers().stream().filter(player -> player.uuid.equals(uuid)).findAny().orElse(null); }
+	public PlayerData getData(UUID uuid)
+	{
+		return getData(getPlayer(uuid));
+	}
 
 	public PlayerData getData(Player player)
 	{
 		return datas.get(player);
 	}
 
-	public PlayerData getData(UUID uuid)
-	{
-		return getData(getPlayer(uuid));
-	}
+	public Player getPlayer(UUID uuid) { return getOnlinePlayers().stream().filter(player -> player.uuid.equals(uuid)).findAny().orElse(null); }
+
+	public java.util.Set<Player> getOnlinePlayers() { return datas.keySet(); }
 
 	public void broadcastEvent(EventType type, PlayedCard... parameters)
 	{
-		for (PlayerData data : datas.values())
+		/*for (PlayerData data : datas.values())
 		{
 			for (PlayedCard card : data.getPlayed())
 			{
-		/*		for (Capacity c : card.capacities)
+				for (Capacity c : card.capacities)
 				{
 					switch (type)
 					{
@@ -175,9 +172,79 @@ public class Party
 								c.onCardDestroyed(card, parameters[0]);
 							break;
 					}
-				} */
+				}
 			}
-		}
+		}*/
+	}
+
+	public int getId()
+	{
+		return id;
+	}
+
+	public void setId(int id)
+	{
+		this.id = id;
+	}
+
+	public int getSize()
+	{
+		return size;
+	}
+
+	public void setSize(int size)
+	{
+		this.size = size;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	public String getDesc()
+	{
+		return desc;
+	}
+
+	public void setDesc(String desc)
+	{
+		this.desc = desc;
+	}
+
+	public Rules getRules()
+	{
+		return rules;
+	}
+
+	public void setRules(Rules rules)
+	{
+		this.rules = rules;
+	}
+
+	public Player getPlayer()
+	{
+		return player;
+	}
+
+	public void setPlayer(Player player)
+	{
+		this.player = player;
+	}
+
+	public SpellTimer getCurrentSpell()
+	{
+		return currentSpell;
+	}
+
+	public void setCurrentSpell(SpellTimer currentSpell)
+	{
+		this.currentSpell = currentSpell;
 	}
 
 	public enum EventType

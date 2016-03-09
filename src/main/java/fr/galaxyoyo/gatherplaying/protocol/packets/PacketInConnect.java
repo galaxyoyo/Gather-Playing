@@ -2,8 +2,8 @@ package fr.galaxyoyo.gatherplaying.protocol.packets;
 
 import fr.galaxyoyo.gatherplaying.Deck;
 import fr.galaxyoyo.gatherplaying.MySQL;
-import fr.galaxyoyo.gatherplaying.Set;
 import fr.galaxyoyo.gatherplaying.Player;
+import fr.galaxyoyo.gatherplaying.Set;
 import fr.galaxyoyo.gatherplaying.server.Server;
 import io.netty.buffer.ByteBuf;
 
@@ -40,8 +40,7 @@ public class PacketInConnect extends Packet
 				player.uuid = UUID.randomUUID();
 				MySQL.savePlayer(player);
 			}
-		}
-		else if (type == Type.LOGGING)
+		} else if (type == Type.LOGGING)
 		{
 			assert remote != null;
 			if (!remote.sha1Pwd.equals(player.sha1Pwd))
@@ -55,7 +54,7 @@ public class PacketInConnect extends Packet
 			Server.connectSuccess(player);
 			for (Set set : MySQL.getAllSets())
 			{
-				if (!set.buyable)
+				if (!set.isBuyable())
 					continue;
 				PacketOutCosts pkt = PacketManager.createPacket(PacketOutCosts.class);
 				pkt.set = set;

@@ -19,12 +19,12 @@ public class PacketOutPartyStart extends Packet
 			Player p = Client.getRunningParty().getPlayer(readUUID(buf));
 			Client.getRunningParty().getData(p).setLibrary(null);
 			if (p != Client.localPlayer)
-				GameMenu.INSTANCE.adverseInfos.setPlayer(p);
+				GameMenu.instance().adverseInfos.setPlayer(p);
 			PlayerInfos.getInfos(p).setLibrary(buf.readByte());
 		}
-		GameMenu.INSTANCE.setPhase(Phase.MAIN);
+		GameMenu.instance().setPhase(Phase.MAIN);
 		starter = Client.getRunningParty().getPlayer(readUUID(buf));
-		Client.getRunningParty().player = starter;
+		Client.getRunningParty().setPlayer(starter);
 		Client.getRunningParty().start();
 	}
 

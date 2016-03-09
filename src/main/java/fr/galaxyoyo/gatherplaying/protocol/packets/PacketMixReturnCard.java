@@ -17,10 +17,10 @@ public class PacketMixReturnCard extends Packet
 		p = player.runningParty.getPlayer(readUUID(buf));
 		PlayedCard card = player.runningParty.getData(p).getPlayed().get(index);
 		Card oldCard = card.getCard();
-		if (card.getCard().muId.get("en").contains("74358"))
+		if (card.getCard().getMuId("en").contains("74358"))
 		{
-			String number = card.getCard().muId.get("en").replaceAll("[^\\d]", "");
-			String letter = card.getCard().muId.get("en").replace(number, "");
+			String number = card.getCard().getMuId("en").replaceAll("[^\\d]", "");
+			String letter = card.getCard().getMuId("en").replace(number, "");
 			switch (letter)
 			{
 				case "a":
@@ -39,42 +39,38 @@ public class PacketMixReturnCard extends Packet
 					card.card.set(MySQL.getCard(number + "a"));
 					break;
 			}
-			card.relatedCard = oldCard;
-		}
-		else
+			card.setRelatedCard(oldCard);
+		} else
 		{
-			card.card.set(card.relatedCard);
-			card.relatedCard = oldCard;
+			card.card.set(card.getRelatedCard());
+			card.setRelatedCard(oldCard);
 		}
-		for (Marker m : card.markers)
+		for (Marker m : card.getMarkers())
 			m.onCardUnmarked(card);
-		if (card.getCard().type.is(CardType.CREATURE))
+		if (card.getCard().getType().is(CardType.CREATURE))
 		{
 			try
 			{
-				card.power.set(Integer.parseInt(card.getCard().power));
-			}
-			catch (NumberFormatException ex)
+				card.setPower(Integer.parseInt(card.getCard().getPower()));
+			} catch (NumberFormatException ex)
 			{
-				card.power.set(0);
+				card.setPower(0);
 			}
 			try
 			{
-				card.toughness.set(Integer.parseInt(card.getCard().toughness));
-			}
-			catch (NumberFormatException ex)
+				card.setToughness(Integer.parseInt(card.getCard().getToughness()));
+			} catch (NumberFormatException ex)
 			{
-				card.toughness.set(0);
+				card.setToughness(0);
 			}
-		}
-		else if (card.getCard().type.is(CardType.PLANESWALKER))
+		} else if (card.getCard().getType().is(CardType.PLANESWALKER))
 		{
-			card.loyalty.set(0);
-			for (int i = 0; i < card.getCard().loyalty; ++i)
+			card.setLoyalty(0);
+			for (int i = 0; i < card.getCard().getLoyalty(); ++i)
 			{
 				Marker m = MarkerType.LOYALTY.newInstance();
 				m.onCardMarked(card);
-				card.markers.add(m);
+				card.getMarkers().add(m);
 			}
 		}
 		if (Utils.getSide() == Side.SERVER)

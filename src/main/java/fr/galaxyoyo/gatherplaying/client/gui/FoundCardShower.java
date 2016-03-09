@@ -1,8 +1,8 @@
 package fr.galaxyoyo.gatherplaying.client.gui;
 
-import fr.galaxyoyo.gatherplaying.Utils;
 import fr.galaxyoyo.gatherplaying.OwnedCard;
 import fr.galaxyoyo.gatherplaying.Side;
+import fr.galaxyoyo.gatherplaying.Utils;
 import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketManager;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketMixPlayFounded;
@@ -21,7 +21,7 @@ public class FoundCardShower extends ImageView
 			Platform.runLater(() -> setImage(CardImageManager.getImage(card.getCard())));
 		setFitWidth(223.0D);
 		setFitHeight(310.0D);
-		setOnMouseEntered(event -> GameMenu.INSTANCE.setImage(card.getCard()));
+		setOnMouseEntered(event -> GameMenu.instance().setImage(card.getCard()));
 		setOnMouseReleased(event -> {
 			if (event.getButton() == MouseButton.SECONDARY && card.getOwner() == Client.localPlayer)
 			{

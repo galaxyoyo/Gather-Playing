@@ -7,23 +7,23 @@ public class MarkerMinus1Minus1 extends Marker
 	@Override
 	public void onCardMarked(PlayedCard card)
 	{
-		if (card.power.get() == Integer.MIN_VALUE)
-			card.power.set(0);
-		if (card.toughness.get() == Integer.MIN_VALUE)
-			card.toughness.set(0);
-		card.power.set(card.power.get() - 1);
-		card.toughness.set(card.toughness.get() - 1);
+		if (card.getPower() == Integer.MIN_VALUE)
+			card.setPower(0);
+		if (card.getToughness() == Integer.MIN_VALUE)
+			card.setToughness(0);
+		card.setPower(card.getPower() - 1);
+		card.setToughness(card.getToughness() - 1);
 	}
 
 	@Override
 	public void onCardUnmarked(PlayedCard card)
 	{
-		if (card.power.get() == Integer.MIN_VALUE)
-			card.power.set(0);
-		if (card.toughness.get() == Integer.MIN_VALUE)
-			card.toughness.set(0);
-		card.power.set(card.power.get() + 1);
-		card.toughness.set(card.toughness.get() + 1);
+		if (card.getPower() == Integer.MIN_VALUE)
+			card.setPower(0);
+		if (card.getToughness() == Integer.MIN_VALUE)
+			card.setToughness(0);
+		card.setPower(card.getPower() + 1);
+		card.setToughness(card.getToughness() + 1);
 	}
 
 	@Override

@@ -7,6 +7,6 @@ public class Haste extends Capacity
 	public Haste(PlayedCard card)
 	{
 		super(card);
-		card.summoningSickness = false;
+		card.setSummoningSickness(false);
 	}
 }

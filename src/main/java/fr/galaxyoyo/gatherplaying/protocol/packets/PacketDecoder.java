@@ -1,7 +1,7 @@
 package fr.galaxyoyo.gatherplaying.protocol.packets;
 
-import fr.galaxyoyo.gatherplaying.Utils;
 import fr.galaxyoyo.gatherplaying.Side;
+import fr.galaxyoyo.gatherplaying.Utils;
 import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.server.Server;
 import io.netty.buffer.ByteBuf;
@@ -27,8 +27,7 @@ public class PacketDecoder extends ByteToMessageDecoder
 		try
 		{
 			pkt.read(buf);
-		}
-		catch (Throwable t)
+		} catch (Throwable t)
 		{
 			t.printStackTrace();
 		}

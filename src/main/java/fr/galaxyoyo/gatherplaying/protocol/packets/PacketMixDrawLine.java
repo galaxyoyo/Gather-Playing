@@ -1,6 +1,8 @@
 package fr.galaxyoyo.gatherplaying.protocol.packets;
 
-import fr.galaxyoyo.gatherplaying.*;
+import fr.galaxyoyo.gatherplaying.PlayedCard;
+import fr.galaxyoyo.gatherplaying.Side;
+import fr.galaxyoyo.gatherplaying.Utils;
 import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.client.gui.Arrow;
 import fr.galaxyoyo.gatherplaying.client.gui.CardShower;
@@ -47,9 +49,9 @@ public class PacketMixDrawLine extends Packet
 	@Override
 	public void write(ByteBuf buf)
 	{
-		writeUUID(from.controller.uuid, buf);
-		buf.writeInt(player.runningParty.getData(from.controller).getPlayed().indexOf(from));
-		writeUUID(to.controller.uuid, buf);
-		buf.writeInt(player.runningParty.getData(to.controller).getPlayed().indexOf(to));
+		writeUUID(from.getController().uuid, buf);
+		buf.writeInt(player.runningParty.getData(from.getController()).getPlayed().indexOf(from));
+		writeUUID(to.getController().uuid, buf);
+		buf.writeInt(player.runningParty.getData(to.getController()).getPlayed().indexOf(to));
 	}
 }

@@ -37,6 +37,9 @@ public class CardAdapter extends TypeAdapter<Card>
 	}
 
 	@Override
+	public void write(JsonWriter w, Card card) throws IOException { }
+
+	@Override
 	public Card read(JsonReader r) throws IOException
 	{
 		Card card = new Card();
@@ -47,41 +50,41 @@ public class CardAdapter extends TypeAdapter<Card>
 			switch (name)
 			{
 				case "name":
-					card.name.put("en", r.nextString().replace("Æ", "Ae"));
+					card.getName().put("en", r.nextString().replace("Æ", "Ae"));
 					break;
 				case "manaCost":
 					Matcher m = MANA_COST.matcher(r.nextString());
-					card.manaCost = new ManaColor[0];
+					card.setManaCost(new ManaColor[0]);
 					int id = -1;
 					while (m.find())
 					{
 						String str = m.group().substring(1, m.group().length() - 1).toUpperCase().replace("H", "Half");
-						card.manaCost = Arrays.copyOf(card.manaCost, card.manaCost.length + 1);
-						card.manaCost[++id] = ManaColor.getBySignificant(str);
-						if (card.manaCost[id] == null)
+						card.setManaCost(Arrays.copyOf(card.getManaCost(), card.getManaCost().length + 1));
+						card.getManaCost()[++id] = ManaColor.getBySignificant(str);
+						if (card.getManaCost()[id] == null)
 							System.err.println(str);
 					}
 					break;
 				case "cmc":
-					card.cmc = r.nextDouble();
+					card.setCmc(r.nextDouble());
 					break;
 				case "colors":
 					r.beginArray();
-					card.colors = new ManaColor[0];
+					card.setColors(new ManaColor[0]);
 					while (r.peek() != JsonToken.END_ARRAY)
 					{
-						card.colors = Arrays.copyOf(card.colors, card.colors.length + 1);
-						card.colors[card.colors.length - 1] = ManaColor.valueOf(r.nextString().toUpperCase());
+						card.setColors(Arrays.copyOf(card.getColors(), card.getColors().length + 1));
+						card.getColors()[card.getColors().length - 1] = ManaColor.valueOf(r.nextString().toUpperCase());
 					}
 					r.endArray();
 					break;
 				case "colorIdentity":
 					r.beginArray();
-					card.colorIdentity = new ManaColor[0];
+					card.setColorIdentity(new ManaColor[0]);
 					while (r.peek() != JsonToken.END_ARRAY)
 					{
-						card.colorIdentity = Arrays.copyOf(card.colorIdentity, card.colorIdentity.length + 1);
-						card.colorIdentity[card.colorIdentity.length - 1] = ManaColor.getBySignificant(r.nextString());
+						card.setColorIdentity(Arrays.copyOf(card.getColorIdentity(), card.getColorIdentity().length + 1));
+						card.getColorIdentity()[card.getColorIdentity().length - 1] = ManaColor.getBySignificant(r.nextString());
 					}
 					r.endArray();
 					break;
@@ -99,50 +102,50 @@ public class CardAdapter extends TypeAdapter<Card>
 							type = "CREATURE";
 						else if ("ScariestYou'llEverSee".toUpperCase().contains(type))
 							continue;
-						if (card.type == null)
-							card.type = CardType.valueOf(type);
+						if (card.getType() == null)
+							card.setType(CardType.valueOf(type));
 						else
-							card.type = card.type.with(CardType.valueOf(type));
+							card.setType(card.getType().with(CardType.valueOf(type)));
 					}
 					r.endArray();
 					break;
 				case "subtypes":
 					r.beginArray();
-					card.subtypes = new SubType[0];
+					card.setSubtypes(new SubType[0]);
 					while (r.peek() != JsonToken.END_ARRAY)
 					{
 						SubType subtype = SubType.valueOf(r.nextString());
 						if (subtype == null)
 							continue;
-						subtype.setCanApplicate(card.type);
-						card.subtypes = Arrays.copyOf(card.subtypes, card.subtypes.length + 1);
-						card.subtypes[card.subtypes.length - 1] = subtype;
+						subtype.setCanApplicate(card.getType());
+						card.setSubtypes(Arrays.copyOf(card.getSubtypes(), card.getSubtypes().length + 1));
+						card.getSubtypes()[card.getSubtypes().length - 1] = subtype;
 					}
 					r.endArray();
 					break;
 				case "supertypes":
-					card.legendary = false;
+					card.setLegendary(false);
 					r.beginArray();
 					while (r.peek() != JsonToken.END_ARRAY)
 					{
 						String supertype = r.nextString();
 						if (supertype.equalsIgnoreCase("legendary"))
-							card.legendary = true;
+							card.setLegendary(true);
 						else if (supertype.equalsIgnoreCase("basic"))
-							card.basic = true;
+							card.setBasic(true);
 						else if (supertype.equalsIgnoreCase("world"))
-							card.world = true;
+							card.setWorld(true);
 						else if (supertype.equalsIgnoreCase("snow"))
-							card.snow = true;
+							card.setSnow(true);
 						else if (supertype.equalsIgnoreCase("ongoing"))
-							card.ongoing = true;
+							card.setOngoing(true);
 						else
 							Utils.alert("Alerte", "Supertype inconnu", supertype);
 					}
 					r.endArray();
 					break;
 				case "rarity":
-					card.rarity = Rarity.valueOf(r.nextString().toUpperCase().replace("MYTHIC RARE", "MYTHIC").replace(" ", "_"));
+					card.setRarity(Rarity.valueOf(r.nextString().toUpperCase().replace("MYTHIC RARE", "MYTHIC").replace(" ", "_")));
 					break;
 				case "text":
 					String ab = r.nextString();
@@ -155,34 +158,34 @@ public class CardAdapter extends TypeAdapter<Card>
 							str += "{C}";
 						ab = ab.replace(match.group(), str);
 					}
-					card.ability.put("en", ab);
+					card.getAbilityMap().put("en", ab);
 					break;
 				case "flavor":
-					card.flavor.put("en", r.nextString());
+					card.getFlavorMap().put("en", r.nextString());
 					break;
 				case "artist":
-					card.artist = r.nextString();
+					card.setArtist(r.nextString());
 					break;
 				case "watermark":
-					card.watermark = r.nextString();
+					card.setWatermark(r.nextString());
 					break;
 				case "number":
-					card.cardId = r.nextString();
+					card.setCardId(r.nextString());
 					break;
 				case "mciNumber":
-					card.mciNumber = r.nextString();
+					card.setMciNumber(r.nextString());
 					break;
 				case "power":
-					card.power = r.nextString();
+					card.setPower(r.nextString());
 					break;
 				case "toughness":
-					card.toughness = r.nextString();
+					card.setToughness(r.nextString());
 					break;
 				case "loyalty":
-					card.loyalty = r.nextInt();
+					card.setLoyalty(r.nextInt());
 					break;
 				case "layout":
-					card.layout = Layout.valueOf(r.nextString().toUpperCase().replace("-", "_"));
+					card.setLayout(Layout.valueOf(r.nextString().toUpperCase().replace("-", "_")));
 					break;
 				case "legalities":
 					r.beginArray();
@@ -198,13 +201,13 @@ public class CardAdapter extends TypeAdapter<Card>
 					r.endArray();
 					break;
 				case "multiverseid":
-					card.muId.put("en", r.nextString());
+					card.getMuId().put("en", r.nextString());
 					break;
 				case "variations":
 					r.beginArray();
 					int min;
-					if (card.cardId != null)
-						min = Integer.parseInt(card.cardId.replaceAll("[^\\d]", ""));
+					if (card.getCardId() != null)
+						min = Integer.parseInt(card.getCardId().replaceAll("[^\\d]", ""));
 					else
 						min = Integer.MAX_VALUE;
 					int max = min;
@@ -216,7 +219,7 @@ public class CardAdapter extends TypeAdapter<Card>
 						min = Math.min(min, variation);
 						max = Math.max(max, variation);
 					}
-					card.variations = new int[] {min, max};
+					card.setVariations(new int[]{min, max});
 					r.endArray();
 					break;
 				case "foreignNames":
@@ -238,15 +241,15 @@ public class CardAdapter extends TypeAdapter<Card>
 						String abreviate = ABBREVIATES.get(locale);
 						if (!StreamSupport.stream(MySQL.getAllCards()).filter(c -> Objects.equals(abreviate, muId)).findAny().isPresent())
 						{
-							card.name.put(abreviate, tr_name);
-							card.muId.put(abreviate, muId);
+							card.getName().put(abreviate, tr_name);
+							card.getMuId().put(abreviate, muId);
 						}
 						r.endObject();
 					}
 					r.endArray();
 					break;
 				case "imageName":
-					card.imageName = r.nextString();
+					card.setImageName(r.nextString());
 					break;
 				case "printings":
 				case "names":
@@ -256,7 +259,7 @@ public class CardAdapter extends TypeAdapter<Card>
 					r.endArray();
 					break;
 				case "releaseDate":
-					card.releaseDate = CardSerializer.DATE.deserialize(new JsonPrimitive(r.nextString()), Date.class, null);
+					card.setReleaseDate(CardSerializer.DATE.deserialize(new JsonPrimitive(r.nextString()), Date.class, null));
 					break;
 				case "rulings":
 					r.beginArray();
@@ -272,16 +275,16 @@ public class CardAdapter extends TypeAdapter<Card>
 					r.endArray();
 					break;
 				case "hand":
-					card.vanguardHand = r.nextInt();
+					card.setVanguardHand(r.nextInt());
 					break;
 				case "life":
-					card.vanguardLife = r.nextInt();
+					card.setVanguardLife(r.nextInt());
 					break;
 				case "border":
-					card.border = r.nextString();
+					card.setBorder(r.nextString());
 					break;
 				case "reserved":
-					card.reserved = r.nextBoolean();
+					card.setReserved(r.nextBoolean());
 					break;
 				case "starter":
 				case "timeshifted":
@@ -299,13 +302,10 @@ public class CardAdapter extends TypeAdapter<Card>
 			}
 		}
 		r.endObject();
-		if (card.colors == null)
-			card.colors = new ManaColor[] {ManaColor.COLORLESS};
-		if (card.colorIdentity == null)
-			card.colorIdentity = new ManaColor[] {ManaColor.COLORLESS};
+		if (card.getColors() == null)
+			card.setColorIdentity(new ManaColor[]{ManaColor.COLORLESS});
+		if (card.getColorIdentity() == null)
+			card.setColorIdentity(new ManaColor[]{ManaColor.COLORLESS});
 		return card;
 	}
-
-	@Override
-	public void write(JsonWriter w, Card card) throws IOException { }
 }

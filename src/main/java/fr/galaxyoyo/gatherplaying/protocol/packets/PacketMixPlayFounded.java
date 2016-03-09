@@ -2,8 +2,8 @@ package fr.galaxyoyo.gatherplaying.protocol.packets;
 
 import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.client.Client;
-import fr.galaxyoyo.gatherplaying.client.gui.GameMenu;
 import fr.galaxyoyo.gatherplaying.client.gui.CardShower;
+import fr.galaxyoyo.gatherplaying.client.gui.GameMenu;
 import io.netty.buffer.ByteBuf;
 import javafx.application.Platform;
 
@@ -25,27 +25,25 @@ public class PacketMixPlayFounded extends Packet
 				data.getPlayed().add(played);
 				if (Utils.getSide() == Side.CLIENT)
 				{
-					if (played.type.is(CardType.LAND))
+					if (played.getType().is(CardType.LAND))
 					{
-						if (played.owner == Client.localPlayer)
-							Platform.runLater(() -> GameMenu.INSTANCE.lands.getChildren().add(new CardShower(played)));
+						if (played.getOwner() == Client.localPlayer)
+							Platform.runLater(() -> GameMenu.instance().lands.getChildren().add(new CardShower(played)));
 						else
-							Platform.runLater(() -> GameMenu.INSTANCE.adverseLands.getChildren().add(new CardShower(played)));
-					}
-					else if ((played.type.is(CardType.ENCHANTMENT) && !played.subtypes.contains(SubType.valueOf("Aura"))) || played.type.is(CardType.ARTIFACT) ||
-							 played.type.is(CardType.PLANESWALKER))
+							Platform.runLater(() -> GameMenu.instance().adverseLands.getChildren().add(new CardShower(played)));
+					} else if ((played.getType().is(CardType.ENCHANTMENT) && !played.getSubtypes().contains(SubType.valueOf("Aura"))) || played.getType().is(CardType.ARTIFACT) ||
+							played.getType().is(CardType.PLANESWALKER))
 					{
-						if (played.owner == Client.localPlayer)
-							Platform.runLater(() -> GameMenu.INSTANCE.enchants.getChildren().add(new CardShower(played)));
+						if (played.getOwner() == Client.localPlayer)
+							Platform.runLater(() -> GameMenu.instance().enchants.getChildren().add(new CardShower(played)));
 						else
-							Platform.runLater(() -> GameMenu.INSTANCE.adverseEnchants.getChildren().add(new CardShower(played)));
-					}
-					else
+							Platform.runLater(() -> GameMenu.instance().adverseEnchants.getChildren().add(new CardShower(played)));
+					} else
 					{
-						if (played.owner == Client.localPlayer)
-							Platform.runLater(() -> GameMenu.INSTANCE.creatures.getChildren().add(new CardShower(played)));
+						if (played.getOwner() == Client.localPlayer)
+							Platform.runLater(() -> GameMenu.instance().creatures.getChildren().add(new CardShower(played)));
 						else
-							Platform.runLater(() -> GameMenu.INSTANCE.adverseCreatures.getChildren().add(new CardShower(played)));
+							Platform.runLater(() -> GameMenu.instance().adverseCreatures.getChildren().add(new CardShower(played)));
 					}
 				}
 				break;
@@ -53,48 +51,46 @@ public class PacketMixPlayFounded extends Packet
 				data.getExile().add(card);
 				if (Utils.getSide() == Side.CLIENT)
 					if (card.getOwner() == player)
-						GameMenu.INSTANCE.playerInfos.exile(new PlayedCard(card));
+						GameMenu.instance().playerInfos.exile(new PlayedCard(card));
 					else
-						GameMenu.INSTANCE.adverseInfos.exile(new PlayedCard(card));
+						GameMenu.instance().adverseInfos.exile(new PlayedCard(card));
 				break;
 			case GRAVEYARD:
 				data.getGraveyard().add(card);
 				if (Utils.getSide() == Side.CLIENT)
 					if (card.getOwner() == player)
-						GameMenu.INSTANCE.playerInfos.graveyard(new PlayedCard(card));
+						GameMenu.instance().playerInfos.graveyard(new PlayedCard(card));
 					else
-						GameMenu.INSTANCE.adverseInfos.graveyard(new PlayedCard(card));
+						GameMenu.instance().adverseInfos.graveyard(new PlayedCard(card));
 				break;
 			case HAND:
 				data.getHand().add(card);
 				if (Utils.getSide() == Side.CLIENT)
 				{
 					if (player == card.getOwner())
-						Platform.runLater(() -> GameMenu.INSTANCE.hand.getChildren().add(new CardShower(card)));
+						Platform.runLater(() -> GameMenu.instance().hand.getChildren().add(new CardShower(card)));
 					else
-						Platform.runLater(() -> GameMenu.INSTANCE.adverseHand.getChildren().add(new CardShower(card)));
+						Platform.runLater(() -> GameMenu.instance().adverseHand.getChildren().add(new CardShower(card)));
 				}
 				break;
 			case UP_LIBRARY:
 				if (Utils.getSide() == Side.CLIENT)
 				{
 					if (player == card.getOwner())
-						GameMenu.INSTANCE.playerInfos.addLibrary();
+						GameMenu.instance().playerInfos.addLibrary();
 					else
-						GameMenu.INSTANCE.adverseInfos.addLibrary();
-				}
-				else
+						GameMenu.instance().adverseInfos.addLibrary();
+				} else
 					data.getLibrary().addCardUp(card);
 				break;
 			case DOWN_LIBRARY:
 				if (Utils.getSide() == Side.CLIENT)
 				{
 					if (player == card.getOwner())
-						GameMenu.INSTANCE.playerInfos.addLibrary();
+						GameMenu.instance().playerInfos.addLibrary();
 					else
-						GameMenu.INSTANCE.adverseInfos.addLibrary();
-				}
-				else
+						GameMenu.instance().adverseInfos.addLibrary();
+				} else
 					data.getLibrary().addCard(card);
 				break;
 		}
@@ -102,13 +98,12 @@ public class PacketMixPlayFounded extends Packet
 		{
 			data.getLibrary().getSortedCards().remove(card);
 			sendToParty();
-		}
-		else
+		} else
 		{
 			if (player == card.getOwner())
-				GameMenu.INSTANCE.playerInfos.removeLibrary();
+				GameMenu.instance().playerInfos.removeLibrary();
 			else
-				GameMenu.INSTANCE.adverseInfos.removeLibrary();
+				GameMenu.instance().adverseInfos.removeLibrary();
 		}
 	}
 

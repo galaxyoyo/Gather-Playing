@@ -7,8 +7,8 @@ public enum Rarity
 {
 	COMMON, UNCOMMON, RARE, MYTHIC, BASIC_LAND, TOKEN, SPECIAL;
 
-	public StringBinding getTranslatedName() { return I18n.tr("rarity." + name().toLowerCase()); }
-
 	@Override
 	public String toString() { return getTranslatedName().get(); }
+
+	public StringBinding getTranslatedName() { return I18n.tr("rarity." + name().toLowerCase()); }
 }

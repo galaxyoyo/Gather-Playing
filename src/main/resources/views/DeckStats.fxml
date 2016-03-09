@@ -3,7 +3,7 @@
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.*?>
-<ScrollPane xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.DeckStats">
+<ScrollPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/null" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.DeckStats">
     <GridPane>
         <PieChart fx:id="colors" legendVisible="false" maxWidth="1.7976931348623157E308" title="Couleurs (n'incluant pas les terrains)"/>
         <PieChart fx:id="types" maxWidth="1.7976931348623157E308" title="Types" GridPane.columnIndex="1"/>

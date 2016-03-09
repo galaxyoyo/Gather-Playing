@@ -11,7 +11,6 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.HBox;
 
 import java.util.List;
-import java.util.Set;
 
 public class PacketMixPlayDestroyed extends Packet
 {
@@ -38,47 +37,42 @@ public class PacketMixPlayDestroyed extends Packet
 			data.getHand().add(c);
 			if (Utils.getSide() == Side.CLIENT)
 				if (p == player)
-					Platform.runLater(() -> GameMenu.INSTANCE.hand.getChildren().add(new CardShower(c)));
+					Platform.runLater(() -> GameMenu.instance().hand.getChildren().add(new CardShower(c)));
 				else
-					Platform.runLater(() -> GameMenu.INSTANCE.adverseHand.getChildren().add(new CardShower(c)));
-		}
-		else if (dest == Destination.GRAVEYARD)
+					Platform.runLater(() -> GameMenu.instance().adverseHand.getChildren().add(new CardShower(c)));
+		} else if (dest == Destination.GRAVEYARD)
 		{
 			data.getGraveyard().add(c);
 			if (Utils.getSide() == Side.CLIENT)
 				if (p == player)
-					GameMenu.INSTANCE.playerInfos.graveyard(new PlayedCard(c));
+					GameMenu.instance().playerInfos.graveyard(new PlayedCard(c));
 				else
-					GameMenu.INSTANCE.adverseInfos.graveyard(new PlayedCard(c));
-		}
-		else if (dest == Destination.EXILE)
+					GameMenu.instance().adverseInfos.graveyard(new PlayedCard(c));
+		} else if (dest == Destination.EXILE)
 		{
 			data.getExile().add(c);
 			if (Utils.getSide() == Side.CLIENT)
 				if (p == player)
-					GameMenu.INSTANCE.playerInfos.exile(new PlayedCard(c));
+					GameMenu.instance().playerInfos.exile(new PlayedCard(c));
 				else
-					GameMenu.INSTANCE.adverseInfos.exile(new PlayedCard(c));
-		}
-		else if (dest == Destination.UP_LIBRARY)
+					GameMenu.instance().adverseInfos.exile(new PlayedCard(c));
+		} else if (dest == Destination.UP_LIBRARY)
 		{
 			if (Utils.getSide() == Side.SERVER)
 				data.getLibrary().addCardUp(c);
 			else if (p == player)
-				GameMenu.INSTANCE.playerInfos.addLibrary();
+				GameMenu.instance().playerInfos.addLibrary();
 			else
-				GameMenu.INSTANCE.adverseInfos.addLibrary();
-		}
-		else if (dest == Destination.DOWN_LIBRARY)
+				GameMenu.instance().adverseInfos.addLibrary();
+		} else if (dest == Destination.DOWN_LIBRARY)
 		{
 			if (Utils.getSide() == Side.SERVER)
 				data.getLibrary().addCard(c);
 			else if (p == player)
-				GameMenu.INSTANCE.playerInfos.addLibrary();
+				GameMenu.instance().playerInfos.addLibrary();
 			else
-				GameMenu.INSTANCE.adverseInfos.addLibrary();
-		}
-		else if (dest == Destination.BATTLEFIELD)
+				GameMenu.instance().adverseInfos.addLibrary();
+		} else if (dest == Destination.BATTLEFIELD)
 		{
 			PlayedCard card = new PlayedCard(c);
 			data.getPlayed().add(card);
@@ -86,59 +80,54 @@ public class PacketMixPlayDestroyed extends Packet
 			{
 				Platform.runLater(() -> {
 					CardShower shower = new CardShower(card);
-					if (card.type.is(CardType.LAND))
+					if (card.getType().is(CardType.LAND))
 					{
-						if (card.owner == Client.localPlayer)
-							GameMenu.INSTANCE.lands.getChildren().add(shower);
+						if (card.getOwner() == Client.localPlayer)
+							GameMenu.instance().lands.getChildren().add(shower);
 						else
-							GameMenu.INSTANCE.adverseLands.getChildren().add(shower);
-					}
-					else if ((card.type.is(CardType.ENCHANTMENT) && !card.subtypes.contains(SubType.valueOf("Aura"))) || card.type.is(CardType.ARTIFACT) ||
-							 card.type.is(CardType.PLANESWALKER))
+							GameMenu.instance().adverseLands.getChildren().add(shower);
+					} else if ((card.getType().is(CardType.ENCHANTMENT) && !card.getSubtypes().contains(SubType.valueOf("Aura"))) || card.getType().is(CardType.ARTIFACT) ||
+							card.getType().is(CardType.PLANESWALKER))
 					{
-						if (card.owner == Client.localPlayer)
-							GameMenu.INSTANCE.enchants.getChildren().add(shower);
+						if (card.getOwner() == Client.localPlayer)
+							GameMenu.instance().enchants.getChildren().add(shower);
 						else
-							GameMenu.INSTANCE.adverseEnchants.getChildren().add(shower);
-					}
-					else
+							GameMenu.instance().adverseEnchants.getChildren().add(shower);
+					} else
 					{
-						if (card.owner == Client.localPlayer)
-							GameMenu.INSTANCE.creatures.getChildren().add(shower);
+						if (card.getOwner() == Client.localPlayer)
+							GameMenu.instance().creatures.getChildren().add(shower);
 						else
-							GameMenu.INSTANCE.adverseCreatures.getChildren().add(shower);
+							GameMenu.instance().adverseCreatures.getChildren().add(shower);
 					}
 					HBox.setMargin(shower, new Insets(0.0D, 10.5D, 0.0D, 10.5D));
 				});
 			}
-		}
-		else if (dest == Destination.OTHER_BATTLEFIELD)
+		} else if (dest == Destination.OTHER_BATTLEFIELD)
 		{
 			PlayedCard card = new PlayedCard(c);
-			Set<Player> onlinePlayers = player.runningParty.getOnlinePlayers();
-			card.controller = StreamSupport.stream(onlinePlayers).filter(pl -> !pl.uuid.equals(p.uuid)).findAny().get();
+			java.util.Set<Player> onlinePlayers = player.runningParty.getOnlinePlayers();
+			card.setController(StreamSupport.stream(onlinePlayers).filter(pl -> !pl.uuid.equals(p.uuid)).findAny().get());
 			data.getPlayed().add(card);
-			if (card.type.is(CardType.LAND))
+			if (card.getType().is(CardType.LAND))
 			{
-				if (card.owner == Client.localPlayer)
-					Platform.runLater(() -> GameMenu.INSTANCE.lands.getChildren().add(new CardShower(card)));
+				if (card.getOwner() == Client.localPlayer)
+					Platform.runLater(() -> GameMenu.instance().lands.getChildren().add(new CardShower(card)));
 				else
-					Platform.runLater(() -> GameMenu.INSTANCE.adverseLands.getChildren().add(new CardShower(card)));
-			}
-			else if ((card.type.is(CardType.ENCHANTMENT) && !card.subtypes.contains(SubType.valueOf("Aura"))) || card.type.is(CardType.ARTIFACT) ||
-					 card.type.is(CardType.PLANESWALKER))
+					Platform.runLater(() -> GameMenu.instance().adverseLands.getChildren().add(new CardShower(card)));
+			} else if ((card.getType().is(CardType.ENCHANTMENT) && !card.getSubtypes().contains(SubType.valueOf("Aura"))) || card.getType().is(CardType.ARTIFACT) ||
+					card.getType().is(CardType.PLANESWALKER))
 			{
-				if (card.owner == Client.localPlayer)
-					Platform.runLater(() -> GameMenu.INSTANCE.enchants.getChildren().add(new CardShower(card)));
+				if (card.getOwner() == Client.localPlayer)
+					Platform.runLater(() -> GameMenu.instance().enchants.getChildren().add(new CardShower(card)));
 				else
-					Platform.runLater(() -> GameMenu.INSTANCE.adverseEnchants.getChildren().add(new CardShower(card)));
-			}
-			else
+					Platform.runLater(() -> GameMenu.instance().adverseEnchants.getChildren().add(new CardShower(card)));
+			} else
 			{
-				if (card.owner == Client.localPlayer)
-					Platform.runLater(() -> GameMenu.INSTANCE.creatures.getChildren().add(new CardShower(card)));
+				if (card.getOwner() == Client.localPlayer)
+					Platform.runLater(() -> GameMenu.instance().creatures.getChildren().add(new CardShower(card)));
 				else
-					Platform.runLater(() -> GameMenu.INSTANCE.adverseCreatures.getChildren().add(new CardShower(card)));
+					Platform.runLater(() -> GameMenu.instance().adverseCreatures.getChildren().add(new CardShower(card)));
 			}
 		}
 		if (Utils.getSide() == Side.SERVER)
@@ -149,26 +138,24 @@ public class PacketMixPlayDestroyed extends Packet
 			pkt.index = index;
 			pkt.p = p;
 			PacketManager.sendPacketToParty(player.runningParty, pkt);
-		}
-		else
+		} else
 		{
 			if (exiled)
 			{
 				List<OwnedCard> cards = data.getExile();
 				OwnedCard last = cards.isEmpty() ? null : cards.get(cards.size() - 1);
 				if (player == p)
-					GameMenu.INSTANCE.playerInfos.exile(last == null ? null : new PlayedCard(last));
+					GameMenu.instance().playerInfos.exile(last == null ? null : new PlayedCard(last));
 				else
-					GameMenu.INSTANCE.adverseInfos.exile(last == null ? null : new PlayedCard(last));
-			}
-			else
+					GameMenu.instance().adverseInfos.exile(last == null ? null : new PlayedCard(last));
+			} else
 			{
 				List<OwnedCard> cards = data.getGraveyard();
 				OwnedCard last = cards.isEmpty() ? null : cards.get(cards.size() - 1);
 				if (player == p)
-					GameMenu.INSTANCE.playerInfos.graveyard(last == null ? null : new PlayedCard(last));
+					GameMenu.instance().playerInfos.graveyard(last == null ? null : new PlayedCard(last));
 				else
-					GameMenu.INSTANCE.adverseInfos.graveyard(last == null ? null : new PlayedCard(last));
+					GameMenu.instance().adverseInfos.graveyard(last == null ? null : new PlayedCard(last));
 			}
 		}
 	}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="Gather Playing:android" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="" external.system.module.type="sourceSet" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+<module external.linked.project.id="Gather Playing:android" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="" external.system.module.type="sourceSet" external.system.module.version="1.0.0" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="android" name="Android">
       <configuration>
@@ -21,7 +21,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../src/android/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/../../src/android/gen" isTestSource="false" generated="true" />
     </content>
-    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Gather_Playing_main" />
     <orderEntry type="module-library">
@@ -35,11 +35,11 @@
     </orderEntry>
     <orderEntry type="library" name="Gradle: org.javafxports:jfxdvk:8.60.6" level="project" />
     <orderEntry type="library" name="Gradle: net.sourceforge.streamsupport:streamsupport:1.4.2" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.3.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.4" level="project" />
     <orderEntry type="library" name="Gradle: com.google.guava:guava:19.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.sqldroid:sqldroid:1.0.3" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:charm-android:2.0.0" level="project" />
     <orderEntry type="library" name="Gradle: commons-io:commons-io:2.4" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:charm-android:2.0.0" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.commons:commons-lang3:3.4" level="project" />
     <orderEntry type="library" name="Gradle: io.netty:netty-all:5.0.0.Alpha2" level="project" />
     <orderEntry type="library" name="Gradle: com.google.protobuf:protobuf-java:3.0.0-beta-2" level="project" />

@@ -19,6 +19,7 @@ public class CardSerializer implements JsonDeserializer<Card>
 
 	private CardSerializer() { }
 
+	@SuppressWarnings("WeakerAccess")
 	public static class DateSerializer implements JsonSerializer<Date>, JsonDeserializer<Date>
 	{
 		private DateSerializer() { }
@@ -67,6 +68,19 @@ public class CardSerializer implements JsonDeserializer<Card>
 		private OwnedCardSerializer() { }
 
 		@Override
+		public void write(JsonWriter w, OwnedCard card) throws IOException
+		{
+			w.beginObject();
+			w.name("muId");
+			w.value(card.getCard().getMuId().get("en"));
+			w.name("foiled");
+			w.value(card.isFoiled());
+			w.name("owner");
+			w.value(card.getOwner().uuid.toString());
+			w.endObject();
+		}
+
+		@Override
 		public OwnedCard read(JsonReader r) throws IOException
 		{
 			r.beginObject();
@@ -78,19 +92,6 @@ public class CardSerializer implements JsonDeserializer<Card>
 			Player player = Server.getPlayer(UUID.fromString(r.nextString()));
 			r.endObject();
 			return new OwnedCard(c, player, foiled);
-		}
-
-		@Override
-		public void write(JsonWriter w, OwnedCard card) throws IOException
-		{
-			w.beginObject();
-			w.name("muId");
-			w.value(card.getCard().muId.get("en"));
-			w.name("foiled");
-			w.value(card.isFoiled());
-			w.name("owner");
-			w.value(card.getOwner().uuid.toString());
-			w.endObject();
 		}
 	}
 

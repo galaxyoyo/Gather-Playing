@@ -5,10 +5,10 @@ import fr.galaxyoyo.gatherplaying.PlayedCard;
 public class MarkerLoyalty extends Marker
 {
 	@Override
-	public void onCardMarked(PlayedCard card) { card.loyalty.set(card.loyalty.get() + 1); }
+	public void onCardMarked(PlayedCard card) { card.setLoyalty(card.getLoyalty() + 1); }
 
 	@Override
-	public void onCardUnmarked(PlayedCard card) { card.loyalty.set(card.loyalty.get() - 1); }
+	public void onCardUnmarked(PlayedCard card) { card.setLoyalty(card.getLoyalty() - 1); }
 
 	@Override
 	public MarkerType getType() { return MarkerType.LOYALTY; }

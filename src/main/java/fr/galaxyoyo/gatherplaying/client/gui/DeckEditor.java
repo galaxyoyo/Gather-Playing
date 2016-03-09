@@ -36,9 +36,9 @@ import java.util.ResourceBundle;
 
 public class DeckEditor extends AbstractController implements Initializable
 {
-	public static DeckEditorFilter filters;
-	public static CardDetailsShower cardShower;
-	public static DeckShower deckShower;
+	private static DeckEditorFilter filters;
+	private static CardDetailsShower cardShower;
+	private static DeckShower deckShower;
 
 	@FXML
 	private TableView<Card> table;
@@ -53,6 +53,21 @@ public class DeckEditor extends AbstractController implements Initializable
 	@FXML
 	private Label cardsCount;
 
+	public static void setFilters(DeckEditorFilter filters)
+	{
+		DeckEditor.filters = filters;
+	}
+
+	public static void setCardShower(CardDetailsShower cardShower)
+	{
+		DeckEditor.cardShower = cardShower;
+	}
+
+	public static void setDeckShower(DeckShower deckShower)
+	{
+		DeckEditor.deckShower = deckShower;
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
@@ -65,54 +80,52 @@ public class DeckEditor extends AbstractController implements Initializable
 		{
 			ObservableList<Card> stackedCards = FXCollections.observableArrayList();
 			ObservableSet<String> added = FXCollections.observableSet();
-			StreamSupport.stream(allCards).filter(card -> !added.contains(card.name.get("en"))).forEach(card -> {
+			StreamSupport.stream(allCards).filter(card -> !added.contains(card.getName().get("en"))).forEach(card -> {
 				stackedCards.add(card);
-				added.add(card.name.get("en"));
+				added.add(card.getName().get("en"));
 			});
 			cards = new SortedList<>(stackedCards);
-		}
-		else
+		} else
 			cards = new SortedList<>(allCards);
 		FilteredList<Card> filtered = new FilteredList<>(cards, card -> {
-			if (card.layout == Layout.TOKEN)
+			if (card.getLayout() == Layout.TOKEN)
 				return false;
-			if ((card.layout == Layout.DOUBLE_FACED || card.layout == Layout.FLIP) && card.manaCost == null)
+			if ((card.getLayout() == Layout.DOUBLE_FACED || card.getLayout() == Layout.FLIP) && card.getManaCost() == null)
 				return false;
-			if (filters.rarity.getSelectionModel().isEmpty() || filters.color.getSelectionModel().isEmpty() || filters.cmc.getSelectionModel().isEmpty() ||
-				filters.type.getSelectionModel().isEmpty() || filters.subtypes.getSelectionModel().isEmpty() || filters.set.getSelectionModel().isEmpty())
+			if (filters.getRarity().getSelectionModel().isEmpty() || filters.getColor().getSelectionModel().isEmpty() || filters.getCmc().getSelectionModel().isEmpty() ||
+					filters.getType().getSelectionModel().isEmpty() || filters.getSubtypes().getSelectionModel().isEmpty() || filters.getSet().getSelectionModel().isEmpty())
 				return false;
-			if (!filters.name.getText().isEmpty() && !card.name.get("en").toLowerCase().contains(filters.name.getText().toLowerCase()) &&
-				!card.getTranslatedName().get().toLowerCase().contains(filters.name.getText().toLowerCase()))
+			if (!filters.getName().getText().isEmpty() && !card.getName().get("en").toLowerCase().contains(filters.getName().getText().toLowerCase()) &&
+					!card.getTranslatedName().get().toLowerCase().contains(filters.getName().getText().toLowerCase()))
 				return false;
-			if (!filters.ability.getText().isEmpty())
+			if (!filters.getAbility().getText().isEmpty())
 			{
-				if (card.ability.get("en") == null || card.ability.get("en").isEmpty())
+				if (card.getAbilityMap().get("en") == null || card.getAbilityMap().get("en").isEmpty())
 					return false;
-				if (!card.ability.get("en").contains(filters.ability.getText()) && !card.getAbility().contains(filters.ability.getText()))
+				if (!card.getAbilityMap().get("en").contains(filters.getAbility().getText()) && !card.getAbility().contains(filters.getAbility().getText()))
 					return false;
 			}
-			List<ManaColor> colors = filters.color.getSelectionModel().getSelectedItems();
-			if (RefStreams.of(card.colors).noneMatch(colors::contains))
+			List<ManaColor> colors = filters.getColor().getSelectionModel().getSelectedItems();
+			if (RefStreams.of(card.getColors()).noneMatch(colors::contains))
 				return false;
-			if (!filters.cmc.getSelectionModel().getSelectedItems().contains((int) card.cmc))
+			if (!filters.getCmc().getSelectionModel().getSelectedItems().contains((int) card.getCmc()))
 				return false;
-			if (!filters.rarity.getSelectionModel().getSelectedItems().contains(card.rarity))
+			if (!filters.getRarity().getSelectionModel().getSelectedItems().contains(card.getRarity()))
 				return false;
-			if (!filters.type.getSelectionModel().getSelectedItems().contains(card.type))
+			if (!filters.getType().getSelectionModel().getSelectedItems().contains(card.getType()))
 				return false;
-			List<SubType> subtypes = filters.subtypes.getSelectionModel().getSelectedItems();
-			if (card.subtypes.length == 0)
+			List<SubType> subtypes = filters.getSubtypes().getSelectionModel().getSelectedItems();
+			if (card.getSubtypes().length == 0)
 			{
 				if (subtypes.get(0) != null)
 					return false;
-			}
-			else if (RefStreams.of(card.subtypes).noneMatch(subtypes::contains))
+			} else if (RefStreams.of(card.getSubtypes()).noneMatch(subtypes::contains))
 				return false;
-			return filters.set.getSelectionModel().getSelectedItems().contains(card.set) && card.isLegal(filters.rules.getSelectionModel().getSelectedItem());
+			return filters.getSet().getSelectionModel().getSelectedItems().contains(card.getSet()) && card.isLegal(filters.getRules().getSelectionModel().getSelectedItem());
 		});
-		name_EN.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().name.get("en")));
+		name_EN.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getName().get("en")));
 		name_FR.setCellValueFactory(param -> param.getValue().getTranslatedName());
-		set.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().set));
+		set.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getSet()));
 		set.setCellFactory(param -> new TableCell<Card, Set>()
 		{
 			@Override
@@ -121,13 +134,13 @@ public class DeckEditor extends AbstractController implements Initializable
 				super.updateItem(item, empty);
 				setAlignment(Pos.CENTER);
 				if (item != null)
-					setText(item.code);
+					setText(item.getCode());
 				else
 					setText(null);
 			}
 		});
 		manaCost.setCellValueFactory(param -> new SimpleObjectProperty<>(
-				param.getValue().manaCost == null ? param.getValue().type.is(CardType.LAND) ? null : new ManaColor[] {ManaColor.NEUTRAL_0} : param.getValue().manaCost));
+				param.getValue().getManaCost() == null ? param.getValue().getType().is(CardType.LAND) ? null : new ManaColor[]{ManaColor.NEUTRAL_0} : param.getValue().getManaCost()));
 		manaCost.setCellFactory(param -> new TableCell<Card, ManaColor[]>()
 		{
 			@Override
@@ -194,25 +207,24 @@ public class DeckEditor extends AbstractController implements Initializable
 				SortedList<Card> s = new SortedList<>(filtered);
 				s.comparatorProperty().bind(table.comparatorProperty());
 				table.setItems(s);
-			}
-			catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored)
+			} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored)
 			{
 			}
 		});
 
 		table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> cardShower.updateCard(newValue)));
 
-		filters.name.textProperty().addListener(l);
-		filters.ability.textProperty().addListener(l);
-		filters.rarity.getSelectionModel().selectedItemProperty().addListener(l);
-		filters.color.getSelectionModel().selectedItemProperty().addListener(l);
-		filters.cmc.getSelectionModel().selectedItemProperty().addListener(l);
-		filters.type.getSelectionModel().selectedItemProperty().addListener(l);
-		filters.subtypes.getSelectionModel().selectedItemProperty().addListener(l);
-		filters.set.getSelectionModel().selectedItemProperty().addListener(l);
-		filters.rules.getSelectionModel().selectedItemProperty().addListener(l);
+		filters.getName().textProperty().addListener(l);
+		filters.getAbility().textProperty().addListener(l);
+		filters.getRarity().getSelectionModel().selectedItemProperty().addListener(l);
+		filters.getColor().getSelectionModel().selectedItemProperty().addListener(l);
+		filters.getCmc().getSelectionModel().selectedItemProperty().addListener(l);
+		filters.getType().getSelectionModel().selectedItemProperty().addListener(l);
+		filters.getSubtypes().getSelectionModel().selectedItemProperty().addListener(l);
+		filters.getSet().getSelectionModel().selectedItemProperty().addListener(l);
+		filters.getRules().getSelectionModel().selectedItemProperty().addListener(l);
 
-		DeckShower.table = table;
+		DeckShower.setTable(table);
 	}
 
 	@Override

@@ -47,7 +47,7 @@ public class HelpAndSettings extends AbstractController
 	{
 		if (!Config.getLocale().equals(locale.getValue()))
 			Utils.alert("Changement de langue", "Redémarrage nécessaire", "Un redémarrage de l'application est nécessaire pour l'actualisation de certains textes dans votre " +
-																		  "langue, comme les boutons des boîtes de dialogue");
+					"langue, comme les boutons des boîtes de dialogue");
 		Config.localeProperty().set(locale.getValue());
 		Config.stayLoggedProperty().set(stayLogged.isSelected());
 		Config.hqCardsProperty().set(hqCards.isSelected());

@@ -14,19 +14,18 @@ public enum CardType
 		try
 		{
 			return valueOf(name() + "_" + type.name());
-		}
-		catch (IllegalArgumentException ex)
+		} catch (IllegalArgumentException ex)
 		{
 			return valueOf(type.name() + "_" + name());
 		}
 	}
 
-	public boolean is(CardType type) { return this == type || name().contains(type.name()); }
-
 	public boolean isPermanent() { return !is(INSTANT) && !is(SORCERY); }
 
-	public StringBinding getTranslatedName() { return I18n.tr("type." + name().toLowerCase()); }
+	public boolean is(CardType type) { return this == type || name().contains(type.name()); }
 
 	@Override
 	public String toString() { return getTranslatedName().get(); }
+
+	public StringBinding getTranslatedName() { return I18n.tr("type." + name().toLowerCase()); }
 }

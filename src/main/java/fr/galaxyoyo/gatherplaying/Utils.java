@@ -41,7 +41,7 @@ public class Utils
 
 	public static String toSHA1(String str) { return toSHA1(str.getBytes(StandardCharsets.UTF_8)); }
 
-	public static String toSHA1(byte[] array)
+	private static String toSHA1(byte[] array)
 	{
 		try
 		{
@@ -49,15 +49,14 @@ public class Utils
 			digest.reset();
 			digest.update(array);
 			return toHexString(digest.digest());
-		}
-		catch (NoSuchAlgorithmException ex)
+		} catch (NoSuchAlgorithmException ex)
 		{
 			ex.printStackTrace();
 			return null;
 		}
 	}
 
-	public static String toHexString(byte[] array)
+	private static String toHexString(byte[] array)
 	{
 		Formatter formatter = new Formatter();
 		for (byte b : array)
@@ -79,16 +78,14 @@ public class Utils
 			try
 			{
 				f.get(1, TimeUnit.SECONDS);
-			//	f.awaitUninterruptibly();
-			}
-			catch (ExecutionException | TimeoutException | InterruptedException ex)
+				f.awaitUninterruptibly();
+			} catch (ExecutionException | TimeoutException | InterruptedException ex)
 			{
 				Platform.runLater(() -> alert("Problème de connexion", "Connexion au serveur impossible",
 						"Il semblerait qu'un problème de connexion ait lieu avec le serveur. Veuillez réessayer.\nSi le problème persiste, vérifiez votre connection et" +
-						" le twitter, et prévenez galaxyoyo en cas de problème", Alert.AlertType.ERROR).ifPresent(buttonType -> System.exit(-1)));
+								" le twitter, et prévenez galaxyoyo en cas de problème", Alert.AlertType.ERROR).ifPresent(buttonType -> System.exit(-1)));
 			}
-		}
-		else
+		} else
 		{
 			EventLoopGroup boss = new NioEventLoopGroup(1);
 			EventLoopGroup worker = new NioEventLoopGroup(1);
@@ -109,8 +106,7 @@ public class Utils
 						try
 						{
 							sleep(Long.MAX_VALUE);
-						}
-						catch (InterruptedException ex)
+						} catch (InterruptedException ex)
 						{
 							ex.printStackTrace();
 						}
@@ -119,6 +115,8 @@ public class Utils
 			}.start();
 		}
 	}
+
+	public static Side getSide() { return side; }
 
 	public static Optional<ButtonType> alert(String title, String header, String content, Alert.AlertType type)
 	{
@@ -132,8 +130,7 @@ public class Utils
 					alert.setHeaderText(header);
 					alert.setContentText(content);
 					alert.showAndWait();
-				}
-				else
+				} else
 				{
 					com.gluonhq.charm.glisten.control.Alert alert = new com.gluonhq.charm.glisten.control.Alert(Alert.AlertType.CONFIRMATION);
 					alert.setTitleText(header);
@@ -150,8 +147,7 @@ public class Utils
 			alert.setHeaderText(header);
 			alert.setContentText(content);
 			return alert.showAndWait();
-		}
-		else
+		} else
 		{
 			com.gluonhq.charm.glisten.control.Alert alert = new com.gluonhq.charm.glisten.control.Alert(Alert.AlertType.CONFIRMATION);
 			alert.setTitleText(header);
@@ -161,9 +157,24 @@ public class Utils
 
 	}
 
+	public static boolean isDesktop()
+	{
+		return platform.getName().equals(PlatformFactory.DESKTOP);
+	}
+
 	public static void alert(String title, String header, String content)
 	{
 		alert(title, header, content, Alert.AlertType.INFORMATION);
+	}
+
+	public static void setup(String... args) throws FileNotFoundException
+	{
+		System.setErr(new PrintStream(new TeeOutputStream(System.err, new FileOutputStream(newFile("err.log"), true))));
+		String joinedArgs = Joiner.on(' ').join(args);
+		if (joinedArgs.contains("--server"))
+			side = Side.SERVER;
+		if (joinedArgs.contains("--debug"))
+			DEBUG = true;
 	}
 
 	public static File newFile(String path)
@@ -181,25 +192,6 @@ public class Utils
 			default:
 				throw new RuntimeException("OS not recognized: " + PlatformFactory.getPlatform().getName());
 		}
-	}
-
-	public static void setup(String... args) throws FileNotFoundException
-	{
-		System.setErr(new PrintStream(new TeeOutputStream(System.err, new FileOutputStream(newFile("err.log"), true))));
-		String joinedArgs = Joiner.on(' ').join(args);
-		if (joinedArgs.contains("--server"))
-			side = Side.SERVER;
-		if (joinedArgs.contains("--debug"))
-			DEBUG = true;
-	}
-
-
-
-	public static Side getSide() { return side; }
-
-	public static boolean isDesktop()
-	{
-		return platform.getName().equals(PlatformFactory.DESKTOP);
 	}
 
 	public static com.gluonhq.charm.down.common.Platform getPlatform()

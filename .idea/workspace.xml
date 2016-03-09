@@ -4,9 +4,126 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e4eb0353-dcf5-467d-9986-be50b14b9a23" name="Default" comment="">
+    <list default="true" id="e4eb0353-dcf5-467d-9986-be50b14b9a23" name="Default" comment="Reorganized fields and methods visibility">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_code_gson_gson_2_3_1.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/Gather Playing.iml" afterPath="$PROJECT_DIR$/.idea/modules/Gather Playing.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/Gather_Playing_android.iml" afterPath="$PROJECT_DIR$/.idea/modules/Gather_Playing_android.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/Gather_Playing_desktop.iml" afterPath="$PROJECT_DIR$/.idea/modules/Gather_Playing_desktop.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/Gather_Playing_embedded.iml" afterPath="$PROJECT_DIR$/.idea/modules/Gather_Playing_embedded.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/Gather_Playing_ios.iml" afterPath="$PROJECT_DIR$/.idea/modules/Gather_Playing_ios.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/Gather_Playing_main.iml" afterPath="$PROJECT_DIR$/.idea/modules/Gather_Playing_main.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/Gather_Playing_test.iml" afterPath="$PROJECT_DIR$/.idea/modules/Gather_Playing_test.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/AndroidManifest.xml" afterPath="$PROJECT_DIR$/src/android/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/resources/views/Loading.fxml" afterPath="$PROJECT_DIR$/src/android/resources/views/Loading.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/desktop/resources/views/Loading.fxml" afterPath="$PROJECT_DIR$/src/desktop/resources/views/Loading.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Card.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Card.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/CardAdapter.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/CardAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/CardSerializer.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/CardSerializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/CardType.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/CardType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Deck.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Deck.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/DefaultTreeMap.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/DefaultTreeMap.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Library.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Library.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Main.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/ManaColor.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/ManaColor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/MySQL.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/MySQL.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/OwnedCard.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/OwnedCard.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Party.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Party.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/PlayedCard.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/PlayedCard.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/PreconstructedDeck.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/PreconstructedDeck.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Rarity.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Rarity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Rules.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Rules.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Set.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Set.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/SpellTimer.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/SpellTimer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/SubType.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/SubType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Token.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Token.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Utils.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Utils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/capacity/Capacity.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/capacity/Capacity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/capacity/Changeling.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/capacity/Changeling.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/capacity/Haste.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/capacity/Haste.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/Client.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/Client.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/Config.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/Config.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/I18n.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/I18n.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/Arrow.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/Arrow.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/CardDetailsShower.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/CardDetailsShower.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/CardImageManager.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/CardImageManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/CardShower.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/CardShower.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DeckEditor.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DeckEditor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DeckEditorFilter.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DeckEditorFilter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DeckShower.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DeckShower.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DeckStats.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DeckStats.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DestroyedCardShower.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DestroyedCardShower.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/FoundCardShower.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/FoundCardShower.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/FreeModeMenu.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/FreeModeMenu.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/GameMenu.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/GameMenu.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/HelpAndSettings.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/HelpAndSettings.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/Loading.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/Loading.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/LoginDialog.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/LoginDialog.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/MainMenu.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/MainMenu.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/PartyCreater.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/PartyCreater.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/PlayerInfos.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/PlayerInfos.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/SelectPartyMenu.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/SelectPartyMenu.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/markers/Marker.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/markers/Marker.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/markers/MarkerLoyalty.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/markers/MarkerLoyalty.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/markers/MarkerMinus1Minus1.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/markers/MarkerMinus1Minus1.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/markers/MarkerPlus1Plus1.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/markers/MarkerPlus1Plus1.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/markers/MarkerType.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/markers/MarkerType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/ClientChannelHandler.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/ClientChannelHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/ServerChannelHandler.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/ServerChannelHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/Packet.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/Packet.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketDecoder.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketDecoder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketEncoder.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketEncoder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketInConnect.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketInConnect.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketInSelectDeck.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketInSelectDeck.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketManager.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixAddMarker.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixAddMarker.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixChat.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixChat.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixDeck.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixDeck.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixDestroyCard.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixDestroyCard.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixDrawCard.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixDrawCard.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixDrawLine.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixDrawLine.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixEditLife.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixEditLife.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixFindCard.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixFindCard.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixGainControl.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixGainControl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixInvokeToken.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixInvokeToken.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixMoveCard.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixMoveCard.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixPlayCard.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixPlayCard.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixPlayDestroyed.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixPlayDestroyed.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixPlayFounded.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixPlayFounded.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixRemoveMarker.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixRemoveMarker.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixReturnCard.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixReturnCard.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixScry.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixScry.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixSetCardSubtypes.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixSetCardSubtypes.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixSetCardType.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixSetCardType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixSetLife.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixSetLife.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixSetPhase.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixSetPhase.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixTapCard.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixTapCard.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixUpdatePartyInfos.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixUpdatePartyInfos.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketOutCosts.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketOutCosts.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketOutPartyStart.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketOutPartyStart.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/server/Server.java" afterPath="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/server/Server.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/preconstructeds/Rallying Cry.json" afterPath="$PROJECT_DIR$/src/main/resources/preconstructeds/Rallying Cry.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/preconstructeds/preconstructeds.json" afterPath="$PROJECT_DIR$/src/main/resources/preconstructeds/preconstructeds.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/translations/en.properties" afterPath="$PROJECT_DIR$/src/main/resources/translations/en.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/translations/fr.properties" afterPath="$PROJECT_DIR$/src/main/resources/translations/fr.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/views/CardDetailsShower.fxml" afterPath="$PROJECT_DIR$/src/main/resources/views/CardDetailsShower.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/views/DeckEditor.fxml" afterPath="$PROJECT_DIR$/src/main/resources/views/DeckEditor.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/views/DeckEditorFilter.fxml" afterPath="$PROJECT_DIR$/src/main/resources/views/DeckEditorFilter.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/views/DeckShower.fxml" afterPath="$PROJECT_DIR$/src/main/resources/views/DeckShower.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/views/DeckStats.fxml" afterPath="$PROJECT_DIR$/src/main/resources/views/DeckStats.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/views/FreeModeMenu.fxml" afterPath="$PROJECT_DIR$/src/main/resources/views/FreeModeMenu.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/views/GameMenu.fxml" afterPath="$PROJECT_DIR$/src/main/resources/views/GameMenu.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/views/HelpAndSettings.fxml" afterPath="$PROJECT_DIR$/src/main/resources/views/HelpAndSettings.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/views/LoginDialog.fxml" afterPath="$PROJECT_DIR$/src/main/resources/views/LoginDialog.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/views/MainMenu.fxml" afterPath="$PROJECT_DIR$/src/main/resources/views/MainMenu.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/views/PartyCreater.fxml" afterPath="$PROJECT_DIR$/src/main/resources/views/PartyCreater.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/views/PlayerInfos.fxml" afterPath="$PROJECT_DIR$/src/main/resources/views/PlayerInfos.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/views/SelectPartyMenu.fxml" afterPath="$PROJECT_DIR$/src/main/resources/views/SelectPartyMenu.fxml" />
     </list>
     <manually-removed-from-ignored>
       <directory path="$PROJECT_DIR$/build/" />
@@ -61,8 +178,8 @@
                 <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
               </PATH_ELEMENT>
               <PATH_ELEMENT>
-                <option name="myItemId" value="Dependencies" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+                <option name="myItemId" value="Tasks" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode" />
               </PATH_ELEMENT>
             </PATH>
             <PATH>
@@ -78,6 +195,20 @@
                 <option name="myItemId" value="Tasks" />
                 <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode" />
               </PATH_ELEMENT>
+              <PATH_ELEMENT>
+                <option name="myItemId" value="build" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode$1" />
+              </PATH_ELEMENT>
+            </PATH>
+            <PATH>
+              <PATH_ELEMENT>
+                <option name="myItemId" value="" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
+              </PATH_ELEMENT>
+              <PATH_ELEMENT>
+                <option name="myItemId" value="Gather Playing" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
+              </PATH_ELEMENT>
             </PATH>
           </tree_state>
         </projects_view>
@@ -89,98 +220,132 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2499">
-              <caret line="164" column="9" selection-start-line="164" selection-start-column="9" selection-end-line="164" selection-end-column="9" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Client.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="714">
-              <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#2929#2930#0" expanded="false" />
-                <element signature="e#2948#2949#0" expanded="false" />
-                <element signature="e#4091#4092#0" expanded="false" />
-                <element signature="e#4147#4148#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainMenu.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/MainMenu.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="39" column="65" selection-start-line="39" selection-start-column="65" selection-end-line="39" selection-end-column="65" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DeckShower.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DeckShower.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4981">
-              <caret line="339" column="5" selection-start-line="339" selection-start-column="5" selection-end-line="339" selection-end-column="5" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SelectPartyMenu.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/SelectPartyMenu.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="101" column="63" selection-start-line="101" selection-start-column="63" selection-end-line="101" selection-end-column="63" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FreeModeMenu.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/FreeModeMenu.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Card.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Card.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="34" column="21" selection-start-line="34" selection-start-column="21" selection-end-line="34" selection-end-column="21" />
+            <state relative-caret-position="323">
+              <caret line="58" column="75" selection-start-line="58" selection-start-column="75" selection-end-line="58" selection-end-column="75" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PacketMixPlayCard.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixPlayCard.java">
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/android/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="148">
-              <caret line="37" column="37" selection-start-line="37" selection-start-column="37" selection-end-line="37" selection-end-column="37" />
+            <state relative-caret-position="102">
+              <caret line="6" column="35" selection-start-line="6" selection-start-column="35" selection-end-line="6" selection-end-column="35" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SpellTimer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/SpellTimer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="128">
+              <caret line="53" column="4" selection-start-line="53" selection-start-column="4" selection-end-line="53" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SubType.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/SubType.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="128">
+              <caret line="54" column="4" selection-start-line="54" selection-start-column="4" selection-end-line="54" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PacketManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="128">
+              <caret line="50" column="4" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Arrow.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/Arrow.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-85">
+              <caret line="78" column="11" selection-start-line="78" selection-start-column="11" selection-end-line="78" selection-end-column="11" />
+              <folding>
+                <element signature="e#2462#2463#0" expanded="true" />
+                <element signature="e#2478#2479#0" expanded="true" />
+                <element signature="e#2519#2520#0" expanded="true" />
+                <element signature="e#2535#2536#0" expanded="true" />
+                <element signature="e#2576#2577#0" expanded="true" />
+                <element signature="e#2592#2593#0" expanded="true" />
+                <element signature="e#2633#2634#0" expanded="true" />
+                <element signature="e#2649#2650#0" expanded="true" />
+                <element signature="e#2677#2678#0" expanded="true" />
+                <element signature="e#2699#2700#0" expanded="true" />
+                <element signature="e#2727#2728#0" expanded="true" />
+                <element signature="e#2749#2750#0" expanded="true" />
+                <element signature="e#2783#2784#0" expanded="true" />
+                <element signature="e#2805#2806#0" expanded="true" />
+                <element signature="e#2839#2840#0" expanded="true" />
+                <element signature="e#2861#2862#0" expanded="true" />
+                <element signature="e#2888#2889#0" expanded="true" />
+                <element signature="e#2910#2911#0" expanded="true" />
+                <element signature="e#2944#2945#0" expanded="true" />
+                <element signature="e#2966#2967#0" expanded="true" />
+                <element signature="e#2993#2994#0" expanded="true" />
+                <element signature="e#3015#3016#0" expanded="true" />
+                <element signature="e#3049#3050#0" expanded="true" />
+                <element signature="e#3071#3072#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Party.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Party.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="128">
+              <caret line="146" column="0" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DeckEditorFilter.fxml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/views/DeckEditorFilter.fxml">
+          <provider editor-type-id="JavaFX-Scene-Builder">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Capacity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/capacity/Capacity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="111">
+              <caret line="21" column="82" selection-start-line="21" selection-start-column="82" selection-end-line="21" selection-end-column="82" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CardSerializer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/CardSerializer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="230">
+              <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+              <folding>
+                <element signature="e#738#771#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -196,6 +361,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="galaxyoyo" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GradleLocalSettings">
@@ -601,7 +771,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="1456143886021" />
+        <entry key="$PROJECT_DIR$" value="1457217408012" />
         <entry key="$PROJECT_DIR$/../Gather Playing - Temp" value="1455474711102" />
       </map>
     </option>
@@ -720,57 +890,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Party.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixAddMarker.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixDestroyCard.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DeckEditor.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/views/HelpAndSettings.fxml" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/Config.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/HelpAndSettings.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/views/CardDetailsShower.fxml" />
-        <option value="$PROJECT_DIR$/src/main/resources/views/LoginDialog.fxml" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/LoginDialog.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/GameMenu.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/views/DeckShower.fxml" />
-        <option value="$PROJECT_DIR$/src/main/resources/README" />
-        <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/b1b6ea3b7e4aa4f492509a4952029cd8e48019ad/commons-io-2.4.jar!/META-INF/LICENSE.txt" />
-        <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/b1b6ea3b7e4aa4f492509a4952029cd8e48019ad/commons-io-2.4.jar!/META-INF/NOTICE.txt" />
-        <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.4/5fe28b9518e58819180a43a850fbc0dd24b7c050/commons-lang3-3.4.jar!/META-INF/NOTICE.txt" />
-        <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.4/5fe28b9518e58819180a43a850fbc0dd24b7c050/commons-lang3-3.4.jar!/META-INF/LICENSE.txt" />
-        <option value="$PROJECT_DIR$/src/main/resources/COPYING" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/CardDetailsShower.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Main.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/ManaColor.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/translations/en.properties" />
-        <option value="$PROJECT_DIR$/src/main/resources/translations/fr.properties" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/CardAdapter.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Set.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Rules.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Deck.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/FoundCardShower.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/PlayedCard.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/CardImageManager.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixPlayCard.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixReturnCard.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Token.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixMoveCard.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/MySQL.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/views/GameMenu.fxml" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixUpdatePartyInfos.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/CardShower.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/views/DeckStats.fxml" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DeckStats.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixPlayFounded.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DestroyedCardShower.java" />
-        <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/.idea/workspace.xml" />
-        <option value="$PROJECT_DIR$/src/main/resources/views/MainMenu.fxml" />
-        <option value="$PROJECT_DIR$/src/main/resources/views/FreeModeMenu.fxml" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/MainMenu.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DeckShower.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixPlayDestroyed.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixScry.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixUpdatePartyInfos.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/PartyCreater.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/LoginDialog.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/Packet.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Set.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Deck.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixDeck.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/MySQL.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/PreconstructedDeck.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/PlayedCard.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixSetLife.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/markers/MarkerMinus1Minus1.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/CardShower.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/markers/MarkerLoyalty.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/GameMenu.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/SelectPartyMenu.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Card.java" />
-        <option value="$PROJECT_DIR$/build.gradle" />
-        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DeckShower.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DeckEditorFilter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DeckEditor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/CardDetailsShower.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/views/CardDetailsShower.fxml" />
+        <option value="$PROJECT_DIR$/src/main/resources/views/DeckEditor.fxml" />
+        <option value="$PROJECT_DIR$/src/main/resources/views/DeckShower.fxml" />
+        <option value="$PROJECT_DIR$/src/main/resources/views/DeckStats.fxml" />
+        <option value="$PROJECT_DIR$/src/main/resources/views/FreeModeMenu.fxml" />
+        <option value="$PROJECT_DIR$/src/main/resources/views/GameMenu.fxml" />
+        <option value="$PROJECT_DIR$/src/main/resources/views/HelpAndSettings.fxml" />
+        <option value="$PROJECT_DIR$/src/main/resources/views/LoginDialog.fxml" />
+        <option value="$PROJECT_DIR$/src/main/resources/views/MainMenu.fxml" />
+        <option value="$PROJECT_DIR$/src/main/resources/views/PartyCreater.fxml" />
+        <option value="$PROJECT_DIR$/src/main/resources/views/PlayerInfos.fxml" />
+        <option value="$PROJECT_DIR$/src/main/resources/views/SelectPartyMenu.fxml" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Token.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Utils.java" />
+        <option value="$PROJECT_DIR$/src/android/resources/views/Loading.fxml" />
+        <option value="$PROJECT_DIR$/src/desktop/resources/views/Loading.fxml" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Main.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/Client.java" />
+        <option value="$PROJECT_DIR$/src/android/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/main/resources/views/DeckEditorFilter.fxml" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/capacity/Capacity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/CardSerializer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/SpellTimer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/SubType.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/Arrow.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Party.java" />
       </list>
     </option>
   </component>
@@ -805,6 +975,9 @@
           </State>
           <State>
             <id>Code style issuesJava</id>
+          </State>
+          <State>
+            <id>Declaration redundancyJava</id>
           </State>
           <State>
             <id>General</id>
@@ -849,6 +1022,9 @@
             <id>Performance issuesJava</id>
           </State>
           <State>
+            <id>Probable bugsJava</id>
+          </State>
+          <State>
             <id>Properties Files</id>
           </State>
           <State>
@@ -860,7 +1036,7 @@
         </expanded-state>
         <selected-state>
           <State>
-            <id>Android</id>
+            <id>WeakerAccess</id>
           </State>
         </selected-state>
       </profile-state>
@@ -891,98 +1067,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gather Playing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gather Playing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gather Playing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gather Playing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gather Playing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gather Playing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gather Playing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="org.jetbrains.plugins.gradle.projectView.GradleTreeStructureProvider$GradleSourceSetDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gather Playing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gather Playing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="org.jetbrains.plugins.gradle.projectView.GradleTreeStructureProvider$GradleSourceSetDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gatherplaying" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gather Playing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gather Playing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value=".idea" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="Scope">
         <subPane subId="Project Files">
           <PATH>
@@ -993,15 +1077,18 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane />
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Java" />
+    <property name="settings.editor.selected.configurable" value="gradle.experimental" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="findjar.last.used.dir" value="$PROJECT_DIR$" />
@@ -1030,7 +1117,7 @@
       <recent name="fr.galaxyoyo.gatherplaying" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Gather Playing [jar]">
+  <component name="RunManager" selected="Gradle.Gather Playing - Client">
     <configuration default="false" name="Gather Playing [ios]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -1097,6 +1184,24 @@
         <option name="taskNames">
           <list>
             <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <method />
+    </configuration>
+    <configuration default="false" name="Gather Playing [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -1482,24 +1587,26 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method />
     </configuration>
-    <list size="10">
+    <list size="11">
       <item index="0" class="java.lang.String" itemvalue="Gradle.Gather Playing - Server" />
       <item index="1" class="java.lang.String" itemvalue="Gradle.Gather Playing - Client" />
       <item index="2" class="java.lang.String" itemvalue="Gradle.Gather Playing - Client 2" />
       <item index="3" class="java.lang.String" itemvalue="Gradle.Android" />
       <item index="4" class="java.lang.String" itemvalue="Gradle.Gather Playing [androidInstall]" />
-      <item index="5" class="java.lang.String" itemvalue="Gradle.Gather Playing [ios]" />
-      <item index="6" class="java.lang.String" itemvalue="Gradle.Gather Playing [launchIPhoneSimulator]" />
-      <item index="7" class="java.lang.String" itemvalue="Gradle.Gather Playing [jar]" />
-      <item index="8" class="java.lang.String" itemvalue="Gradle.Gather Playing [clean]" />
-      <item index="9" class="java.lang.String" itemvalue="Android Application.Gather_Playing_android" />
+      <item index="5" class="java.lang.String" itemvalue="Android Application.Gather_Playing_android" />
+      <item index="6" class="java.lang.String" itemvalue="Gradle.Gather Playing [ios]" />
+      <item index="7" class="java.lang.String" itemvalue="Gradle.Gather Playing [launchIPhoneSimulator]" />
+      <item index="8" class="java.lang.String" itemvalue="Gradle.Gather Playing [jar]" />
+      <item index="9" class="java.lang.String" itemvalue="Gradle.Gather Playing [clean]" />
+      <item index="10" class="java.lang.String" itemvalue="Gradle.Gather Playing [build]" />
     </list>
     <recent_temporary>
-      <list size="4">
-        <item index="0" class="java.lang.String" itemvalue="Gradle.Gather Playing [jar]" />
-        <item index="1" class="java.lang.String" itemvalue="Gradle.Gather Playing [clean]" />
-        <item index="2" class="java.lang.String" itemvalue="Gradle.Gather Playing [launchIPhoneSimulator]" />
-        <item index="3" class="java.lang.String" itemvalue="Gradle.Gather Playing [ios]" />
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="Gradle.Gather Playing [build]" />
+        <item index="1" class="java.lang.String" itemvalue="Gradle.Gather Playing [jar]" />
+        <item index="2" class="java.lang.String" itemvalue="Gradle.Gather Playing [clean]" />
+        <item index="3" class="java.lang.String" itemvalue="Gradle.Gather Playing [launchIPhoneSimulator]" />
+        <item index="4" class="java.lang.String" itemvalue="Gradle.Gather Playing [ios]" />
       </list>
     </recent_temporary>
   </component>
@@ -1529,37 +1636,38 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32405892" sideWeight="0.48535872" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21406959" sideWeight="0.5057283" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32492113" sideWeight="0.5146413" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2555205" sideWeight="0.47881997" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25531915" sideWeight="0.47881997" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.4969743" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21449487" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" x="501" y="16" width="364" height="673" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21255673" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21406959" sideWeight="0.4942717" order="0" side_tool="false" content_ui="combo" x="501" y="16" width="364" height="673" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32569557" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21255673" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24962178" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24962178" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39934534" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Dependency Viewer" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32492113" sideWeight="0.48535872" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39934534" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39905363" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Floobits" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3207856" sideWeight="0.49394855" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1576,7 +1684,11 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="Reorganized fields visibility" />
+    <MESSAGE value="Reorganized fields and methods visibility" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reorganized fields and methods visibility" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1589,430 +1701,616 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/ManaColor.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/preconstructeds/Rallying Cry.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="11" column="40" selection-start-line="11" selection-start-column="40" selection-end-line="11" selection-end-column="40" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/CardAdapter.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/PlayerData.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="304" column="71" selection-start-line="304" selection-start-column="71" selection-end-line="304" selection-end-column="71" />
+        <state relative-caret-position="-136">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/CardDetailsShower.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/PreconstructedDeck.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="112" column="34" selection-start-line="112" selection-start-column="34" selection-end-line="112" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Set.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="46" column="9" selection-start-line="46" selection-start-column="9" selection-end-line="46" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Rules.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="270" column="47" selection-start-line="270" selection-start-column="47" selection-end-line="270" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Deck.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="32" column="51" selection-start-line="32" selection-start-column="51" selection-end-line="32" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sourceforge.streamsupport/streamsupport/1.4.2/9985c7deddfde0532323d47f488e62ca94cd843c/streamsupport-1.4.2-sources.jar!/java8/util/function/Predicate.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="45" column="12" selection-start-line="45" selection-start-column="12" selection-end-line="45" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/FoundCardShower.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="20" column="89" selection-start-line="20" selection-start-column="89" selection-end-line="20" selection-end-column="89" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixReturnCard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+        <state relative-caret-position="852">
+          <caret line="65" column="16" selection-start-line="65" selection-start-column="16" selection-end-line="65" selection-end-column="16" />
+          <folding>
+            <element signature="e#1867#1868#0" expanded="false" />
+            <element signature="e#1889#1890#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/PlayedCard.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="48" column="9" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/CardImageManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="34" column="43" selection-start-line="34" selection-start-column="43" selection-end-line="34" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/Arrow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="43" column="32" selection-start-line="43" selection-start-column="32" selection-end-line="43" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/GameMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="116" column="24" selection-start-line="116" selection-start-column="16" selection-end-line="116" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Token.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="633" column="6" selection-start-line="633" selection-start-column="6" selection-end-line="633" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixMoveCard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="32" column="107" selection-start-line="32" selection-start-column="107" selection-end-line="32" selection-end-column="107" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_76/javafx-src.zip!/javafx/collections/ListChangeListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="295" column="0" selection-start-line="295" selection-start-column="0" selection-end-line="295" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_76/javafx-src.zip!/javafx/event/EventHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="44" column="9" selection-start-line="44" selection-start-column="9" selection-end-line="44" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/MySQL.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10557">
-          <caret line="645" column="105" selection-start-line="645" selection-start-column="105" selection-end-line="645" selection-end-column="105" />
+        <state relative-caret-position="1515">
+          <caret line="184" column="5" selection-start-line="184" selection-start-column="5" selection-end-line="184" selection-end-column="5" />
           <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#33233#33234#0" expanded="false" />
-            <element signature="e#33253#33254#0" expanded="false" />
-            <element signature="e#33284#33285#0" expanded="false" />
-            <element signature="e#33304#33305#0" expanded="false" />
-            <element signature="e#33341#33342#0" expanded="false" />
-            <element signature="e#33367#33368#0" expanded="false" />
-            <element signature="e#33420#33421#0" expanded="false" />
-            <element signature="e#33457#33458#0" expanded="false" />
-            <element signature="e#33492#33493#0" expanded="false" />
-            <element signature="e#33516#33517#0" expanded="false" />
-            <element signature="e#33565#33566#0" expanded="false" />
-            <element signature="e#33598#33599#0" expanded="false" />
-            <element signature="e#33648#33649#0" expanded="false" />
-            <element signature="e#33681#33682#0" expanded="false" />
-            <element signature="e#33943#33944#0" expanded="false" />
-            <element signature="e#33972#33973#0" expanded="false" />
-            <element signature="e#34061#34062#0" expanded="false" />
-            <element signature="e#34104#34105#0" expanded="false" />
+            <element signature="e#5473#5474#0" expanded="true" />
+            <element signature="e#5498#5499#0" expanded="true" />
+            <element signature="e#5607#5608#0" expanded="true" />
+            <element signature="e#5626#5627#0" expanded="true" />
+            <element signature="e#5535#5536#0" expanded="true" />
+            <element signature="e#5563#5564#0" expanded="true" />
+            <element signature="e#5657#5658#0" expanded="true" />
+            <element signature="e#5686#5687#0" expanded="true" />
+            <element signature="e#5815#5816#0" expanded="true" />
+            <element signature="e#5838#5839#0" expanded="true" />
+            <element signature="e#5731#5732#0" expanded="true" />
+            <element signature="e#5767#5768#0" expanded="true" />
+            <element signature="e#5867#5868#0" expanded="true" />
+            <element signature="e#5894#5895#0" expanded="true" />
+            <element signature="e#6013#6014#0" expanded="true" />
+            <element signature="e#6034#6035#0" expanded="true" />
+            <element signature="e#5935#5936#0" expanded="true" />
+            <element signature="e#5967#5968#0" expanded="true" />
+            <element signature="e#6084#6085#0" expanded="true" />
+            <element signature="e#6102#6103#0" expanded="true" />
+            <element signature="e#6132#6133#0" expanded="true" />
+            <element signature="e#6151#6152#0" expanded="true" />
+            <element signature="e#6182#6183#0" expanded="true" />
+            <element signature="e#6202#6203#0" expanded="true" />
+            <element signature="e#6255#6256#0" expanded="true" />
+            <element signature="e#6279#6280#0" expanded="true" />
+            <element signature="e#6314#6315#0" expanded="true" />
+            <element signature="e#6338#6339#0" expanded="true" />
+            <element signature="e#6388#6389#0" expanded="true" />
+            <element signature="e#6423#6424#0" expanded="true" />
+            <element signature="e#6454#6455#0" expanded="true" />
+            <element signature="e#6472#6473#0" expanded="true" />
+            <element signature="e#6512#6513#0" expanded="true" />
+            <element signature="e#6535#6536#0" expanded="true" />
+            <element signature="e#6578#6579#0" expanded="true" />
+            <element signature="e#6600#6601#0" expanded="true" />
+            <element signature="e#6656#6657#0" expanded="true" />
+            <element signature="e#6687#6688#0" expanded="true" />
+            <element signature="e#6729#6730#0" expanded="true" />
+            <element signature="e#6760#6761#0" expanded="true" />
+            <element signature="e#6825#6826#0" expanded="true" />
+            <element signature="e#6874#6875#0" expanded="true" />
+            <element signature="e#6912#6913#0" expanded="true" />
+            <element signature="e#6933#6934#0" expanded="true" />
+            <element signature="e#6983#6984#0" expanded="true" />
+            <element signature="e#7012#7013#0" expanded="true" />
+            <element signature="e#7072#7073#0" expanded="true" />
+            <element signature="e#7101#7102#0" expanded="true" />
+            <element signature="e#7181#7182#0" expanded="true" />
+            <element signature="e#7226#7227#0" expanded="true" />
+            <element signature="e#7269#7270#0" expanded="true" />
+            <element signature="e#7297#7298#0" expanded="true" />
+            <element signature="e#7359#7360#0" expanded="true" />
+            <element signature="e#7402#7403#0" expanded="true" />
+            <element signature="e#7436#7437#0" expanded="true" />
+            <element signature="e#7461#7462#0" expanded="true" />
+            <element signature="e#7511#7512#0" expanded="true" />
+            <element signature="e#7548#7549#0" expanded="true" />
+            <element signature="e#7578#7579#0" expanded="true" />
+            <element signature="e#7597#7598#0" expanded="true" />
+            <element signature="e#7638#7639#0" expanded="true" />
+            <element signature="e#7663#7664#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_76/javafx-src.zip!/javafx/scene/Parent.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixSetLife.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="451" column="41" selection-start-line="451" selection-start-column="41" selection-end-line="451" selection-end-column="41" />
+        <state relative-caret-position="226">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="25" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_76/javafx-src.zip!/com/sun/javafx/collections/VetoableListDecorator.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/markers/MarkerMinus1Minus1.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="205" column="0" selection-start-line="205" selection-start-column="0" selection-end-line="205" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/Packet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixUpdatePartyInfos.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="34" selection-start-line="2" selection-start-column="33" selection-end-line="2" selection-end-column="34" />
+        <state relative-caret-position="221">
+          <caret line="13" column="27" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="37" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/CardShower.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="901">
-          <caret line="78" column="41" selection-start-line="78" selection-start-column="41" selection-end-line="78" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#19198#19199#0" expanded="false" />
-            <element signature="e#19229#19230#0" expanded="false" />
-            <element signature="e#19715#19716#0" expanded="false" />
-            <element signature="e#19744#19745#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="334">
+          <caret line="406" column="51" selection-start-line="406" selection-start-column="51" selection-end-line="406" selection-end-column="51" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_76/javafx-src.zip!/javafx/beans/binding/DoubleExpression.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixReturnCard.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="276" column="42" selection-start-line="276" selection-start-column="42" selection-end-line="276" selection-end-column="42" />
+        <state relative-caret-position="142">
+          <caret line="67" column="17" selection-start-line="67" selection-start-column="17" selection-end-line="67" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_76/javafx-src.zip!/javafx/beans/binding/Bindings.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="1992" column="33" selection-start-line="1992" selection-start-column="33" selection-end-line="1992" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/views/GameMenu.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="36" column="36" selection-start-line="36" selection-start-column="36" selection-end-line="36" selection-end-column="36" />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/views/DeckStats.fxml">
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/markers/MarkerLoyalty.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
-          <caret line="10" column="124" selection-start-line="10" selection-start-column="124" selection-end-line="10" selection-end-column="124" />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sourceforge.streamsupport/streamsupport/1.4.2/9985c7deddfde0532323d47f488e62ca94cd843c/streamsupport-1.4.2-sources.jar!/java8/util/stream/Stream.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="617" column="9" selection-start-line="617" selection-start-column="9" selection-end-line="617" selection-end-column="9" />
+          <caret line="10" column="81" selection-start-line="10" selection-start-column="81" selection-end-line="10" selection-end-column="81" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sourceforge.streamsupport/streamsupport/1.4.2/9985c7deddfde0532323d47f488e62ca94cd843c/streamsupport-1.4.2-sources.jar!/java8/util/stream/StreamSupport.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="261" column="39" selection-start-line="261" selection-start-column="39" selection-end-line="261" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sourceforge.streamsupport/streamsupport/1.4.2/9985c7deddfde0532323d47f488e62ca94cd843c/streamsupport-1.4.2-sources.jar!/java8/util/stream/ReferencePipeline.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="600" column="8" selection-start-line="600" selection-start-column="8" selection-end-line="600" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DeckStats.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1445">
-          <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DestroyedCardShower.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/markers/Marker.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
-          <caret line="12" column="3" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug.sh" />
-    <entry file="file://$PROJECT_DIR$/.idea/vcs.xml" />
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-986">
-          <caret line="95" column="49" selection-start-line="95" selection-start-column="49" selection-end-line="95" selection-end-column="49" />
+          <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/modules.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/modules/Gather Playing.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/modules/Gather_Playing_android.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/views/FreeModeMenu.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="71" selection-start-line="13" selection-start-column="71" selection-end-line="13" selection-end-column="71" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/views/MainMenu.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="52" selection-start-line="12" selection-start-column="52" selection-end-line="12" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/FreeModeMenu.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/markers/MarkerType.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2499">
-          <caret line="164" column="9" selection-start-line="164" selection-start-column="9" selection-end-line="164" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#2929#2930#0" expanded="false" />
-            <element signature="e#2948#2949#0" expanded="false" />
-            <element signature="e#4091#4092#0" expanded="false" />
-            <element signature="e#4147#4148#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/MainMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="39" column="65" selection-start-line="39" selection-start-column="65" selection-end-line="39" selection-end-column="65" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DeckShower.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4981">
-          <caret line="339" column="5" selection-start-line="339" selection-start-column="5" selection-end-line="339" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/SelectPartyMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="101" column="63" selection-start-line="101" selection-start-column="63" selection-end-line="101" selection-end-column="63" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketMixPlayCard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="37" column="37" selection-start-line="37" selection-start-column="37" selection-end-line="37" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="119">
-            <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-            <folding />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="46" column="2" selection-start-line="46" selection-start-column="2" selection-end-line="46" selection-end-column="2" />
+          <caret line="4" column="12" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Card.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Phase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/GameMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="74">
+          <caret line="65" column="35" selection-start-line="65" selection-start-column="35" selection-end-line="65" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2182#2183#0" expanded="true" />
+            <element signature="e#2204#2205#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/SelectPartyMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="35" column="50" selection-start-line="35" selection-start-column="50" selection-end-line="35" selection-end-column="50" />
+          <folding>
+            <element signature="e#1250#1251#0" expanded="true" />
+            <element signature="e#1271#1272#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DeckStats.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DeckEditorFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="87">
+          <caret line="127" column="20" selection-start-line="127" selection-start-column="20" selection-end-line="127" selection-end-column="20" />
+          <folding>
+            <element signature="e#4134#4135#0" expanded="true" />
+            <element signature="e#4152#4153#0" expanded="true" />
+            <element signature="e#4186#4187#0" expanded="true" />
+            <element signature="e#4207#4208#0" expanded="true" />
+            <element signature="e#4250#4251#0" expanded="true" />
+            <element signature="e#4269#4270#0" expanded="true" />
+            <element signature="e#4310#4311#0" expanded="true" />
+            <element signature="e#4330#4331#0" expanded="true" />
+            <element signature="e#4369#4370#0" expanded="true" />
+            <element signature="e#4386#4387#0" expanded="true" />
+            <element signature="e#4427#4428#0" expanded="true" />
+            <element signature="e#4445#4446#0" expanded="true" />
+            <element signature="e#4489#4490#0" expanded="true" />
+            <element signature="e#4511#4512#0" expanded="true" />
+            <element signature="e#4546#4547#0" expanded="true" />
+            <element signature="e#4563#4564#0" expanded="true" />
+            <element signature="e#4602#4603#0" expanded="true" />
+            <element signature="e#4621#4622#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DeckEditor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-46">
+          <caret line="38" column="36" selection-start-line="38" selection-start-column="36" selection-end-line="38" selection-end-column="36" />
+          <folding>
+            <element signature="e#1855#1856#0" expanded="true" />
+            <element signature="e#1890#1891#0" expanded="true" />
+            <element signature="e#1958#1959#0" expanded="true" />
+            <element signature="e#1999#2000#0" expanded="true" />
+            <element signature="e#2060#2061#0" expanded="true" />
+            <element signature="e#2101#2102#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/DeckShower.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-34">
+          <caret line="50" column="13" selection-start-line="50" selection-start-column="13" selection-end-line="50" selection-end-column="13" />
+          <folding>
+            <element signature="e#2224#2225#0" expanded="true" />
+            <element signature="e#2257#2258#0" expanded="true" />
+            <element signature="e#2303#2304#0" expanded="true" />
+            <element signature="e#2322#2323#0" expanded="true" />
+            <element signature="e#2378#2379#0" expanded="true" />
+            <element signature="e#2409#2410#0" expanded="true" />
+            <element signature="e#2473#2474#0" expanded="true" />
+            <element signature="e#2496#2497#0" expanded="true" />
+            <element signature="e#2574#2575#0" expanded="true" />
+            <element signature="e#2613#2614#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/CardDetailsShower.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="159">
+          <caret line="39" column="33" selection-start-line="39" selection-start-column="33" selection-end-line="39" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/PlayerInfos.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/FoundCardShower.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/views/DeckEditor.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="27" column="14" selection-start-line="27" selection-start-column="14" selection-end-line="27" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/views/CardDetailsShower.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="48" column="10" selection-start-line="48" selection-start-column="10" selection-end-line="48" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/views/DeckShower.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="18" column="14" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/views/DeckStats.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="11" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/views/FreeModeMenu.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/views/GameMenu.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="42" column="15" selection-start-line="42" selection-start-column="15" selection-end-line="42" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/views/HelpAndSettings.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="9" column="66" selection-start-line="9" selection-start-column="66" selection-end-line="9" selection-end-column="66" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/views/LoginDialog.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="30" column="11" selection-start-line="30" selection-start-column="11" selection-end-line="30" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/views/MainMenu.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/views/PartyCreater.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/views/PlayerInfos.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="389">
+          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/views/SelectPartyMenu.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/MainMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
-          <caret line="34" column="21" selection-start-line="34" selection-start-column="21" selection-end-line="34" selection-end-column="21" />
+          <caret line="23" column="47" selection-start-line="23" selection-start-column="47" selection-end-line="23" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Token.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-11028">
+          <caret line="8" column="12" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
+          <folding>
+            <element signature="e#62162#62163#0" expanded="true" />
+            <element signature="e#62180#62181#0" expanded="true" />
+            <element signature="e#62205#62206#0" expanded="true" />
+            <element signature="e#62222#62223#0" expanded="true" />
+            <element signature="e#62257#62258#0" expanded="true" />
+            <element signature="e#62281#62282#0" expanded="true" />
+            <element signature="e#62316#62317#0" expanded="true" />
+            <element signature="e#62340#62341#0" expanded="true" />
+            <element signature="e#62375#62376#0" expanded="true" />
+            <element signature="e#62394#62395#0" expanded="true" />
+            <element signature="e#62430#62431#0" expanded="true" />
+            <element signature="e#62452#62453#0" expanded="true" />
+            <element signature="e#62483#62484#0" expanded="true" />
+            <element signature="e#62503#62504#0" expanded="true" />
+            <element signature="e#62530#62531#0" expanded="true" />
+            <element signature="e#62549#62550#0" expanded="true" />
+            <element signature="e#62580#62581#0" expanded="true" />
+            <element signature="e#62603#62604#0" expanded="true" />
+            <element signature="e#62637#62638#0" expanded="true" />
+            <element signature="e#62660#62661#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_76/javafx-src.zip!/javafx/application/Application.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="189" column="23" selection-start-line="189" selection-start-column="23" selection-end-line="189" selection-end-column="23" />
+          <folding>
+            <element signature="e#6186#6187#0" expanded="false" />
+            <element signature="e#6248#6249#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="58" column="11" selection-start-line="58" selection-start-column="11" selection-end-line="58" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/android/resources/views/Loading.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="14" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/desktop/resources/views/Loading.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="11" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="61" column="17" selection-start-line="61" selection-start-column="17" selection-end-line="61" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="58" column="75" selection-start-line="58" selection-start-column="75" selection-end-line="58" selection-end-column="75" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/android/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="35" selection-start-line="6" selection-start-column="35" selection-end-line="6" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/views/DeckEditorFilter.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/capacity/Capacity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="111">
+          <caret line="21" column="82" selection-start-line="21" selection-start-column="82" selection-end-line="21" selection-end-column="82" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/CardSerializer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+          <folding>
+            <element signature="e#738#771#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/SpellTimer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="53" column="4" selection-start-line="53" selection-start-column="4" selection-end-line="53" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/SubType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="54" column="4" selection-start-line="54" selection-start-column="4" selection-end-line="54" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/protocol/packets/PacketManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="50" column="4" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/client/gui/Arrow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-85">
+          <caret line="78" column="11" selection-start-line="78" selection-start-column="11" selection-end-line="78" selection-end-column="11" />
+          <folding>
+            <element signature="e#2462#2463#0" expanded="true" />
+            <element signature="e#2478#2479#0" expanded="true" />
+            <element signature="e#2519#2520#0" expanded="true" />
+            <element signature="e#2535#2536#0" expanded="true" />
+            <element signature="e#2576#2577#0" expanded="true" />
+            <element signature="e#2592#2593#0" expanded="true" />
+            <element signature="e#2633#2634#0" expanded="true" />
+            <element signature="e#2649#2650#0" expanded="true" />
+            <element signature="e#2677#2678#0" expanded="true" />
+            <element signature="e#2699#2700#0" expanded="true" />
+            <element signature="e#2727#2728#0" expanded="true" />
+            <element signature="e#2749#2750#0" expanded="true" />
+            <element signature="e#2783#2784#0" expanded="true" />
+            <element signature="e#2805#2806#0" expanded="true" />
+            <element signature="e#2839#2840#0" expanded="true" />
+            <element signature="e#2861#2862#0" expanded="true" />
+            <element signature="e#2888#2889#0" expanded="true" />
+            <element signature="e#2910#2911#0" expanded="true" />
+            <element signature="e#2944#2945#0" expanded="true" />
+            <element signature="e#2966#2967#0" expanded="true" />
+            <element signature="e#2993#2994#0" expanded="true" />
+            <element signature="e#3015#3016#0" expanded="true" />
+            <element signature="e#3049#3050#0" expanded="true" />
+            <element signature="e#3071#3072#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/galaxyoyo/gatherplaying/Party.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="146" column="0" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -2038,7 +2336,7 @@
       </state>
       <state key="FacetStructureConfigurable.UI">
         <settings>
-          <last-edited>No facets are configured</last-edited>
+          <last-edited>Android (Gather_Playing_android)|Android</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -2074,7 +2372,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>Gather Playing</last-edited>
+          <last-edited>Gather_Playing_android|Gather Playing</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -2086,7 +2384,7 @@
       </state>
       <state key="ProjectJDKs.UI">
         <settings>
-          <last-edited>1.7</last-edited>
+          <last-edited>1.8</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

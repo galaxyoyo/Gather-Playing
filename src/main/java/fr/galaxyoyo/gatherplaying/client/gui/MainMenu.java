@@ -15,7 +15,8 @@ import java.util.ResourceBundle;
 public class MainMenu extends AbstractController
 {
 	@FXML
-	private Label play, /*freeMode, */settings, deckEditor, quit;
+	private Label play, /*freeMode, */
+			settings, deckEditor, quit;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
@@ -51,8 +52,7 @@ public class MainMenu extends AbstractController
 					if (button == ButtonType.OK)
 						Client.close();
 				});
-			}
-			else
+			} else
 			{
 				com.gluonhq.charm.glisten.control.Alert alert = new com.gluonhq.charm.glisten.control.Alert(Alert.AlertType.CONFIRMATION);
 				alert.setTitleText("Vous vous apprêtez à fermer le jeu");

@@ -31,7 +31,7 @@ public class PacketMixMoveCard extends Packet
 			Platform.runLater(() -> {
 				if (player != p)
 					parentId = "adverse" + Character.toUpperCase(parentId.charAt(0)) + parentId.substring(1);
-				HBox box = (HBox) GameMenu.INSTANCE.getParent().lookup("#" + parentId);
+				HBox box = (HBox) GameMenu.instance().getParent().lookup("#" + parentId);
 				PlayedCard card = p.getData().getPlayed().get(dataPos);
 				CardShower shower = CardShower.getShower(card);
 				box.getChildren().remove(shower);

@@ -8,8 +8,8 @@ public abstract class Marker
 
 	public abstract void onCardUnmarked(PlayedCard card);
 
-	public abstract MarkerType getType();
-
 	@Override
 	public String toString() { return getType().getTranslatedName(); }
+
+	public abstract MarkerType getType();
 }

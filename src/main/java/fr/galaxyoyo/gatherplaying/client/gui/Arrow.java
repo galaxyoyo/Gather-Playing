@@ -46,9 +46,49 @@ public class Arrow extends AnchorPane
 		ds.setOffsetY(2.0D);
 		ds.setColor(Color.RED);
 		ds.setBlurType(BlurType.GAUSSIAN);
-	//	setEffect(ds);
+		//	setEffect(ds);
 		setPickOnBounds(false);
 		Client.getStackPane().getChildren().add(this);
+	}
+
+	private DoubleProperty x1Property()
+	{
+		return x1;
+	}
+
+	private DoubleProperty x2Property()
+	{
+		return x2;
+	}
+
+	private DoubleProperty y1Property()
+	{
+		return y1;
+	}
+
+	private DoubleProperty y2Property()
+	{
+		return y2;
+	}
+
+	private double getY2()
+	{
+		return y2.get();
+	}
+
+	private double getX2()
+	{
+		return x2.get();
+	}
+
+	public void setX2(double x2)
+	{
+		this.x2.set(x2);
+	}
+
+	public void setY2(double y2)
+	{
+		this.y2.set(y2);
 	}
 
 	public double getX1()
@@ -61,26 +101,6 @@ public class Arrow extends AnchorPane
 		this.x1.set(x1);
 	}
 
-	public DoubleProperty x1Property()
-	{
-		return x1;
-	}
-
-	public double getX2()
-	{
-		return x2.get();
-	}
-
-	public void setX2(double x2)
-	{
-		this.x2.set(x2);
-	}
-
-	public DoubleProperty x2Property()
-	{
-		return x2;
-	}
-
 	public double getY1()
 	{
 		return y1.get();
@@ -89,25 +109,5 @@ public class Arrow extends AnchorPane
 	public void setY1(double y1)
 	{
 		this.y1.set(y1);
-	}
-
-	public DoubleProperty y1Property()
-	{
-		return y1;
-	}
-
-	public double getY2()
-	{
-		return y2.get();
-	}
-
-	public void setY2(double y2)
-	{
-		this.y2.set(y2);
-	}
-
-	public DoubleProperty y2Property()
-	{
-		return y2;
 	}
 }

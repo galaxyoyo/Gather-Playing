@@ -65,8 +65,7 @@ public class Config
 			try
 			{
 				I18n.reloadTranslations();
-			}
-			catch (IOException e)
+			} catch (IOException e)
 			{
 				e.printStackTrace();
 			}

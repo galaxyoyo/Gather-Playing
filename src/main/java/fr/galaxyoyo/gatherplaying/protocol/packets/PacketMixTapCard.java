@@ -1,10 +1,10 @@
 package fr.galaxyoyo.gatherplaying.protocol.packets;
 
-import fr.galaxyoyo.gatherplaying.Utils;
 import fr.galaxyoyo.gatherplaying.PlayedCard;
-import fr.galaxyoyo.gatherplaying.Side;
-import fr.galaxyoyo.gatherplaying.client.gui.CardShower;
 import fr.galaxyoyo.gatherplaying.Player;
+import fr.galaxyoyo.gatherplaying.Side;
+import fr.galaxyoyo.gatherplaying.Utils;
+import fr.galaxyoyo.gatherplaying.client.gui.CardShower;
 import io.netty.buffer.ByteBuf;
 
 public class PacketMixTapCard extends Packet
@@ -33,7 +33,7 @@ public class PacketMixTapCard extends Packet
 	@Override
 	public void write(ByteBuf buf)
 	{
-		writeUUID(card.controller.uuid, buf);
+		writeUUID(card.getController().uuid, buf);
 		buf.writeInt(index);
 		buf.writeBoolean(shouldTap);
 	}

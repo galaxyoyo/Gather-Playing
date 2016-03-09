@@ -19,23 +19,23 @@ import java.util.*;
 
 public class Set implements Comparable<Set>
 {
-	public java.util.Set<Card> cards = Sets.newHashSet();
-	public HashSet<PreconstructedDeck> preconstructeds = Sets.newHashSet();
-	public String code;
-	public String name;
-	public String magicCardsInfoCode;
-	public Date releaseDate;
-	public String border;
-	public String type;
-	public String block;
 	public Object[] booster;
-	@SuppressWarnings("unused")
-	public String mkm_name;
-	@SuppressWarnings("unused")
-	public int mkm_id = -1;
-	public boolean buyable = false;
 	protected Map<String, String> translations = Maps.newHashMap();
-	public String finishedTranslations = "";
+	private java.util.Set<Card> cards = Sets.newHashSet();
+	private HashSet<PreconstructedDeck> preconstructeds = Sets.newHashSet();
+	private String code;
+	private String name;
+	private String magicCardsInfoCode;
+	private Date releaseDate;
+	private String border;
+	private String type;
+	private String block;
+	@SuppressWarnings("unused")
+	private String mkm_name;
+	@SuppressWarnings("unused")
+	private int mkm_id = -1;
+	private boolean buyable = false;
+	private String finishedTranslations = "";
 
 	public static Set read(String jsoned)
 	{
@@ -45,23 +45,23 @@ public class Set implements Comparable<Set>
 			set.magicCardsInfoCode = set.code.toLowerCase();
 		for (Card card : Sets.newHashSet(set.cards))
 		{
-			if (card.type == null)
+			if (card.getType() == null)
 			{
 				System.out.println(card);
 				set.cards.remove(card);
 				continue;
 			}
-			card.set = set;
-			if (card.muId.get("en") == null)
+			card.setSet(set);
+			if (card.getMuId("en") == null)
 			{
 				System.out.println("MULTIVERSE ID == NULL : " + card);
 				set.cards.remove(card);
-			//	System.exit(1);
+				//	System.exit(1);
 			}
-			if (card.border == null)
-				card.border = set.border;
-			if (set.code.equals("BFZ") && card.type == CardType.LAND && card.basic)
-				card.cardId += Byte.parseByte(card.imageName.charAt(card.imageName.length() - 1) + "") % 2 == 1 ? 'a' : 'b';
+			if (card.getBorder() == null)
+				card.setBorder(set.border);
+			if (set.code.equals("BFZ") && card.getType() == CardType.LAND && card.isBasic())
+				card.setCardId(card.getCardId() + (Byte.parseByte(card.getImageName().charAt(card.getImageName().length() - 1) + "") % 2 == 1 ? 'a' : 'b'));
 		}
 		return set;
 	}
@@ -75,25 +75,23 @@ public class Set implements Comparable<Set>
 			LanguageData data = gson.fromJson(json, LanguageData.class);
 			for (CardLanguageData cardData : data.cards)
 			{
-				Card card = StreamSupport.stream(cards).filter(c -> Integer.toString(cardData.multiverseid).equalsIgnoreCase(c.muId.get(language))).findAny().orElse(null);
+				Card card = StreamSupport.stream(cards).filter(c -> Integer.toString(cardData.multiverseid).equalsIgnoreCase(c.getMuId().get(language))).findAny().orElse(null);
 				if (card == null)
 				{
 					if (cardData.originalText.equals("U") || cardData.originalText.equals("B") || cardData.originalText.equals("R") || cardData.originalText.equals("G") ||
-						cardData.originalText.equals("W"))
+							cardData.originalText.equals("W"))
 						continue;
 					System.out.println(cardData.multiverseid + " (" + code + ")");
 					System.out.println(cardData.originalText);
 					System.exit(0);
 				}
-				card.ability.put(language, cardData.originalText);
-				card.flavor.put(language, cardData.flavor);
+				card.getAbilityMap().put(language, cardData.originalText);
+				card.getFlavorMap().put(language, cardData.flavor);
 				MySQL.updateCard(card);
 			}
-		}
-		catch (FileNotFoundException ignored)
+		} catch (FileNotFoundException ignored)
 		{
-		}
-		catch (IOException ex)
+		} catch (IOException ex)
 		{
 			ex.printStackTrace();
 			return;
@@ -122,13 +120,13 @@ public class Set implements Comparable<Set>
 			int nb = random.nextInt(128);
 			Predicate<Card> p;
 			if (nb == 0)
-				p = card -> card.rarity == Rarity.MYTHIC;
+				p = card -> card.getRarity() == Rarity.MYTHIC;
 			else if (nb <= 8)
-				p = card -> card.rarity == Rarity.RARE;
+				p = card -> card.getRarity() == Rarity.RARE;
 			else if (nb <= 32)
-				p = card -> card.rarity == Rarity.UNCOMMON;
+				p = card -> card.getRarity() == Rarity.UNCOMMON;
 			else
-				p = card -> card.rarity == Rarity.COMMON;
+				p = card -> card.getRarity() == Rarity.COMMON;
 			List<Card> matching = StreamSupport.stream(cards).filter(p).collect(Collectors.toList());
 			foilCard = matching.get(random.nextInt(matching.size()));
 			booster.add(foilCard);
@@ -151,23 +149,20 @@ public class Set implements Comparable<Set>
 			try
 			{
 				Rarity r = Rarity.valueOf(name);
-				matching = StreamSupport.stream(cards).filter(card -> card.rarity == r).collect(Collectors.toList());
-			}
-			catch (IllegalArgumentException e1)
+				matching = StreamSupport.stream(cards).filter(card -> card.getRarity() == r).collect(Collectors.toList());
+			} catch (IllegalArgumentException e1)
 			{
 				try
 				{
 					Layout l = Layout.valueOf(name);
-					matching = StreamSupport.stream(cards).filter(card -> card.layout == l).collect(Collectors.toList());
-				}
-				catch (IllegalArgumentException e2)
+					matching = StreamSupport.stream(cards).filter(card -> card.getLayout() == l).collect(Collectors.toList());
+				} catch (IllegalArgumentException e2)
 				{
 					try
 					{
 						CardType t = CardType.valueOf(name);
-						matching = StreamSupport.stream(cards).filter(card -> card.type == t).collect(Collectors.toList());
-					}
-					catch (IllegalArgumentException e3)
+						matching = StreamSupport.stream(cards).filter(card -> card.getType() == t).collect(Collectors.toList());
+					} catch (IllegalArgumentException e3)
 					{
 						e3.printStackTrace();
 						continue;
@@ -181,6 +176,13 @@ public class Set implements Comparable<Set>
 		return booster.toArray(new Card[booster.size()]);
 	}
 
+	@Override
+	public String toString()
+	{
+		return "{Set=" + geName() + ", " + cards.size() + " cards, code=" + code + ", mcic=" + magicCardsInfoCode + ", releaseDate=" + releaseDate + ", border=" + border +
+				", type=" + type + ", block=" + block + "}";
+	}
+
 	public String geName()
 	{
 		String language = Config.getLocaleCode();
@@ -190,14 +192,132 @@ public class Set implements Comparable<Set>
 	}
 
 	@Override
-	public String toString()
+	public int compareTo(Set o) { return releaseDate.compareTo(o.releaseDate); }
+
+	public java.util.Set<Card> getCards()
 	{
-		return "{Set=" + geName() + ", " + cards.size() + " cards, code=" + code + ", mcic=" + magicCardsInfoCode + ", releaseDate=" + releaseDate + ", border=" + border +
-			   ", type=" + type + ", block=" + block + "}";
+		return cards;
 	}
 
-	@Override
-	public int compareTo(Set o) { return releaseDate.compareTo(o.releaseDate); }
+	public void setCards(java.util.Set<Card> cards)
+	{
+		this.cards = cards;
+	}
+
+	public HashSet<PreconstructedDeck> getPreconstructeds()
+	{
+		return preconstructeds;
+	}
+
+	public String getCode()
+	{
+		return code;
+	}
+
+	public void setCode(String code)
+	{
+		this.code = code;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	public String getMagicCardsInfoCode()
+	{
+		return magicCardsInfoCode;
+	}
+
+	public void setMagicCardsInfoCode(String magicCardsInfoCode)
+	{
+		this.magicCardsInfoCode = magicCardsInfoCode;
+	}
+
+	public Date getReleaseDate()
+	{
+		return releaseDate;
+	}
+
+	public void setReleaseDate(Date releaseDate)
+	{
+		this.releaseDate = releaseDate;
+	}
+
+	public String getBorder()
+	{
+		return border;
+	}
+
+	public void setBorder(String border)
+	{
+		this.border = border;
+	}
+
+	public String getType()
+	{
+		return type;
+	}
+
+	public void setType(String type)
+	{
+		this.type = type;
+	}
+
+	public String getBlock()
+	{
+		return block;
+	}
+
+	public void setBlock(String block)
+	{
+		this.block = block;
+	}
+
+	public String getMKMName()
+	{
+		return mkm_name;
+	}
+
+	public void setMKMName(String mkm_name)
+	{
+		this.mkm_name = mkm_name;
+	}
+
+	public int getMKMId()
+	{
+		return mkm_id;
+	}
+
+	public void setMKMId(int mkm_id)
+	{
+		this.mkm_id = mkm_id;
+	}
+
+	public boolean isBuyable()
+	{
+		return buyable;
+	}
+
+	public void setBuyable(boolean buyable)
+	{
+		this.buyable = buyable;
+	}
+
+	public String getFinishedTranslations()
+	{
+		return finishedTranslations;
+	}
+
+	public void setFinishedTranslations(String finishedTranslations)
+	{
+		this.finishedTranslations = finishedTranslations;
+	}
 
 	private class LanguageData
 	{

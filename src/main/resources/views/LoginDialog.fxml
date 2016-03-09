@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<BorderPane xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:id="parent" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.LoginDialog">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/null" fx:id="parent" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.LoginDialog">
     <center>
         <GridPane BorderPane.alignment="CENTER" alignment="CENTER">
             <Label fx:id="usernameLabel" text="Pseudo :" visible="false" GridPane.vgrow="ALWAYS"/>

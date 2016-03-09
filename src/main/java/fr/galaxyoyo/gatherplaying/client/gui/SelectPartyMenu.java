@@ -25,13 +25,18 @@ import java.util.ResourceBundle;
 
 public class SelectPartyMenu extends AbstractController implements Initializable
 {
-	public static final ObservableList<Party> PARTIES = FXCollections.observableArrayList();
+	private static final ObservableList<Party> PARTIES = FXCollections.observableArrayList();
 
 	@FXML
 	private TableColumn<Party, String> name, format, players;
 
 	@FXML
 	private TableView<Party> parties;
+
+	public static ObservableList<Party> getParties()
+	{
+		return PARTIES;
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
@@ -40,9 +45,9 @@ public class SelectPartyMenu extends AbstractController implements Initializable
 		pkt.type = PacketMixUpdatePartyInfos.Type.GET;
 		PacketManager.sendPacketToServer(pkt);
 
-		name.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().name));
-		format.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().rules.toString()));
-		players.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getOnlinePlayers().size() + " / " + param.getValue().size));
+		name.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getName()));
+		format.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getRules().toString()));
+		players.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getOnlinePlayers().size() + " / " + param.getValue().getSize()));
 
 		parties.setItems(PARTIES);
 	}

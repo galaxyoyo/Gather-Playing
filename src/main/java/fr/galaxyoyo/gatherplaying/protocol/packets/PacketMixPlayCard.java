@@ -35,13 +35,13 @@ public class PacketMixPlayCard extends Packet
 			data.setMulligan((byte) 0xFF);
 			if (hided)
 			{
-				if (card.getCard().layout == Layout.NORMAL)
-					played.hided = true;
+				if (card.getCard().getLayout() == Layout.NORMAL)
+					played.setHided(true);
 				else
 				{
 					Card oldCard = card.getCard();
-					played.card.set(played.relatedCard);
-					played.relatedCard = oldCard;
+					played.card.set(played.getRelatedCard());
+					played.setRelatedCard(oldCard);
 				}
 			}
 			if (action == Action.DISCARD)
@@ -65,58 +65,54 @@ public class PacketMixPlayCard extends Packet
 		if (action == Action.PLAY)
 		{
 			if (Utils.getSide() == Side.SERVER)
-				Server.sendChat(player.runningParty, "chat.play", "color: blue;", played.controller.name, "<i>" + played.getTranslatedName().get() + "</i>");
+				Server.sendChat(player.runningParty, "chat.play", "color: blue;", played.getController().name, "<i>" + played.getTranslatedName().get() + "</i>");
 			CardShower shower = new CardShower(played);
-			if (played.getCard().type.is(CardType.CREATURE))
+			if (played.getCard().getType().is(CardType.CREATURE))
 			{
 				try
 				{
-					played.power.set(Integer.parseInt(played.getCard().power));
-				}
-				catch (NumberFormatException ex)
+					played.setPower(Integer.parseInt(played.getCard().getPower()));
+				} catch (NumberFormatException ex)
 				{
-					played.power.set(0);
+					played.setPower(0);
 				}
 				try
 				{
-					played.toughness.set(Integer.parseInt(played.getCard().toughness));
-				}
-				catch (NumberFormatException ex)
+					played.setToughness(Integer.parseInt(played.getCard().getToughness()));
+				} catch (NumberFormatException ex)
 				{
-					played.toughness.set(0);
+					played.setToughness(0);
 				}
-			}
-			else if (played.getCard().type.is(CardType.PLANESWALKER))
+			} else if (played.getCard().getType().is(CardType.PLANESWALKER))
 			{
-				played.loyalty.set(0);
-				for (int i = 0; i < played.getCard().loyalty; ++i)
+				played.setLoyalty(0);
+				for (int i = 0; i < played.getCard().getLoyalty(); ++i)
 				{
 					Marker m = MarkerType.LOYALTY.newInstance();
 					m.onCardMarked(played);
-					played.markers.add(m);
+					played.getMarkers().add(m);
 				}
 			}
-			if (played.type.is(CardType.LAND))
+			if (played.getType().is(CardType.LAND))
 			{
 				data.getPlayed().add(played);
 				if (Utils.getSide() == Side.CLIENT)
 				{
 					final PlayedCard finalPlayed = played;
 					Platform.runLater(() -> {
-						if (finalPlayed.owner == Client.localPlayer)
-							GameMenu.INSTANCE.lands.getChildren().add(shower);
+						if (finalPlayed.getOwner() == Client.localPlayer)
+							GameMenu.instance().lands.getChildren().add(shower);
 						else
-							GameMenu.INSTANCE.adverseLands.getChildren().add(shower);
+							GameMenu.instance().adverseLands.getChildren().add(shower);
 						HBox.setMargin(shower, new Insets(0.0D, 10.5D, 0.0D, 10.5D));
 					});
 				}
-			}
-			else
+			} else
 			{
-				if (player.runningParty.currentSpell == null)
-					player.runningParty.currentSpell = new SpellTimer(shower, player.runningParty);
+				if (player.runningParty.getCurrentSpell() == null)
+					player.runningParty.setCurrentSpell(new SpellTimer(shower, player.runningParty));
 				else
-					player.runningParty.currentSpell.addSpell(shower);
+					player.runningParty.getCurrentSpell().addSpell(shower);
 			}
 		}
 		if (Utils.getSide() == Side.SERVER)
@@ -126,18 +122,18 @@ public class PacketMixPlayCard extends Packet
 			if (action != Action.REVEAL)
 			{
 				if (card.getOwner() == player)
-					Platform.runLater(() -> GameMenu.INSTANCE.hand.getChildren().remove(handIndex));
+					Platform.runLater(() -> GameMenu.instance().hand.getChildren().remove(handIndex));
 				else
-					Platform.runLater(() -> GameMenu.INSTANCE.adverseHand.getChildren().remove(handIndex));
+					Platform.runLater(() -> GameMenu.instance().adverseHand.getChildren().remove(handIndex));
 			}
 			assert played != null;
 			if (action == Action.DISCARD)
-				PlayerInfos.getInfos(played.owner).graveyard(played);
+				PlayerInfos.getInfos(played.getOwner()).graveyard(played);
 			else if (action == Action.EXILE)
-				PlayerInfos.getInfos(played.owner).exile(played);
+				PlayerInfos.getInfos(played.getOwner()).exile(played);
 			else if (action == Action.REVEAL)
 			{
-				CardShower shower = (CardShower) (card.getOwner() == player ? GameMenu.INSTANCE.hand : GameMenu.INSTANCE.adverseHand).getChildren().get(handIndex);
+				CardShower shower = (CardShower) (card.getOwner() == player ? GameMenu.instance().hand : GameMenu.instance().adverseHand).getChildren().get(handIndex);
 				shower.reveal();
 			}
 		}

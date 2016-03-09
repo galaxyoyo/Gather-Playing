@@ -1,7 +1,6 @@
 package fr.galaxyoyo.gatherplaying.client.gui;
 
 import fr.galaxyoyo.gatherplaying.Utils;
-import fr.galaxyoyo.gatherplaying.Utils;
 import fr.galaxyoyo.gatherplaying.client.Client;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,8 +20,8 @@ public class FreeModeMenu extends AbstractController implements Initializable
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
-		EventHandler<MouseEvent> entered =  e -> ((Label) e.getSource()).setStyle("-fx-border-color: purple;\n-fx-border-width: 3px;\n-fx-border-radius: 10px;\n");
-		EventHandler<MouseEvent> exited =  e -> ((Label) e.getSource()).setStyle("");
+		EventHandler<MouseEvent> entered = e -> ((Label) e.getSource()).setStyle("-fx-border-color: purple;\n-fx-border-width: 3px;\n-fx-border-radius: 10px;\n");
+		EventHandler<MouseEvent> exited = e -> ((Label) e.getSource()).setStyle("");
 		play.setOnMouseEntered(entered);
 		play.setOnMouseExited(exited);
 		giant.setOnMouseEntered(entered);

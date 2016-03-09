@@ -32,42 +32,6 @@ public class Client extends Application
 	private static Stage stage;
 	private static AbstractController currentController;
 
-	public static <T extends AbstractController> T show(Class<T> clazz)
-	{
-		if (Utils.isMobile())
-		{
-			MobileClient.show(clazz);
-			return null;
-		}
-
-		try
-		{
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(clazz.getResource("/views/" + clazz.getSimpleName() + ".fxml"));
-			Parent parent = loader.load();
-			VBox box = new VBox(parent);
-			box.setAlignment(Pos.CENTER);
-			VBox.setVgrow(parent, Priority.ALWAYS);
-			StackPane pane = new StackPane(box);
-			pane.prefWidthProperty().bind(getStage().widthProperty());
-			pane.prefHeightProperty().bind(getStage().heightProperty());
-			pane.setAlignment(Pos.CENTER);
-			if (stage.getScene() == null)
-			{
-				Scene scene = new Scene(pane);
-				scene.getStylesheets().add("/default.css");
-				stage.setScene(scene);
-			}
-			else
-				stage.getScene().setRoot(pane);
-			return (T) (currentController = loader.getController());
-		}
-		catch (Throwable t)
-		{
-			throw new RuntimeException(t);
-		}
-	}
-
 	public static StackPane getStackPane()
 	{
 		if (Utils.isMobile())
@@ -75,23 +39,6 @@ public class Client extends Application
 		return (StackPane) getStage().getScene().getRoot();
 	}
 
-	public static Party getRunningParty() { return localPlayer.runningParty; }
-
-	public static void close()
-	{
-		if (localPlayer != null && getRunningParty() != null)
-		{
-			PacketMixUpdatePartyInfos pkt = PacketManager.createPacket(PacketMixUpdatePartyInfos.class);
-			pkt.type = PacketMixUpdatePartyInfos.Type.LEAVE;
-			PacketManager.sendPacketToServer(pkt);
-		}
-		stage.close();
-		if (localPlayer != null)
-			localPlayer.connection.close();
-		Utils.getPlatform().finish();
-		System.exit(0);
-	}
-	
 	public static Stage getStage()
 	{
 		return stage;
@@ -122,14 +69,60 @@ public class Client extends Application
 		stage.toFront();
 	}
 
+	public static void close()
+	{
+		if (localPlayer != null && getRunningParty() != null)
+		{
+			PacketMixUpdatePartyInfos pkt = PacketManager.createPacket(PacketMixUpdatePartyInfos.class);
+			pkt.type = PacketMixUpdatePartyInfos.Type.LEAVE;
+			PacketManager.sendPacketToServer(pkt);
+		}
+		stage.close();
+		if (localPlayer != null)
+			localPlayer.connection.close();
+		Utils.getPlatform().finish();
+		System.exit(0);
+	}
+
+	public static <T extends AbstractController> T show(Class<T> clazz)
+	{
+		if (Utils.isMobile())
+		{
+			MobileClient.show(clazz);
+			return null;
+		}
+
+		try
+		{
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(clazz.getResource("/views/" + clazz.getSimpleName() + ".fxml"));
+			Parent parent = loader.load();
+			VBox box = new VBox(parent);
+			box.setAlignment(Pos.CENTER);
+			VBox.setVgrow(parent, Priority.ALWAYS);
+			StackPane pane = new StackPane(box);
+			pane.prefWidthProperty().bind(getStage().widthProperty());
+			pane.prefHeightProperty().bind(getStage().heightProperty());
+			pane.setAlignment(Pos.CENTER);
+			if (stage.getScene() == null)
+			{
+				Scene scene = new Scene(pane);
+				scene.getStylesheets().add("/default.css");
+				stage.setScene(scene);
+			} else
+				stage.getScene().setRoot(pane);
+			return (T) (currentController = loader.getController());
+		} catch (Throwable t)
+		{
+			throw new RuntimeException(t);
+		}
+	}
+
+	public static Party getRunningParty() { return localPlayer.runningParty; }
+
 	public static class MobileClient extends MobileApplication
 	{
-		public static StackPane getStackPane() { return (StackPane) getInstance().getView().getCenter(); }
-
-		public static <T extends AbstractController> void show(Class<T> clazz)
-		{
-			getInstance().switchView(clazz.getSimpleName());
-		}
+		private static StackPane getStackPane() { return (StackPane) getInstance().getView().getCenter(); }
 
 		@Override
 		public void postInit(Scene scene)
@@ -161,8 +154,7 @@ public class Client extends Application
 						pane.setAlignment(Pos.CENTER);
 						v.setCenter(pane);
 						return v;
-					}
-					catch (Throwable t)
+					} catch (Throwable t)
 					{
 						t.printStackTrace();
 						return new View(className);
@@ -170,6 +162,11 @@ public class Client extends Application
 				});
 			}
 			show(Loading.class);
+		}
+
+		public static <T extends AbstractController> void show(Class<T> clazz)
+		{
+			getInstance().switchView(clazz.getSimpleName());
 		}
 	}
 }

@@ -16,34 +16,34 @@ public class PacketMixDeck extends Packet
 	{
 		type = Type.values()[buf.readByte()];
 		deck = new Deck();
-		deck.uuid = readUUID(buf);
+		deck.setUuid(readUUID(buf));
 		if (type == Type.DELETING)
 		{
 			player.decks.remove(deck);
-			MySQL.delete("decks", Condition.equals(new Value("uuid", deck.uuid)));
+			MySQL.delete("decks", Condition.equals(new Value("uuid", deck.getUuid())));
 			return;
 		}
-		deck.free = buf.readBoolean();
-		deck.name.setValue(readUTF(buf));
-		deck.desc = readUTF(buf);
+		deck.setFree(buf.readBoolean());
+		deck.setName(readUTF(buf));
+		deck.setDesc(readUTF(buf));
 		int size = buf.readInt();
 		for (int i = 0; i < size; ++i)
-			deck.cards.add(new OwnedCard(readCard(buf), player, buf.readBoolean()));
+			deck.getCards().add(new OwnedCard(readCard(buf), player, buf.readBoolean()));
 		size = buf.readByte();
 		for (int i = 0; i < size; ++i)
-			deck.sideboard.add(new OwnedCard(readCard(buf), player, buf.readBoolean()));
+			deck.getSideboard().add(new OwnedCard(readCard(buf), player, buf.readBoolean()));
 		size = buf.readByte();
-		deck.colors = new ManaColor[size];
+		deck.setColors(new ManaColor[size]);
 		for (int i = 0; i < size; ++i)
-			deck.colors[i] = ManaColor.values()[buf.readByte()];
+			deck.getColors()[i] = ManaColor.values()[buf.readByte()];
 		size = buf.readByte();
 		for (int i = 0; i < size; ++i)
-			deck.legalities.add(Rules.values()[buf.readByte()]);
-		deck.owner = player;
+			deck.getLegalities().add(Rules.values()[buf.readByte()]);
+		deck.setOwner(player);
 		if (type == Type.CREATING)
 			player.decks.add(deck);
 		else
-			StreamSupport.stream(player.decks).filter(deck -> deck.uuid.equals(this.deck.uuid)).findAny().get().importDeck(deck);
+			StreamSupport.stream(player.decks).filter(deck -> deck.getUuid().equals(this.deck.getUuid())).findAny().get().importDeck(deck);
 		if (Utils.getSide() == Side.SERVER)
 			MySQL.saveDeck(deck);
 	}
@@ -52,29 +52,29 @@ public class PacketMixDeck extends Packet
 	public void write(ByteBuf buf)
 	{
 		buf.writeByte(type.ordinal());
-		writeUUID(deck.uuid, buf);
+		writeUUID(deck.getUuid(), buf);
 		if (type == Type.DELETING)
 			return;
-		buf.writeBoolean(deck.free);
-		writeUTF(deck.name.getValue(), buf);
-		writeUTF(deck.desc, buf);
-		buf.writeInt(deck.cards.size());
-		for (OwnedCard card : deck.cards)
+		buf.writeBoolean(deck.isFree());
+		writeUTF(deck.getName(), buf);
+		writeUTF(deck.getDesc(), buf);
+		buf.writeInt(deck.getCards().size());
+		for (OwnedCard card : deck.getCards())
 		{
 			writeCard(card.getCard(), buf);
 			buf.writeBoolean(card.isFoiled());
 		}
-		buf.writeByte(deck.sideboard.size());
-		for (OwnedCard card : deck.sideboard)
+		buf.writeByte(deck.getSideboard().size());
+		for (OwnedCard card : deck.getSideboard())
 		{
 			writeCard(card.getCard(), buf);
 			buf.writeBoolean(card.isFoiled());
 		}
-		buf.writeByte(deck.colors.length);
-		for (ManaColor color : deck.colors)
+		buf.writeByte(deck.getColors().length);
+		for (ManaColor color : deck.getColors())
 			buf.writeByte(color.ordinal());
-		buf.writeByte(deck.legalities.size());
-		for (Rules rule : deck.legalities)
+		buf.writeByte(deck.getLegalities().size());
+		for (Rules rule : deck.getLegalities())
 			buf.writeByte(rule.ordinal());
 	}
 

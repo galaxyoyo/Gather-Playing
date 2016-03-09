@@ -1,8 +1,8 @@
 package fr.galaxyoyo.gatherplaying.protocol.packets;
 
-import fr.galaxyoyo.gatherplaying.Utils;
 import fr.galaxyoyo.gatherplaying.Party;
 import fr.galaxyoyo.gatherplaying.Side;
+import fr.galaxyoyo.gatherplaying.Utils;
 import fr.galaxyoyo.gatherplaying.client.I18n;
 import fr.galaxyoyo.gatherplaying.client.gui.GameMenu;
 import fr.galaxyoyo.gatherplaying.server.Server;
@@ -38,7 +38,7 @@ public class PacketMixChat extends Packet
 	@Override
 	public void write(ByteBuf buf)
 	{
-		buf.writeInt(party.id);
+		buf.writeInt(party.getId());
 		writeUTF(message, buf);
 		writeUTF(style, buf);
 		for (String arg : args)

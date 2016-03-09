@@ -14,12 +14,14 @@ public class Library
 
 	public Library(Deck deck)
 	{
-		this(deck.owner);
-		cards = Lists.newLinkedList(deck.cards);
+		this(deck.getOwner());
+		cards = Lists.newLinkedList(deck.getCards());
 		shuffle();
 	}
 
 	public Library(Player owner) { this.owner = owner; }
+
+	public void shuffle() { Collections.shuffle(cards, Utils.RANDOM); }
 
 	public void addCard(OwnedCard card) { cards.offerLast(card); }
 
@@ -33,8 +35,6 @@ public class Library
 	public void removeCard(OwnedCard card) { cards.remove(card); }
 
 	public OwnedCard drawCard() { return cards.poll(); }
-
-	public void shuffle() { Collections.shuffle(cards, Utils.RANDOM); }
 
 	public Player getOwner() { return owner; }
 

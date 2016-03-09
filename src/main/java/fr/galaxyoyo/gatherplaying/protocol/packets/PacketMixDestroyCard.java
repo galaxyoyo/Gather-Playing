@@ -4,7 +4,6 @@ import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.client.gui.CardShower;
 import fr.galaxyoyo.gatherplaying.client.gui.GameMenu;
-import fr.galaxyoyo.gatherplaying.Player;
 import fr.galaxyoyo.gatherplaying.server.Server;
 import io.netty.buffer.ByteBuf;
 import javafx.application.Platform;
@@ -23,72 +22,67 @@ public class PacketMixDestroyCard extends Packet
 		PlayerData data = player.runningParty.getData(controller);
 		int index = buf.readInt();
 		card = data.getPlayed().get(index);
-		Player owner = card.owner;
+		Player owner = card.getOwner();
 		if (card.isToken())
 		{
 			if (Utils.getSide() == Side.CLIENT)
 			{
-				if (card.controller == player)
-					Platform.runLater(() -> GameMenu.INSTANCE.creatures.getChildren().remove(CardShower.getShower(card)));
+				if (card.getController() == player)
+					Platform.runLater(() -> GameMenu.instance().creatures.getChildren().remove(CardShower.getShower(card)));
 				else
-					Platform.runLater(() -> GameMenu.INSTANCE.adverseCreatures.getChildren().remove(CardShower.getShower(card)));
-			}
-			else
+					Platform.runLater(() -> GameMenu.instance().adverseCreatures.getChildren().remove(CardShower.getShower(card)));
+			} else
 				sendToParty();
 			data.getPlayed().remove(card);
 			return;
 		}
-		OwnedCard c = new OwnedCard(card.getCard(), card.owner, card.foiled);
+		OwnedCard c = new OwnedCard(card.getCard(), card.getOwner(), card.isFoiled());
 		if (Utils.getSide() == Side.CLIENT)
 		{
 			if (owner == player)
 			{
 				if (dest == Destination.EXILE)
-					GameMenu.INSTANCE.playerInfos.exile(card);
+					GameMenu.instance().playerInfos.exile(card);
 				else if (dest == Destination.GRAVEYARD)
-					GameMenu.INSTANCE.playerInfos.graveyard(card);
+					GameMenu.instance().playerInfos.graveyard(card);
 				else if (dest == Destination.HAND)
-					Platform.runLater(() -> GameMenu.INSTANCE.hand.getChildren().add(new CardShower(c)));
+					Platform.runLater(() -> GameMenu.instance().hand.getChildren().add(new CardShower(c)));
 				else
-					GameMenu.INSTANCE.playerInfos.setLibrary(GameMenu.INSTANCE.playerInfos.getLibrary() + 1);
-			}
-			else
+					GameMenu.instance().playerInfos.setLibrary(GameMenu.instance().playerInfos.getLibrary() + 1);
+			} else
 			{
 				if (dest == Destination.EXILE)
-					GameMenu.INSTANCE.adverseInfos.exile(card);
+					GameMenu.instance().adverseInfos.exile(card);
 				else if (dest == Destination.GRAVEYARD)
-					GameMenu.INSTANCE.adverseInfos.graveyard(card);
+					GameMenu.instance().adverseInfos.graveyard(card);
 				else if (dest == Destination.HAND)
-					Platform.runLater(() -> GameMenu.INSTANCE.adverseHand.getChildren().add(new CardShower(c)));
+					Platform.runLater(() -> GameMenu.instance().adverseHand.getChildren().add(new CardShower(c)));
 				else
-					GameMenu.INSTANCE.adverseInfos.addLibrary();
+					GameMenu.instance().adverseInfos.addLibrary();
 			}
 			CardShower shower = CardShower.getShower(card);
 			shower.destroy();
-			if (card.type.is(CardType.LAND))
+			if (card.getType().is(CardType.LAND))
 			{
-				if (card.owner == Client.localPlayer)
-					Platform.runLater(() -> GameMenu.INSTANCE.lands.getChildren().remove(shower));
+				if (card.getOwner() == Client.localPlayer)
+					Platform.runLater(() -> GameMenu.instance().lands.getChildren().remove(shower));
 				else
-					Platform.runLater(() -> GameMenu.INSTANCE.adverseLands.getChildren().remove(shower));
-			}
-			else if ((card.type.is(CardType.ENCHANTMENT) && !card.subtypes.contains(SubType.valueOf("Aura"))) || card.type.is(CardType.ARTIFACT) ||
-					 card.type.is(CardType.PLANESWALKER))
+					Platform.runLater(() -> GameMenu.instance().adverseLands.getChildren().remove(shower));
+			} else if ((card.getType().is(CardType.ENCHANTMENT) && !card.getSubtypes().contains(SubType.valueOf("Aura"))) || card.getType().is(CardType.ARTIFACT) ||
+					card.getType().is(CardType.PLANESWALKER))
 			{
-				if (card.owner == Client.localPlayer)
-					Platform.runLater(() -> GameMenu.INSTANCE.enchants.getChildren().remove(shower));
+				if (card.getOwner() == Client.localPlayer)
+					Platform.runLater(() -> GameMenu.instance().enchants.getChildren().remove(shower));
 				else
-					Platform.runLater(() -> GameMenu.INSTANCE.adverseEnchants.getChildren().remove(shower));
-			}
-			else
+					Platform.runLater(() -> GameMenu.instance().adverseEnchants.getChildren().remove(shower));
+			} else
 			{
-				if (card.owner == Client.localPlayer)
-					Platform.runLater(() -> GameMenu.INSTANCE.creatures.getChildren().remove(shower));
+				if (card.getOwner() == Client.localPlayer)
+					Platform.runLater(() -> GameMenu.instance().creatures.getChildren().remove(shower));
 				else
-					Platform.runLater(() -> GameMenu.INSTANCE.adverseCreatures.getChildren().remove(shower));
+					Platform.runLater(() -> GameMenu.instance().adverseCreatures.getChildren().remove(shower));
 			}
-		}
-		else
+		} else
 		{
 			sendToParty();
 			if (dest == Destination.GRAVEYARD)
@@ -124,8 +118,8 @@ public class PacketMixDestroyCard extends Packet
 	public void write(ByteBuf buf)
 	{
 		buf.writeByte(dest.ordinal());
-		writeUUID(card.controller.uuid, buf);
-		buf.writeInt(index >= 0 ? index : player.runningParty.getData(card.controller).getPlayed().indexOf(card));
+		writeUUID(card.getController().uuid, buf);
+		buf.writeInt(index >= 0 ? index : player.runningParty.getData(card.getController()).getPlayed().indexOf(card));
 	}
 
 	public enum Destination

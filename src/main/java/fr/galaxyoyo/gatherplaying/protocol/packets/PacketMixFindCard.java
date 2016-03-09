@@ -34,23 +34,22 @@ public class PacketMixFindCard extends Packet
 			{
 				case RARITY:
 					filter = Rarity.values()[buf.readByte()];
-					list = allCards.filter(card -> card.getCard().rarity == filter).collect(Collectors.toList());
+					list = allCards.filter(card -> card.getCard().getRarity() == filter).collect(Collectors.toList());
 					break;
 				case SUBTYPE:
 					filter = SubType.valueOf(readUTF(buf));
-					list = allCards.filter(card -> ArrayUtils.contains(card.getCard().subtypes, filter)).collect(Collectors.toList());
+					list = allCards.filter(card -> ArrayUtils.contains(card.getCard().getSubtypes(), filter)).collect(Collectors.toList());
 					break;
 				case TYPE:
 					filter = CardType.values()[buf.readByte()];
-					list = allCards.filter(card -> card.getCard().type.is((CardType) filter)).collect(Collectors.toList());
+					list = allCards.filter(card -> card.getCard().getType().is((CardType) filter)).collect(Collectors.toList());
 					break;
 			}
 			PacketMixFindCard pkt = createPacket();
 			pkt.type = type;
 			pkt.filter = list;
 			PacketManager.sendPacketToPlayer(player, pkt);
-		}
-		else
+		} else
 		{
 			List<OwnedCard> allCards = Lists.newArrayList();
 			while (buf.isReadable())
@@ -90,8 +89,7 @@ public class PacketMixFindCard extends Packet
 					buf.writeByte(((CardType) filter).ordinal());
 					break;
 			}
-		}
-		else
+		} else
 		{
 			@SuppressWarnings("unchecked") List<OwnedCard> allCards = (List<OwnedCard>) filter;
 			allCards.forEach(card -> {
@@ -116,9 +114,9 @@ public class PacketMixFindCard extends Packet
 			this.name_IT = name_IT;
 		}
 
-		public String getTranslatedName() { return name_FR; }
-
 		@Override
 		public String toString() { return getTranslatedName(); }
+
+		public String getTranslatedName() { return name_FR; }
 	}
 }

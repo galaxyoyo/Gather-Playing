@@ -16,7 +16,7 @@ public class PacketInSelectDeck extends Packet
 			library.addCard(new OwnedCard(readCard(buf), player, buf.readBoolean()));
 		library.shuffle();
 		player.getData().setLibrary(library);
-		if (player.runningParty.getOnlinePlayers().size() == player.runningParty.size)
+		if (player.runningParty.getOnlinePlayers().size() == player.runningParty.getSize())
 			player.runningParty.start();
 	}
 

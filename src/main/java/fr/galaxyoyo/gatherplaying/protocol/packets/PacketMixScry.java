@@ -1,7 +1,10 @@
 package fr.galaxyoyo.gatherplaying.protocol.packets;
 
 import com.google.common.collect.Lists;
-import fr.galaxyoyo.gatherplaying.*;
+import fr.galaxyoyo.gatherplaying.Library;
+import fr.galaxyoyo.gatherplaying.OwnedCard;
+import fr.galaxyoyo.gatherplaying.Side;
+import fr.galaxyoyo.gatherplaying.Utils;
 import fr.galaxyoyo.gatherplaying.client.I18n;
 import fr.galaxyoyo.gatherplaying.client.gui.FoundCardShower;
 import fr.galaxyoyo.gatherplaying.server.Server;
@@ -32,8 +35,7 @@ public class PacketMixScry extends Packet
 			pkt.cards = list;
 			PacketManager.sendPacketToPlayer(player, pkt);
 			Server.sendChat(player.runningParty, "chat.scry", null, player.name, (numCards > 1 ? I18n.strTr("text.thecards", Integer.toString(numCards)) : "text.thecard"));
-		}
-		else
+		} else
 		{
 			List<OwnedCard> allCards = Lists.newArrayList();
 			while (buf.isReadable())

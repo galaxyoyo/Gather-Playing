@@ -30,7 +30,16 @@ public class SubType implements Comparable<SubType>
 		return subtype;
 	}
 
-	public boolean canApplicate(CardType type) { return applicables.contains(type); }
+	public static SubType[] values()
+	{
+		if (values.length != subtypes.size())
+		{
+			values = new SubType[subtypes.size()];
+			values = subtypes.values().toArray(values);
+			Arrays.sort(values);
+		}
+		return values;
+	}
 
 	public boolean canApplicate(Collection<CardType> types)
 	{
@@ -43,24 +52,15 @@ public class SubType implements Comparable<SubType>
 		return false;
 	}
 
+	private boolean canApplicate(CardType type) { return applicables.contains(type); }
+
 	public void setCanApplicate(CardType type) { applicables.add(type); }
 
-	public StringBinding getTranslatedName() { return I18n.tr("subtype." + name.toLowerCase()); }
+	@Override
+	public int compareTo(SubType o) { return String.CASE_INSENSITIVE_ORDER.compare(toString(), o.toString()); }
 
 	@Override
 	public String toString() { return getTranslatedName().get(); }
 
-	public static SubType[] values()
-	{
-		if (values.length != subtypes.size())
-		{
-			values = new SubType[subtypes.size()];
-			values = subtypes.values().toArray(values);
-			Arrays.sort(values);
-		}
-		return values;
-	}
-
-	@Override
-	public int compareTo(SubType o) { return String.CASE_INSENSITIVE_ORDER.compare(toString(), o.toString()); }
+	public StringBinding getTranslatedName() { return I18n.tr("subtype." + name.toLowerCase()); }
 }

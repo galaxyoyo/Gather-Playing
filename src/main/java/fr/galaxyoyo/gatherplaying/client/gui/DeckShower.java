@@ -50,9 +50,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class DeckShower extends AbstractController implements Initializable
 {
-	static TableView<Card> table;
-	static ReadOnlyObjectProperty<Rules> rulesProp;
-	public static CardDetailsShower shower;
+	private static CardDetailsShower shower;
+	private static TableView<Card> table;
+	private static ReadOnlyObjectProperty<Rules> rulesProp;
 
 	@FXML
 	private Button add, sideboard, remove;
@@ -66,10 +66,35 @@ public class DeckShower extends AbstractController implements Initializable
 	private Deck deck;
 	private boolean newDeck;
 
+	public static void setShower(CardDetailsShower shower)
+	{
+		DeckShower.shower = shower;
+	}
+
+	public static TableView<Card> getTable()
+	{
+		return table;
+	}
+
+	public static void setTable(TableView<Card> table)
+	{
+		DeckShower.table = table;
+	}
+
+	public static ReadOnlyObjectProperty<Rules> getRulesProp()
+	{
+		return rulesProp;
+	}
+
+	public static void setRulesProp(ReadOnlyObjectProperty<Rules> rulesProp)
+	{
+		DeckShower.rulesProp = rulesProp;
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
-		DeckEditor.deckShower = this;
+		DeckEditor.setDeckShower(this);
 
 		add.setOnAction(event -> add(table.getSelectionModel().getSelectedItem(), false));
 		add.setGraphic(new ImageView(getClass().getResource("/icons/add.png").toString()));
@@ -79,12 +104,12 @@ public class DeckShower extends AbstractController implements Initializable
 		remove.setGraphic(new ImageView(getClass().getResource("/icons/remove.png").toString()));
 
 		deck = new Deck();
-		deck.free = true;
-		deck.uuid = UUID.randomUUID();
-		deck.owner = Client.localPlayer;
-		deck.name.bind(name.textProperty());
-		deck.cards.addListener((SetChangeListener<? super OwnedCard>) change -> updateDeckView());
-		deck.sideboard.addListener((SetChangeListener<? super OwnedCard>) change -> updateDeckView());
+		deck.setFree(true);
+		deck.setUuid(UUID.randomUUID());
+		deck.setOwner(Client.localPlayer);
+		deck.nameProperty().bind(name.textProperty());
+		deck.getCards().addListener((SetChangeListener<? super OwnedCard>) change -> updateDeckView());
+		deck.getSideboard().addListener((SetChangeListener<? super OwnedCard>) change -> updateDeckView());
 		newDeck = true;
 
 		cards.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -96,13 +121,125 @@ public class DeckShower extends AbstractController implements Initializable
 
 		rulesProp.addListener((observable, oldValue, newValue) -> {
 			deck.calculateLegalities();
-			if (!deck.legalities.contains(newValue))
+			if (!deck.getLegalities().contains(newValue))
 			{
 				Utils.alert("Changement de format", "Impossible de changer le filtre de format",
 						"Votre deck contient une ou plusieurs cartes illégales dans le format " + "choisi. Merci de les retirer avant d'effectuer le changement.");
 				((SelectionModel<Rules>) rulesProp.getBean()).select(oldValue);
 			}
 		});
+	}
+
+	private void add(Card card, boolean sideboard)
+	{
+		if (card == null)
+			return;
+
+		Rules rules = rulesProp.getValue();
+		if (rules != Rules.FREEFORM)
+		{
+			if (sideboard && deck.getSideboard().size() >= 15)
+				return;
+			int count = 0;
+			for (OwnedCard c : deck.getCards())
+			{
+				if (c.getCard().getName().get("en").equals(card.getName().get("en")))
+					++count;
+			}
+			for (OwnedCard c : deck.getSideboard())
+			{
+				if (c.getCard().getName().get("en").equals(card.getName().get("en")))
+					++count;
+			}
+
+			if (card.isRestricted(rules) && count >= 1)
+				return;
+			else if (count >= 4 && !card.isBasic())
+				return;
+		}
+
+		if (sideboard)
+			deck.getSideboard().add(new OwnedCard(card, Client.localPlayer, false));
+		else
+			deck.getCards().add(new OwnedCard(card, Client.localPlayer, false));
+	}
+
+	private void remove(Object obj)
+	{
+		if (obj == null)
+			return;
+		int index = cards.getSelectionModel().getSelectedIndex();
+		CardLabel label = (CardLabel) obj;
+		if (label.sideboard)
+		{
+			for (OwnedCard card : Sets.newHashSet(deck.getSideboard()))
+			{
+				if (card.getCard() == label.card)
+				{
+					deck.getSideboard().remove(card);
+					break;
+				}
+			}
+		} else
+		{
+			for (OwnedCard card : Sets.newHashSet(deck.getCards()))
+			{
+				if (card.getCard() == label.card)
+				{
+					deck.getCards().remove(card);
+					break;
+				}
+			}
+		}
+
+		updateDeckView();
+		if (label.count - 1 > 0)
+			cards.getSelectionModel().select(index);
+	}
+
+	private void updateDeckView()
+	{
+		cards.getItems().clear();
+		Map<CardType, Map<Card, AtomicInteger>> map = deck.cardsByType();
+		if (!map.isEmpty())
+		{
+			Label deck = new Label("Deck (" + this.deck.getCards().size() + ")");
+			deck.setStyle("-fx-font-weight: bold; -fx-text-fill: red; -fx-font-size: 14pt;");
+			cards.getItems().add(deck);
+			for (Map.Entry<CardType, Map<Card, AtomicInteger>> entry : map.entrySet())
+			{
+				AtomicInteger size = new AtomicInteger(0);
+				Label label = new Label();
+				label.setStyle("-fx-font-weight: bold; -fx-font-size: 12pt;");
+				cards.getItems().add(label);
+				for (Map.Entry<Card, AtomicInteger> entry2 : entry.getValue().entrySet())
+				{
+					size.getAndAdd(entry2.getValue().get());
+					cards.getItems().add(new CardLabel(entry2.getKey(), entry2.getValue().get(), false));
+				}
+				label.setText(entry.getKey().toString() + (size.get() > 1 ? " (" + size.get() + ")" : ""));
+			}
+		}
+		map = deck.sideboardByType();
+		if (!map.isEmpty())
+		{
+			Label sideboard = new Label("Réserve (" + this.deck.getSideboard().size() + ")");
+			sideboard.setStyle("-fx-font-weight: bold; -fx-text-fill: red; -fx-font-size: 14pt;");
+			cards.getItems().add(sideboard);
+			for (Map.Entry<CardType, Map<Card, AtomicInteger>> entry : map.entrySet())
+			{
+				AtomicInteger size = new AtomicInteger(0);
+				Label label = new Label();
+				label.setStyle("-fx-font-weight: bold; -fx-font-size: 12pt;");
+				cards.getItems().add(label);
+				for (Map.Entry<Card, AtomicInteger> entry2 : entry.getValue().entrySet())
+				{
+					size.addAndGet(entry2.getValue().get());
+					cards.getItems().add(new CardLabel(entry2.getKey(), entry2.getValue().get(), true));
+				}
+				label.setText(entry.getKey().toString() + (size.get() > 1 ? " (" + size.get() + ")" : ""));
+			}
+		}
 	}
 
 	@FXML
@@ -134,12 +271,12 @@ public class DeckShower extends AbstractController implements Initializable
 			dialog.showAndWait().filter(deck -> deck != null).ifPresent(d -> {
 				newDeck = false;
 				deck = d;
-				if (deck.name.isBound())
-					deck.name.unbind();
-				name.setText(deck.name.getValue());
-				deck.name.bind(name.textProperty());
-				deck.cards.addListener((SetChangeListener<? super OwnedCard>) change -> updateDeckView());
-				deck.sideboard.addListener((SetChangeListener<? super OwnedCard>) change -> updateDeckView());
+				if (deck.nameProperty().isBound())
+					deck.nameProperty().unbind();
+				name.setText(deck.getName());
+				deck.nameProperty().bind(name.textProperty());
+				deck.getCards().addListener((SetChangeListener<? super OwnedCard>) change -> updateDeckView());
+				deck.getSideboard().addListener((SetChangeListener<? super OwnedCard>) change -> updateDeckView());
 				updateDeckView();
 			});
 		}
@@ -148,7 +285,7 @@ public class DeckShower extends AbstractController implements Initializable
 	@FXML
 	private void save()
 	{
-		if (deck.name.getValue().isEmpty())
+		if (deck.getName().isEmpty())
 		{
 			Utils.alert("Nom mmanquant", "Veuillez spécifier un nom à votre deck", "Cela vous sera utile afin de dissocier vos decks", Alert.AlertType.WARNING);
 			return;
@@ -187,9 +324,9 @@ public class DeckShower extends AbstractController implements Initializable
 				{
 					Node node = root.getChildNodes().item(i);
 					if (node.getNodeName().equals("deckname"))
-						deck.name.set(node.getTextContent());
+						deck.setName(node.getTextContent());
 					else if (node.getNodeName().equals("comments"))
-						deck.desc = node.getTextContent();
+						deck.setDesc(node.getTextContent());
 					else if (node.getNodeName().equals("zone"))
 					{
 						Element element = (Element) node;
@@ -198,35 +335,35 @@ public class DeckShower extends AbstractController implements Initializable
 							for (int j = 0; j < element.getElementsByTagName("card").getLength(); ++j)
 							{
 								Element cardElem = (Element) element.getElementsByTagName("card").item(j);
-								List<Card> matches = StreamSupport.stream(MySQL.getAllCards()).filter(card -> card.name.get("en").equals(cardElem.getAttribute("name")))
+								List<Card> matches = StreamSupport.stream(MySQL.getAllCards()).filter(card -> card.getName().get("en").equals(cardElem.getAttribute("name")))
 										.collect(Collectors.toList());
 								Collections.sort(matches);
 								for (int k = 0; k < Integer.parseInt(cardElem.getAttribute("number")); ++k)
-									deck.cards.add(new OwnedCard(matches.get(0), Client.localPlayer, false));
+									deck.getCards().add(new OwnedCard(matches.get(0), Client.localPlayer, false));
 							}
 						} else if (element.getAttribute("name").equals("side"))
 						{
 							for (int j = 0; j < element.getElementsByTagName("card").getLength(); ++j)
 							{
 								Element cardElem = (Element) element.getElementsByTagName("card").item(j);
-								List<Card> matches = StreamSupport.stream(MySQL.getAllCards()).filter(card -> card.name.get("en").equals(cardElem.getAttribute("name")))
+								List<Card> matches = StreamSupport.stream(MySQL.getAllCards()).filter(card -> card.getName().get("en").equals(cardElem.getAttribute("name")))
 										.collect(Collectors.toList());
 								Collections.sort(matches);
 								Collections.reverse(matches);
 								for (int k = 0; k < Integer.parseInt(cardElem.getAttribute("number")); ++k)
-									deck.sideboard.add(new OwnedCard(matches.get(0), Client.localPlayer, false));
+									deck.getSideboard().add(new OwnedCard(matches.get(0), Client.localPlayer, false));
 							}
 						}
 					}
 				}
 			}
 			newDeck = true;
-			name.setText(deck.name.getValue());
-			deck.uuid = UUID.randomUUID();
-			deck.owner = Client.localPlayer;
-			deck.name.bind(name.textProperty());
-			deck.cards.addListener((SetChangeListener<? super OwnedCard>) change -> updateDeckView());
-			deck.sideboard.addListener((SetChangeListener<? super OwnedCard>) change -> updateDeckView());
+			name.setText(deck.getName());
+			deck.setUuid(UUID.randomUUID());
+			deck.setOwner(Client.localPlayer);
+			deck.nameProperty().bind(name.textProperty());
+			deck.getCards().addListener((SetChangeListener<? super OwnedCard>) change -> updateDeckView());
+			deck.getSideboard().addListener((SetChangeListener<? super OwnedCard>) change -> updateDeckView());
 			updateDeckView();
 		} catch (SAXException | IOException | ParserConfigurationException ex)
 		{
@@ -256,10 +393,10 @@ public class DeckShower extends AbstractController implements Initializable
 				root.setAttribute("version", "1");
 				doc.appendChild(root);
 				Element deckname = doc.createElement("deckname");
-				deckname.setTextContent(deck.name.get());
+				deckname.setTextContent(deck.getName());
 				root.appendChild(deckname);
 				Element comments = doc.createElement("comments");
-				comments.setTextContent(deck.desc);
+				comments.setTextContent(deck.getDesc());
 				root.appendChild(comments);
 				Element mainZone = doc.createElement("zone");
 				mainZone.setAttribute("name", "main");
@@ -272,7 +409,7 @@ public class DeckShower extends AbstractController implements Initializable
 					card.setAttribute("name", entry.getKey());
 					mainZone.appendChild(card);
 				}
-				if (!deck.sideboard.isEmpty())
+				if (!deck.getSideboard().isEmpty())
 				{
 					Element sideZone = doc.createElement("zone");
 					sideZone.setAttribute("name", "side");
@@ -289,13 +426,13 @@ public class DeckShower extends AbstractController implements Initializable
 				TransformerFactory.newInstance().newTransformer().transform(new DOMSource(doc), new StreamResult(file));
 			} else if (chooser.getSelectedExtensionFilter() == tableTopSimFilter)
 			{
-				int numImages = (int) Math.ceil(deck.cards.size() / 60.0D);
+				int numImages = (int) Math.ceil(deck.getCards().size() / 60.0D);
 				for (int i = 0; i < numImages; ++i)
 				{
 					BufferedImage img = new BufferedImage(10 * 223, 7 * 310, BufferedImage.TYPE_INT_RGB);
 					Graphics2D g = img.createGraphics();
 					int x = 0, y = 0;
-					List<OwnedCard> cards = Lists.newArrayList(deck.cards);
+					List<OwnedCard> cards = Lists.newArrayList(deck.getCards());
 					for (OwnedCard card : cards.subList(i * 70, Math.min(cards.size(), (i + 1) * 70)))
 					{
 						BufferedImage preview = SwingFXUtils.fromFXImage(CardImageManager.getImage(card.getCard()), null);
@@ -346,118 +483,6 @@ public class DeckShower extends AbstractController implements Initializable
 		//Client.show(FreeModeMenu.class);
 	}
 
-	private void add(Card card, boolean sideboard)
-	{
-		if (card == null)
-			return;
-
-		Rules rules = rulesProp.getValue();
-		if (rules != Rules.FREEFORM)
-		{
-			if (sideboard && deck.sideboard.size() >= 15)
-				return;
-			int count = 0;
-			for (OwnedCard c : deck.cards)
-			{
-				if (c.getCard().name.get("en").equals(card.name.get("en")))
-					++count;
-			}
-			for (OwnedCard c : deck.sideboard)
-			{
-				if (c.getCard().name.get("en").equals(card.name.get("en")))
-					++count;
-			}
-
-			if (card.isRestricted(rules) && count >= 1)
-				return;
-			else if (count >= 4 && !card.basic)
-				return;
-		}
-
-		if (sideboard)
-			deck.sideboard.add(new OwnedCard(card, Client.localPlayer, false));
-		else
-			deck.cards.add(new OwnedCard(card, Client.localPlayer, false));
-	}
-
-	private void remove(Object obj)
-	{
-		if (obj == null)
-			return;
-		int index = cards.getSelectionModel().getSelectedIndex();
-		CardLabel label = (CardLabel) obj;
-		if (label.sideboard)
-		{
-			for (OwnedCard card : Sets.newHashSet(deck.sideboard))
-			{
-				if (card.getCard() == label.card)
-				{
-					deck.sideboard.remove(card);
-					break;
-				}
-			}
-		} else
-		{
-			for (OwnedCard card : Sets.newHashSet(deck.cards))
-			{
-				if (card.getCard() == label.card)
-				{
-					deck.cards.remove(card);
-					break;
-				}
-			}
-		}
-
-		updateDeckView();
-		if (label.count - 1 > 0)
-			cards.getSelectionModel().select(index);
-	}
-
-	private void updateDeckView()
-	{
-		cards.getItems().clear();
-		Map<CardType, Map<Card, AtomicInteger>> map = deck.cardsByType();
-		if (!map.isEmpty())
-		{
-			Label deck = new Label("Deck (" + this.deck.cards.size() + ")");
-			deck.setStyle("-fx-font-weight: bold; -fx-text-fill: red; -fx-font-size: 14pt;");
-			cards.getItems().add(deck);
-			for (Map.Entry<CardType, Map<Card, AtomicInteger>> entry : map.entrySet())
-			{
-				AtomicInteger size = new AtomicInteger(0);
-				Label label = new Label();
-				label.setStyle("-fx-font-weight: bold; -fx-font-size: 12pt;");
-				cards.getItems().add(label);
-				for (Map.Entry<Card, AtomicInteger> entry2 : entry.getValue().entrySet())
-				{
-					size.getAndAdd(entry2.getValue().get());
-					cards.getItems().add(new CardLabel(entry2.getKey(), entry2.getValue().get(), false));
-				}
-				label.setText(entry.getKey().toString() + (size.get() > 1 ? " (" + size.get() + ")" : ""));
-			}
-		}
-		map = deck.sideboardByType();
-		if (!map.isEmpty())
-		{
-			Label sideboard = new Label("Réserve (" + this.deck.sideboard.size() + ")");
-			sideboard.setStyle("-fx-font-weight: bold; -fx-text-fill: red; -fx-font-size: 14pt;");
-			cards.getItems().add(sideboard);
-			for (Map.Entry<CardType, Map<Card, AtomicInteger>> entry : map.entrySet())
-			{
-				AtomicInteger size = new AtomicInteger(0);
-				Label label = new Label();
-				label.setStyle("-fx-font-weight: bold; -fx-font-size: 12pt;");
-				cards.getItems().add(label);
-				for (Map.Entry<Card, AtomicInteger> entry2 : entry.getValue().entrySet())
-				{
-					size.addAndGet(entry2.getValue().get());
-					cards.getItems().add(new CardLabel(entry2.getKey(), entry2.getValue().get(), true));
-				}
-				label.setText(entry.getKey().toString() + (size.get() > 1 ? " (" + size.get() + ")" : ""));
-			}
-		}
-	}
-
 	@FXML
 	private void showstats()
 	{
@@ -491,7 +516,7 @@ public class DeckShower extends AbstractController implements Initializable
 		private final int count;
 		private final boolean sideboard;
 
-		CardLabel(Card card, int count, boolean sideboard)
+		private CardLabel(Card card, int count, boolean sideboard)
 		{
 			textProperty().bind(card.getTranslatedName().concat((count > 1 ? " (" + count + ")" : "")));
 			this.card = card;

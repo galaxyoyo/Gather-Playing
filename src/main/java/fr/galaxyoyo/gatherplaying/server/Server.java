@@ -22,11 +22,6 @@ public class Server
 
 	public static Collection<Player> getPlayers() { return players.values(); }
 
-	public static Player getPlayer(Channel channel)
-	{
-		return StreamSupport.stream(players.values()).filter(p -> p.connection.remoteAddress().equals(channel.remoteAddress())).findAny().orElse(connectings.get(channel));
-	}
-
 	public static Player getPlayer(UUID uuid) { return players.get(uuid); }
 
 	public static void addTempPlayer(Player player) { connectings.put(player.connection, player); }
@@ -49,7 +44,7 @@ public class Server
 		{
 			int numbers = 0;
 			player.runningParty.removePlayer(player);
-			for (int i = 0; i < player.runningParty.size; ++i)
+			for (int i = 0; i < player.runningParty.getSize(); ++i)
 			{
 				PacketMixUpdatePartyInfos pkt = PacketManager.createPacket(PacketMixUpdatePartyInfos.class);
 				pkt.type = Type.LEAVE;
@@ -64,13 +59,27 @@ public class Server
 		connectings.remove(channel);
 	}
 
+	public static Player getPlayer(Channel channel)
+	{
+		return StreamSupport.stream(players.values()).filter(p -> p.connection.remoteAddress().equals(channel.remoteAddress())).findAny().orElse(connectings.get(channel));
+	}
+
+	public static void endParty(Party party) { parties.remove(party.getId()); }
+
 	public static Party getParty(int id) { return parties.get(id); }
 
-	public static void createParty(Party party) { parties.put(party.id, party); }
-
-	public static void endParty(Party party) { parties.remove(party.id); }
+	public static void createParty(Party party) { parties.put(party.getId(), party); }
 
 	public static Collection<Party> getParties() { return parties.values(); }
+
+	public static void sendChat(Party p, String msg, String style, String... args)
+	{
+		for (Player pl : p.getOnlinePlayers())
+		{
+			if (pl != null)
+				sendChat(pl, msg, style, args);
+		}
+	}
 
 	public static void sendChat(Player p, String msg, String style, String... args)
 	{
@@ -81,14 +90,5 @@ public class Server
 		if (style != null)
 			pkt.style = style;
 		PacketManager.sendPacketToPlayer(p, pkt);
-	}
-
-	public static void sendChat(Party p, String msg, String style, String... args)
-	{
-		for (Player pl : p.getOnlinePlayers())
-		{
-			if (pl != null)
-				sendChat(pl, msg, style, args);
-		}
 	}
 }

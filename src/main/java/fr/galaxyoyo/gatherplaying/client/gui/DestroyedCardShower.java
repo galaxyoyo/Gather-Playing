@@ -18,7 +18,7 @@ public class DestroyedCardShower extends ImageView
 		Platform.runLater(() -> setImage(CardImageManager.getImage(card.getCard())));
 		setFitWidth(223.0D);
 		setFitHeight(310.0D);
-		setOnMouseEntered(event -> GameMenu.INSTANCE.setImage(card.getCard()));
+		setOnMouseEntered(event -> GameMenu.instance().setImage(card.getCard()));
 		setOnMouseReleased(event -> {
 			if (event.getButton() == MouseButton.SECONDARY && card.getOwner() == Client.localPlayer)
 			{

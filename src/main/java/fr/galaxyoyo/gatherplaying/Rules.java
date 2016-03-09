@@ -18,14 +18,14 @@ public enum Rules
 
 	private final ObservableSet<String> legals = FXCollections.observableSet("Plains", "Mountain", "Swamp", "Forest", "Island");
 
-	public StringBinding getTranslatedName() { return I18n.tr("rules." + name().toLowerCase()); }
-
 	@Override
 	public String toString() { return getTranslatedName().get(); }
 
+	public StringBinding getTranslatedName() { return I18n.tr("rules." + name().toLowerCase()); }
+
 	public boolean isLegal(Card card)
 	{
-		if (legals.contains(card.name.get("en")))
+		if (legals.contains(card.getName().get("en")))
 			return true;
 
 		switch (this)
@@ -33,20 +33,26 @@ public enum Rules
 			case FREEFORM:
 				return true;
 			case STANDARD:
-				switch (card.set.code)
+				switch (card.getSet().getCode())
 				{
+					// Be removed on April 8th
 					case "KTK":
 					case "FRF":
+						// Be kept on April 8th
 					case "DTK":
 					case "ORI":
 					case "BFZ":
 					case "OGW":
+						// Be added on April 8th
+					case "SOI":
+						// Be added on July 22th
+					case "EMN":
 						return true;
 					default:
 						return false;
 				}
 			case VINTAGE:
-				switch (card.name.get("en"))
+				switch (card.getName().get("en"))
 				{
 					case "Advantageous Proclamation":
 					case "Amulet of Quoz":
@@ -61,24 +67,24 @@ public enum Rules
 					case "Falling Star":
 					case "Immediate Action":
 					case "Iterative Analysis":
-					case "Jeweled Bird ":
+					case "Jeweled Bird":
 					case "Muzzio 's Preparations":
 					case "Power Play":
-					case "Rebirth ":
+					case "Rebirth":
 					case "Secret Summoning":
 					case "Secrets of Paradise":
-					case "Sentinel Dispatch ":
-					case "Shahrazad ":
-					case "Tempest Efreet ":
-					case "Timmerian Fiends ":
-					case "Unexpected Potential ":
+					case "Sentinel Dispatch":
+					case "Shahrazad":
+					case "Tempest Efreet":
+					case "Timmerian Fiends":
+					case "Unexpected Potential":
 					case "Worldknit":
 						return false;
 					default:
-						return card.set.border.equalsIgnoreCase("black") || card.set.border.equalsIgnoreCase("white");
+						return card.getSet().getBorder().equalsIgnoreCase("black") || card.getSet().getBorder().equalsIgnoreCase("white");
 				}
 			case LEGACY:
-				switch (card.name.get("en"))
+				switch (card.getName().get("en"))
 				{
 					case "Advantageous Proclamation":
 					case "Amulet of Quoz":
@@ -155,10 +161,10 @@ public enum Rules
 					case "Yawgmoth' s Will":
 						return false;
 					default:
-						return !UN_SETS.isLegal(card) && card.set.border.equalsIgnoreCase("black");
+						return !UN_SETS.isLegal(card) && card.getSet().getBorder().equalsIgnoreCase("black");
 				}
 			case MODERN:
-				switch (card.name.get("en"))
+				switch (card.getName().get("en"))
 				{
 					case "Ancestral Vision":
 					case "Ancient Den":
@@ -196,10 +202,10 @@ public enum Rules
 					case "Vault of Whispers":
 						return false;
 					default:
-						return card.set.compareTo(MySQL.getSet("MRD")) >= 0;
+						return card.getSet().compareTo(MySQL.getSet("MRD")) >= 0;
 				}
 			case COMMANDER:
-				switch (card.name.get("en"))
+				switch (card.getName().get("en"))
 				{
 					case "Advantageous Proclamation":
 					case "Amulet of Quoz":
@@ -265,15 +271,15 @@ public enum Rules
 					case "Yawgmoth 's Bargain":
 						return false;
 					default:
-						return card.set.border.equalsIgnoreCase("black") || card.set.border.equalsIgnoreCase("white");
+						return card.getSet().getBorder().equalsIgnoreCase("black") || card.getSet().getBorder().equalsIgnoreCase("white");
 				}
 			case UN_SETS:
-				return card.set.type.equals("un");
+				return card.getSet().getType().equals("un");
 		}
 
 		if (name().contains("BLOCK"))
 		{
-			switch (card.name.get("en"))
+			switch (card.getName().get("en"))
 			{
 				case "Intangible Virtue":
 				case "Lingering Souls":
@@ -304,13 +310,13 @@ public enum Rules
 					return false;
 			}
 			List<Set> matching =
-					StreamSupport.stream(MySQL.getAllSets()).filter(set -> set.block != null && set.block.equalsIgnoreCase(name().replace("_BLOCK", "").replace("_", " ")))
+					StreamSupport.stream(MySQL.getAllSets()).filter(set -> set.getBlock() != null && set.getBlock().equalsIgnoreCase(name().replace("_BLOCK", "").replace("_", " ")))
 							.collect(Collectors.toList());
 			for (Set set : matching)
 			{
-				if (StreamSupport.stream(set.cards).anyMatch(c -> c.name.get("en").equals(card.name.get("en"))))
+				if (StreamSupport.stream(set.getCards()).anyMatch(c -> c.getName().get("en").equals(card.getName().get("en"))))
 				{
-					legals.add(card.name.get("en"));
+					legals.add(card.getName().get("en"));
 					return true;
 				}
 			}
@@ -324,7 +330,7 @@ public enum Rules
 	{
 		if (this != VINTAGE)
 			return false;
-		switch (card.name.get("en"))
+		switch (card.getName().get("en"))
 		{
 			case "Ancestral Recall":
 			case "Balance":

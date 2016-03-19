@@ -75,12 +75,14 @@ public class Set implements Comparable<Set>
 			LanguageData data = gson.fromJson(json, LanguageData.class);
 			for (CardLanguageData cardData : data.cards)
 			{
-				Card card = StreamSupport.stream(cards).filter(c -> Integer.toString(cardData.multiverseid).equalsIgnoreCase(c.getMuId().get(language))).findAny().orElse(null);
+				Card card = StreamSupport.stream(cards).filter(c -> Integer.toString(cardData.multiverseid).equalsIgnoreCase(c.getMuId(language))).findAny().orElse(null);
 				if (card == null)
 				{
-					if (cardData.originalText.equals("U") || cardData.originalText.equals("B") || cardData.originalText.equals("R") || cardData.originalText.equals("G") ||
-							cardData.originalText.equals("W"))
-						continue;
+					for (Card c : cards)
+					{
+						if (c.isBasic())
+							System.out.println(c.getMuId("fr"));
+					}
 					System.out.println(cardData.multiverseid + " (" + code + ")");
 					System.out.println(cardData.originalText);
 					System.exit(0);

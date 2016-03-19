@@ -1,18 +1,18 @@
 package fr.galaxyoyo.gatherplaying;
 
+import com.google.common.collect.Lists;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import java8.util.stream.StreamSupport;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Objects;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,6 +35,8 @@ public class CardAdapter extends TypeAdapter<Card>
 		ABBREVIATES.put("Japanese", "jp");
 		ABBREVIATES.put("Korean", "ko");
 	}
+
+	private List<String> usedForeignMuIds = Lists.newArrayList();
 
 	@Override
 	public void write(JsonWriter w, Card card) throws IOException { }
@@ -108,6 +110,8 @@ public class CardAdapter extends TypeAdapter<Card>
 							card.setType(card.getType().with(CardType.valueOf(type)));
 					}
 					r.endArray();
+					for (SubType subType : card.getSubtypes())
+						subType.setCanApplicate(card.getType());
 					break;
 				case "subtypes":
 					r.beginArray();
@@ -117,7 +121,6 @@ public class CardAdapter extends TypeAdapter<Card>
 						SubType subtype = SubType.valueOf(r.nextString());
 						if (subtype == null)
 							continue;
-						subtype.setCanApplicate(card.getType());
 						card.setSubtypes(Arrays.copyOf(card.getSubtypes(), card.getSubtypes().length + 1));
 						card.getSubtypes()[card.getSubtypes().length - 1] = subtype;
 					}
@@ -238,11 +241,12 @@ public class CardAdapter extends TypeAdapter<Card>
 						}
 						r.nextName();
 						String muId = r.nextString();
-						String abreviate = ABBREVIATES.get(locale);
-						if (!StreamSupport.stream(MySQL.getAllCards()).filter(c -> Objects.equals(abreviate, muId)).findAny().isPresent())
+						String abbreviate = ABBREVIATES.get(locale);
+						if (card.getMuId(abbreviate) == null && !usedForeignMuIds.contains(muId))
 						{
-							card.getName().put(abreviate, tr_name);
-							card.getMuId().put(abreviate, muId);
+							card.getName().put(abbreviate, tr_name);
+							card.getMuId().put(abbreviate, muId);
+							usedForeignMuIds.add(muId);
 						}
 						r.endObject();
 					}
@@ -303,7 +307,7 @@ public class CardAdapter extends TypeAdapter<Card>
 		}
 		r.endObject();
 		if (card.getColors() == null)
-			card.setColorIdentity(new ManaColor[]{ManaColor.COLORLESS});
+			card.setColors(new ManaColor[]{ManaColor.COLORLESS});
 		if (card.getColorIdentity() == null)
 			card.setColorIdentity(new ManaColor[]{ManaColor.COLORLESS});
 		return card;

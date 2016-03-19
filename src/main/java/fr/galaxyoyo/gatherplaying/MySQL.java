@@ -84,7 +84,8 @@ public class MySQL
 			assert value != null;
 			config.put(key, value);
 			return value;
-		} catch (SQLException ex)
+		}
+		catch (SQLException ex)
 		{
 			throw new RuntimeException(ex);
 		}
@@ -95,7 +96,8 @@ public class MySQL
 		try
 		{
 			return connection.createStatement().executeQuery("SELECT * FROM `" + table + "` WHERE " + c.toString() + ";");
-		} catch (SQLException ex)
+		}
+		catch (SQLException ex)
 		{
 			if (!ex.getMessage().contains("no such table"))
 				throw new RuntimeException(ex);
@@ -128,7 +130,8 @@ public class MySQL
 			for (int i = 0; i < values.length; ++i)
 				state.setObject(i + 1, values[i]);
 			return state.executeUpdate();
-		} catch (SQLException ex)
+		}
+		catch (SQLException ex)
 		{
 			throw new RuntimeException(ex);
 		}
@@ -140,7 +143,8 @@ public class MySQL
 		{
 			String sql = "DELETE FROM `" + table + "` WHERE " + c.toString() + ";";
 			return connection.createStatement().executeUpdate(sql);
-		} catch (SQLException ex)
+		}
+		catch (SQLException ex)
 		{
 			ex.printStackTrace();
 			return -1;
@@ -158,7 +162,8 @@ public class MySQL
 				return false;
 			set.close();
 			return true;
-		} catch (SQLException ex)
+		}
+		catch (SQLException ex)
 		{
 			if (!ex.getMessage().contains("no such table"))
 				throw new RuntimeException(ex);
@@ -205,7 +210,8 @@ public class MySQL
 			card.setArtist(set.getString("artist"));
 			card.setImageName(set.getString("image_name"));
 			card.setWatermark(set.getString("watermark"));
-		} catch (SQLException ex)
+		}
+		catch (SQLException ex)
 		{
 			ex.printStackTrace();
 		}
@@ -224,14 +230,6 @@ public class MySQL
 	{
 		Gson gson = new GsonBuilder().registerTypeAdapter(Date.class, CardSerializer.DATE).registerTypeAdapter(SubType.class, CardSerializer.SUBTYPE)
 				.registerTypeAdapter(ManaColor.class, CardSerializer.MANACOLOR).create();
-		assert card != null;
-		assert gson.toJson(card.getManaCost()).toLowerCase() != null;
-		assert gson.toJson(card.getColors()).toLowerCase() != null;
-		assert gson.toJson(card.getColorIdentity()).toLowerCase() != null;
-		assert card.getSet() != null;
-		assert card.getType() != null;
-		assert card.getRarity() != null;
-		assert card.getLayout() != null;
 
 		insert("cards", CARD_COLUMNS, card.getMuId("en"), card.getMuId("de"), card.getMuId("fr"), card.getMuId("it"), card.getMuId("es"), card.getMuId("pt"), card.getMuId("ru"),
 				card.getMuId("cn"), card.getMuId("tw"), card.getMuId("jp"), card.getMuId("ko"), card.getName().get("en"), card.getName().get("de"), card.getName().get("fr"),
@@ -267,7 +265,8 @@ public class MySQL
 					.fromJson(set.getString("cards"), new TypeToken<HashSet<OwnedCard>>() {}.getType()));
 			player.lastIp = set.getString("last_ip");
 			return player;
-		} catch (SQLException ex)
+		}
+		catch (SQLException ex)
 		{
 			ex.printStackTrace();
 			return null;
@@ -287,7 +286,8 @@ public class MySQL
 						new Value("cards", new GsonBuilder().registerTypeAdapter(OwnedCard.class, CardSerializer.OWNEDCARD).create().toJson(player.cards)));
 			else
 				insert("players", new String[]{"uuid", "name", "email", "password_hash", "last_ip"}, player.uuid, player.name, player.email, player.sha1Pwd, player.lastIp);
-		} catch (SQLException ex)
+		}
+		catch (SQLException ex)
 		{
 			ex.printStackTrace();
 		}
@@ -305,7 +305,8 @@ public class MySQL
 			for (int i = 0; i < values.length; ++i)
 				state.setObject(i + 1, values[i].value);
 			return state.executeUpdate();
-		} catch (SQLException ex)
+		}
+		catch (SQLException ex)
 		{
 			ex.printStackTrace();
 			return -1;
@@ -335,7 +336,8 @@ public class MySQL
 				deck.setLegalities(gson.fromJson(set.getString("legalities"), new TypeToken<HashSet<Rules>>() {}.getType()));
 				player.decks.add(deck);
 			}
-		} catch (SQLException ex)
+		}
+		catch (SQLException ex)
 		{
 			ex.printStackTrace();
 		}
@@ -361,7 +363,8 @@ public class MySQL
 			for (int i = 0; i < values.length; ++i)
 				state.setObject(i + 1, values[i]);
 			return state.executeUpdate();
-		} catch (SQLException ex)
+		}
+		catch (SQLException ex)
 		{
 			ex.printStackTrace();
 			return -1;
@@ -388,7 +391,8 @@ public class MySQL
 			}
 			sql = sql.substring(0, sql.length() - 2) + ");";
 			return connection.prepareStatement(sql).executeUpdate();
-		} catch (SQLException ex)
+		}
+		catch (SQLException ex)
 		{
 			ex.printStackTrace();
 			return -1;
@@ -583,7 +587,8 @@ public class MySQL
 			{
 				setCodes = new GsonBuilder().registerTypeAdapter(Date.class, CardSerializer.DATE).create()
 						.fromJson(IOUtils.toString(new URL("http://mtgjson.com/json/SetCodes.json"), "UTF-8"), String[].class);
-			} catch (IOException ex)
+			}
+			catch (IOException ex)
 			{
 				setCodes = new String[sets.size()];
 				int i = 0;
@@ -623,13 +628,13 @@ public class MySQL
 					insertSingleCard(card);
 					cards.put(muId, card);
 				}
-				set.addLang(Config.getLocaleCode());
+				if (Utils.getSide() == Side.SERVER)
+					set.addLang(Config.getLocaleCode());
 				timestamp = System.currentTimeMillis();
-				insert("sets", new String[]{"name", "code", "magic_cards_info_code", "release_date", "type", "block", "booster", "border"}, set.getName(), set.getCode(),
-						set.getMagicCardsInfoCode(), CardSerializer.DATE.serialize(set.getReleaseDate(), Date.class, null).getAsString(), set.getType(), set.getBlock(),
-						new Gson().toJson(set.booster),
-
-						set.getBorder());
+				insert("sets", new String[]{"name", "code", "magic_cards_info_code", "release_date", "type", "block", "booster", "border", "finished_translations", "mkm_id",
+								"mkm_name"}, set.getName(), set.getCode(), set.getMagicCardsInfoCode(), CardSerializer.DATE.serialize(set.getReleaseDate(), Date.class, null)
+						.getAsString(),
+						set.getType(), set.getBlock(), new Gson().toJson(set.booster), set.getBorder(), set.getFinishedTranslations(), set.getMKMId(), set.getMKMName());
 				connection.commit();
 				System.out.println("Time to commit : " + (System.currentTimeMillis() - timestamp) + " ms");
 			}
@@ -759,7 +764,8 @@ public class MySQL
 			}
 			System.out.println(sets.size() + " éditions chargées, comprenant un total de " + cards.size() + " cartes !");
 			Loading.setLabel("Connexion au serveur ...");
-		} catch (Throwable ex)
+		}
+		catch (Throwable ex)
 		{
 			ex.printStackTrace();
 		}
@@ -771,7 +777,8 @@ public class MySQL
 		{
 			return IOUtils.toString(
 					new URL("http://" + (Utils.DEBUG ? "localhost/gatherplaying" : "gatherplaying.arathia.fr") + "/MKM.php?output=json&path=" + URLEncoder.encode(path, "UTF-8")));
-		} catch (IOException ex)
+		}
+		catch (IOException ex)
 		{
 			throw new RuntimeException(ex);
 		}

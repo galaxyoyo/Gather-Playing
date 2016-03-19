@@ -14,7 +14,8 @@ public enum CardType
 		try
 		{
 			return valueOf(name() + "_" + type.name());
-		} catch (IllegalArgumentException ex)
+		}
+		catch (IllegalArgumentException ex)
 		{
 			return valueOf(type.name() + "_" + name());
 		}

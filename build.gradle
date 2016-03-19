@@ -44,10 +44,11 @@ mainClassName = 'fr.galaxyoyo.gatherplaying.Main'
 //noinspection GroovyUnusedAssignment
 sourceCompatibility = 1.8
 //noinspection GroovyUnusedAssignment
-version = "1.0.0"
+archivesBaseName = "Gather Playing"
 
 jfxmobile {
     android {
+        //noinspection GroovyAssignabilityCheck
         manifest = 'src/android/AndroidManifest.xml'
         compileSdkVersion = 23
         packagingOptions {

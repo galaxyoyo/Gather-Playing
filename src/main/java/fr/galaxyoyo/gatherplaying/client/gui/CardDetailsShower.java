@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
@@ -69,7 +70,7 @@ public class CardDetailsShower extends AbstractController implements Initializab
 		HBox manas = new HBox();
 		if (!card.getType().is(CardType.LAND))
 		{
-			for (ManaColor color : MoreObjects.firstNonNull(card.getColors(), new ManaColor[]{ManaColor.NEUTRAL_0}))
+			for (ManaColor color : MoreObjects.firstNonNull(card.getManaCost(), new ManaColor[]{ManaColor.NEUTRAL_0}))
 				manas.getChildren().add(new ImageView(CardImageManager.getIcon(color)));
 		}
 		manaCost.setGraphic(manas);

@@ -196,7 +196,7 @@ public class Deck
 
 	public String getName()
 	{
-		return name.getName();
+		return name.get();
 	}
 
 	public void setName(String name)

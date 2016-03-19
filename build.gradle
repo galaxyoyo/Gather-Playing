@@ -67,6 +67,12 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
+tasks.withType(Zip) { task ->
+    task.doLast {
+        ant.checksum file: it.archivePath
+    }
+}
+
 //noinspection GroovyAssignabilityCheck
 run {
     if (project.hasProperty("appArgs")) {

@@ -124,7 +124,8 @@ public class DeckShower extends AbstractController implements Initializable
 			if (!deck.getLegalities().contains(newValue))
 			{
 				Utils.alert("Changement de format", "Impossible de changer le filtre de format",
-						"Votre deck contient une ou plusieurs cartes illégales dans le format " + "choisi. Merci de les retirer avant d'effectuer le changement.");
+						"Votre deck contient une ou plusieurs cartes illégales dans le format choisi. Merci de les retirer avant d'effectuer le changement.");
+				//noinspection unchecked
 				((SelectionModel<Rules>) rulesProp.getBean()).select(oldValue);
 			}
 		});
@@ -287,7 +288,7 @@ public class DeckShower extends AbstractController implements Initializable
 	{
 		if (deck.getName().isEmpty())
 		{
-			Utils.alert("Nom mmanquant", "Veuillez spécifier un nom à votre deck", "Cela vous sera utile afin de dissocier vos decks", Alert.AlertType.WARNING);
+			Utils.alert("Nom manquant", "Veuillez spécifier un nom à votre deck", "Cela vous sera utile afin de dissocier vos decks", Alert.AlertType.WARNING);
 			return;
 		}
 
@@ -299,7 +300,6 @@ public class DeckShower extends AbstractController implements Initializable
 		PacketManager.sendPacketToServer(pkt);
 		if (newDeck)
 			Client.localPlayer.decks.add(deck);
-		newDeck = false;
 
 		Utils.alert("Deck sauvegardé !", "Votre deck a bien été sauvegardé !", "Votre deck a été sauvegardé avec succès dans la base de données du serveur");
 	}
@@ -435,6 +435,7 @@ public class DeckShower extends AbstractController implements Initializable
 					List<OwnedCard> cards = Lists.newArrayList(deck.getCards());
 					for (OwnedCard card : cards.subList(i * 70, Math.min(cards.size(), (i + 1) * 70)))
 					{
+						//noinspection ConstantConditions
 						BufferedImage preview = SwingFXUtils.fromFXImage(CardImageManager.getImage(card.getCard()), null);
 						g.drawImage(preview, x, y, 223, 310, null);
 						x += 223;
@@ -457,6 +458,7 @@ public class DeckShower extends AbstractController implements Initializable
 					System.out.println(imgUrl);
 					StringSelection clipboard = new StringSelection(imgUrl);
 					Toolkit.getDefaultToolkit().getSystemClipboard().setContents(clipboard, clipboard);
+					//noinspection ConstantConditions
 					Utils.alert("Image copiée !", "Image uploadée avec succès", "Le spoiler de l'image est disponible à l'adresse " + imgUrl + ", copiée dans votre " +
 							"presse-papiers" + (numImages == 1 ? "" : " (" + (i + 1) + "/" + numImages + ")") + "\nVoulez-vous" +
 							" enregistrer l'image malgré tout ?", Alert.AlertType.CONFIRMATION).filter(buttonType -> buttonType == ButtonType.OK).ifPresent(buttonType -> {
@@ -488,7 +490,7 @@ public class DeckShower extends AbstractController implements Initializable
 	{
 		try
 		{
-			Dialog<ButtonType> dialog = new Dialog();
+			Dialog<ButtonType> dialog = new Dialog<>();
 			dialog.setTitle("Statistiques");
 			dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/DeckStats.fxml"));

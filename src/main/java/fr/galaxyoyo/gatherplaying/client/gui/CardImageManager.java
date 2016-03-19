@@ -51,6 +51,7 @@ public class CardImageManager
 			{
 				if (Config.getHqCards())
 				{
+					assert card != null;
 					File f = new File(DIR, card.getSet().getCode().replace("CON", "CON ") + File.separatorChar + card.getPreferredMuID() + "_HQ.png");
 					if (f.exists())
 					{
@@ -88,7 +89,7 @@ public class CardImageManager
 										ImageIO.write(SwingFXUtils.fromFXImage(img, null), "PNG", f);
 									else
 										FileUtils.copyURLToFile(new URL("http://gatherplaying.arathia.fr/scanshq/fr/" + card.getMuId("fr") + ".jpg"), f);
-									images.put(card == null ? null : muId, img);
+									images.put(muId, img);
 								} catch (IOException ex)
 								{
 									ex.printStackTrace();

@@ -1,6 +1,8 @@
 package fr.galaxyoyo.gatherplaying;
 
 import com.google.common.collect.Lists;
+import fr.galaxyoyo.gatherplaying.client.gui.GameMenu;
+import fr.galaxyoyo.gatherplaying.client.gui.PlayerInfos;
 import fr.galaxyoyo.gatherplaying.protocol.packets.*;
 import fr.galaxyoyo.gatherplaying.server.Server;
 import javafx.collections.FXCollections;
@@ -31,7 +33,6 @@ public class Party
 		started = true;
 		if (Utils.getSide() == Side.SERVER)
 		{
-
 			for (Player p : getOnlinePlayers())
 			{
 				PacketMixDrawCard draw = PacketManager.createPacket(PacketMixDrawCard.class);
@@ -50,7 +51,9 @@ public class Party
 		{
 			System.out.println("Partie démarrée !");
 			setCurrentPhase(Phase.MAIN);
-			//	GameMenu.INSTANCE.setPhase(Phase.MAIN);
+			GameMenu.instance().setPhase(Phase.MAIN);
+			for (Player p : getOnlinePlayers())
+				PlayerInfos.getInfos(p).updateLife();
 		}
 	}
 

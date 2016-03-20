@@ -448,13 +448,13 @@ public class DeckShower extends AbstractController implements Initializable
 					g.dispose();
 					ByteArrayOutputStream os = new ByteArrayOutputStream();
 					ImageIO.write(img, "JPG", os);
-					URL url = new URL("http://gatherplaying.arathia.fr/tts/uploadimage.php");
+					URL url = new URL("http://gp.arathia.fr/tts/uploadimage.php");
 					HttpURLConnection co = (HttpURLConnection) url.openConnection();
 					co.setRequestMethod("POST");
 					co.setDoOutput(true);
 					co.getOutputStream().write(os.toByteArray());
 					String code = new String(IOUtils.toByteArray(co));
-					String imgUrl = "http://gatherplaying.arathia.fr/tts/" + code + ".jpg";
+					String imgUrl = "http://gp.arathia.fr/tts/" + code + ".jpg";
 					System.out.println(imgUrl);
 					StringSelection clipboard = new StringSelection(imgUrl);
 					Toolkit.getDefaultToolkit().getSystemClipboard().setContents(clipboard, clipboard);

@@ -70,7 +70,7 @@ public class Set implements Comparable<Set>
 	{
 		try
 		{
-			String json = IOUtils.toString(new URL("http://gatherplaying.arathia.fr/json/" + code.replace("CON", "CON_") + "." + language + ".json"), "UTF-8");
+			String json = IOUtils.toString(new URL("http://gp.arathia.fr/json/" + code.replace("CON", "CON_") + "." + language + ".json"), "UTF-8");
 			Gson gson = new Gson();
 			LanguageData data = gson.fromJson(json, LanguageData.class);
 			for (CardLanguageData cardData : data.cards)

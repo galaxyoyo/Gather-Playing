@@ -524,7 +524,7 @@ public class MySQL
 				createTable("cards", columns.toArray(new Column[columns.size()]));
 			}
 			Loading.setLabel("Détection des paramètres");
-			String actualDBVersion = IOUtils.toString(new URL("http://" + (Utils.DEBUG ? "localhost/gatherplaying" : "gatherplaying.arathia.fr") + "/DB_VERSION.php"));
+			String actualDBVersion = IOUtils.toString(new URL("http://" + (Utils.DEBUG ? "localhost/gatherplaying" : "gp.arathia.fr") + "/DB_VERSION.php"));
 			if (!checkexists("config"))
 			{
 				Loading.setLabel("Création de la table des paramètres ...");
@@ -537,7 +537,7 @@ public class MySQL
 			if (!getConfig("dbversion", "1.0").equals(actualDBVersion))
 			{
 				connection.createStatement().executeUpdate(IOUtils.toString(
-						new URL("http://" + (Utils.DEBUG ? "localhost/gatherplaying" : "gatherplaying.arathia.fr") + "/UpdateDB.php?old=" + getConfig("dbversion", "1.0"))));
+						new URL("http://" + (Utils.DEBUG ? "localhost/gatherplaying" : "gp.arathia.fr") + "/UpdateDB.php?old=" + getConfig("dbversion", "1.0"))));
 				setConfig("dbversion", actualDBVersion);
 			}
 			Config.init();
@@ -610,7 +610,7 @@ public class MySQL
 				Loading.setLabel("Installation de l'édition " + code + " ...");
 				timestamp = System.currentTimeMillis();
 				//	String jsoned = IOUtils.toString(new URL("http://mtgjson.com/json/" + code + "-x.json"), StandardCharsets.UTF_8);
-				String jsoned = IOUtils.toString(new URL("http://gatherplaying.arathia.fr/json/" + code.replace("CON", "CON_") + ".json"), StandardCharsets.UTF_8);
+				String jsoned = IOUtils.toString(new URL("http://gp.arathia.fr/json/" + code.replace("CON", "CON_") + ".json"), StandardCharsets.UTF_8);
 				System.out.println("Time to download : " + (System.currentTimeMillis() - timestamp) + " ms");
 				timestamp = System.currentTimeMillis();
 				Set set = Set.read(jsoned);
@@ -776,7 +776,7 @@ public class MySQL
 		try
 		{
 			return IOUtils.toString(
-					new URL("http://" + (Utils.DEBUG ? "localhost/gatherplaying" : "gatherplaying.arathia.fr") + "/MKM.php?output=json&path=" + URLEncoder.encode(path, "UTF-8")));
+					new URL("http://" + (Utils.DEBUG ? "localhost/gatherplaying" : "gp.arathia.fr") + "/MKM.php?output=json&path=" + URLEncoder.encode(path, "UTF-8")));
 		}
 		catch (IOException ex)
 		{

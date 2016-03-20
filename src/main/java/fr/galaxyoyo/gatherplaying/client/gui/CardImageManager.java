@@ -76,7 +76,7 @@ public class CardImageManager
 			{
 				if (Config.getHqCards() && locale.equals("fr"))
 				{
-					Image img = new Image("http://gatherplaying.arathia.fr/scanshq/fr/" + card.getSet().getCode() + "/" + card.getMuId("fr") + ".jpg");
+					Image img = new Image("http://gp.arathia.fr/scanshq/fr/" + card.getSet().getCode() + "/" + card.getMuId("fr") + ".jpg");
 					if (!img.isError())
 					{
 						img.progressProperty().addListener((observable, oldValue, newValue) -> {
@@ -88,7 +88,7 @@ public class CardImageManager
 									if (Utils.isDesktop())
 										ImageIO.write(SwingFXUtils.fromFXImage(img, null), "PNG", f);
 									else
-										FileUtils.copyURLToFile(new URL("http://gatherplaying.arathia.fr/scanshq/fr/" + card.getMuId("fr") + ".jpg"), f);
+										FileUtils.copyURLToFile(new URL("http://gp.arathia.fr/scanshq/fr/" + card.getMuId("fr") + ".jpg"), f);
 									images.put(muId, img);
 								} catch (IOException ex)
 								{

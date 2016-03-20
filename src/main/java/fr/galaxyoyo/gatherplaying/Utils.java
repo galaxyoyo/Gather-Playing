@@ -74,7 +74,7 @@ public class Utils
 			Bootstrap boot = new Bootstrap().group(group).channel(NioSocketChannel.class).option(ChannelOption.TCP_NODELAY, true).option(ChannelOption.SO_KEEPALIVE, true)
 					.option(ChannelOption.SO_RCVBUF, 0x42666).option(ChannelOption.RCVBUF_ALLOCATOR, new FixedRecvByteBufAllocator(0x42666))
 					.option(ChannelOption.SO_REUSEADDR, false).handler(new ClientChannelInitializer());
-			ChannelFuture f = boot.connect(DEBUG ? "localhost" : "gatherplaying.arathia.fr", 42666);
+			ChannelFuture f = boot.connect(DEBUG ? "localhost" : "gp.arathia.fr", 42666);
 			try
 			{
 				f.get(1, TimeUnit.SECONDS);
@@ -138,7 +138,7 @@ public class Utils
 					alert.showAndWait();
 				}
 			});
-			return null;
+			return Optional.empty();
 		}
 		if (isDesktop())
 		{
@@ -147,13 +147,9 @@ public class Utils
 			alert.setHeaderText(header);
 			alert.setContentText(content);
 			return alert.showAndWait();
-		} else
-		{
-			com.gluonhq.charm.glisten.control.Alert alert = new com.gluonhq.charm.glisten.control.Alert(Alert.AlertType.CONFIRMATION);
-			alert.setTitleText(header);
-			alert.setContentText(content);
-			return alert.showAndWait();
 		}
+		else
+			return Optional.empty();
 
 	}
 

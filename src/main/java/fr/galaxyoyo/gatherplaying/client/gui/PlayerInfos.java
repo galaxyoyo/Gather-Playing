@@ -508,7 +508,7 @@ public class PlayerInfos extends AbstractController implements Initializable
 				plus1Life.setVisible(true);
 				plus5Life.setVisible(true);
 			}
-			this.life.setText(Integer.toString(player.getData().getHp()));
+			this.life.textProperty().bind(player.getData().hpProperty().asString());
 		});
 	}
 

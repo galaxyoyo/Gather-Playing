@@ -9,7 +9,7 @@ import io.netty.buffer.ByteBuf;
 
 public class PacketMixSelectStarter extends Packet
 {
-	private Player starter;
+	public Player starter;
 
 	@Override
 	public void read(ByteBuf buf)

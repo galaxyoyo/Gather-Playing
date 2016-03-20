@@ -9,14 +9,19 @@ import io.netty.channel.ChannelHandlerContext;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
+import java.io.IOException;
+
 public class ClientChannelHandler extends ChannelHandlerAdapter
 {
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception
 	{
 		cause.printStackTrace();
-		Platform.runLater(() -> Utils.alert("Erreur de connexion", "Problème de connexion avec le serveur", "Un problème de connexion est survenu. Malheureusement, il n'y a pas " +
-				"encore de système de reconnexion de géré, le jeu va désormais se fermer.", Alert.AlertType.WARNING).ifPresent(buttonType -> System.exit(-1)));
+		if (cause instanceof IOException)
+			Platform.runLater(() -> Utils.alert("Erreur de connexion", "Problème de connexion avec le serveur", "Un problème de connexion est survenu. Malheureusement, il n'y a pas " +
+					"encore de système de reconnexion de géré, le jeu va désormais se fermer.", Alert.AlertType.WARNING).ifPresent(buttonType -> System.exit(-1)));
+		else
+			throw new RuntimeException(cause);
 	}
 
 	@Override

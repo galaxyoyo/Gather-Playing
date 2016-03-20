@@ -64,9 +64,11 @@ public class Main
 						Client.launch(Client.class, args);
 					else
 						Client.MobileClient.launch(Client.MobileClient.class, args);
-				} catch (Throwable t)
+				}
+				catch (Throwable t)
 				{
 					t.printStackTrace();
+					throw new RuntimeException(t);
 				}
 			});
 		}

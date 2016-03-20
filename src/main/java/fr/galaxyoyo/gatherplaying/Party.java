@@ -31,13 +31,7 @@ public class Party
 		started = true;
 		if (Utils.getSide() == Side.SERVER)
 		{
-			Player starter = Lists.newArrayList(datas.keySet()).get(Utils.RANDOM.nextInt(datas.size()));
-			PacketOutPartyStart pkt = PacketManager.createPacket(PacketOutPartyStart.class);
-			pkt.starter = starter;
-			PacketManager.sendPacketToParty(this, pkt);
-			Server.sendChat(this, "Démarrage de la partie", "color: red;");
-			Server.sendChat(this, starter.name + " commence", "color: green;");
-			player = starter;
+
 			for (Player p : getOnlinePlayers())
 			{
 				PacketMixDrawCard draw = PacketManager.createPacket(PacketMixDrawCard.class);
@@ -51,7 +45,8 @@ public class Party
 				}
 				PacketManager.sendPacketToParty(this, draw);
 			}
-		} else
+		}
+		else
 		{
 			System.out.println("Partie démarrée !");
 			setCurrentPhase(Phase.MAIN);

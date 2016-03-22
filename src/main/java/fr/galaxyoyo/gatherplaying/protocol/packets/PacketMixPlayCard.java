@@ -66,20 +66,21 @@ public class PacketMixPlayCard extends Packet
 		{
 			if (Utils.getSide() == Side.SERVER)
 				Server.sendChat(player.runningParty, "chat.play", "color: blue;", played.getController().name, "<i>" + played.getTranslatedName().get() + "</i>");
-			CardShower shower = new CardShower(played);
 			if (played.getCard().getType().is(CardType.CREATURE))
 			{
 				try
 				{
 					played.setPower(Integer.parseInt(played.getCard().getPower()));
-				} catch (NumberFormatException ex)
+				}
+				catch (NumberFormatException ex)
 				{
 					played.setPower(0);
 				}
 				try
 				{
 					played.setToughness(Integer.parseInt(played.getCard().getToughness()));
-				} catch (NumberFormatException ex)
+				}
+				catch (NumberFormatException ex)
 				{
 					played.setToughness(0);
 				}
@@ -98,6 +99,7 @@ public class PacketMixPlayCard extends Packet
 				data.getPlayed().add(played);
 				if (Utils.getSide() == Side.CLIENT)
 				{
+					CardShower shower = new CardShower(played);
 					final PlayedCard finalPlayed = played;
 					Platform.runLater(() -> {
 						if (finalPlayed.getOwner() == Client.localPlayer)
@@ -110,9 +112,9 @@ public class PacketMixPlayCard extends Packet
 			} else
 			{
 				if (player.runningParty.getCurrentSpell() == null)
-					player.runningParty.setCurrentSpell(new SpellTimer(shower, player.runningParty));
+					player.runningParty.setCurrentSpell(new SpellTimer(played, player.runningParty));
 				else
-					player.runningParty.getCurrentSpell().addSpell(shower);
+					player.runningParty.getCurrentSpell().addSpell(played);
 			}
 		}
 		if (Utils.getSide() == Side.SERVER)

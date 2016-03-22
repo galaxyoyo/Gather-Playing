@@ -32,9 +32,9 @@ dependencies {
     compile 'io.netty:netty-all:5.0.0.Alpha2'
     compile 'com.google.protobuf:protobuf-java:3.0.0-beta-2'
     compile 'com.annimon:stream:1.0.6'
-    compile 'com.gluonhq:charm:2.0.0'
-    desktopRuntime 'com.gluonhq:charm-desktop:2.0.0'
-    androidRuntime 'com.gluonhq:charm-android:2.0.0'
+    compile 'com.gluonhq:charm:2.1.0'
+    desktopRuntime 'com.gluonhq:charm-desktop:2.1.0'
+    androidRuntime 'com.gluonhq:charm-android:2.1.0'
     // compile 'com.airhacks:afterburner.mfx:1.6.2'
     //  runtime 'javax.annotation:javax.annotation-api:1.2'
 }

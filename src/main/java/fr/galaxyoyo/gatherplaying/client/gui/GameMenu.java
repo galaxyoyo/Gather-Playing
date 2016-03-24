@@ -94,7 +94,7 @@ public class GameMenu extends AbstractController implements Initializable
 		{
 			ImageView view = new ImageView();
 			view.setOnMouseReleased(event -> {
-				if (!Client.getRunningParty().isStarted())
+				if (!Client.getRunningParty().isStarted() || Client.getRunningParty().getPlayer() != Client.localPlayer)
 					return;
 				PacketMixSetPhase pkt = PacketManager.createPacket(PacketMixSetPhase.class);
 				pkt.phase = phase;

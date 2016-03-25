@@ -8,6 +8,8 @@ import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketInSelectDeck;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketManager;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketMixUpdatePartyInfos;
+import java8.util.stream.Collectors;
+import java8.util.stream.StreamSupport;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +23,7 @@ import javafx.scene.layout.Priority;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class SelectPartyMenu extends AbstractController implements Initializable
@@ -96,18 +99,25 @@ public class SelectPartyMenu extends AbstractController implements Initializable
 	@FXML
 	private void join()
 	{
-		if (parties.getSelectionModel().getSelectedItem() == null)
+		Party party = parties.getSelectionModel().getSelectedItem();
+		if (party == null)
 			return;
-		Client.localPlayer.runningParty = parties.getSelectionModel().getSelectedItem();
+		List<Deck> decks = StreamSupport.stream(Client.localPlayer.decks).filter(deck -> deck.getLegalities().contains(Client.getRunningParty().getRules())).collect(Collectors.toList());
+		if (decks.isEmpty())
+		{
+			Utils.alert("Pas de deck", "Aucun deck à jouer", "Vous ne possédez aucun deck légal dans le format " + party.getRules(), Alert.AlertType.WARNING);
+			return;
+		}
+		Client.localPlayer.runningParty = party;
 		PacketMixUpdatePartyInfos pkt = PacketManager.createPacket(PacketMixUpdatePartyInfos.class);
-		pkt.party = Client.getRunningParty();
+		pkt.party = party;
 		pkt.type = PacketMixUpdatePartyInfos.Type.JOIN;
 		PacketManager.sendPacketToServer(pkt);
 		Client.show(GameMenu.class);
 		ChoiceDialog<Deck> deckSelector = new ChoiceDialog<>();
 		deckSelector.setTitle("Sélecteur de deck");
 		deckSelector.setHeaderText("Sélectionnez votre deck à jouer");
-		deckSelector.getItems().setAll(Client.localPlayer.decks);
+		deckSelector.getItems().setAll(decks);
 		deckSelector.setSelectedItem(deckSelector.getItems().get(0));
 		deckSelector.showAndWait().ifPresent(deck -> {
 			PacketInSelectDeck p = PacketManager.createPacket(PacketInSelectDeck.class);

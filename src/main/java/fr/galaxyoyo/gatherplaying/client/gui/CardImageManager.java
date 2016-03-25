@@ -18,6 +18,7 @@ import java.util.Map;
 public class CardImageManager
 {
 	private static final Map<String, Image> images = Maps.newHashMap();
+	private static final Map<String, Image> imagesHQ = Maps.newHashMap();
 	@SuppressWarnings("unused")
 	private static final Map<String, Image> generateds = Maps.newHashMap();
 	private static final Map<Token, Image> tokens = Maps.newHashMap();
@@ -39,7 +40,9 @@ public class CardImageManager
 	{
 		String muId = card == null ? null : card.getMuId("en");
 		String locale = Config.getLocaleCode();
-		if (images.containsKey(card == null ? "" : muId))
+		if (!Config.getHqCards() && images.containsKey(card == null ? "" : muId))
+			return images.get(card == null ? "" : muId);
+		else if (Config.getHqCards() && imagesHQ.containsKey(card == null ? "" : muId))
 			return images.get(card == null ? "" : muId);
 		try
 		{

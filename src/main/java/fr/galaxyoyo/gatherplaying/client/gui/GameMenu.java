@@ -74,7 +74,7 @@ public class GameMenu extends AbstractController implements Initializable
 		INSTANCE = this;
 		image.setImage(CardImageManager.getImage((Card) null));
 		chat.getEngine()
-				.loadContent(content = "<!doctype html><html><head><script>function a(){window.scrollTo(0, document.body.scrollHeight)}</script></head><body " + "onload=\"a()" +
+				.loadContent(content = "<!doctype html><html><head><script>function a(){window.scrollTo(0, document.body.scrollHeight)}</script></head><body onload=\"a()" +
 						"\"></body></html>");
 		chatBar.setOnKeyReleased(event -> {
 			if (event.getCode() == KeyCode.ENTER)

@@ -71,19 +71,9 @@ public class DeckShower extends AbstractController implements Initializable
 		DeckShower.shower = shower;
 	}
 
-	public static TableView<Card> getTable()
-	{
-		return table;
-	}
-
 	public static void setTable(TableView<Card> table)
 	{
 		DeckShower.table = table;
-	}
-
-	public static ReadOnlyObjectProperty<Rules> getRulesProp()
-	{
-		return rulesProp;
 	}
 
 	public static void setRulesProp(ReadOnlyObjectProperty<Rules> rulesProp)
@@ -336,7 +326,7 @@ public class DeckShower extends AbstractController implements Initializable
 							{
 								Element cardElem = (Element) element.getElementsByTagName("card").item(j);
 								List<Card> matches = StreamSupport.stream(MySQL.getAllCards()).filter(card -> card.getName().get("en").equals(cardElem.getAttribute("name")))
-										.collect(Collectors.toList());
+										.filter(card -> Utils.DEBUG || card.getSet().getReleaseDate().getTime() < System.currentTimeMillis()).collect(Collectors.toList());
 								Collections.sort(matches);
 								for (int k = 0; k < Integer.parseInt(cardElem.getAttribute("number")); ++k)
 									deck.getCards().add(new OwnedCard(matches.get(0), Client.localPlayer, false));
@@ -347,7 +337,7 @@ public class DeckShower extends AbstractController implements Initializable
 							{
 								Element cardElem = (Element) element.getElementsByTagName("card").item(j);
 								List<Card> matches = StreamSupport.stream(MySQL.getAllCards()).filter(card -> card.getName().get("en").equals(cardElem.getAttribute("name")))
-										.collect(Collectors.toList());
+										.filter(card -> Utils.DEBUG || card.getSet().getReleaseDate().getTime() < System.currentTimeMillis()).collect(Collectors.toList());
 								Collections.sort(matches);
 								Collections.reverse(matches);
 								for (int k = 0; k < Integer.parseInt(cardElem.getAttribute("number")); ++k)

@@ -119,9 +119,11 @@ public class DeckEditor extends AbstractController implements Initializable
 			{
 				if (subtypes.get(0) != null)
 					return false;
-			} else if (RefStreams.of(card.getSubtypes()).noneMatch(subtypes::contains))
+			}
+			else if (RefStreams.of(card.getSubtypes()).noneMatch(subtypes::contains))
 				return false;
-			return filters.getSet().getSelectionModel().getSelectedItems().contains(card.getSet()) && card.isLegal(filters.getRules().getSelectionModel().getSelectedItem());
+			return !(!Utils.DEBUG && card.getSet().getReleaseDate().getTime() > System.currentTimeMillis()) &&
+					filters.getSet().getSelectionModel().getSelectedItems().contains(card.getSet()) && card.isLegal(filters.getRules().getSelectionModel().getSelectedItem());
 		});
 		name_EN.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getName().get("en")));
 		name_FR.setCellValueFactory(param -> param.getValue().getTranslatedName());
@@ -196,6 +198,7 @@ public class DeckEditor extends AbstractController implements Initializable
 				.concat(Bindings.when(Bindings.createBooleanBinding(() -> filtered.size() > 1, filtered.predicateProperty())).then(" cartes trouvées")
 						.otherwise(" carte " + "trouvée")));
 		set.setSortType(TableColumn.SortType.DESCENDING);
+		//noinspection unchecked
 		table.getSortOrder().setAll(set);
 
 		ChangeListener<Object> l = (observable, oldValue, newValue) -> Platform.runLater(() -> {

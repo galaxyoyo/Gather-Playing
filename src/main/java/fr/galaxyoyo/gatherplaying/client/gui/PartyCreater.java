@@ -6,12 +6,15 @@ import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketInSelectDeck;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketManager;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketMixUpdatePartyInfos;
+import java8.util.stream.Collectors;
+import java8.util.stream.StreamSupport;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class PartyCreater extends AbstractController implements Initializable
@@ -36,6 +39,12 @@ public class PartyCreater extends AbstractController implements Initializable
 
 	public void create()
 	{
+		List<Deck> decks = StreamSupport.stream(Client.localPlayer.decks).filter(deck -> deck.getLegalities().contains(rules.getValue())).collect(Collectors.toList());
+		if (decks.isEmpty())
+		{
+			Utils.alert("Pas de deck", "Aucun deck à jouer", "Vous ne possédez aucun deck légal dans le format " + rules.getValue(), Alert.AlertType.WARNING);
+			return;
+		}
 		Party party = new Party();
 		party.setName(name.getText());
 		party.setRules(rules.getValue());
@@ -53,7 +62,7 @@ public class PartyCreater extends AbstractController implements Initializable
 			ChoiceDialog<Deck> deckSelector = new ChoiceDialog<>();
 			deckSelector.setTitle("Sélecteur de deck");
 			deckSelector.setHeaderText("Sélectionnez votre deck à jouer");
-			deckSelector.getItems().setAll(Client.localPlayer.decks);
+			deckSelector.getItems().setAll(decks);
 			deckSelector.setSelectedItem(deckSelector.getItems().get(0));
 			deckSelector.showAndWait().ifPresent(deck -> {
 				PacketInSelectDeck p = PacketManager.createPacket(PacketInSelectDeck.class);

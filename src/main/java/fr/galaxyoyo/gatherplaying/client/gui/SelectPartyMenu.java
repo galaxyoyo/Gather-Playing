@@ -75,7 +75,8 @@ public class SelectPartyMenu extends AbstractController implements Initializable
 				dialog.getDialogPane().getButtonTypes().addAll(create, ButtonType.CANCEL);
 				dialog.initOwner(Client.getStage());
 				dialog.showAndWait().filter(buttonType -> buttonType == create).ifPresent(buttonType -> creater.create());
-			} else
+			}
+			else
 			{
 				com.gluonhq.charm.glisten.control.Dialog<Button> dialog = new com.gluonhq.charm.glisten.control.Dialog<>("Paramètres de la partie :");
 				Button create = new Button("Créer");

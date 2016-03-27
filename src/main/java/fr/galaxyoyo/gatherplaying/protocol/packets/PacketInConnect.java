@@ -23,7 +23,9 @@ public class PacketInConnect extends Packet
 			player.name = readUTF(buf);
 		Player remote = MySQL.getPlayer(player.email);
 		PacketOutConnectResponse resp = PacketManager.createPacket(PacketOutConnectResponse.class);
-		if (type == Type.REGISTERING && remote != null)
+		if (remote != null && Server.getPlayer(remote.uuid) != null)
+			resp.error("Un client est déjà connecté avec ce compte");
+		else if (type == Type.REGISTERING && remote != null)
 			resp.error("Un compte existe déjà avec cette adresse");
 		else if (type == Type.REGISTERING && MySQL.getPlayer(player.name) != null)
 			resp.error("Un compte existe déjà avec ce pseudo");
@@ -40,7 +42,8 @@ public class PacketInConnect extends Packet
 				player.uuid = UUID.randomUUID();
 				MySQL.savePlayer(player);
 			}
-		} else if (type == Type.LOGGING)
+		}
+		else if (type == Type.LOGGING)
 		{
 			assert remote != null;
 			if (!remote.sha1Pwd.equals(player.sha1Pwd))

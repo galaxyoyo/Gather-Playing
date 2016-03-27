@@ -103,7 +103,7 @@ public class SelectPartyMenu extends AbstractController implements Initializable
 		Party party = parties.getSelectionModel().getSelectedItem();
 		if (party == null)
 			return;
-		List<Deck> decks = StreamSupport.stream(Client.localPlayer.decks).filter(deck -> deck.getLegalities().contains(Client.getRunningParty().getRules())).collect(Collectors.toList());
+		List<Deck> decks = StreamSupport.stream(Client.localPlayer.decks).filter(deck -> deck.getLegalities().contains(party.getRules())).collect(Collectors.toList());
 		if (decks.isEmpty())
 		{
 			Utils.alert("Pas de deck", "Aucun deck à jouer", "Vous ne possédez aucun deck légal dans le format " + party.getRules(), Alert.AlertType.WARNING);

@@ -14,7 +14,7 @@ public enum Rules
 {
 	STANDARD, MODERN, COMMANDER, LEGACY, VINTAGE, KAMIGAWA_BLOCK, ICE_AGE_BLOCK, INNISTRAD_BLOCK, INVASION_BLOCK, LORWYN_SHADOWMOOR_BLOCK, MASQUES_BLOCK, MIRAGE_BLOCK,
 	MIRRODIN_BLOCK, ODYSSEY_BLOCK, ONSLAUGHT_BLOCK, RAVNICA_BLOCK, RETURN_TO_RAVNICA_BLOCK, SCARS_OF_MIRRODIN_BLOCK, SHARDS_OF_ALARA_BLOCK, KHANS_OF_TARKIR_BLOCK, TEMPEST_BLOCK,
-	THEROS_BLOCK, TIME_SPIRAL_BLOCK, URZA_BLOCK, ZENDIKAR_BLOCK, BATTLE_FOR_ZENDIKAR_BLOCK, UN_SETS, FREEFORM;
+	THEROS_BLOCK, TIME_SPIRAL_BLOCK, URZA_BLOCK, ZENDIKAR_BLOCK, BATTLE_FOR_ZENDIKAR_BLOCK, SHADOWS_OVER_INNISTRAD_BLOCK, UN_SETS, FREEFORM;
 	// CLASSIC, WARS_LEGACY, TRIBAL_WARS_LEGACY, TRIBAL_WARS_STANDARD, PRISMATIC, SINGLETON_100
 
 	private final ObservableSet<String> legals = FXCollections.observableSet("Plains", "Mountain", "Swamp", "Forest", "Island");
@@ -36,15 +36,10 @@ public enum Rules
 			case STANDARD:
 				switch (card.getSet().getCode())
 				{
-					// Be removed on April 8th
-					case "KTK":
-					case "FRF":
-						// Be kept on April 8th
 					case "DTK":
 					case "ORI":
 					case "BFZ":
 					case "OGW":
-						// Be added on April 8th
 					case "SOI":
 						// Be added on July 22th
 					case "EMN":

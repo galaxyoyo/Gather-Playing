@@ -2,6 +2,7 @@ package fr.galaxyoyo.gatherplaying;
 
 import fr.galaxyoyo.gatherplaying.client.I18n;
 import java8.util.stream.Collectors;
+import java8.util.stream.RefStreams;
 import java8.util.stream.StreamSupport;
 import javafx.beans.binding.StringBinding;
 import javafx.collections.FXCollections;
@@ -47,8 +48,20 @@ public enum Rules
 					case "SOI":
 						// Be added on July 22th
 					case "EMN":
+						legals.add(card.getName().get("en"));
 						return true;
 					default:
+						for (Set set : RefStreams.of("KTK", "FRF", "DTK", "ORI", "OGW").map(MySQL::getSet).collect(Collectors.toSet()))
+						{
+							for (Card c : set.getCards())
+							{
+								if (card.getName().get("en").equals(c.getName().get("en")))
+								{
+									legals.add(card.getName().get("en"));
+									return true;
+								}
+							}
+						}
 						return false;
 				}
 			case VINTAGE:
@@ -175,10 +188,10 @@ public enum Rules
 					case "Cloudpost":
 					case "Dark Depths":
 					case "Deathrite Shaman":
-					case "Dig Through  Time":
-					case "Dread Return ":
-					case "Glimpse of Nature ":
-					case "Great Furnace ":
+					case "Dig Through Time":
+					case "Dread Return":
+					case "Glimpse of Nature":
+					case "Great Furnace":
 					case "Green Sun 's Zenith":
 					case "Hypergenesis":
 					case "Jace, the Mind Sculptor":
@@ -195,9 +208,9 @@ public enum Rules
 					case "Splinter Twin":
 					case "Stoneforge Mystic":
 					case "Summer Bloom":
-					case "Sword of the Meek ":
+					case "Sword of the Meek":
 					case "Treasure Cruise":
-					case "Tree of Tales ":
+					case "Tree of Tales":
 					case "Umezawa 's Jitte":
 					case "Vault of Whispers":
 						return false;

@@ -7,6 +7,7 @@ import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketManager;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketMixPlayFounded;
 import javafx.application.Platform;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -37,7 +38,13 @@ public class FoundCardShower extends ImageView
 					box.getChildren().remove(FoundCardShower.this);
 					if (box.getChildren().isEmpty())
 					{
-						DialogPane pane = (DialogPane) box.getParent().getParent().getParent().getParent();
+						Parent parent = box;
+						do
+						{
+							parent = parent.getParent();
+						}
+						while (parent.getParent() != null);
+						DialogPane pane = (DialogPane) parent;
 						ButtonType button = ButtonType.CANCEL;
 						pane.getButtonTypes().add(button);
 						((Button) pane.lookupButton(button)).fire();
@@ -55,7 +62,13 @@ public class FoundCardShower extends ImageView
 					box.getChildren().remove(FoundCardShower.this);
 					if (box.getChildren().isEmpty())
 					{
-						DialogPane pane = (DialogPane) box.getParent().getParent().getParent().getParent();
+						Parent parent = box;
+						do
+						{
+							parent = parent.getParent();
+						}
+						while (parent.getParent() != null);
+						DialogPane pane = (DialogPane) parent;
 						ButtonType button = ButtonType.CANCEL;
 						pane.getButtonTypes().add(button);
 						((Button) pane.lookupButton(button)).fire();
@@ -73,7 +86,13 @@ public class FoundCardShower extends ImageView
 					box.getChildren().remove(FoundCardShower.this);
 					if (box.getChildren().isEmpty())
 					{
-						DialogPane pane = (DialogPane) box.getParent().getParent().getParent().getParent();
+						Parent parent = box;
+						do
+						{
+							parent = parent.getParent();
+						}
+						while (parent.getParent() != null);
+						DialogPane pane = (DialogPane) parent;
 						ButtonType button = ButtonType.CANCEL;
 						pane.getButtonTypes().add(button);
 						((Button) pane.lookupButton(button)).fire();
@@ -91,7 +110,13 @@ public class FoundCardShower extends ImageView
 					box.getChildren().remove(FoundCardShower.this);
 					if (box.getChildren().isEmpty())
 					{
-						DialogPane pane = (DialogPane) box.getParent().getParent().getParent().getParent();
+						Parent parent = box;
+						do
+						{
+							parent = parent.getParent();
+						}
+						while (parent.getParent() != null);
+						DialogPane pane = (DialogPane) parent;
 						ButtonType button = ButtonType.CANCEL;
 						pane.getButtonTypes().add(button);
 						((Button) pane.lookupButton(button)).fire();
@@ -109,7 +134,13 @@ public class FoundCardShower extends ImageView
 					box.getChildren().remove(FoundCardShower.this);
 					if (box.getChildren().isEmpty())
 					{
-						DialogPane pane = (DialogPane) box.getParent().getParent().getParent().getParent();
+						Parent parent = box;
+						do
+						{
+							parent = parent.getParent();
+						}
+						while (parent.getParent() != null);
+						DialogPane pane = (DialogPane) parent;
 						ButtonType button = ButtonType.CANCEL;
 						pane.getButtonTypes().add(button);
 						((Button) pane.lookupButton(button)).fire();
@@ -127,7 +158,13 @@ public class FoundCardShower extends ImageView
 					box.getChildren().remove(FoundCardShower.this);
 					if (box.getChildren().isEmpty())
 					{
-						DialogPane pane = (DialogPane) box.getParent().getParent().getParent().getParent();
+						Parent parent = box;
+						do
+						{
+							parent = parent.getParent();
+						}
+						while (parent.getParent() != null);
+						DialogPane pane = (DialogPane) parent;
 						ButtonType button = ButtonType.CANCEL;
 						pane.getButtonTypes().add(button);
 						((Button) pane.lookupButton(button)).fire();

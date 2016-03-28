@@ -18,6 +18,18 @@ public class PacketMixPlayFounded extends Packet
 		dest = Destination.values()[buf.readByte()];
 		card = new OwnedCard(readCard(buf), player.runningParty.getPlayer(readUUID(buf)), buf.readBoolean());
 		PlayerData data = player.runningParty.getData(card.getOwner());
+		if (Utils.getSide() == Side.SERVER)
+		{
+			data.getLibrary().getSortedCards().remove(card);
+			sendToParty();
+		}
+		else if (dest != Destination.UP_LIBRARY && dest != Destination.DOWN_LIBRARY)
+		{
+			if (player == card.getOwner())
+				GameMenu.instance().playerInfos.removeLibrary();
+			else
+				GameMenu.instance().adverseInfos.removeLibrary();
+		}
 		switch (dest)
 		{
 			case BATTLEFIELD:
@@ -74,36 +86,13 @@ public class PacketMixPlayFounded extends Packet
 				}
 				break;
 			case UP_LIBRARY:
-				if (Utils.getSide() == Side.CLIENT)
-				{
-					if (player == card.getOwner())
-						GameMenu.instance().playerInfos.addLibrary();
-					else
-						GameMenu.instance().adverseInfos.addLibrary();
-				} else
+				if (Utils.getSide() == Side.SERVER)
 					data.getLibrary().addCardUp(card);
 				break;
 			case DOWN_LIBRARY:
-				if (Utils.getSide() == Side.CLIENT)
-				{
-					if (player == card.getOwner())
-						GameMenu.instance().playerInfos.addLibrary();
-					else
-						GameMenu.instance().adverseInfos.addLibrary();
-				} else
+				if (Utils.getSide() == Side.SERVER)
 					data.getLibrary().addCard(card);
 				break;
-		}
-		if (Utils.getSide() == Side.SERVER)
-		{
-			data.getLibrary().getSortedCards().remove(card);
-			sendToParty();
-		} else
-		{
-			if (player == card.getOwner())
-				GameMenu.instance().playerInfos.removeLibrary();
-			else
-				GameMenu.instance().adverseInfos.removeLibrary();
 		}
 	}
 

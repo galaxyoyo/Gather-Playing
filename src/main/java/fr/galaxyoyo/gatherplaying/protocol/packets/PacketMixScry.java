@@ -10,6 +10,8 @@ import fr.galaxyoyo.gatherplaying.client.gui.FoundCardShower;
 import fr.galaxyoyo.gatherplaying.server.Server;
 import io.netty.buffer.ByteBuf;
 import javafx.application.Platform;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.layout.HBox;
 
@@ -35,17 +37,20 @@ public class PacketMixScry extends Packet
 			pkt.cards = list;
 			PacketManager.sendPacketToPlayer(player, pkt);
 			Server.sendChat(player.runningParty, "chat.scry", null, player.name, (numCards > 1 ? I18n.strTr("text.thecards", Integer.toString(numCards)) : "text.thecard"));
-		} else
+		}
+		else
 		{
 			List<OwnedCard> allCards = Lists.newArrayList();
 			while (buf.isReadable())
 				allCards.add(new OwnedCard(readCard(buf), player, buf.readBoolean()));
 			Platform.runLater(() -> {
 				Dialog<Object> dialog = new Dialog<>();
+				dialog.setTitle("Regard");
 				HBox box = new HBox();
 				for (OwnedCard c : allCards)
 					box.getChildren().add(new FoundCardShower(c));
 				dialog.getDialogPane().setContent(box);
+				dialog.getDialogPane().getButtonTypes().add(new ButtonType("Tout placer sur la bibliothèque", ButtonBar.ButtonData.OK_DONE));
 				dialog.showAndWait();
 			});
 		}

@@ -37,7 +37,8 @@ public class PacketMixDrawCard extends Packet
 				data.getHand().clear();
 				data.getLibrary().shuffle();
 				Server.sendChat(player.runningParty, "chat.mulligan", "color: green;", player.name, Integer.toString(count), count > 1 ? "text.card" : "text.cards");
-			} else
+			}
+			else
 				Server.sendChat(player.runningParty, "chat.draw", "color: green;", player.name, Integer.toString(count), count > 1 ? "text.card" : "text.cards");
 			if (data.getLibrary().getSortedCards().size() < count)
 				return;
@@ -48,7 +49,8 @@ public class PacketMixDrawCard extends Packet
 				cards.add(card);
 			}
 			sendToParty();
-		} else
+		}
+		else
 		{
 			Player p = Client.getRunningParty().getPlayer(readUUID(buf));
 			data = Client.getRunningParty().getData(p);
@@ -57,12 +59,13 @@ public class PacketMixDrawCard extends Packet
 				data.setMulligan((byte) (count - 1));
 				if (p == player)
 				{
+					GameMenu.instance().playerInfos.addLibrary(GameMenu.instance().hand.getChildren().size());
 					Platform.runLater(() -> GameMenu.instance().hand.getChildren().clear());
-					GameMenu.instance().playerInfos.addLibrary(data.getHand().size());
-				} else
+				}
+				else
 				{
+					GameMenu.instance().adverseInfos.addLibrary(GameMenu.instance().adverseHand.getChildren().size());
 					Platform.runLater(() -> GameMenu.instance().adverseHand.getChildren().clear());
-					GameMenu.instance().adverseInfos.addLibrary(data.getHand().size());
 				}
 				data.getHand().clear();
 			}
@@ -74,7 +77,8 @@ public class PacketMixDrawCard extends Packet
 				GameMenu.instance().playerInfos.addLibrary(-count);
 				for (OwnedCard card : cards)
 					Platform.runLater(() -> GameMenu.instance().hand.getChildren().add(new CardShower(card)));
-			} else
+			}
+			else
 			{
 				GameMenu.instance().adverseInfos.addLibrary(-count);
 				for (OwnedCard card : cards)

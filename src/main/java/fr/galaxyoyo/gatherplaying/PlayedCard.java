@@ -5,6 +5,7 @@ import com.google.common.collect.Sets;
 import fr.galaxyoyo.gatherplaying.capacity.Capacity;
 import fr.galaxyoyo.gatherplaying.client.gui.CardShower;
 import fr.galaxyoyo.gatherplaying.markers.Marker;
+import fr.galaxyoyo.gatherplaying.markers.MarkerType;
 import java8.util.stream.StreamSupport;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.IntegerProperty;
@@ -287,5 +288,41 @@ public class PlayedCard
 	public void setHided(boolean hided)
 	{
 		this.hided = hided;
+	}
+
+	public void setDefaultStats()
+	{
+		if (isCard())
+		{
+			if (getCard().getType().is(CardType.CREATURE))
+			{
+				try
+				{
+					setPower(Integer.parseInt(getCard().getPower()));
+				}
+				catch (NumberFormatException ex)
+				{
+					setPower(0);
+				}
+				try
+				{
+					setToughness(Integer.parseInt(getCard().getToughness()));
+				}
+				catch (NumberFormatException ex)
+				{
+					setToughness(0);
+				}
+			}
+			else if (getCard().getType().is(CardType.PLANESWALKER))
+			{
+				setLoyalty(0);
+				for (int i = 0; i < getCard().getLoyalty(); ++i)
+				{
+					Marker m = MarkerType.LOYALTY.newInstance();
+					m.onCardMarked(this);
+					getMarkers().add(m);
+				}
+			}
+		}
 	}
 }

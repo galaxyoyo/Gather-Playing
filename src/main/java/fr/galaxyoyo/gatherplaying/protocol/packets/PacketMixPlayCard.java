@@ -5,8 +5,6 @@ import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.client.gui.CardShower;
 import fr.galaxyoyo.gatherplaying.client.gui.GameMenu;
 import fr.galaxyoyo.gatherplaying.client.gui.PlayerInfos;
-import fr.galaxyoyo.gatherplaying.markers.Marker;
-import fr.galaxyoyo.gatherplaying.markers.MarkerType;
 import fr.galaxyoyo.gatherplaying.server.Server;
 import io.netty.buffer.ByteBuf;
 import javafx.application.Platform;
@@ -66,34 +64,6 @@ public class PacketMixPlayCard extends Packet
 		{
 			if (Utils.getSide() == Side.SERVER)
 				Server.sendChat(player.runningParty, "chat.play", "color: blue;", played.getController().name, "<i>" + played.getTranslatedName().get() + "</i>");
-			if (played.getCard().getType().is(CardType.CREATURE))
-			{
-				try
-				{
-					played.setPower(Integer.parseInt(played.getCard().getPower()));
-				}
-				catch (NumberFormatException ex)
-				{
-					played.setPower(0);
-				}
-				try
-				{
-					played.setToughness(Integer.parseInt(played.getCard().getToughness()));
-				}
-				catch (NumberFormatException ex)
-				{
-					played.setToughness(0);
-				}
-			} else if (played.getCard().getType().is(CardType.PLANESWALKER))
-			{
-				played.setLoyalty(0);
-				for (int i = 0; i < played.getCard().getLoyalty(); ++i)
-				{
-					Marker m = MarkerType.LOYALTY.newInstance();
-					m.onCardMarked(played);
-					played.getMarkers().add(m);
-				}
-			}
 			if (played.getType().is(CardType.LAND))
 			{
 				data.getPlayed().add(played);
@@ -109,7 +79,8 @@ public class PacketMixPlayCard extends Packet
 						HBox.setMargin(shower, new Insets(0.0D, 10.5D, 0.0D, 10.5D));
 					});
 				}
-			} else
+			}
+			else
 			{
 				if (player.runningParty.getCurrentSpell() == null)
 					player.runningParty.setCurrentSpell(new SpellTimer(played, player.runningParty));

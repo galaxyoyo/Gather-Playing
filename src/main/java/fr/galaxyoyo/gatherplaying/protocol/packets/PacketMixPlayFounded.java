@@ -34,30 +34,34 @@ public class PacketMixPlayFounded extends Packet
 		{
 			case BATTLEFIELD:
 				PlayedCard played = new PlayedCard(card);
+				CardShower shower = new CardShower(played);
 				data.getPlayed().add(played);
 				if (Utils.getSide() == Side.CLIENT)
 				{
 					if (played.getType().is(CardType.LAND))
 					{
 						if (played.getOwner() == Client.localPlayer)
-							Platform.runLater(() -> GameMenu.instance().lands.getChildren().add(new CardShower(played)));
+							Platform.runLater(() -> GameMenu.instance().lands.getChildren().add(shower));
 						else
-							Platform.runLater(() -> GameMenu.instance().adverseLands.getChildren().add(new CardShower(played)));
-					} else if ((played.getType().is(CardType.ENCHANTMENT) && !played.getSubtypes().contains(SubType.valueOf("Aura"))) || played.getType().is(CardType.ARTIFACT) ||
+							Platform.runLater(() -> GameMenu.instance().adverseLands.getChildren().add(shower));
+					}
+					else if ((played.getType().is(CardType.ENCHANTMENT) && !played.getSubtypes().contains(SubType.valueOf("Aura"))) || played.getType().is(CardType.ARTIFACT) ||
 							played.getType().is(CardType.PLANESWALKER))
 					{
 						if (played.getOwner() == Client.localPlayer)
-							Platform.runLater(() -> GameMenu.instance().enchants.getChildren().add(new CardShower(played)));
+							Platform.runLater(() -> GameMenu.instance().enchants.getChildren().add(shower));
 						else
-							Platform.runLater(() -> GameMenu.instance().adverseEnchants.getChildren().add(new CardShower(played)));
-					} else
+							Platform.runLater(() -> GameMenu.instance().adverseEnchants.getChildren().add(shower));
+					}
+					else
 					{
 						if (played.getOwner() == Client.localPlayer)
-							Platform.runLater(() -> GameMenu.instance().creatures.getChildren().add(new CardShower(played)));
+							Platform.runLater(() -> GameMenu.instance().creatures.getChildren().add(shower));
 						else
-							Platform.runLater(() -> GameMenu.instance().adverseCreatures.getChildren().add(new CardShower(played)));
+							Platform.runLater(() -> GameMenu.instance().adverseCreatures.getChildren().add(shower));
 					}
 				}
+				played.setDefaultStats();
 				break;
 			case EXILE:
 				data.getExile().add(card);

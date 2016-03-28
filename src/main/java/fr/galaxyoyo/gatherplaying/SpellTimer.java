@@ -52,36 +52,7 @@ public class SpellTimer
 				CardShower shower = new CardShower(card);
 				Client.getStackPane().getChildren().add(shower);
 				StackPane.setAlignment(shower, Pos.CENTER);
-
-				if (card.getCard().getType().is(CardType.CREATURE))
-				{
-					try
-					{
-						card.setPower(Integer.parseInt(card.getCard().getPower()));
-					}
-					catch (NumberFormatException ex)
-					{
-						card.setPower(0);
-					}
-					try
-					{
-						card.setToughness(Integer.parseInt(card.getCard().getToughness()));
-					}
-					catch (NumberFormatException ex)
-					{
-						card.setToughness(0);
-					}
-				}
-				else if (card.getCard().getType().is(CardType.PLANESWALKER))
-				{
-					card.setLoyalty(0);
-					for (int i = 0; i < card.getCard().getLoyalty(); ++i)
-					{
-						Marker m = MarkerType.LOYALTY.newInstance();
-						m.onCardMarked(card);
-						card.getMarkers().add(m);
-					}
-				}
+				card.setDefaultStats();
 			});
 		}
 	}

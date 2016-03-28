@@ -65,83 +65,8 @@ public class PlayerInfos extends AbstractController implements Initializable
 
 			ContextMenu menu = new ContextMenu();
 
-			MenuItem add1 = new MenuItem("Ajouter 1");
-			add1.setOnAction(e -> {
-				PacketMixEditLife pkt = PacketManager.createPacket(PacketMixEditLife.class);
-				pkt.p = player;
-				pkt.newLife = player.getData().getHp() + 1;
-				PacketManager.sendPacketToServer(pkt);
-			});
-			menu.getItems().add(add1);
-
-			MenuItem add2 = new MenuItem("Ajouter 2");
-			add2.setOnAction(e -> {
-				PacketMixEditLife pkt = PacketManager.createPacket(PacketMixEditLife.class);
-				pkt.p = player;
-				pkt.newLife = player.getData().getHp() + 2;
-				PacketManager.sendPacketToServer(pkt);
-			});
-			menu.getItems().add(add2);
-
-			MenuItem add5 = new MenuItem("Ajouter 5");
-			add1.setOnAction(e -> {
-				PacketMixEditLife pkt = PacketManager.createPacket(PacketMixEditLife.class);
-				pkt.p = player;
-				pkt.newLife = player.getData().getHp() + 5;
-				PacketManager.sendPacketToServer(pkt);
-			});
-			menu.getItems().add(add5);
-
-			MenuItem add10 = new MenuItem("Ajouter 10");
-			add10.setOnAction(e -> {
-				PacketMixEditLife pkt = PacketManager.createPacket(PacketMixEditLife.class);
-				pkt.p = player;
-				pkt.newLife = player.getData().getHp() + 10;
-				PacketManager.sendPacketToServer(pkt);
-			});
-			menu.getItems().add(add10);
-
-			menu.getItems().add(new SeparatorMenuItem());
-
-			MenuItem remove1 = new MenuItem("Enlever 1");
-			remove1.setOnAction(e -> {
-				PacketMixEditLife pkt = PacketManager.createPacket(PacketMixEditLife.class);
-				pkt.p = player;
-				pkt.newLife = player.getData().getHp() - 1;
-				PacketManager.sendPacketToServer(pkt);
-			});
-			menu.getItems().add(remove1);
-
-			MenuItem remove2 = new MenuItem("Enlever 2");
-			remove2.setOnAction(e -> {
-				PacketMixEditLife pkt = PacketManager.createPacket(PacketMixEditLife.class);
-				pkt.p = player;
-				pkt.newLife = player.getData().getHp() - 2;
-				PacketManager.sendPacketToServer(pkt);
-			});
-			menu.getItems().add(remove2);
-
-			MenuItem remove5 = new MenuItem("Enlever 5");
-			remove5.setOnAction(e -> {
-				PacketMixEditLife pkt = PacketManager.createPacket(PacketMixEditLife.class);
-				pkt.p = player;
-				pkt.newLife = player.getData().getHp() - 5;
-				PacketManager.sendPacketToServer(pkt);
-			});
-			menu.getItems().add(remove5);
-
-			MenuItem remove10 = new MenuItem("Enlever 10");
-			remove10.setOnAction(e -> {
-				PacketMixEditLife pkt = PacketManager.createPacket(PacketMixEditLife.class);
-				pkt.p = player;
-				pkt.newLife = player.getData().getHp() - 10;
-				PacketManager.sendPacketToServer(pkt);
-			});
-			menu.getItems().add(remove10);
-
-			menu.getItems().add(new SeparatorMenuItem());
-
 			MenuItem define = new MenuItem("Définir");
+			define.setStyle("-fx-font-weight: normal; -fx-font-size: 12px;");
 			define.setOnAction(e -> {
 				if (Utils.isDesktop())
 				{
@@ -160,7 +85,8 @@ public class PlayerInfos extends AbstractController implements Initializable
 						PacketManager.sendPacketToServer(pkt);
 
 					});
-				} else
+				}
+				else
 				{
 					com.gluonhq.charm.glisten.control.Dialog<Integer> dialog = new com.gluonhq.charm.glisten.control.Dialog<>("Définition des points de vie");
 					Spinner<Integer> spinner = new Spinner<>(0, 9999, player.getData().getHp());
@@ -240,6 +166,7 @@ public class PlayerInfos extends AbstractController implements Initializable
 			ContextMenu menu = new ContextMenu();
 
 			MenuItem draw = new MenuItem("Piocher ...");
+			draw.setStyle("-fx-font-weight: normal; -fx-font-size: 12px;");
 			draw.setOnAction(e -> {
 				if (Utils.isDesktop())
 				{
@@ -255,7 +182,8 @@ public class PlayerInfos extends AbstractController implements Initializable
 						pkt.count = integer;
 						PacketManager.sendPacketToServer(pkt);
 					});
-				} else
+				}
+				else
 				{
 					com.gluonhq.charm.glisten.control.Dialog<Integer> dialog = new com.gluonhq.charm.glisten.control.Dialog<>("Piocher des cartes");
 					Spinner<Integer> spinner = new Spinner<>(1, 1, getLibrary());
@@ -277,10 +205,12 @@ public class PlayerInfos extends AbstractController implements Initializable
 			menu.getItems().add(draw);
 
 			MenuItem shuffle = new MenuItem("Mélanger");
+			shuffle.setStyle("-fx-font-weight: normal; -fx-font-size: 12px;");
 			shuffle.setOnAction(e -> PacketManager.sendPacketToServer(PacketManager.createPacket(PacketInShuffle.class)));
 			menu.getItems().add(shuffle);
 
 			MenuItem mulligan = new MenuItem("Mulligan");
+			mulligan.setStyle("-fx-font-weight: normal; -fx-font-size: 12px;");
 			mulligan.setOnAction(e -> {
 				PacketMixDrawCard pkt = PacketManager.createPacket(PacketMixDrawCard.class);
 				pkt.action = PacketMixDrawCard.Action.MULLIGAN;
@@ -290,11 +220,12 @@ public class PlayerInfos extends AbstractController implements Initializable
 				menu.getItems().add(mulligan);
 
 			Menu scry = new Menu("Regard");
-
+			scry.setStyle("-fx-font-weight: normal; -fx-font-size: 12px;");
 			for (int i = 1; i <= 5; ++i)
 			{
 				final int index = i;
 				MenuItem item = new MenuItem("Regard " + i);
+				item.setStyle("-fx-font-weight: normal; -fx-font-size: 12px;");
 				item.setOnAction(e -> {
 					PacketMixScry pkt = PacketManager.createPacket(PacketMixScry.class);
 					pkt.numCards = (byte) index;
@@ -306,6 +237,7 @@ public class PlayerInfos extends AbstractController implements Initializable
 			menu.getItems().add(scry);
 
 			MenuItem findCard = new MenuItem("Chercher une carte ...");
+			findCard.setStyle("-fx-font-weight: normal; -fx-font-size: 12px;");
 			findCard.setOnAction(e -> {
 				GridPane pane = new GridPane();
 				Label filterLbl = new Label("Filtre :");
@@ -321,7 +253,8 @@ public class PlayerInfos extends AbstractController implements Initializable
 						Object[] objs = (Object[]) type.filter.getDeclaredMethod("values").invoke(null);
 						for (Object obj : objs)
 							filter.getItems().add(obj);
-					} catch (Exception ex)
+					}
+					catch (Exception ex)
 					{
 						ex.printStackTrace();
 					}
@@ -348,7 +281,8 @@ public class PlayerInfos extends AbstractController implements Initializable
 						pkt.filter = filter.getValue();
 						PacketManager.sendPacketToServer(pkt);
 					});
-				} else
+				}
+				else
 				{
 					com.gluonhq.charm.glisten.control.Dialog<ButtonType> dialog = new com.gluonhq.charm.glisten.control.Dialog<>("Chercher une carte");
 					dialog.setContent(pane);
@@ -400,7 +334,8 @@ public class PlayerInfos extends AbstractController implements Initializable
 					dialog.getDialogPane().setContent(pane);
 					dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
 					dialog.showAndWait();
-				} else
+				}
+				else
 				{
 					com.gluonhq.charm.glisten.control.Dialog<Object> dialog = new com.gluonhq.charm.glisten.control.Dialog<>("Visualisation du cimetière");
 					dialog.setContent(box);
@@ -467,7 +402,8 @@ public class PlayerInfos extends AbstractController implements Initializable
 				pane.getChildren().add(life);
 				VBox box = (VBox) name.getParent();
 				FXCollections.reverse(box.getChildren());
-			} else
+			}
+			else
 			{
 				GameMenu.instance().playerInfos = this;
 				setPlayer(Client.localPlayer);

@@ -1,6 +1,5 @@
 package fr.galaxyoyo.gatherplaying;
 
-import fr.galaxyoyo.gatherplaying.client.gui.PlayerInfos;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
@@ -20,7 +19,6 @@ public class PlayerData
 	public PlayerData(Player player)
 	{
 		this.player = player;
-		hp.addListener((observable, oldValue, newValue) -> PlayerInfos.getInfos(player).updateLife());
 	}
 
 	public Player getPlayer()

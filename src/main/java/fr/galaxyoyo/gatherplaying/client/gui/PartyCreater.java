@@ -3,6 +3,7 @@ package fr.galaxyoyo.gatherplaying.client.gui;
 import com.gluonhq.charm.glisten.control.Dialog;
 import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.client.Client;
+import fr.galaxyoyo.gatherplaying.client.Config;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketInSelectDeck;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketManager;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketMixUpdatePartyInfos;
@@ -34,7 +35,7 @@ public class PartyCreater extends AbstractController implements Initializable
 		playerNumber.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(2, 2, 2));
 
 		rules.getItems().addAll(Rules.values());
-		rules.getSelectionModel().select(Rules.LEGACY);
+		rules.getSelectionModel().select(Config.getFormat());
 	}
 
 	public void create()

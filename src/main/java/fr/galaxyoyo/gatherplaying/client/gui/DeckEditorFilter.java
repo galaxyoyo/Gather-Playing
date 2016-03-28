@@ -2,6 +2,7 @@ package fr.galaxyoyo.gatherplaying.client.gui;
 
 import com.google.common.collect.Lists;
 import fr.galaxyoyo.gatherplaying.*;
+import fr.galaxyoyo.gatherplaying.client.Config;
 import java8.util.stream.Collectors;
 import java8.util.stream.RefStreams;
 import javafx.fxml.FXML;
@@ -124,7 +125,7 @@ public class DeckEditorFilter extends AbstractController implements Initializabl
 
 		rules.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		rules.getItems().addAll(Rules.values());
-		rules.getSelectionModel().select(Rules.LEGACY);
+		rules.getSelectionModel().select(Config.getFormat());
 		DeckShower.setRulesProp(rules.getSelectionModel().selectedItemProperty());
 
 		DeckEditor.setFilters(this);

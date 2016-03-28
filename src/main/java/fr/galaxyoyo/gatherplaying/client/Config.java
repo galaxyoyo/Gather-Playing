@@ -1,6 +1,7 @@
 package fr.galaxyoyo.gatherplaying.client;
 
 import fr.galaxyoyo.gatherplaying.MySQL;
+import fr.galaxyoyo.gatherplaying.Rules;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -13,9 +14,20 @@ import java.util.Locale;
 public class Config
 {
 	private static final ObjectProperty<Locale> locale = new SimpleObjectProperty<>(Locale.getDefault());
+	private static final ObjectProperty<Rules> format = new SimpleObjectProperty<>(Rules.LEGACY);
 	private static final BooleanProperty stayLogged = new SimpleBooleanProperty(false);
 	private static final BooleanProperty hqCards = new SimpleBooleanProperty(false);
 	private static final BooleanProperty stackCards = new SimpleBooleanProperty(false);
+
+	public static Rules getFormat()
+	{
+		return format.get();
+	}
+
+	public static ObjectProperty<Rules> formatProperty()
+	{
+		return format;
+	}
 
 	public static Locale getLocale()
 	{
@@ -65,18 +77,20 @@ public class Config
 			try
 			{
 				I18n.reloadTranslations();
-			} catch (IOException e)
+			}
+			catch (IOException e)
 			{
 				e.printStackTrace();
 			}
-			System.out.println(locale.get() + " : " + ButtonType.CANCEL.getText());
 		});
 		String prefLg = MySQL.getConfig("preferred-language", Locale.getDefault().toString().toLowerCase());
-		System.out.println("Pref language : " + prefLg);
 		if (prefLg.contains("_"))
 			locale.setValue(new Locale(prefLg.split("_")[0], prefLg.split("_")[1].toUpperCase()));
 		else
 			locale.set(new Locale(prefLg));
+
+		format.set(Rules.valueOf(MySQL.getConfig("preferred-format", "LEGACY")));
+		format.addListener((observable, oldValue, newValue) -> MySQL.setConfig("preferred-format", newValue.name()));
 
 		stayLogged.addListener((observable, oldValue, newValue) -> MySQL.setConfig("stay-logged", newValue.toString()));
 

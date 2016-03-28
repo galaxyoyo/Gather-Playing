@@ -1,5 +1,6 @@
 package fr.galaxyoyo.gatherplaying.client.gui;
 
+import fr.galaxyoyo.gatherplaying.Rules;
 import fr.galaxyoyo.gatherplaying.Utils;
 import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.client.Config;
@@ -23,6 +24,12 @@ public class HelpAndSettings extends AbstractController
 	private ChoiceBox<Locale> locale;
 
 	@FXML
+	private Label formatLbl;
+
+	@FXML
+	private ChoiceBox<Rules> preferredFormat;
+
+	@FXML
 	private CheckBox stayLogged, hqCards, stackCards;
 
 	@FXML
@@ -34,6 +41,8 @@ public class HelpAndSettings extends AbstractController
 		locale.getItems().addAll(Locale.ENGLISH, Locale.GERMAN, Locale.FRENCH, Locale.ITALIAN, new Locale("es"), new Locale("pt", "BR"), new Locale("ru"), Locale.PRC,
 				Locale.TAIWAN, Locale.JAPANESE, Locale.KOREAN);
 		locale.setValue(Config.getLocale());
+		preferredFormat.getItems().setAll(Rules.values());
+		preferredFormat.setValue(Config.getFormat());
 		stayLogged.setSelected(Config.getStayLogged());
 		hqCards.setSelected(Config.getHqCards());
 		stackCards.setSelected(Config.getStackCards());
@@ -49,6 +58,7 @@ public class HelpAndSettings extends AbstractController
 			Utils.alert("Changement de langue", "Redémarrage nécessaire", "Un redémarrage de l'application est nécessaire pour l'actualisation de certains textes dans votre " +
 					"langue, comme les boutons des boîtes de dialogue");
 		Config.localeProperty().set(locale.getValue());
+		Config.formatProperty().set(preferredFormat.getValue());
 		Config.stayLoggedProperty().set(stayLogged.isSelected());
 		Config.hqCardsProperty().set(hqCards.isSelected());
 		Config.stackCardsProperty().set(stackCards.isSelected());

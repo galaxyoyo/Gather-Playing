@@ -49,11 +49,12 @@ public class CardShower extends AnchorPane
 		setMinSize(103.0D, 103.0D);
 		setMaxSize(103.0D, 103.0D);
 		setPrefSize(103.0D, 103.0D);
+		setPickOnBounds(false);
 		view.setSmooth(true);
 		getChildren().add(view);
 		this.played = played;
 		this.hand = null;
-		played.getAssociatedCards().addListener((ListChangeListener<? super PlayedCard>) c -> {
+		played.getAssociatedCards().addListener((ListChangeListener<? super PlayedCard>) c -> Platform.runLater(() -> {
 			ObservableList<PlayedCard> associatedCards = played.getAssociatedCards();
 			getChildren().clear();
 			for (int i = 0; i < associatedCards.size(); i++)
@@ -66,14 +67,13 @@ public class CardShower extends AnchorPane
 					HBox box = (HBox) shower.getParent();
 					box.getChildren().remove(shower);
 				}
-				shower.setTranslateX(14 * i);
+				shower.setTranslateX(14 * i - 305);
 				shower.setTranslateY(-14 * i);
-				shower.setRotate(90.0D);
 				getChildren().add(shower);
 			}
 			getChildren().add(view);
 			updatePower();
-		});
+		}));
 		setOnMouseEntered(event -> GameMenu.instance().setImage(played));
 		setOnMouseReleased(event -> {
 			if (!played.getType().isPermanent())
@@ -342,22 +342,25 @@ public class CardShower extends AnchorPane
 				}
 				if (dest != null && dest != this && dest.played.getAssociatedCard() == null)
 				{
-					double diff = event.getSceneX() - dest.localToScene(dest.getBoundsInLocal()).getMinX();
+				/*	double diff = event.getSceneX() - dest.localToScene(dest.getBoundsInLocal()).getMinX();
 					if (played.getAssociatedCard() != null)
 					{
-						CardShower shower = getShower(played.getAssociatedCard());
-						((HBox) shower.getParent()).getChildren().add(this);
-						played.getAssociatedCard().getAssociatedCards().remove(played);
-						played.setAssociatedCard(null);
-						setTranslateX(0.0D);
-						setTranslateY(0.0D);
-						setRotate(42.0D);
-					}
+						PacketMixAttachCard pkt = PacketManager.createPacket(PacketMixAttachCard.class);
+						pkt.action = PacketMixAttachCard.Action.DETACH;
+						pkt.attacher = played;
+						pkt.attached = played.getAssociatedCard();
+						PacketManager.sendPacketToServer(pkt);
+					}*/
 
-					if (diff > 20.0D && diff < 54.0D)
+				/*	if (diff > 20.0D && diff < 54.0D)
 					{
-						dest.played.getAssociatedCards().add(played);
-					} else
+						PacketMixAttachCard pkt = PacketManager.createPacket(PacketMixAttachCard.class);
+						pkt.action = PacketMixAttachCard.Action.ATTACH;
+						pkt.attacher = dest.played;
+						pkt.attached = played;
+						PacketManager.sendPacketToServer(pkt);
+					}
+					else*/
 					{
 						PacketMixMoveCard pkt = PacketManager.createPacket(PacketMixMoveCard.class);
 						pkt.dataPos = (short) played.getController().getData().getPlayed().indexOf(played);

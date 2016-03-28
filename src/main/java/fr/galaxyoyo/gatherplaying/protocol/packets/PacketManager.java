@@ -45,8 +45,9 @@ public class PacketManager
 		registerPacket(0x19, PacketMixSetCardSubtypes.class);
 		registerPacket(0x1A, PacketMixInvokeToken.class);
 		registerPacket(0x1B, PacketMixMoveCard.class);
-		registerPacket(0x1C, PacketMixReturnCard.class);
-		registerPacket(0x1D, PacketMixDrawLine.class);
+		registerPacket(0x1C, PacketMixAttachCard.class);
+		registerPacket(0x1D, PacketMixReturnCard.class);
+		registerPacket(0x1E, PacketMixDrawLine.class);
 	}
 
 	private static void registerPacket(int discriminator, Class<? extends Packet> pktClazz)

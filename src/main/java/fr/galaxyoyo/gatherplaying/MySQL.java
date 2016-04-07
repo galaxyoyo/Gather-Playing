@@ -585,11 +585,11 @@ public class MySQL
 			String[] setCodes;
 			try
 			{
-				setCodes = new GsonBuilder().registerTypeAdapter(Date.class, CardSerializer.DATE).create()
-						.fromJson(IOUtils.toString(new URL("http://mtgjson.com/json/SetCodes.json"), "UTF-8"), String[].class);
+				setCodes = gson.fromJson(IOUtils.toString(new URL("http://gp.arathia.fr/json/SetCodes.json")), String[].class);
 			}
 			catch (IOException ex)
 			{
+				ex.printStackTrace();
 				setCodes = new String[sets.size()];
 				int i = 0;
 				for (Iterator<Set> $i = sets.values().iterator(); i < sets.size() && $i.hasNext(); ++i)
@@ -609,8 +609,7 @@ public class MySQL
 					continue;
 				Loading.setLabel("Installation de l'édition " + code + " ...");
 				timestamp = System.currentTimeMillis();
-				//	String jsoned = IOUtils.toString(new URL("http://mtgjson.com/json/" + code + "-x.json"), StandardCharsets.UTF_8);
-				String jsoned = IOUtils.toString(new URL("http://gp.arathia.fr/json/" + code.replace("CON", "CON_") + ".json"), StandardCharsets.UTF_8);
+				String jsoned = IOUtils.toString(new URL("http://gp.arathia.fr/json/" + code + ".json"), StandardCharsets.UTF_8);
 				System.out.println("Time to download : " + (System.currentTimeMillis() - timestamp) + " ms");
 				timestamp = System.currentTimeMillis();
 				Set set = Set.read(jsoned);
@@ -631,10 +630,12 @@ public class MySQL
 				if (Utils.getSide() == Side.SERVER)
 					set.addLang(Config.getLocaleCode());
 				timestamp = System.currentTimeMillis();
-				insert("sets", new String[]{"name", "code", "magic_cards_info_code", "release_date", "type", "block", "booster", "border", "finished_translations", "mkm_id",
-								"mkm_name"}, set.getName(), set.getCode(), set.getMagicCardsInfoCode(), CardSerializer.DATE.serialize(set.getReleaseDate(), Date.class, null)
-						.getAsString(),
-						set.getType(), set.getBlock(), new Gson().toJson(set.booster), set.getBorder(), set.getFinishedTranslations(), set.getMKMId(), set.getMKMName());
+				insert("sets", new String[]{"name", "name_DE", "name_FR", "name_IT", "name_ES", "name_PT", "name_JP", "name_CN", "name_TW", "name_KO", "code", "magic_cards_info_code",
+								"release_date", "type", "block", "booster", "border", "finished_translations", "mkm_id", "mkm_name"}, set.getName(), set.translations.get("de"), set
+						.translations.get("fr"), set.translations.get("it"), set.translations.get("es"), set.translations.get("pt"), set.translations.get("jp"), set.translations.get
+						("cn"), set.translations.get("tw"), set.translations.get("ko"), set.getCode(), set.getMagicCardsInfoCode(), CardSerializer.DATE.serialize(set.getReleaseDate(),
+						Date.class, null).getAsString(), set.getType(), set.getBlock(), new Gson().toJson(set.booster), set.getBorder(), set.getFinishedTranslations(), set.getMKMId(),
+						set.getMKMName());
 				connection.commit();
 				System.out.println("Time to commit : " + (System.currentTimeMillis() - timestamp) + " ms");
 			}
@@ -707,7 +708,8 @@ public class MySQL
 								if (card.getVariations() != null)
 									card = getCard(String.valueOf(card.getVariations()[Math.min(ver, card.getVariations().length) - 1]));
 								System.out.println(card);
-							} else
+							}
+							else
 								card = StreamSupport.stream(set.getCards()).filter(c -> c.getName().get("en").equals(productName)).findAny().orElse(null);
 							if (card == null)
 								System.err.println(productName);

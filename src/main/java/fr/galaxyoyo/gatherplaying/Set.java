@@ -71,10 +71,12 @@ public class Set implements Comparable<Set>
 		try
 		{
 			String json = IOUtils.toString(new URL("http://gp.arathia.fr/json/" + code.replace("CON", "CON_") + "." + language + ".json"), "UTF-8");
-			Gson gson = new Gson();
+			Gson gson = new GsonBuilder().registerTypeAdapter(Layout.class, CardSerializer.LAYOUT).create();
 			LanguageData data = gson.fromJson(json, LanguageData.class);
 			for (CardLanguageData cardData : data.cards)
 			{
+				if (cardData.layout == Layout.DOUBLE_FACED && cardData.number.endsWith("b"))
+					cardData.multiverseid++;
 				Card card = StreamSupport.stream(cards).filter(c -> Integer.toString(cardData.multiverseid).equalsIgnoreCase(c.getMuId(language))).findAny().orElse(null);
 				if (card == null)
 				{
@@ -144,8 +146,8 @@ public class Set implements Comparable<Set>
 				else
 					o = "rare";
 			}
-			String name = o.toString().toUpperCase().replace("MYTHIC_RARE", "MYTHIC");
-			if (name.equalsIgnoreCase("MARKETING") || name.contains("LAND"))
+			String name = o.toString().toUpperCase().replace("MYTHIC_RARE", "MYTHIC").replace(' ', '_');
+			if (name.equalsIgnoreCase("MARKETING") || name.contains("LAND")|| name.contains("CHECKLIST"))
 				continue;
 			List<Card> matching;
 			try
@@ -332,7 +334,9 @@ public class Set implements Comparable<Set>
 	private class CardLanguageData
 	{
 		private String flavor;
+		private Layout layout;
 		private int multiverseid;
+		private String number;
 		private String originalText;
 		private String originalType;
 	}

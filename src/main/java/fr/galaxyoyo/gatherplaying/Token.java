@@ -9,7 +9,7 @@ import static fr.galaxyoyo.gatherplaying.CardType.*;
 public enum Token
 {
 	// Ténèbres sur Innistrad (SOI)
-/*	ANGEL_12(CREATURE_TOKEN, "SOI", "1", "Flying", "Vol", 4, 4, ManaColor.WHITE, SubType.valueOf("Angel")),
+	ANGEL_12(CREATURE_TOKEN, "SOI", "1", "Flying", "Vol", 4, 4, ManaColor.WHITE, SubType.valueOf("Angel")),
 	HUMAN_SOLDIER(CREATURE_TOKEN, "SOI", "2", 1, 1, ManaColor.WHITE, SubType.valueOf("Human"), SubType.valueOf("Soldier")),
 	SPIRIT_17(CREATURE_TOKEN, "SOI", "3", "Flying", "Vol", 1, 1, ManaColor.WHITE, SubType.valueOf("Spirit")),
 	VAMPIRE_KNIGHT(CREATURE_TOKEN, "SOI", "4", "Lifelink", "Lien de vie", 1, 1, ManaColor.WHITE, SubType.valueOf("Vampire"), SubType.valueOf("Knight")),
@@ -19,18 +19,18 @@ public enum Token
 	INSECT_6(CREATURE_TOKEN, "SOI", "7", 1, 1, ManaColor.GREEN, SubType.valueOf("Insect")),
 	OOZE_7(CREATURE_TOKEN, "SOI", "8", 3, 3, ManaColor.GREEN, SubType.valueOf("Ooze")),
 	WOLF_14(CREATURE_TOKEN, "SOI", "9", 2, 2, ManaColor.GREEN, SubType.valueOf("Wolf")),
-	HUMAN_CLERIC(CREATURE_TOKEN, "SOI", "10", "", "", 1, 1, new ManaColor[] {ManaColor.WHITE}, false, SubType.valueOf("Human"), SubType.valueOf("Cleric")),
+	HUMAN_CLERIC(CREATURE_TOKEN, "SOI", "10", "", "", 1, 1, new ManaColor[]{ManaColor.WHITE}, false, SubType.valueOf("Human"), SubType.valueOf("Cleric")),
 	CLUE_1(ARTIFACT_TOKEN, "SOI", "11", "{2}, Sacrifice this artifact: Draw a card.", "{2}, sacrifiez cet artefact : piochez une carte.", SubType.valueOf("Clue")),
 	CLUE_2(ARTIFACT_TOKEN, "SOI", "12", "{2}, Sacrifice this artifact: Draw a card.", "{2}, sacrifiez cet artefact : piochez une carte.", SubType.valueOf("Clue")),
 	CLUE_3(ARTIFACT_TOKEN, "SOI", "13", "{2}, Sacrifice this artifact: Draw a card.", "{2}, sacrifiez cet artefact : piochez une carte.", SubType.valueOf("Clue")),
 	CLUE_4(ARTIFACT_TOKEN, "SOI", "14", "{2}, Sacrifice this artifact: Draw a card.", "{2}, sacrifiez cet artefact : piochez une carte.", SubType.valueOf("Clue")),
 	CLUE_5(ARTIFACT_TOKEN, "SOI", "15", "{2}, Sacrifice this artifact: Draw a card.", "{2}, sacrifiez cet artefact : piochez une carte.", SubType.valueOf("Clue")),
 	CLUE_6(ARTIFACT_TOKEN, "SOI", "16", "{2}, Sacrifice this artifact: Draw a card.", "{2}, sacrifiez cet artefact : piochez une carte.", SubType.valueOf("Clue")),
-	JACE_UNRAVELER_OF_SECRETS(EMBLEM, "SOI", "17", "Whenever an opponent casts his or her first spell each turn, counter that spell.", "À chaque fois qu'un adversaire lance son premier
-	sort, contrecarrez ce sort.", SubType.valueOf("Jace")),
+	JACE_UNRAVELER_OF_SECRETS(EMBLEM, "SOI", "17", "Whenever an opponent casts his or her first spell each turn, counter that spell.",
+			"À chaque fois qu'un adversaire lance son premier sort, contrecarrez ce sort.", SubType.valueOf("Jace")),
 	ARLINN_EMBRACED_BY_THE_MOON(EMBLEM, "SOI", "18", "Creatures you control have haste and \"{T}: This creature deals damage equals to its power to target creature or player.\"",
 			"Les créatures que vous contrôlez ont la célérité et « {T} : Cette créature inflige à la cible créature ou joueur un nombre de blessures égale à sa force. »", SubType
-			.valueOf("Arlinn")),*/
+			.valueOf("Arlinn")),
 
 	// Le serment des sentinelles (OGW)
 	ELDRAZI_SCION_4(CREATURE_TOKEN, "OGW", "1", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre " + "réserve", 1, 1,
@@ -730,7 +730,8 @@ public enum Token
 			if (!ability_FR.isEmpty() && ability_FR.length() < 42)
 				str += ability_FR + " ";
 			str += Joiner.on('/').join(color) + ")";
-		} else
+		}
+		else
 			str += " : " + subtypes[0];
 		str += " (" + set.getCode() + ")";
 		return str;

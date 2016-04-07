@@ -14,6 +14,7 @@ public class CardSerializer implements JsonDeserializer<Card>
 	public static final DateSerializer DATE = new DateSerializer();
 	public static final SubTypeSerializer SUBTYPE = new SubTypeSerializer();
 	public static final ManaColorSerializer MANACOLOR = new ManaColorSerializer();
+	public static final LayoutSerializer LAYOUT = new LayoutSerializer();
 	public static final OwnedCardSerializer OWNEDCARD = new OwnedCardSerializer();
 	public static final CardSerializer CARD = new CardSerializer();
 
@@ -60,7 +61,27 @@ public class CardSerializer implements JsonDeserializer<Card>
 		}
 
 		@Override
-		public JsonElement serialize(ManaColor mc, Type type, JsonSerializationContext cxt) { return new JsonPrimitive(mc.getAbbreviate()); }
+		public JsonElement serialize(ManaColor mc, Type type, JsonSerializationContext cxt)
+		{
+			return new JsonPrimitive(mc.getAbbreviate());
+		}
+	}
+
+	private static class LayoutSerializer implements JsonDeserializer<Layout>, JsonSerializer<Layout>
+	{
+		private LayoutSerializer() { }
+
+		@Override
+		public Layout deserialize(JsonElement elem, Type type, JsonDeserializationContext cxt) throws JsonParseException
+		{
+			return Layout.valueOf(elem.getAsString().replace(' ', '_').replace('-', '_').toUpperCase());
+		}
+
+		@Override
+		public JsonElement serialize(Layout layout, Type type, JsonSerializationContext cxt)
+		{
+			return new JsonPrimitive(layout.name().toLowerCase());
+		}
 	}
 
 	private static class OwnedCardSerializer extends TypeAdapter<OwnedCard>

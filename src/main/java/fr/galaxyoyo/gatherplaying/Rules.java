@@ -46,7 +46,7 @@ public enum Rules
 						legals.add(card.getName().get("en"));
 						return true;
 					default:
-						for (Set set : RefStreams.of("KTK", "FRF", "DTK", "ORI", "OGW").map(MySQL::getSet).collect(Collectors.toSet()))
+						for (Set set : RefStreams.of("DTK", "ORI", "BFZ", "OGW", "SOI", "EMN").map(MySQL::getSet).collect(Collectors.toSet()))
 						{
 							for (Card c : set.getCards())
 							{

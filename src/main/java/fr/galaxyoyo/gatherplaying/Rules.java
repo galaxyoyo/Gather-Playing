@@ -41,12 +41,13 @@ public enum Rules
 					case "BFZ":
 					case "OGW":
 					case "SOI":
+					case "W16":
 						// Be added on July 22th
 					case "EMN":
 						legals.add(card.getName().get("en"));
 						return true;
 					default:
-						for (Set set : RefStreams.of("DTK", "ORI", "BFZ", "OGW", "SOI").map(MySQL::getSet).collect(Collectors.toSet()))
+						for (Set set : RefStreams.of("DTK", "ORI", "BFZ", "OGW", "SOI", "W16", "EMN").map(MySQL::getSet).collect(Collectors.toSet()))
 						{
 							for (Card c : set.getCards())
 							{

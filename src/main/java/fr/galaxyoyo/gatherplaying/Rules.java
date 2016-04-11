@@ -49,6 +49,9 @@ public enum Rules
 					default:
 						for (Set set : RefStreams.of("DTK", "ORI", "BFZ", "OGW", "SOI", "W16", "EMN").map(MySQL::getSet).collect(Collectors.toSet()))
 						{
+							if (set == null)
+								continue;
+
 							for (Card c : set.getCards())
 							{
 								if (card.getName().get("en").equals(c.getName().get("en")))
@@ -211,7 +214,7 @@ public enum Rules
 					case "Vault of Whispers":
 						return false;
 					default:
-						return card.getSet().compareTo(MySQL.getSet("MRD")) >= 0;
+						return card.getSet().compareTo(MySQL.getSet("8ED")) >= 0;
 				}
 			case COMMANDER:
 				switch (card.getName().get("en"))

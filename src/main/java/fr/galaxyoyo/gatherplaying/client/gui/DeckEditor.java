@@ -34,6 +34,7 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 public class DeckEditor extends AbstractController implements Initializable
 {
@@ -123,7 +124,9 @@ public class DeckEditor extends AbstractController implements Initializable
 			{
 				if (card.getAbilityMap().get("en") == null || card.getAbilityMap().get("en").isEmpty())
 					return false;
-				if (!card.getAbilityMap().get("en").contains(filters.getAbility().getText()) && !card.getAbility().contains(filters.getAbility().getText()))
+				Pattern pattern = Pattern.compile(filters.getAbility().getText());
+
+				if (!pattern.matcher(card.getAbilityMap().get("en")).find() && !pattern.matcher(card.getAbility()).find())
 					return false;
 			}
 			List<ManaColor> colors = filters.getColor().getSelectionModel().getSelectedItems();

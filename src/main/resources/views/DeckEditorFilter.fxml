@@ -13,11 +13,11 @@
     <ListView fx:id="cmc" prefWidth="65.0" prefHeight="120.0"/>
     <VBox alignment="CENTER">
         <Label text="Force"  VBox.vgrow="NEVER"/>
-        <ListView fx:id="power" prefWidth="48.0" prefHeight="120.0" VBox.vgrow="ALWAYS"/>
+        <ListView fx:id="power" prefWidth="50.0" prefHeight="120.0" VBox.vgrow="ALWAYS"/>
     </VBox>
     <VBox alignment="CENTER">
         <Label text="Endurance" VBox.vgrow="NEVER"/>
-        <ListView fx:id="toughness" prefWidth="48.0" prefHeight="120.0" VBox.vgrow="ALWAYS"/>
+        <ListView fx:id="toughness" prefWidth="50.0" prefHeight="120.0" VBox.vgrow="ALWAYS"/>
     </VBox>
     <ListView fx:id="type" prefWidth="160.0" prefHeight="120.0"/>
     <ListView fx:id="subtypes" prefWidth="122.0" prefHeight="120.0"/>

@@ -1,5 +1,6 @@
 package fr.galaxyoyo.gatherplaying.client.gui;
 
+import com.google.common.base.Strings;
 import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.client.Config;
@@ -130,6 +131,10 @@ public class DeckEditor extends AbstractController implements Initializable
 				return false;
 			if (!filters.getCmc().getSelectionModel().getSelectedItems().contains((int) card.getCmc()))
 				return false;
+			if (!filters.getPower().getSelectionModel().getSelectedItems().contains(Strings.nullToEmpty(card.getPower())))
+				return false;
+			if (!filters.getToughness().getSelectionModel().getSelectedItems().contains(Strings.nullToEmpty(card.getToughness())))
+				return false;
 			if (!filters.getRarity().getSelectionModel().getSelectedItems().contains(card.getRarity()))
 				return false;
 			if (!filters.getType().getSelectionModel().getSelectedItems().contains(card.getType()))
@@ -243,6 +248,8 @@ public class DeckEditor extends AbstractController implements Initializable
 		filters.getRarity().getSelectionModel().selectedItemProperty().addListener(l);
 		filters.getColor().getSelectionModel().selectedItemProperty().addListener(l);
 		filters.getCmc().getSelectionModel().selectedItemProperty().addListener(l);
+		filters.getPower().getSelectionModel().selectedItemProperty().addListener(l);
+		filters.getToughness().getSelectionModel().selectedItemProperty().addListener(l);
 		filters.getType().getSelectionModel().selectedItemProperty().addListener(l);
 		filters.getSubtypes().getSelectionModel().selectedItemProperty().addListener(l);
 		filters.getSet().getSelectionModel().selectedItemProperty().addListener(l);

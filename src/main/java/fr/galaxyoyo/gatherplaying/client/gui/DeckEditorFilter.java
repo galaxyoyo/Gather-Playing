@@ -5,6 +5,7 @@ import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.client.Config;
 import java8.util.stream.Collectors;
 import java8.util.stream.RefStreams;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -31,6 +32,12 @@ public class DeckEditorFilter extends AbstractController implements Initializabl
 
 	@FXML
 	private ListView<Integer> cmc;
+
+	@FXML
+	private ListView<String> power;
+
+	@FXML
+	private ListView<String> toughness;
 
 	@FXML
 	private ListView<CardType> type;
@@ -82,6 +89,15 @@ public class DeckEditorFilter extends AbstractController implements Initializabl
 			}
 		});
 		cmc.getSelectionModel().selectAll();
+
+		//noinspection unchecked
+		for (ListView<String> view : new ListView[] {power, toughness})
+		{
+			view.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+			ObservableList<String> list = view.getItems();
+			list.addAll("", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "99", "*", "1+*", "*²");
+			view.getSelectionModel().selectAll();
+		}
 
 		type.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		type.getItems().addAll(RefStreams.of(CardType.values())
@@ -174,5 +190,15 @@ public class DeckEditorFilter extends AbstractController implements Initializabl
 	public ListView<Rules> getRules()
 	{
 		return rules;
+	}
+
+	public ListView<String> getPower()
+	{
+		return power;
+	}
+
+	public ListView<String> getToughness()
+	{
+		return toughness;
 	}
 }

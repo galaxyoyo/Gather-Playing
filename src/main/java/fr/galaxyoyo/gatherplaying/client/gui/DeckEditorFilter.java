@@ -95,7 +95,7 @@ public class DeckEditorFilter extends AbstractController implements Initializabl
 		{
 			view.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 			ObservableList<String> list = view.getItems();
-			list.addAll("", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "99", "*", "1+*", "*²");
+			list.addAll("", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "99", "*", "1+*", "2+*", "*²");
 			view.getSelectionModel().selectAll();
 		}
 

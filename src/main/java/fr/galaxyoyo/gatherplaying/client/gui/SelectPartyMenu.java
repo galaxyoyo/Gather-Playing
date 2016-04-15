@@ -1,9 +1,6 @@
 package fr.galaxyoyo.gatherplaying.client.gui;
 
-import fr.galaxyoyo.gatherplaying.Deck;
-import fr.galaxyoyo.gatherplaying.Library;
-import fr.galaxyoyo.gatherplaying.Party;
-import fr.galaxyoyo.gatherplaying.Utils;
+import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketInSelectDeck;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketManager;
@@ -13,6 +10,8 @@ import java8.util.stream.StreamSupport;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -104,27 +103,42 @@ public class SelectPartyMenu extends AbstractController implements Initializable
 		if (party == null)
 			return;
 		List<Deck> decks = StreamSupport.stream(Client.localPlayer.decks).filter(deck -> deck.getLegalities().contains(party.getRules())).collect(Collectors.toList());
-		if (decks.isEmpty())
+		if (!party.getRules().isLimited() && decks.isEmpty())
 		{
 			Utils.alert("Pas de deck", "Aucun deck à jouer", "Vous ne possédez aucun deck légal dans le format " + party.getRules(), Alert.AlertType.WARNING);
 			return;
 		}
+
+		if (party.getRules().isLimited())
+		{
+			if (party.getRules() == Rules.SEALED)
+			{
+				Client.show(DeckEditor.class);
+				DeckEditor.getDeckShower().initForLimited();
+				//noinspection unchecked
+				((SortedList<Card>) ((FilteredList<Card>) ((SortedList<Card>) DeckEditor.getEditor().table.getItems()).getSource()).getSource()).getSource().clear();
+			}
+		}
+
 		Client.localPlayer.runningParty = party;
 		PacketMixUpdatePartyInfos pkt = PacketManager.createPacket(PacketMixUpdatePartyInfos.class);
 		pkt.party = party;
 		pkt.type = PacketMixUpdatePartyInfos.Type.JOIN;
 		PacketManager.sendPacketToServer(pkt);
-		Client.show(GameMenu.class);
-		ChoiceDialog<Deck> deckSelector = new ChoiceDialog<>();
-		deckSelector.setTitle("Sélecteur de deck");
-		deckSelector.setHeaderText("Sélectionnez votre deck à jouer");
-		deckSelector.getItems().setAll(decks);
-		deckSelector.setSelectedItem(deckSelector.getItems().get(0));
-		deckSelector.showAndWait().ifPresent(deck -> {
-			PacketInSelectDeck p = PacketManager.createPacket(PacketInSelectDeck.class);
-			p.library = new Library(deck);
-			PacketManager.sendPacketToServer(p);
-		});
+		if (!party.getRules().isLimited())
+		{
+			Client.show(GameMenu.class);
+			ChoiceDialog<Deck> deckSelector = new ChoiceDialog<>();
+			deckSelector.setTitle("Sélecteur de deck");
+			deckSelector.setHeaderText("Sélectionnez votre deck à jouer");
+			deckSelector.getItems().setAll(decks);
+			deckSelector.setSelectedItem(deckSelector.getItems().get(0));
+			deckSelector.showAndWait().ifPresent(deck -> {
+				PacketInSelectDeck p = PacketManager.createPacket(PacketInSelectDeck.class);
+				p.library = new Library(deck);
+				PacketManager.sendPacketToServer(p);
+			});
+		}
 	}
 
 	@FXML

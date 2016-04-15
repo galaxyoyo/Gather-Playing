@@ -20,12 +20,12 @@
         <VBox>
             <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onAction="#showstats" text="Statistiques"/>
             <HBox>
-                <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onAction="#load" text="Charger" HBox.hgrow="ALWAYS"/>
-                <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onAction="#save" text="Sauvegarder" HBox.hgrow="ALWAYS"/>
+                <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" fx:id="load" onAction="#load" text="Charger" HBox.hgrow="ALWAYS"/>
+                <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" fx:id="save" onAction="#save" text="Sauvegarder" HBox.hgrow="ALWAYS"/>
             </HBox>
             <HBox>
-                <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onAction="#importDeck" text="Importer" HBox.hgrow="ALWAYS"/>
-                <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onAction="#exportDeck" text="Exporter" HBox.hgrow="ALWAYS"/>
+                <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" fx:id="imp" onAction="#importDeck" text="Importer" HBox.hgrow="ALWAYS"/>
+                <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" fx:id="exp" onAction="#exportDeck" text="Exporter" HBox.hgrow="ALWAYS"/>
                 <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onAction="#quit" text="Quitter" HBox.hgrow="ALWAYS"/>
             </HBox>
         </VBox>

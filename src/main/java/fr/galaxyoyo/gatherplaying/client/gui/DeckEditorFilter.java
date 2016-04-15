@@ -124,7 +124,7 @@ public class DeckEditorFilter extends AbstractController implements Initializabl
 		});
 
 		rules.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-		rules.getItems().addAll(Rules.values());
+		rules.getItems().addAll(RefStreams.of(Rules.values()).filter(rules -> !rules.isLimited()).collect(Collectors.toList()));
 		rules.getSelectionModel().select(Config.getFormat());
 		DeckShower.setRulesProp(rules.getSelectionModel().selectedItemProperty());
 

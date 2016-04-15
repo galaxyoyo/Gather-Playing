@@ -1,6 +1,5 @@
 package fr.galaxyoyo.gatherplaying.protocol.packets;
 
-import fr.galaxyoyo.gatherplaying.Phase;
 import fr.galaxyoyo.gatherplaying.Player;
 import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.client.gui.GameMenu;
@@ -19,7 +18,7 @@ public class PacketOutPartyStart extends Packet
 	@Override
 	public void read(ByteBuf buf)
 	{
-		for (Player ignored : Client.getRunningParty().getOnlinePlayers())
+		for (int i = 0; i < Client.getRunningParty().getOnlinePlayers().size(); ++i)
 		{
 			Player p = Client.getRunningParty().getPlayer(readUUID(buf));
 			Client.getRunningParty().getData(p).setLibrary(null);
@@ -27,7 +26,6 @@ public class PacketOutPartyStart extends Packet
 				GameMenu.instance().adverseInfos.setPlayer(p);
 			PlayerInfos.getInfos(p).setLibrary(buf.readByte());
 		}
-		GameMenu.instance().setPhase(Phase.MAIN);
 		starter = Client.getRunningParty().getPlayer(readUUID(buf));
 		if (starter == Client.localPlayer)
 		{

@@ -39,9 +39,9 @@ public class DeckEditor extends AbstractController implements Initializable
 	private static DeckEditorFilter filters;
 	private static CardDetailsShower cardShower;
 	private static DeckShower deckShower;
-
+	private static DeckEditor editor;
 	@FXML
-	private TableView<Card> table;
+	public TableView<Card> table;
 	@FXML
 	private TableColumn<Card, String> name_EN;
 	@FXML
@@ -53,14 +53,14 @@ public class DeckEditor extends AbstractController implements Initializable
 	@FXML
 	private Label cardsCount;
 
-	public static void setFilters(DeckEditorFilter filters)
-	{
-		DeckEditor.filters = filters;
-	}
-
 	public static void setCardShower(CardDetailsShower cardShower)
 	{
 		DeckEditor.cardShower = cardShower;
+	}
+
+	public static DeckShower getDeckShower()
+	{
+		return deckShower;
 	}
 
 	public static void setDeckShower(DeckShower deckShower)
@@ -68,9 +68,26 @@ public class DeckEditor extends AbstractController implements Initializable
 		DeckEditor.deckShower = deckShower;
 	}
 
+	public static DeckEditorFilter getFilters()
+	{
+		return filters;
+	}
+
+	public static void setFilters(DeckEditorFilter filters)
+	{
+		DeckEditor.filters = filters;
+	}
+
+	public static DeckEditor getEditor()
+	{
+		return editor;
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
+		editor = this;
+
 		table.prefWidthProperty().bind(Client.getStage().widthProperty().divide(2));
 
 		ObservableList<Card> allCards = FXCollections.observableArrayList(MySQL.getAllCards());
@@ -85,9 +102,12 @@ public class DeckEditor extends AbstractController implements Initializable
 				added.add(card.getName().get("en"));
 			});
 			cards = new SortedList<>(stackedCards);
-		} else
+		}
+		else
 			cards = new SortedList<>(allCards);
 		FilteredList<Card> filtered = new FilteredList<>(cards, card -> {
+			if (card == null)
+				return false;
 			if (card.getLayout() == Layout.TOKEN)
 				return false;
 			if ((card.getLayout() == Layout.DOUBLE_FACED || card.getLayout() == Layout.FLIP) && card.getManaCost() == null)
@@ -95,8 +115,8 @@ public class DeckEditor extends AbstractController implements Initializable
 			if (filters.getRarity().getSelectionModel().isEmpty() || filters.getColor().getSelectionModel().isEmpty() || filters.getCmc().getSelectionModel().isEmpty() ||
 					filters.getType().getSelectionModel().isEmpty() || filters.getSubtypes().getSelectionModel().isEmpty() || filters.getSet().getSelectionModel().isEmpty())
 				return false;
-			if (!filters.getName().getText().isEmpty() && !card.getName().get("en").toLowerCase().contains(filters.getName().getText().toLowerCase()) &&
-					!card.getTranslatedName().get().toLowerCase().contains(filters.getName().getText().toLowerCase()))
+			if (!filters.getName().getText().isEmpty() && !card.getName().get("en").replace("Æ", "AE").toLowerCase().contains(filters.getName().getText().toLowerCase()) &&
+					!card.getTranslatedName().get().replace("Æ", "AE").toLowerCase().contains(filters.getName().getText().toLowerCase()))
 				return false;
 			if (!filters.getAbility().getText().isEmpty())
 			{
@@ -210,7 +230,8 @@ public class DeckEditor extends AbstractController implements Initializable
 				SortedList<Card> s = new SortedList<>(filtered);
 				s.comparatorProperty().bind(table.comparatorProperty());
 				table.setItems(s);
-			} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored)
+			}
+			catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored)
 			{
 			}
 		});

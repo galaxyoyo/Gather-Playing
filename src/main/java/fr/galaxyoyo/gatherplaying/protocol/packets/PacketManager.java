@@ -48,6 +48,7 @@ public class PacketManager
 		registerPacket(0x1C, PacketMixAttachCard.class);
 		registerPacket(0x1D, PacketMixReturnCard.class);
 		registerPacket(0x1E, PacketMixDrawLine.class);
+		registerPacket(0x1F, PacketOutOpenBooster.class);
 	}
 
 	private static void registerPacket(int discriminator, Class<? extends Packet> pktClazz)

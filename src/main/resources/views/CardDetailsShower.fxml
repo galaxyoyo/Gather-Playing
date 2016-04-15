@@ -7,11 +7,18 @@
 <?import javafx.scene.web.WebView?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/null" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.CardDetailsShower" fx:id="box"
       alignment="CENTER">
-    <ImageView fx:id="image" fitHeight="310.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
-        <VBox.margin>
-            <Insets top="10" bottom="10"/>
-        </VBox.margin>
-    </ImageView>
+    <HBox minHeight="330.0D" alignment="CENTER">
+        <ImageView fx:id="image" pickOnBounds="true" preserveRatio="true">
+            <VBox.margin>
+                <Insets top="10" bottom="10"/>
+            </VBox.margin>
+        </ImageView>
+        <ImageView fx:id="doubleFacedImage" fitHeight="310.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
+            <VBox.margin>
+                <Insets top="10" bottom="10"/>
+            </VBox.margin>
+        </ImageView>
+    </HBox>
     <GridPane VBox.vgrow="ALWAYS">
         <columnConstraints>
             <ColumnConstraints hgrow="ALWAYS"/>

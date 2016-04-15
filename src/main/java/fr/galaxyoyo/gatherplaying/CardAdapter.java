@@ -52,7 +52,7 @@ public class CardAdapter extends TypeAdapter<Card>
 			switch (name)
 			{
 				case "name":
-					card.getName().put("en", r.nextString().replace("Æ", "Ae"));
+					card.getName().put("en", r.nextString());
 					break;
 				case "manaCost":
 					Matcher m = MANA_COST.matcher(r.nextString());
@@ -233,7 +233,7 @@ public class CardAdapter extends TypeAdapter<Card>
 						r.nextName();
 						String locale = r.nextString();
 						r.nextName();
-						String tr_name = r.nextString().replace("Æ", "Ae");
+						String tr_name = r.nextString();
 						if (r.peek() != JsonToken.NAME)
 						{
 							r.endObject();

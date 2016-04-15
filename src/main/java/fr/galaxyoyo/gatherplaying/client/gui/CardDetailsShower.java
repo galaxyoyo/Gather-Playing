@@ -14,7 +14,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
@@ -26,7 +25,7 @@ public class CardDetailsShower extends AbstractController implements Initializab
 	private VBox box;
 
 	@FXML
-	private ImageView image;
+	private ImageView image, doubleFacedImage;
 
 	@FXML
 	private Label name_EN, name_TR, type, manaCost, power, set, rarity, nameTRLbl, manaCostLbl, powerLbl;
@@ -47,7 +46,8 @@ public class CardDetailsShower extends AbstractController implements Initializab
 		{
 			image.setFitWidth(74.0D);
 			image.setFitHeight(103.0D);
-		} else if (Config.getHqCards())
+		}
+		else if (Config.getHqCards())
 		{
 			image.setFitWidth(360.0D);
 			image.setFitHeight(510.0D);
@@ -58,13 +58,43 @@ public class CardDetailsShower extends AbstractController implements Initializab
 	{
 		if (card == null)
 			return;
-		Executors.newSingleThreadExecutor().submit(() -> Platform.runLater(() -> image.setImage(CardImageManager.getImage(card))));
+		Executors.newSingleThreadExecutor().submit(() -> Platform.runLater(() -> {
+			if (card.getLayout() == Layout.DOUBLE_FACED)
+			{
+				int muid = Integer.parseInt(card.getMuId("en")) + 1;
+				Card doubleFaced = MySQL.getCard(String.valueOf(muid));
+				doubleFacedImage.setImage(CardImageManager.getImage(doubleFaced));
+				if (Utils.isMobile())
+				{
+					doubleFacedImage.setFitWidth(74.0D);
+					doubleFacedImage.setFitHeight(103.0D);
+				}
+				else if (Config.getHqCards())
+				{
+					doubleFacedImage.setFitWidth(360.0D);
+					doubleFacedImage.setFitHeight(510.0D);
+				}
+				else
+				{
+					doubleFacedImage.setFitWidth(223.0D);
+					doubleFacedImage.setFitHeight(310.0D);
+				}
+			}
+			else
+			{
+				doubleFacedImage.setImage(null);
+				doubleFacedImage.setFitWidth(0.0D);
+				doubleFacedImage.setFitHeight(0.0D);
+			}
+			image.setImage(CardImageManager.getImage(card));
+		}));
 		name_EN.setText(card.getName().get("en"));
 		if (!Objects.equals(card.getTranslatedName().get(), card.getName().get("en")))
 		{
 			name_TR.setVisible(true);
 			name_TR.textProperty().bind(card.getTranslatedName());
-		} else
+		}
+		else
 			name_TR.setVisible(false);
 		type.setText(card.getType().toString());
 		HBox manas = new HBox();
@@ -80,12 +110,14 @@ public class CardDetailsShower extends AbstractController implements Initializab
 			power.setVisible(true);
 			powerLbl.setText("Force / Endurance :");
 			power.setText(card.getPower() + "/" + card.getToughness());
-		} else if (card.getType().is(CardType.PLANESWALKER))
+		}
+		else if (card.getType().is(CardType.PLANESWALKER))
 		{
 			power.setVisible(true);
 			powerLbl.setText("Loyauté :");
 			power.setText(Integer.toString(card.getLoyalty()));
-		} else
+		}
+		else
 			power.setVisible(false);
 
 		set.setText(card.getSet().geName() + " (" + card.getSet().getCode() + ")");
@@ -112,6 +144,33 @@ public class CardDetailsShower extends AbstractController implements Initializab
 		if (flavor != null)
 			html += "<br /><i>" + flavor.replaceAll("#|_", "").replaceAll("\\n|£", "<br/>") + "</i>";
 		html += "</div>";
+
+		if (card.getLayout() == Layout.DOUBLE_FACED)
+		{
+			int muid = Integer.parseInt(card.getMuId("en")) + 1;
+			Card doubleFaced = MySQL.getCard(String.valueOf(muid));
+			html += "<br /><hr /><br /><div style=\"\">";
+			if (doubleFaced.getAbilityMap().get("en") != null)
+			{
+				for (String line : doubleFaced.getAbility().split("£|\n"))
+				{
+					line = line.replaceAll("#|_", "");
+					Matcher m = CardAdapter.MANA_COST.matcher(line);
+					while (m.find())
+					{
+						String icon = m.group().substring(1, m.group().length() - 1).replace("∞", "infinity").replace("/", "");
+						CardImageManager.getIcon(icon, true);
+						line = line.replace(m.group(), "<img src=\"file:///" + CardImageManager.getIconFile(icon, true).getAbsolutePath().replace('\\', '/') + "\" />");
+					}
+					html += line.replace("(", "<i>(").replace(")", ")</i>") + "<br />";
+				}
+			}
+
+			flavor = doubleFaced.getFlavor();
+			if (flavor != null)
+				html += "<br /><i>" + flavor.replaceAll("#|_", "").replaceAll("\\n|£", "<br/>") + "</i>";
+			html += "</div>";
+		}
 
 		desc.getEngine().loadContent(html);
 	}

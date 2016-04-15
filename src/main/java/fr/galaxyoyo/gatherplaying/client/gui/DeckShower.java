@@ -4,12 +4,17 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.client.Client;
+import fr.galaxyoyo.gatherplaying.protocol.packets.PacketInSelectDeck;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketManager;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketMixDeck;
+import fr.galaxyoyo.gatherplaying.protocol.packets.PacketMixUpdatePartyInfos;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.collections.ObservableList;
 import javafx.collections.SetChangeListener;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +27,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Document;
@@ -55,7 +61,7 @@ public class DeckShower extends AbstractController implements Initializable
 	private static ReadOnlyObjectProperty<Rules> rulesProp;
 
 	@FXML
-	private Button add, sideboard, remove;
+	private Button add, sideboard, remove, load, save, imp, exp;
 
 	@FXML
 	private TextField name;
@@ -65,6 +71,7 @@ public class DeckShower extends AbstractController implements Initializable
 
 	private Deck deck;
 	private boolean newDeck;
+	private boolean limited = false;
 
 	public static void setShower(CardDetailsShower shower)
 	{
@@ -126,6 +133,13 @@ public class DeckShower extends AbstractController implements Initializable
 		if (card == null)
 			return;
 
+		if (limited && !card.isBasic())
+		{
+			//noinspection unchecked
+			ObservableList<Card> list = (ObservableList<Card>) ((SortedList<Card>) ((FilteredList<Card>) ((SortedList<Card>) table.getItems()).getSource()).getSource()).getSource();
+			list.remove(card);
+		}
+
 		Rules rules = rulesProp.getValue();
 		if (rules != Rules.FREEFORM)
 		{
@@ -159,8 +173,17 @@ public class DeckShower extends AbstractController implements Initializable
 	{
 		if (obj == null)
 			return;
+
 		int index = cards.getSelectionModel().getSelectedIndex();
 		CardLabel label = (CardLabel) obj;
+
+		if (limited && !label.card.isBasic())
+		{
+			//noinspection unchecked
+			ObservableList<Card> list = (ObservableList<Card>) ((SortedList<Card>) ((FilteredList<Card>) ((SortedList<Card>) table.getItems()).getSource()).getSource()).getSource();
+			list.add(label.card);
+		}
+
 		if (label.sideboard)
 		{
 			for (OwnedCard card : Sets.newHashSet(deck.getSideboard()))
@@ -171,7 +194,8 @@ public class DeckShower extends AbstractController implements Initializable
 					break;
 				}
 			}
-		} else
+		}
+		else
 		{
 			for (OwnedCard card : Sets.newHashSet(deck.getCards()))
 			{
@@ -255,7 +279,8 @@ public class DeckShower extends AbstractController implements Initializable
 					pkt.type = PacketMixDeck.Type.DELETING;
 					PacketManager.sendPacketToServer(pkt);
 					dialog.hide();
-				} else if (param == ButtonType.OK)
+				}
+				else if (param == ButtonType.OK)
 					return dialog.getSelectedItem();
 				return null;
 			});
@@ -291,7 +316,17 @@ public class DeckShower extends AbstractController implements Initializable
 		if (newDeck)
 			Client.localPlayer.decks.add(deck);
 
-		Utils.alert("Deck sauvegardé !", "Votre deck a bien été sauvegardé !", "Votre deck a été sauvegardé avec succès dans la base de données du serveur");
+		if (limited)
+		{
+			Client.show(GameMenu.class);
+			Utils.alert("Deck sauvegardé !", "Votre deck a bien été enregistré !", "Merci d'attendre que les autres joueurs aient terminé.");
+
+			PacketInSelectDeck p = PacketManager.createPacket(PacketInSelectDeck.class);
+			p.library = new Library(deck);
+			PacketManager.sendPacketToServer(p);
+		}
+		else
+			Utils.alert("Deck sauvegardé !", "Votre deck a bien été sauvegardé !", "Votre deck a été sauvegardé avec succès dans la base de données du serveur");
 	}
 
 	@FXML
@@ -325,13 +360,15 @@ public class DeckShower extends AbstractController implements Initializable
 							for (int j = 0; j < element.getElementsByTagName("card").getLength(); ++j)
 							{
 								Element cardElem = (Element) element.getElementsByTagName("card").item(j);
-								List<Card> matches = StreamSupport.stream(MySQL.getAllCards()).filter(card -> card.getName().get("en").equals(cardElem.getAttribute("name")))
-										.filter(card -> Utils.DEBUG || card.getSet().getReleaseDate().getTime() < System.currentTimeMillis()).collect(Collectors.toList());
+								List<Card> matches = StreamSupport.stream(MySQL.getAllCards()).filter(card -> card.getName().get("en").equals(cardElem.getAttribute("name")
+										.replace("AEt", "Æt"))).filter(card -> Utils.DEBUG || card.getSet().getReleaseDate().getTime() < System.currentTimeMillis())
+										.collect(Collectors.toList());
 								Collections.sort(matches);
 								for (int k = 0; k < Integer.parseInt(cardElem.getAttribute("number")); ++k)
 									deck.getCards().add(new OwnedCard(matches.get(0), Client.localPlayer, false));
 							}
-						} else if (element.getAttribute("name").equals("side"))
+						}
+						else if (element.getAttribute("name").equals("side"))
 						{
 							for (int j = 0; j < element.getElementsByTagName("card").getLength(); ++j)
 							{
@@ -355,7 +392,8 @@ public class DeckShower extends AbstractController implements Initializable
 			deck.getCards().addListener((SetChangeListener<? super OwnedCard>) change -> updateDeckView());
 			deck.getSideboard().addListener((SetChangeListener<? super OwnedCard>) change -> updateDeckView());
 			updateDeckView();
-		} catch (SAXException | IOException | ParserConfigurationException ex)
+		}
+		catch (SAXException | IOException | ParserConfigurationException ex)
 		{
 			ex.printStackTrace();
 		}
@@ -396,7 +434,7 @@ public class DeckShower extends AbstractController implements Initializable
 					Element card = doc.createElement("card");
 					card.setAttribute("number", Integer.toString(entry.getValue()));
 					card.setAttribute("price", "0");
-					card.setAttribute("name", entry.getKey());
+					card.setAttribute("name", entry.getKey().replace("Æ", "AE"));
 					mainZone.appendChild(card);
 				}
 				if (!deck.getSideboard().isEmpty())
@@ -414,7 +452,8 @@ public class DeckShower extends AbstractController implements Initializable
 					}
 				}
 				TransformerFactory.newInstance().newTransformer().transform(new DOMSource(doc), new StreamResult(file));
-			} else if (chooser.getSelectedExtensionFilter() == tableTopSimFilter)
+			}
+			else if (chooser.getSelectedExtensionFilter() == tableTopSimFilter)
 			{
 				int numImages = (int) Math.ceil(deck.getCards().size() / 60.0D);
 				for (int i = 0; i < numImages; ++i)
@@ -455,14 +494,16 @@ public class DeckShower extends AbstractController implements Initializable
 						try
 						{
 							ImageIO.write(img, "JPG", file);
-						} catch (IOException e)
+						}
+						catch (IOException e)
 						{
 							e.printStackTrace();
 						}
 					});
 				}
 			}
-		} catch (ParserConfigurationException | TransformerException | IOException ex)
+		}
+		catch (ParserConfigurationException | TransformerException | IOException ex)
 		{
 			ex.printStackTrace();
 		}
@@ -471,6 +512,13 @@ public class DeckShower extends AbstractController implements Initializable
 	@FXML
 	private void quit()
 	{
+		if (limited)
+		{
+			PacketMixUpdatePartyInfos pkt = PacketManager.createPacket(PacketMixUpdatePartyInfos.class);
+			pkt.type = PacketMixUpdatePartyInfos.Type.LEAVE;
+			PacketManager.sendPacketToServer(pkt);
+		}
+
 		Client.show(MainMenu.class);
 		//Client.show(FreeModeMenu.class);
 	}
@@ -487,7 +535,8 @@ public class DeckShower extends AbstractController implements Initializable
 			dialog.getDialogPane().setContent(loader.load());
 			((DeckStats) loader.getController()).setDeck(deck);
 			dialog.showAndWait();
-		} catch (IOException ex)
+		}
+		catch (IOException ex)
 		{
 			ex.printStackTrace();
 		}
@@ -500,6 +549,15 @@ public class DeckShower extends AbstractController implements Initializable
 			add.fire();
 		else if (event.getCode() == KeyCode.SUBTRACT)
 			remove.fire();
+	}
+
+	public void initForLimited()
+	{
+		limited = true;
+		((HBox) imp.getParent()).getChildren().removeAll(imp, exp);
+		((HBox) load.getParent()).getChildren().remove(load);
+		ListView<Rules> rulesList = DeckEditor.getFilters().getRules();
+		((HBox) rulesList.getParent()).getChildren().remove(rulesList);
 	}
 
 	private class CardLabel extends Label

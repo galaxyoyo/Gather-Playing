@@ -22,6 +22,11 @@ public class PacketInSelectDeck extends Packet
 		player.getData().setLibrary(library);
 		if (player.runningParty.getOnlinePlayers().size() == player.runningParty.getSize())
 		{
+			for (Player p : player.runningParty.getOnlinePlayers())
+			{
+				if (p.getData().getLibrary() == null)
+					return;
+			}
 			Player starter = Lists.newArrayList(player.runningParty.getOnlinePlayers()).get(Utils.RANDOM.nextInt(player.runningParty.getOnlinePlayers().size()));
 			PacketOutPartyStart pkt = PacketManager.createPacket(PacketOutPartyStart.class);
 			pkt.starter = starter;

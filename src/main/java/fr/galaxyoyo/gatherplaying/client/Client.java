@@ -44,6 +44,12 @@ public class Client extends Application
 		return stage;
 	}
 
+	public static <T extends AbstractController> T getCurrentController()
+	{
+		//noinspection unchecked
+		return (T) currentController;
+	}
+
 	@Override
 	public void start(Stage stage) throws Exception
 	{
@@ -111,6 +117,7 @@ public class Client extends Application
 				stage.setScene(scene);
 			} else
 				stage.getScene().setRoot(pane);
+			//noinspection unchecked
 			return (T) (currentController = loader.getController());
 		} catch (Throwable t)
 		{

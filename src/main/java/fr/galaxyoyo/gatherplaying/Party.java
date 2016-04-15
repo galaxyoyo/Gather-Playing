@@ -1,13 +1,17 @@
 package fr.galaxyoyo.gatherplaying;
 
 import com.google.common.collect.Lists;
+import fr.galaxyoyo.gatherplaying.client.Client;
+import fr.galaxyoyo.gatherplaying.client.gui.DeckEditor;
 import fr.galaxyoyo.gatherplaying.client.gui.GameMenu;
 import fr.galaxyoyo.gatherplaying.client.gui.PlayerInfos;
 import fr.galaxyoyo.gatherplaying.protocol.packets.*;
 import fr.galaxyoyo.gatherplaying.server.Server;
+import java8.util.stream.StreamSupport;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -24,11 +28,34 @@ public class Party
 	private ObservableMap<Player, PlayerData> datas = FXCollections.observableHashMap();
 	private Phase currentPhase = Phase.MAIN;
 	private boolean started = false;
+	private List<Set> boosters;
 
 	public static int getNextID() { return NEXT_ID.getAndIncrement(); }
 
 	public void start()
 	{
+		if (rules.isLimited())
+		{
+			if (Utils.getSide() == Side.CLIENT && Client.getCurrentController() instanceof DeckEditor)
+				return;
+			else if (Utils.getSide() == Side.SERVER && Lists.newArrayList(datas.values()).get(0).getLibrary() == null)
+			{
+				for (Player player : getOnlinePlayers())
+				{
+					List<Card> list = Lists.newArrayList();
+					for (Set set : boosters)
+						list.addAll(Lists.newArrayList(set.generateBooster()));
+					for (String basicLandName : new String[] {"Plains", "Island", "Swamp", "Forest", "Mountain"})
+						list.add(StreamSupport.stream(MySQL.getAllCards()).filter(card -> card.isBasic() && card.getName().get("en").equals(basicLandName)).sorted(Card::compareTo)
+								.findFirst().get());
+					PacketOutOpenBooster pkt = PacketManager.createPacket(PacketOutOpenBooster.class);
+					pkt.cards = list;
+					PacketManager.sendPacketToPlayer(player, pkt);
+				}
+				return;
+			}
+		}
+
 		assert !started;
 		started = true;
 		if (Utils.getSide() == Side.SERVER)
@@ -97,7 +124,8 @@ public class Party
 				PacketManager.sendPacketToParty(this, pkt);
 			}
 			nextPhase();
-		} else if (phase == Phase.UPKEEP)
+		}
+		else if (phase == Phase.UPKEEP)
 			nextPhase();
 		else if (phase == Phase.DRAW)
 		{
@@ -109,7 +137,8 @@ public class Party
 			pkt.cards.add(card);
 			PacketManager.sendPacketToParty(this, pkt);
 			nextPhase();
-		} else if (phase == Phase.END)
+		}
+		else if (phase == Phase.END)
 		{
 			PacketMixSetPhase pkt = PacketManager.createPacket(PacketMixSetPhase.class);
 			pkt.phase = Phase.UNTAP;
@@ -144,6 +173,7 @@ public class Party
 
 	public java.util.Set<Player> getOnlinePlayers() { return datas.keySet(); }
 
+	@SuppressWarnings("UnusedParameters")
 	public void broadcastEvent(EventType type, PlayedCard... parameters)
 	{
 		/*for (PlayerData data : datas.values())
@@ -243,6 +273,11 @@ public class Party
 	public void setCurrentSpell(SpellTimer currentSpell)
 	{
 		this.currentSpell = currentSpell;
+	}
+
+	public void setBoosters(List<Set> boosters)
+	{
+		this.boosters = boosters;
 	}
 
 	public enum EventType

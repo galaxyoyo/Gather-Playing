@@ -80,11 +80,7 @@ public class Set implements Comparable<Set>
 				Card card = StreamSupport.stream(cards).filter(c -> Integer.toString(cardData.multiverseid).equalsIgnoreCase(c.getMuId(language))).findAny().orElse(null);
 				if (card == null)
 				{
-					for (Card c : cards)
-					{
-						if (c.isBasic())
-							System.out.println(c.getMuId("fr"));
-					}
+					StreamSupport.stream(cards).filter(Card::isBasic).forEach(c -> System.out.println(c.getMuId("fr")));
 					System.out.println(cardData.multiverseid + " (" + code + ")");
 					System.out.println(cardData.originalText);
 					System.exit(0);
@@ -93,9 +89,11 @@ public class Set implements Comparable<Set>
 				card.getFlavorMap().put(language, cardData.flavor);
 				MySQL.updateCard(card);
 			}
-		} catch (FileNotFoundException ignored)
+		}
+		catch (FileNotFoundException ignored)
 		{
-		} catch (IOException ex)
+		}
+		catch (IOException ex)
 		{
 			ex.printStackTrace();
 			return;
@@ -113,12 +111,13 @@ public class Set implements Comparable<Set>
 		Object[] universe = booster.clone();
 		Random random = Utils.RANDOM;
 		List<Card> booster = Lists.newArrayList();
-		if (block.equalsIgnoreCase("Battle For Zendikar") && random.nextInt(488) == 42)
+		if (block != null && block.equalsIgnoreCase("Battle For Zendikar") && random.nextInt(488) == 42)
 		{
 			List<Card> expCards = Lists.newArrayList(MySQL.getSet("EXP").cards);
 			booster.add(expCards.get(random.nextInt(expCards.size())));
+			universe = ArrayUtils.removeElement(universe, "common");
 		}
-		Card foilCard = null;
+		Card foilCard;
 		if (random.nextInt(63) < 15)
 		{
 			int nb = random.nextInt(128);
@@ -146,27 +145,42 @@ public class Set implements Comparable<Set>
 				else
 					o = "rare";
 			}
+			if (o.toString().equalsIgnoreCase("[foil mythic rare, foil rare, foil uncommon, foil common]"))
+			{
+				int rand = random.nextInt(112);
+				if (rand == 0)
+					o = "mythic";
+				else if (rand < 8)
+					o = "rare";
+				else if (rand < 32)
+					o = "uncommon";
+				else
+					o = "common";
+			}
 			String name = o.toString().toUpperCase().replace("MYTHIC_RARE", "MYTHIC").replace(' ', '_');
-			if (name.equalsIgnoreCase("MARKETING") || name.contains("LAND")|| name.contains("CHECKLIST"))
+			if (name.equalsIgnoreCase("MARKETING") || name.contains("LAND") || name.contains("CHECKLIST"))
 				continue;
 			List<Card> matching;
 			try
 			{
 				Rarity r = Rarity.valueOf(name);
 				matching = StreamSupport.stream(cards).filter(card -> card.getRarity() == r).collect(Collectors.toList());
-			} catch (IllegalArgumentException e1)
+			}
+			catch (IllegalArgumentException e1)
 			{
 				try
 				{
 					Layout l = Layout.valueOf(name);
 					matching = StreamSupport.stream(cards).filter(card -> card.getLayout() == l).collect(Collectors.toList());
-				} catch (IllegalArgumentException e2)
+				}
+				catch (IllegalArgumentException e2)
 				{
 					try
 					{
 						CardType t = CardType.valueOf(name);
 						matching = StreamSupport.stream(cards).filter(card -> card.getType() == t).collect(Collectors.toList());
-					} catch (IllegalArgumentException e3)
+					}
+					catch (IllegalArgumentException e3)
 					{
 						e3.printStackTrace();
 						continue;
@@ -175,8 +189,6 @@ public class Set implements Comparable<Set>
 			}
 			booster.add(matching.get(random.nextInt(matching.size())));
 		}
-		if (foilCard != null)
-			booster.add(null);
 		return booster.toArray(new Card[booster.size()]);
 	}
 

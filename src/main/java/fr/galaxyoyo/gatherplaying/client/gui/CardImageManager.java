@@ -155,13 +155,13 @@ public class CardImageManager
 		}
 	}
 
-	private static Image getImage(Token token)
+	public static Image getImage(Token token)
 	{
 		if (tokens.containsKey(token))
 			return tokens.get(token);
 		try
 		{
-			File file = new File(DIR, "tokens" + File.separatorChar + token.name().toLowerCase() + ".png");
+			File file = new File(DIR, "tokens" + File.separatorChar + token.getSet().getCode().replace("CON", "CON ") + File.separatorChar + token.name().toLowerCase() + "_fr.jpg");
 			if (!file.getParentFile().exists())
 				//noinspection ResultOfMethodCallIgnored
 				file.getParentFile().mkdirs();
@@ -185,7 +185,7 @@ public class CardImageManager
 			}
 
 			if (Utils.isDesktop())
-				ImageIO.write(SwingFXUtils.fromFXImage(img, null), "PNG", file);
+				ImageIO.write(SwingFXUtils.fromFXImage(img, null), "JPEG", file);
 			else
 				FileUtils.copyURLToFile(new URL(url), file);
 			tokens.put(token, img);
@@ -233,7 +233,7 @@ public class CardImageManager
 				img = new Image(url);
 			icons.put(id, img);
 			if (Utils.isDesktop())
-				ImageIO.write(SwingFXUtils.fromFXImage(img, null), "PNG", file);
+				ImageIO.write(SwingFXUtils.fromFXImage(img, null), "JPEG", file);
 			else
 				FileUtils.copyURLToFile(new URL(url), file);
 			return img;
@@ -244,7 +244,7 @@ public class CardImageManager
 		}
 	}
 
-	public static File getIconFile(String icon, boolean small) { return new File(DIR, "icons" + File.separatorChar + icon + (small ? "_small" : "") + ".png"); }
+	public static File getIconFile(String icon, boolean small) { return new File(DIR, "icons" + File.separatorChar + icon + (small ? "_small" : "") + ".jpg"); }
 
 	public static Image getIcon(String id, boolean small) { return getIcon0(id, small); }
 }

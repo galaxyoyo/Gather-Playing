@@ -24,7 +24,7 @@ public class PacketOutCosts extends Packet
 			card.setRarity(Rarity.values()[buf.readByte()]);
 		}
 		if (set != null)
-			System.out.println(set.geName() + " (" + set.getCode() + ") : " + set.getCards().size() + " cartes");
+			System.out.println(set.getTranslatedName() + " (" + set.getCode() + ") : " + set.getCards().size() + " cartes");
 	}
 
 	@Override

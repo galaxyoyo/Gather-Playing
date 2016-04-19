@@ -1,12 +1,28 @@
 package fr.galaxyoyo.gatherplaying;
 
+import com.google.common.collect.Lists;
 import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.client.Config;
 import fr.galaxyoyo.gatherplaying.client.I18n;
 import fr.galaxyoyo.gatherplaying.client.gui.CardImageManager;
+import java8.util.stream.Collectors;
+import java8.util.stream.RefStreams;
+import java8.util.stream.StreamSupport;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
+import javafx.collections.transformation.SortedList;
 import javafx.embed.swing.SwingFXUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import javax.imageio.ImageIO;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -14,6 +30,7 @@ import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -94,6 +111,262 @@ public class Main
 		System.exit(0);*/
 		//	PreconstructedDeck.loadAll();
 		Utils.startNetty();
+
+		CardImageManager.getImage(Token.FAERIE_ROGUE_1);
+
+		System.exit(0);
+
+		ObservableList<Card> stackedCards = FXCollections.observableArrayList();
+		ObservableSet<String> added = FXCollections.observableSet();
+		StreamSupport.stream(MySQL.getAllCards()).filter(card -> !added.contains(card.getName().get("en"))).forEach(card -> {
+			stackedCards.add(card);
+			added.add(card.getName().get("en"));
+		});
+		ObservableList<Card> cards = new SortedList<>(stackedCards);
+
+		Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+		doc.setXmlVersion("1.0");
+		doc.setXmlStandalone(true);
+
+		Element root = doc.createElement("cockatrice_carddatabase");
+		root.setAttribute("version", "3");
+		doc.appendChild(root);
+
+		Element setsElem = doc.createElement("sets");
+		for (Set set : MySQL.getAllSets())
+		{
+			Element setElem = doc.createElement("set");
+
+			Element name = doc.createElement("name");
+			name.setTextContent(set.getCode());
+			setElem.appendChild(name);
+
+			Element longname = doc.createElement("longname");
+			longname.setTextContent(set.getTranslatedName());
+			setElem.appendChild(longname);
+
+			Element settype = doc.createElement("settype");
+			settype.setTextContent(set.getType());
+			setElem.appendChild(settype);
+
+			Element releaseDate = doc.createElement("releasedate");
+			releaseDate.setTextContent(new SimpleDateFormat("yyyy-MM-dd").format(set.getReleaseDate()));
+			setElem.appendChild(releaseDate);
+
+			setsElem.appendChild(setElem);
+		}
+		root.appendChild(setsElem);
+
+		Element cardsElem = doc.createElement("cards");
+		for (Card card : cards)
+		{
+			System.out.println(card.getTranslatedName().get() + " (" + cardsElem.getChildNodes().getLength() + ")");
+
+			Element cardElem = doc.createElement("card");
+
+			Element name = doc.createElement("name");
+			name.setTextContent(card.getName().get("en").replace("Æ", "AE"));
+			cardElem.appendChild(name);
+
+			List<Card> matching = StreamSupport.stream(MySQL.getAllCards()).filter(c -> c.getName().get("en").equals(card.getName().get("en"))).collect(Collectors.toList());
+			for (Card c : matching)
+			{
+				Element setElem = doc.createElement("set");
+				setElem.setAttribute("muId", c.getPreferredMuID());
+				setElem.setTextContent(c.getSet().getCode());
+				cardElem.appendChild(setElem);
+			}
+
+			for (ManaColor mc : card.getColors())
+			{
+				Element color = doc.createElement("color");
+				color.setTextContent(mc.getAbbreviate());
+				cardElem.appendChild(color);
+			}
+
+			if (card.getManaCost() != null)
+			{
+				Element cost = doc.createElement("manacost");
+				for (ManaColor mc : card.getManaCost())
+					cost.setTextContent(cost.getTextContent() + mc.getAbbreviate());
+				cardElem.appendChild(cost);
+			}
+
+			Element cmc = doc.createElement("cmc");
+			cmc.setTextContent(Integer.toString((int) card.getCmc()));
+			cardElem.appendChild(cmc);
+
+			Element type = doc.createElement("type");
+			String fullType = card.getType().getTranslatedName().get();
+			if (card.isBasic())
+				fullType += " de base";
+			else if (card.isLegendary())
+				fullType += " légendaire";
+			else if (card.isWorld())
+				fullType += " du monde";
+			else if (card.isOngoing())
+				fullType += " en avant";
+			if (card.getSubtypes().length > 0)
+				fullType += " — ";
+			for (int i = 0; i < card.getSubtypes().length; ++i)
+			{
+				fullType += card.getSubtypes()[i].toString().toLowerCase();
+				if (i != card.getSubtypes().length - 1)
+					fullType += " et ";
+			}
+			type.setTextContent(fullType);
+			cardElem.appendChild(type);
+
+			if (card.getType().is(CardType.CREATURE))
+			{
+				Element pt = doc.createElement("pt");
+				pt.setTextContent(card.getPower() + "/" + card.getToughness());
+				cardElem.appendChild(pt);
+			}
+			else if (card.getType().is(CardType.PLANESWALKER))
+			{
+				Element loyalty = doc.createElement("loyalty");
+				loyalty.setTextContent(Integer.toString(card.getLoyalty()));
+				cardElem.appendChild(loyalty);
+			}
+
+			Element tablerow = doc.createElement("tablerow");
+			tablerow.setTextContent("1");
+			if (card.getType().is(CardType.CREATURE))
+				tablerow.setTextContent("2");
+			if (!card.getType().isPermanent())
+				tablerow.setTextContent("3");
+			if (card.getType().is(CardType.ARTIFACT) || card.getType().is(CardType.LAND))
+				tablerow.setTextContent("0");
+			cardElem.appendChild(tablerow);
+
+			Element text = doc.createElement("text");
+			String textStr = "";
+			if (!card.getTranslatedName(true).get().isEmpty())
+				textStr = "Nom français : " + card.getTranslatedName().get().replace("Æ", "AE");
+			if (card.getAbility() != null)
+			{
+				if (!textStr.isEmpty())
+					textStr += "\n\n";
+				textStr += card.getAbility();
+			}
+			if (card.getFlavor() != null)
+			{
+				if (!textStr.isEmpty())
+					textStr += "\n\n";
+				textStr += card.getFlavor();
+			}
+			text.setTextContent(textStr);
+			cardElem.appendChild(text);
+
+			cardsElem.appendChild(cardElem);
+		}
+		root.appendChild(cardsElem);
+
+		Transformer tr = TransformerFactory.newInstance().newTransformer();
+		tr.setOutputProperty(OutputKeys.INDENT, "yes");
+		tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+		tr.transform(new DOMSource(doc), new StreamResult(new File("cards.xml")));
+
+		doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+
+		doc.setXmlVersion("1.0");
+		doc.setXmlStandalone(true);
+
+		root = doc.createElement("cockatrice_database");
+		doc.appendChild(root);
+
+		cardsElem = doc.createElement("cards");
+		root.appendChild(cardsElem);
+
+		List<Token> done = Lists.newArrayList();
+
+		for (Token token : Token.values())
+		{
+			if (done.contains(token))
+				continue;
+
+			Element elem = doc.createElement("card");
+			cardsElem.appendChild(elem);
+
+			Element name = doc.createElement("name");
+			name.setTextContent(token.getTranslatedName().get());
+			elem.appendChild(name);
+
+			List<Token> matching = RefStreams.of(Token.values()).filter(t -> t.getAbility_EN().equals(token.getAbility_EN()) && t.getEnglishName().equals(token.getEnglishName())
+					&& t.getPower() == token.getPower() && t.getToughness() == token.getToughness() && Arrays.equals(t.getSubtypes(), token.getSubtypes()) && Arrays.equals(t
+					.getColor(), token.getColor()) && t.isLegendary() == token.isLegendary()).collect(Collectors.toList());
+
+			for (Token t : matching)
+			{
+				done.add(t);
+				Element setElem = doc.createElement("set");
+				String url = "http://gp.arathia.fr/tokens/fr/" + t.getSet().getCode().toLowerCase() + "/" + t.name().toLowerCase() + ".png";
+				javafx.scene.image.Image img = new javafx.scene.image.Image(url);
+				if (img.isError())
+					url = "http://gp.arathia.fr/tokens/en/" + t.getSet().getCode().toLowerCase() + "/" + t.name().toLowerCase() + ".png";
+				setElem.setAttribute("picURL", url);
+				setElem.setTextContent(t.getSet().getCode());
+				elem.appendChild(setElem);
+			}
+
+			for (ManaColor mc : token.getColor())
+			{
+				Element color = doc.createElement("color");
+				color.setTextContent(mc.getAbbreviate());
+				elem.appendChild(color);
+			}
+
+			Element type = doc.createElement("type");
+			String fullType = token.getType().getTranslatedName().get();
+			if (token.isLegendary())
+				fullType = fullType.replace("-jeton", " légendaire-jeton");
+			if (token.getSubtypes().length > 0)
+				fullType += " — ";
+			for (int i = 0; i < token.getSubtypes().length; ++i)
+			{
+				String subtype = token.getSubtypes()[i].toString();
+				if (token.getType() != CardType.EMBLEM)
+					subtype = subtype.toLowerCase();
+				fullType += subtype;
+				if (i != token.getSubtypes().length - 1)
+					fullType += " et ";
+			}
+			type.setTextContent(fullType);
+			elem.appendChild(type);
+
+			if (token.getType().is(CardType.CREATURE))
+			{
+				Element pt = doc.createElement("pt");
+				pt.setTextContent(token.getPower() + "/" + token.getToughness());
+				elem.appendChild(pt);
+			}
+
+			Element tablerow = doc.createElement("tablerow");
+			tablerow.setTextContent("1");
+			if (token.getType().is(CardType.CREATURE))
+				tablerow.setTextContent("2");
+			if (!token.getType().isPermanent())
+				tablerow.setTextContent("3");
+			if (token.getType().is(CardType.ARTIFACT) || token.getType().is(CardType.LAND))
+				tablerow.setTextContent("0");
+			elem.appendChild(tablerow);
+
+			Element text = doc.createElement("text");
+			text.setTextContent(token.getAbility_FR());
+			elem.appendChild(text);
+
+			Element tokenElem = doc.createElement("token");
+			tokenElem.setTextContent("1");
+			elem.appendChild(tokenElem);
+		}
+
+		tr = TransformerFactory.newInstance().newTransformer();
+		tr.setOutputProperty(OutputKeys.INDENT, "yes");
+		tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+		tr.transform(new DOMSource(doc), new StreamResult(new File("tokens.xml")));
+
+		System.exit(0);
 	}
 
 	private static void detectDependencies()
@@ -122,7 +395,8 @@ public class Main
 		try
 		{
 			Class.forName(clazz);
-		} catch (ClassNotFoundException e)
+		}
+		catch (ClassNotFoundException e)
 		{
 			try
 			{
@@ -144,7 +418,8 @@ public class Main
 					bos.close();
 				}
 				addURL(file.toURI().toURL());
-			} catch (IOException ex)
+			}
+			catch (IOException ex)
 			{
 				ex.printStackTrace();
 			}
@@ -159,7 +434,8 @@ public class Main
 			Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
 			method.setAccessible(true);
 			method.invoke(sysloader, url);
-		} catch (Throwable t)
+		}
+		catch (Throwable t)
 		{
 			t.printStackTrace();
 		}

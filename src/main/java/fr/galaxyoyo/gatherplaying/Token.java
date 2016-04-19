@@ -33,17 +33,17 @@ public enum Token
 			.valueOf("Arlinn")),
 
 	// Le serment des sentinelles (OGW)
-	ELDRAZI_SCION_4(CREATURE_TOKEN, "OGW", "1", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre " + "réserve", 1, 1,
+	ELDRAZI_SCION_4(CREATURE_TOKEN, "OGW", "1", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 1, 1,
 			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")),
-	ELDRAZI_SCION_5(CREATURE_TOKEN, "OGW", "2", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre " + "réserve", 1, 1,
+	ELDRAZI_SCION_5(CREATURE_TOKEN, "OGW", "2", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 1, 1,
 			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")),
-	ELDRAZI_SCION_6(CREATURE_TOKEN, "OGW", "3", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre " + "réserve", 1, 1,
+	ELDRAZI_SCION_6(CREATURE_TOKEN, "OGW", "3", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 1, 1,
 			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")),
-	ELDRAZI_SCION_7(CREATURE_TOKEN, "OGW", "4", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre " + "réserve", 1, 1,
+	ELDRAZI_SCION_7(CREATURE_TOKEN, "OGW", "4", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 1, 1,
 			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")),
-	ELDRAZI_SCION_8(CREATURE_TOKEN, "OGW", "5", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre " + "réserve", 1, 1,
+	ELDRAZI_SCION_8(CREATURE_TOKEN, "OGW", "5", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 1, 1,
 			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")),
-	ELDRAZI_SCION_9(CREATURE_TOKEN, "OGW", "6", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre " + "réserve", 1, 1,
+	ELDRAZI_SCION_9(CREATURE_TOKEN, "OGW", "6", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 1, 1,
 			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")),
 	ANGEL_11(CREATURE_TOKEN, "OGW", "7", "Flying", "Vol", 3, 3, ManaColor.WHITE, SubType.valueOf("Angel")),
 	ZOMBIE_26(CREATURE_TOKEN, "OGW", "8", 2, 2, ManaColor.BLACK, SubType.valueOf("Zombie")),
@@ -81,11 +81,11 @@ public enum Token
 
 	// Bataille de Zendikar (BFZ)
 	ELDRAZI(CREATURE_TOKEN, "BFZ", "1", 10, 10, ManaColor.COLORLESS, SubType.valueOf("Eldrazi")),
-	ELDRAZI_SCION_1(CREATURE_TOKEN, "BFZ", "2", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre " + "réserve", 1, 1,
+	ELDRAZI_SCION_1(CREATURE_TOKEN, "BFZ", "2", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 1, 1,
 			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")),
-	ELDRAZI_SCION_2(CREATURE_TOKEN, "BFZ", "3", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre " + "réserve", 1, 1,
+	ELDRAZI_SCION_2(CREATURE_TOKEN, "BFZ", "3", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 1, 1,
 			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")),
-	ELDRAZI_SCION_3(CREATURE_TOKEN, "BFZ", "4", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre " + "réserve", 1, 1,
+	ELDRAZI_SCION_3(CREATURE_TOKEN, "BFZ", "4", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 1, 1,
 			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")),
 	KNIGHT_ALLY(CREATURE_TOKEN, "BFZ", "5", 1, 1, ManaColor.WHITE, SubType.valueOf("Knight"), SubType.valueOf("Ally")),
 	KOR_ALLY(CREATURE_TOKEN, "BFZ", "6", 1, 1, ManaColor.WHITE, SubType.valueOf("Kor"), SubType.valueOf("Ally")),
@@ -121,11 +121,11 @@ public enum Token
 			"Au début de votre entretien, cet emblème vous inflige 3 blessures.", SubType.valueOf("Chandra")),
 
 	//Modern Masters 2015 (MM2)
-	ELDRAZI_SPAWN_4(CREATURE_TOKEN, "MM2", "1", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre " + "réserve", 0, 1,
+	ELDRAZI_SPAWN_4(CREATURE_TOKEN, "MM2", "1", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 0, 1,
 			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Spawn")),
-	ELDRAZI_SPAWN_5(CREATURE_TOKEN, "MM2", "2", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre " + "réserve", 0, 1,
+	ELDRAZI_SPAWN_5(CREATURE_TOKEN, "MM2", "2", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 0, 1,
 			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Spawn")),
-	ELDRAZI_SPAWN_6(CREATURE_TOKEN, "MM2", "3", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre " + "réserve", 0, 1,
+	ELDRAZI_SPAWN_6(CREATURE_TOKEN, "MM2", "3", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 0, 1,
 			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Spawn")),
 	SOLDIER_19(CREATURE_TOKEN, "MM2", "4", 1, 1, ManaColor.WHITE, SubType.valueOf("Soldier")),
 	SPIRIT_14(CREATURE_TOKEN, "MM2", "5", "Flying", "Vl", 1, 1, ManaColor.WHITE, SubType.valueOf("Spirit")),
@@ -241,7 +241,7 @@ public enum Token
 	SPIRIT_10(CREATURE_TOKEN, "M15", "3", "Flying", "Vol", 1, 1, ManaColor.WHITE, SubType.valueOf("Spirit")),
 	SQUID_2(CREATURE_TOKEN, "M15", "4", "Islandwalk", "Traversée des îles", 1, 1, ManaColor.BLUE, SubType.valueOf("Squid")),
 	BEAST_13(CREATURE_TOKEN, "M15", "5", "Deathtouch", "Contact mortel", 3, 3, ManaColor.BLACK, SubType.valueOf("Beast")),
-	ZOMBIE_19(CREATURE_TOKEN, "KTK", "6", 2, 2, ManaColor.BLACK, SubType.valueOf("Zombie")),
+	ZOMBIE_19(CREATURE_TOKEN, "M15", "6", 2, 2, ManaColor.BLACK, SubType.valueOf("Zombie")),
 	DRAGON_9(CREATURE_TOKEN, "M15", "7", "Flying\n{R}: This creature gets +1/+0 until end of turn.", "Vol\n{R} : Cette créature gagne +1/+0 jusqu'à la fin du tour", 2, 2,
 			ManaColor.RED, SubType.valueOf("Dragon")),
 	GOBLIN_12(CREATURE_TOKEN, "M15", "8", 1, 1, ManaColor.RED, SubType.valueOf("Goblin")),
@@ -326,7 +326,7 @@ public enum Token
 	LILIANA_OF_THE_DARK_REALMS_2(EMBLEM, "M14", "12", "Swamps you control have : \"{T}: Add {B}{B}{B}{B} to your mana pool.\"",
 			"Les marais que vous contrôlez ont : « {T} : Ajoutez {B}{B}{B}{B} à votre réserve. »", SubType.valueOf("Liliana")),
 	GARRUK_CALLER_OF_BEASTS(EMBLEM, "M14", "13",
-			"Whenever you cast a creature spell, you may search your library for a creature card, put it onto the battlefield, then shuffle " + "your library.",
+			"Whenever you cast a creature spell, you may search your library for a creature card, put it onto the battlefield, then shuffle your library.",
 			"À chaque fois que vous lancez un sort de créature, vous pouvez chercher dans votre bibliothèque une carte de créature, la mettre sur le champ de bataille et " +
 					"mélanger ensuite votre bibliothèque.", SubType.valueOf("Garruk")),
 	// SLIVER_3_2(CREATURE_TOKEN, "M14", "14", 1, 1, ManaColor.COLORLESS, SubType.valueOf("Sliver")),
@@ -364,11 +364,11 @@ public enum Token
 	CLERIC_1(CREATURE_TOKEN, "GTC", "4", "{3}{W}{B}{B}, {T}, Sacrifice this creature:\nReturn a card named Deathpact Angel from your graveyard to the battlefield.",
 			"{3}{W}{B}{B}, {T}, sacrifiez cette créature :\nRenvoyez sur le champ de bataille une carte nommée Ange du paxte de mort depuis votre cimetière."),
 	HORROR_2(CREATURE_TOKEN, "GTC", "5", "Flying", "Vol", 1, 1, new ManaColor[]{ManaColor.BLUE, ManaColor.BLACK}, false, SubType.valueOf("Horror")),
-	SOLDIER_11(CREATURE_TOKEN, "MMA", "6", "", "", 1, 1, new ManaColor[]{ManaColor.RED, ManaColor.WHITE}, false, SubType.valueOf("Soldier")),
-	SPIRIT_8(CREATURE_TOKEN, "MMA", "7", "Flying", "Vol", 1, 1, new ManaColor[]{ManaColor.WHITE, ManaColor.BLACK}, false, SubType.valueOf("Spirit")),
-	DOMRI_RADE(EMBLEM, "MMA", "8", "Creatures you control have double strike, trample, hexproof, and haste.",
+	SOLDIER_11(CREATURE_TOKEN, "GTC", "6", "", "", 1, 1, new ManaColor[]{ManaColor.RED, ManaColor.WHITE}, false, SubType.valueOf("Soldier")),
+	SPIRIT_8(CREATURE_TOKEN, "GTC", "7", "Flying", "Vol", 1, 1, new ManaColor[]{ManaColor.WHITE, ManaColor.BLACK}, false, SubType.valueOf("Spirit")),
+	DOMRI_RADE(EMBLEM, "GTC", "8", "Creatures you control have double strike, trample, hexproof, and haste.",
 			"Les créatures que vous contrôlez ont la double initiative, le piétinement, la défense talismanique et la célérité.", SubType.valueOf("Domri")),
-	SOLDIER_10(CREATURE_TOKEN, "MMA", "9", "", "", 1, 1, new ManaColor[]{ManaColor.RED, ManaColor.WHITE}, false, SubType.valueOf("Soldier")),
+	SOLDIER_10(CREATURE_TOKEN, "GTC", "9", "", "", 1, 1, new ManaColor[]{ManaColor.RED, ManaColor.WHITE}, false, SubType.valueOf("Soldier")),
 
 	// Retour sur Ravnica (RTR)
 	BIRD_6(CREATURE_TOKEN, "RTR", "1", "Flying", "Vol", 1, 1, ManaColor.WHITE, SubType.valueOf("Bird")),
@@ -571,7 +571,7 @@ public enum Token
 
 	// Lèveciel (MOR)
 	GIANT_WARRIOR_1(CREATURE_TOKEN, "MOR", "1", "", "", 5, 5, new ManaColor[]{ManaColor.RED, ManaColor.GREEN}, false, SubType.valueOf("Giant"), SubType.valueOf("Warrior")),
-	FAERIE_ROGUE_1(CREATURE_TOKEN, "EVE", "2", "Flying", "Vol", 1, 1, ManaColor.BLACK, SubType.valueOf("Faerie"), SubType.valueOf("Rogue")),
+	FAERIE_ROGUE_1(CREATURE_TOKEN, "MOR", "2", "Flying", "Vol", 1, 1, ManaColor.BLACK, SubType.valueOf("Faerie"), SubType.valueOf("Rogue")),
 	TREEFOLK_SHAMAN(CREATURE_TOKEN, "MOR", "3", 2, 5, ManaColor.GREEN, SubType.valueOf("Treefolk"), SubType.valueOf("Shaman")),
 
 	// Lorwyn (LRW)
@@ -726,7 +726,10 @@ public enum Token
 		String str = getTranslatedName().get();
 		if (type != EMBLEM)
 		{
-			str += " (" + power + "/" + toughness + " ";
+			if (power >= 0)
+				str += " (" + power + "/" + toughness + " ";
+			else
+				str += " (";
 			if (!ability_FR.isEmpty() && ability_FR.length() < 42)
 				str += ability_FR + " ";
 			str += Joiner.on('/').join(color) + ")";

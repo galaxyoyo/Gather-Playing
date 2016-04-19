@@ -195,11 +195,11 @@ public class Set implements Comparable<Set>
 	@Override
 	public String toString()
 	{
-		return "{Set=" + geName() + ", " + cards.size() + " cards, code=" + code + ", mcic=" + magicCardsInfoCode + ", releaseDate=" + releaseDate + ", border=" + border +
+		return "{Set=" + getTranslatedName() + ", " + cards.size() + " cards, code=" + code + ", mcic=" + magicCardsInfoCode + ", releaseDate=" + releaseDate + ", border=" + border +
 				", type=" + type + ", block=" + block + "}";
 	}
 
-	public String geName()
+	public String getTranslatedName()
 	{
 		String language = Config.getLocaleCode();
 		if (translations.get(language) != null)

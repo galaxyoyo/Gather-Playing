@@ -120,7 +120,7 @@ public class CardDetailsShower extends AbstractController implements Initializab
 		else
 			power.setVisible(false);
 
-		set.setText(card.getSet().geName() + " (" + card.getSet().getCode() + ")");
+		set.setText(card.getSet().getTranslatedName() + " (" + card.getSet().getCode() + ")");
 		rarity.setText(card.getRarity().toString());
 
 		String html = "<div style=\"\">";

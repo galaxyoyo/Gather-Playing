@@ -2,7 +2,6 @@ buildscript {
     repositories {
         jcenter()
     }
-//noinspection GroovyAssignabilityCheck
     dependencies {
         classpath 'org.javafxports:jfxmobile-plugin:1.0.7'
     }
@@ -20,8 +19,8 @@ repositories {
     }
 }
 
-//noinspection GroovyAssignabilityCheck
 dependencies {
+    compile 'org.jetbrains:annotations:15.0'
     compile 'net.sourceforge.streamsupport:streamsupport:1.4.2'
     desktopRuntime 'org.xerial:sqlite-jdbc:3.8.11.2'
     androidRuntime 'org.sqldroid:sqldroid:1.0.3'
@@ -39,16 +38,12 @@ dependencies {
     //  runtime 'javax.annotation:javax.annotation-api:1.2'
 }
 
-//noinspection GroovyUnusedAssignment
 mainClassName = 'fr.galaxyoyo.gatherplaying.Main'
-//noinspection GroovyUnusedAssignment
 sourceCompatibility = 1.8
-//noinspection GroovyUnusedAssignment
 archivesBaseName = "Gather Playing"
 
 jfxmobile {
     android {
-        //noinspection GroovyAssignabilityCheck
         manifest = 'src/android/AndroidManifest.xml'
         compileSdkVersion = 23
         packagingOptions {
@@ -73,14 +68,12 @@ tasks.withType(Zip) { task ->
     }
 }
 
-//noinspection GroovyAssignabilityCheck
 run {
     if (project.hasProperty("appArgs")) {
-        //noinspection GroovyAssignabilityCheck
         args Eval.me(appArgs)
-        if (side.equals('server'))
+        if (side == 'server')
             workingDir 'C:\\IDEA Workspace\\Gather Playing\\server'
-        else if (side.equals('client'))
+        else if (side == 'client')
             workingDir 'C:\\IDEA Workspace\\Gather Playing\\client'
         else
             workingDir 'C:\\IDEA Workspace\\Gather Playing\\client 2'

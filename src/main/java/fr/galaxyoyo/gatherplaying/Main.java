@@ -1,36 +1,28 @@
 package fr.galaxyoyo.gatherplaying;
 
-import com.google.common.collect.Lists;
 import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.client.Config;
 import fr.galaxyoyo.gatherplaying.client.I18n;
 import fr.galaxyoyo.gatherplaying.client.gui.CardImageManager;
-import java8.util.stream.Collectors;
-import java8.util.stream.RefStreams;
-import java8.util.stream.StreamSupport;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
-import javafx.collections.transformation.SortedList;
+import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
+import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -74,7 +66,8 @@ public class Main
 
 		if (Utils.getSide() == Side.CLIENT)
 		{
-			Executors.newSingleThreadExecutor().submit(() -> {
+			Executors.newSingleThreadExecutor().submit(() ->
+			{
 				try
 				{
 					if (Utils.isDesktop())
@@ -112,11 +105,74 @@ public class Main
 		//	PreconstructedDeck.loadAll();
 		Utils.startNetty();
 
-		CardImageManager.getImage(Token.FAERIE_ROGUE_1);
+	/*	Platform.runLater(() -> {
+			Set set = MySQL.getSet("SOI");
+			List<Card> cards = set.getCards().stream().filter(card -> card.getRarity() == Rarity.RARE || card.getRarity() == Rarity.MYTHIC).collect(Collectors.toList());
+			cards.sort((o1, o2) -> String.CASE_INSENSITIVE_ORDER.compare(o1.getMuId("en"), o2.getMuId("en")));
 
-		System.exit(0);
+			CardDetailsShower shower = null;
+			try
+			{
+				FXMLLoader loader = new FXMLLoader(Main.class.getResource("/views/CardDetailsShower.fxml"));
+				loader.load();
+				shower = loader.getController();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+				return;
+			}
 
-		ObservableList<Card> stackedCards = FXCollections.observableArrayList();
+		//	AtomicDouble total = new AtomicDouble(0.0D);
+
+			Stage showerStage = new Stage();
+			ImageView view = new ImageView();
+			view.setFitWidth(446);
+			view.setFitHeight(620);
+			showerStage.setScene(new Scene(new Group(view)));
+			showerStage.show();
+
+			TextField cost = new TextField("0.0 € / 0.0 € (0.0 €)");
+			cost.setStyle("-fx-display-caret: false;");
+			cost.setFont(new Font(42));
+
+			Stage costStage = new Stage();
+			costStage.setTitle("Prix");
+			costStage.setAlwaysOnTop(true);
+			VBox box = new VBox(cost);
+			costStage.setScene(new Scene(box, 600, cost.getPrefHeight()));
+			VBox.setVgrow(cost, Priority.ALWAYS);
+			costStage.getScene().setFill(Color.TRANSPARENT);
+			costStage.show();
+
+			Stage selector = new Stage();
+			selector.setTitle("Rares & mythiques de " + set.getTranslatedName());
+			FlowPane pane = new FlowPane();
+			pane.setHgap(4.0D);
+			pane.setVgap(4.0D);
+			pane.setPrefWrapLength(920);
+			for (Card card : cards)
+			{
+				if (card.getRarity() != Rarity.RARE && card.getRarity() != Rarity.MYTHIC)
+					continue;
+
+				card.setCost(21.0D);
+				card.setFoilCost(42.0D);
+
+				ImageView image = new ImageView(CardImageManager.getImage(card));
+				CardDetailsShower finalShower = shower;
+				image.setOnMouseClicked(event -> {
+					finalShower.updateCard(card);
+					view.setImage(CardImageManager.getImage(card));
+					showerStage.setTitle(card.getTranslatedName().get());
+				});
+				pane.getChildren().add(image);
+			}
+			selector.setScene(new Scene(new ScrollPane(pane), 920, 600));
+			selector.show();
+		});*/
+
+	/*	ObservableList<Card> stackedCards = FXCollections.observableArrayList();
 		ObservableSet<String> added = FXCollections.observableSet();
 		StreamSupport.stream(MySQL.getAllCards()).filter(card -> !added.contains(card.getName().get("en"))).forEach(card -> {
 			stackedCards.add(card);
@@ -366,7 +422,7 @@ public class Main
 		tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 		tr.transform(new DOMSource(doc), new StreamResult(new File("tokens.xml")));
 
-		System.exit(0);
+		System.exit(0);*/
 	}
 
 	private static void detectDependencies()
@@ -439,6 +495,49 @@ public class Main
 		{
 			t.printStackTrace();
 		}
+	}
+
+	private static void displayFolderImages(File dir)
+	{
+		Platform.runLater(() ->
+		{
+			Stage showerStage = new Stage();
+			ImageView view = new ImageView();
+			view.setFitWidth(446);
+			view.setFitHeight(620);
+			showerStage.setScene(new Scene(new Group(view)));
+			showerStage.show();
+
+			Stage selector = new Stage();
+			selector.setTitle("Images de " + dir.getName());
+			FlowPane pane = new FlowPane();
+			pane.setHgap(4.0D);
+			pane.setVgap(4.0D);
+			pane.setPrefWrapLength(920);
+			File[] files = dir.listFiles();
+			assert files != null;
+			Arrays.sort(files, (o1, o2) -> Long.compare(o1.lastModified(), o2.lastModified()));
+			for (File file : files)
+			{
+				ImageView image = null;
+				try
+				{
+					image = new ImageView(new Image(file.toURI().toURL().toString()));
+					image.setPreserveRatio(true);
+					image.setFitWidth(200);
+				}
+				catch (MalformedURLException ex)
+				{
+					ex.printStackTrace();
+					return;
+				}
+				ImageView finalImage = image;
+				image.setOnMouseClicked(event -> view.setImage(finalImage.getImage()));
+				pane.getChildren().add(image);
+			}
+			selector.setScene(new Scene(new ScrollPane(pane), 920, 600));
+			selector.show();
+		});
 	}
 
 	@SuppressWarnings("unused")

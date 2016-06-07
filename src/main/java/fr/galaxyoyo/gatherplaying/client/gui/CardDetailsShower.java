@@ -22,9 +22,6 @@ import java.util.regex.Matcher;
 public class CardDetailsShower extends AbstractController implements Initializable
 {
 	@FXML
-	private VBox box;
-
-	@FXML
 	private ImageView image, doubleFacedImage;
 
 	@FXML
@@ -40,7 +37,7 @@ public class CardDetailsShower extends AbstractController implements Initializab
 		DeckShower.setShower(this);
 		nameTRLbl.visibleProperty().bind(name_TR.visibleProperty());
 		powerLbl.visibleProperty().bind(power.visibleProperty());
-		box.prefWidthProperty().bind(Client.getStage().widthProperty().multiply(0.375));
+		getParent().prefWidthProperty().bind(Client.getStage().widthProperty().multiply(0.375));
 
 		if (Utils.isMobile())
 		{
@@ -173,5 +170,12 @@ public class CardDetailsShower extends AbstractController implements Initializab
 		}
 
 		desc.getEngine().loadContent(html);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public VBox getParent()
+	{
+		return (VBox) super.getParent();
 	}
 }

@@ -173,7 +173,7 @@ public class CardAdapter extends TypeAdapter<Card>
 					card.setWatermark(r.nextString());
 					break;
 				case "number":
-					card.setCardId(r.nextString());
+					card.setNumber(r.nextString());
 					break;
 				case "mciNumber":
 					card.setMciNumber(r.nextString());
@@ -209,8 +209,8 @@ public class CardAdapter extends TypeAdapter<Card>
 				case "variations":
 					r.beginArray();
 					int min;
-					if (card.getCardId() != null)
-						min = Integer.parseInt(card.getCardId().replaceAll("[^\\d]", ""));
+					if (card.getNumber() != null)
+						min = Integer.parseInt(card.getNumber().replaceAll("[^\\d]", ""));
 					else
 						min = Integer.MAX_VALUE;
 					int max = min;

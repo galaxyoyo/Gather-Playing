@@ -11,6 +11,7 @@ import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -61,7 +62,7 @@ public class Set implements Comparable<Set>
 			if (card.getBorder() == null)
 				card.setBorder(set.border);
 			if (set.code.equals("BFZ") && card.getType() == CardType.LAND && card.isBasic())
-				card.setCardId(card.getCardId() + (Byte.parseByte(card.getImageName().charAt(card.getImageName().length() - 1) + "") % 2 == 1 ? 'a' : 'b'));
+				card.setNumber(card.getNumber() + (Byte.parseByte(card.getImageName().charAt(card.getImageName().length() - 1) + "") % 2 == 1 ? 'a' : 'b'));
 		}
 		return set;
 	}
@@ -208,7 +209,7 @@ public class Set implements Comparable<Set>
 	}
 
 	@Override
-	public int compareTo(Set o) { return releaseDate.compareTo(o.releaseDate); }
+	public int compareTo(@NotNull Set o) { return releaseDate.compareTo(o.releaseDate); }
 
 	public java.util.Set<Card> getCards()
 	{

@@ -6,13 +6,14 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 
 public class Card implements Comparable<Card>
 {
 	private ObservableMap<String, String> muId = FXCollections.observableHashMap();
-	private String cardId;
+	private String number;
 	private String mciNumber;
 	private transient Set set;
 	private ObservableMap<String, String> name = FXCollections.observableHashMap();
@@ -100,7 +101,7 @@ public class Card implements Comparable<Card>
 	}
 
 	@Override
-	public int compareTo(Card o)
+	public int compareTo(@NotNull Card o)
 	{
 		if (o == this)
 			return 0;
@@ -121,14 +122,14 @@ public class Card implements Comparable<Card>
 		return muId;
 	}
 
-	public String getCardId()
+	public String getNumber()
 	{
-		return cardId;
+		return number;
 	}
 
-	public void setCardId(String cardId)
+	public void setNumber(String number)
 	{
-		this.cardId = cardId;
+		this.number = number;
 	}
 
 	public String getMciNumber()

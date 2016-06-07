@@ -150,7 +150,7 @@ public class DeckEditor extends AbstractController implements Initializable
 			}
 			else if (RefStreams.of(card.getSubtypes()).noneMatch(subtypes::contains))
 				return false;
-			return !(!Utils.DEBUG && card.getSet().getReleaseDate().getTime() > System.currentTimeMillis()) &&
+			return (!Utils.DEBUG || card.getSet().getReleaseDate().getTime() < System.currentTimeMillis()) &&
 					filters.getSet().getSelectionModel().getSelectedItems().contains(card.getSet()) && card.isLegal(filters.getRules().getSelectionModel().getSelectedItem());
 		});
 		name_EN.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getName().get("en")));

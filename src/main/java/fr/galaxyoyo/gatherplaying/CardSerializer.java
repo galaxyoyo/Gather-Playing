@@ -35,7 +35,7 @@ public class CardSerializer implements JsonDeserializer<Card>
 			cal.setTimeInMillis(0L);
 			cal.set(Calendar.YEAR, Integer.parseInt(split[0]));
 			if (split.length >= 2)
-				cal.set(Calendar.MONTH, Integer.parseInt(split[1]));
+				cal.set(Calendar.MONTH, Integer.parseInt(split[1]) - 1);
 			if (split.length == 3)
 				cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(split[2]));
 			return cal.getTime();
@@ -46,6 +46,7 @@ public class CardSerializer implements JsonDeserializer<Card>
 		{
 			Calendar cal = new GregorianCalendar();
 			cal.setTime(date);
+			cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) + 1);
 			return new JsonPrimitive(cal.get(Calendar.YEAR) + "-" + cal.get(Calendar.MONTH) + "-" + cal.get(Calendar.DAY_OF_MONTH));
 		}
 	}

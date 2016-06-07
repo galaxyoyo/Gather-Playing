@@ -4,6 +4,7 @@ import com.gluonhq.charm.down.common.PlatformFactory;
 import com.google.common.base.Joiner;
 import fr.galaxyoyo.gatherplaying.protocol.ClientChannelInitializer;
 import fr.galaxyoyo.gatherplaying.protocol.ServerChannelInitializer;
+import fr.galaxyoyo.gatherplaying.web.WebChannelInitializer;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -13,6 +14,8 @@ import io.netty.channel.FixedRecvByteBufAllocator;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -49,7 +52,8 @@ public class Utils
 			digest.reset();
 			digest.update(array);
 			return toHexString(digest.digest());
-		} catch (NoSuchAlgorithmException ex)
+		}
+		catch (NoSuchAlgorithmException ex)
 		{
 			ex.printStackTrace();
 			return null;
@@ -66,7 +70,7 @@ public class Utils
 		return result;
 	}
 
-	public static void startNetty()
+	public static void startNetty() throws InterruptedException
 	{
 		if (getSide() == Side.CLIENT)
 		{
@@ -79,22 +83,30 @@ public class Utils
 			{
 				f.get(1, TimeUnit.SECONDS);
 				f.awaitUninterruptibly();
-			} catch (ExecutionException | TimeoutException | InterruptedException ex)
+			}
+			catch (ExecutionException | TimeoutException | InterruptedException ex)
 			{
 				Platform.runLater(() -> alert("Problème de connexion", "Connexion au serveur impossible",
 						"Il semblerait qu'un problème de connexion ait lieu avec le serveur. Veuillez réessayer.\nSi le problème persiste, vérifiez votre connection et" +
 								" le twitter, et prévenez galaxyoyo en cas de problème", Alert.AlertType.ERROR).ifPresent(buttonType -> System.exit(-1)));
 			}
-		} else
+		}
+		else
 		{
-			EventLoopGroup boss = new NioEventLoopGroup(1);
-			EventLoopGroup worker = new NioEventLoopGroup(1);
 			ServerBootstrap boot =
-					new ServerBootstrap().group(boss, worker).channel(NioServerSocketChannel.class).option(ChannelOption.SO_KEEPALIVE, true).option(ChannelOption.SO_BACKLOG, 100)
-							.childOption(ChannelOption.SO_RCVBUF, 0x42666).childOption(ChannelOption.TCP_NODELAY, true)
+					new ServerBootstrap().group(new NioEventLoopGroup(1), new NioEventLoopGroup(1)).channel(NioServerSocketChannel.class).option(ChannelOption.SO_KEEPALIVE, true)
+							.option(ChannelOption.SO_BACKLOG, 100).childOption(ChannelOption.SO_RCVBUF, 0x42666).childOption(ChannelOption.TCP_NODELAY, true)
 							.childOption(ChannelOption.RCVBUF_ALLOCATOR, new FixedRecvByteBufAllocator(0x42666)).childHandler(new ServerChannelInitializer());
 			ChannelFuture f = boot.bind(42666);
 			f.awaitUninterruptibly();
+
+			ServerBootstrap webBoot =
+					new ServerBootstrap().group(new NioEventLoopGroup(1), new NioEventLoopGroup(1)).channel(NioServerSocketChannel.class).handler(new LoggingHandler(LogLevel.DEBUG))
+							.childHandler(new WebChannelInitializer());
+			webBoot.bind(42000).sync();
+
+			System.out.println("Bonjour !");
+
 			new Thread("Keep-Alive Thread")
 			{
 				@Override
@@ -106,7 +118,8 @@ public class Utils
 						try
 						{
 							sleep(Long.MAX_VALUE);
-						} catch (InterruptedException ex)
+						}
+						catch (InterruptedException ex)
 						{
 							ex.printStackTrace();
 						}
@@ -122,7 +135,8 @@ public class Utils
 	{
 		if (!Platform.isFxApplicationThread())
 		{
-			Platform.runLater(() -> {
+			Platform.runLater(() ->
+			{
 				if (isDesktop())
 				{
 					Alert alert = new Alert(type);
@@ -130,7 +144,8 @@ public class Utils
 					alert.setHeaderText(header);
 					alert.setContentText(content);
 					alert.showAndWait();
-				} else
+				}
+				else
 				{
 					com.gluonhq.charm.glisten.control.Alert alert = new com.gluonhq.charm.glisten.control.Alert(Alert.AlertType.CONFIRMATION);
 					alert.setTitleText(header);

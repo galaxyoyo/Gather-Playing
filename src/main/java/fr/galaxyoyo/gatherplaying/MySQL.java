@@ -39,11 +39,10 @@ public class MySQL
 			.registerTypeAdapter(ManaColor.class, CardSerializer.MANACOLOR).create();
 	private static final String[] CARD_COLUMNS =
 			new String[]{"id_EN", "id_DE", "id_FR", "id_IT", "id_ES", "id_PT", "id_RU", "id_CN", "id_TW", "id_JP", "id_KO", "name_EN", "name_DE", "name_FR", "name_IT", "name_ES",
-					"name_PT", "name_RU", "name_CN", "name_TW", "name_JP", "name_KO", "mci_number", "set", "type", "subtypes", "legendary", "basic", "world", "snow", "ongoing",
-					"power", "toughness", "loyalty", "mana_cost", "converted_manacost", "colors", "color_identity", "variations", "ability_EN", "ability_DE", "ability_FR",
-					"ability_IT", "ability_ES", "ability_PT", "ability_RU", "ability_CN", "ability_TW", "ability_JP", "ability_KO", "flavor_EN", "flavor_DE", "flavor_FR",
-					"flavor_IT", "flavor_ES", "flavor_PT", "flavor_RU", "flavor_CN", "flavor_TW", "flavor_JP", "flavor_KO", "rarity", /*"rulings", */"layout", "artist",
-					"image_name", "watermark"};
+					"name_PT", "name_RU", "name_CN", "name_TW", "name_JP", "name_KO", "number", "mci_number", "set", "type", "subtypes", "legendary", "basic", "world", "snow",
+					"ongoing", "power", "toughness", "loyalty", "mana_cost", "converted_manacost", "colors", "color_identity", "variations", "ability_EN", "ability_DE", "ability_FR",
+					"ability_IT", "ability_ES", "ability_PT", "ability_RU", "ability_CN", "ability_TW", "ability_JP", "ability_KO", "flavor_EN", "flavor_DE", "flavor_FR", "flavor_IT",
+					"flavor_ES", "flavor_PT", "flavor_RU", "flavor_CN", "flavor_TW", "flavor_JP", "flavor_KO", "rarity", /*"rulings", */"layout", "artist", "image_name", "watermark"};
 	private static final String[] LOCALES = {"en", "de", "fr", "it", "es", "pt", "ru", "cn", "tw", "ko"};
 	private static Connection connection = null;
 	private static Map<String, String> config = Maps.newHashMap();
@@ -185,8 +184,12 @@ public class MySQL
 				card.getFlavorMap().put(locale, set.getString("flavor_" + locale.toUpperCase()));
 			}
 			String ed = set.getString("set");
+			card.setNumber(set.getString("number"));
 			card.setMciNumber(set.getString("mci_number"));
 			card.setSet(sets.get(ed));
+			//	System.out.println(ed + ", " + sets.get(ed).getCode());
+			if (sets.get(ed) == null)
+				System.err.println(ed);
 			card.getSet().getCards().add(card);
 			card.setType(cardTypes.get(set.getString("type").toUpperCase()));
 			card.setSubtypes(gson.fromJson(set.getString("subtypes"), SubType[].class));
@@ -234,15 +237,15 @@ public class MySQL
 		insert("cards", CARD_COLUMNS, card.getMuId("en"), card.getMuId("de"), card.getMuId("fr"), card.getMuId("it"), card.getMuId("es"), card.getMuId("pt"), card.getMuId("ru"),
 				card.getMuId("cn"), card.getMuId("tw"), card.getMuId("jp"), card.getMuId("ko"), card.getName().get("en"), card.getName().get("de"), card.getName().get("fr"),
 				card.getName().get("it"), card.getName().get("es"), card.getName().get("pt"), card.getName().get("ru"), card.getName().get("cn"), card.getName().get("tw"),
-				card.getName().get("jp"), card.getName().get("ko"), card.getMciNumber(), card.getSet().getCode(), card.getType().name().toLowerCase(), gson.toJson(card.getSubtypes()),
-				card.isLegendary(), card.isBasic(), card.isWorld(), card.isSnow(), card.isOngoing(), card.getPower(), card.getToughness(), card.getLoyalty(),
-				gson.toJson(card.getManaCost()).toLowerCase(), card.getCmc(), gson.toJson(card.getColors()).toLowerCase(), gson.toJson(card.getColorIdentity()).toLowerCase(),
-				gson.toJson(card.getVariations()), card.getAbilityMap().get("en"), card.getAbilityMap().get("de"), card.getAbilityMap().get("fr"), card.getAbilityMap().get("it"),
-				card.getAbilityMap().get("es"), card.getAbilityMap().get("pt"), card.getAbilityMap().get("ru"), card.getAbilityMap().get("cn"), card.getAbilityMap().get("tw"),
-				card.getAbilityMap().get("jp"), card.getAbilityMap().get("ko"), card.getFlavorMap().get("en"), card.getFlavorMap().get("de"), card.getFlavorMap().get("fr"),
-				card.getFlavorMap().get("it"), card.getFlavorMap().get("es"), card.getFlavorMap().get("pt"), card.getFlavorMap().get("ru"), card.getFlavorMap().get("cn"),
-				card.getFlavorMap().get("tw"), card.getFlavorMap().get("jp"), card.getFlavorMap().get("ko"), card.getRarity().name().toLowerCase(),
-				card.getLayout().name().toLowerCase(), card.getArtist(), card.getImageName(), card.getWatermark());
+				card.getName().get("jp"), card.getName().get("ko"), card.getNumber(), card.getMciNumber(), card.getSet().getCode(), card.getType().name().toLowerCase(),
+				gson.toJson(card.getSubtypes()), card.isLegendary(), card.isBasic(), card.isWorld(), card.isSnow(), card.isOngoing(), card.getPower(), card.getToughness(),
+				card.getLoyalty(), gson.toJson(card.getManaCost()).toLowerCase(), card.getCmc(), gson.toJson(card.getColors()).toLowerCase(),
+				gson.toJson(card.getColorIdentity()).toLowerCase(), gson.toJson(card.getVariations()), card.getAbilityMap().get("en"), card.getAbilityMap().get("de"),
+				card.getAbilityMap().get("fr"), card.getAbilityMap().get("it"), card.getAbilityMap().get("es"), card.getAbilityMap().get("pt"), card.getAbilityMap().get("ru"),
+				card.getAbilityMap().get("cn"), card.getAbilityMap().get("tw"), card.getAbilityMap().get("jp"), card.getAbilityMap().get("ko"), card.getFlavorMap().get("en"),
+				card.getFlavorMap().get("de"), card.getFlavorMap().get("fr"), card.getFlavorMap().get("it"), card.getFlavorMap().get("es"), card.getFlavorMap().get("pt"),
+				card.getFlavorMap().get("ru"), card.getFlavorMap().get("cn"), card.getFlavorMap().get("tw"), card.getFlavorMap().get("jp"), card.getFlavorMap().get("ko"),
+				card.getRarity().name().toLowerCase(), card.getLayout().name().toLowerCase(), card.getArtist(), card.getImageName(), card.getWatermark());
 	}
 
 	public static Player getPlayer(String email)
@@ -466,6 +469,7 @@ public class MySQL
 				Column name_RU = new Column("name_RU", VARCHAR);
 				Column name_ES = new Column("name_ES", VARCHAR);
 				Column name_KO = new Column("name_KO", VARCHAR);
+				Column number = new Column("number", VARCHAR);
 				Column mciNumber = new Column("mci_number", VARCHAR);
 				Column set = new Column("set", VARCHAR);
 				set.setNullable(false);
@@ -517,7 +521,7 @@ public class MySQL
 				Column watermark = new Column("watermark", VARCHAR);
 				List<Column> columns =
 						Lists.newArrayList(muId_EN, muId_DE, muId_FR, muId_IT, muId_ES, muId_PT, muId_RU, muId_CN, muId_TW, muId_JP, muId_KO, name_EN, name_DE, name_FR, name_IT,
-								name_ES, name_PT, name_RU, name_CN, name_TW, name_JP, name_KO, mciNumber, set, type, subtypes, legendary, basic, world, snow, ongoing, power,
+								name_ES, name_PT, name_RU, name_CN, name_TW, name_JP, name_KO, number, mciNumber, set, type, subtypes, legendary, basic, world, snow, ongoing, power,
 								toughness, loyalty, manaCost, cmc, colors, colorIdentity, variations, ability_EN, ability_DE, ability_FR, ability_IT, ability_ES, ability_PT,
 								ability_RU, ability_CN, ability_TW, ability_JP, ability_KO, flavor_EN, flavor_DE, flavor_FR, flavor_IT, flavor_ES, flavor_PT, flavor_RU, flavor_CN,
 								flavor_TW, flavor_JP, flavor_KO, rarity, layout, artist, imageName, watermark);
@@ -632,8 +636,10 @@ public class MySQL
 				timestamp = System.currentTimeMillis();
 				insert("sets", new String[]{"name", "name_DE", "name_FR", "name_IT", "name_ES", "name_PT", "name_JP", "name_CN", "name_TW", "name_KO", "code", "magic_cards_info_code",
 								"release_date", "type", "block", "booster", "border", "finished_translations", "mkm_id", "mkm_name"}, set.getName(), set.translations.get("de"), set
-						.translations.get("fr"), set.translations.get("it"), set.translations.get("es"), set.translations.get("pt"), set.translations.get("jp"), set.translations.get
-						("cn"), set.translations.get("tw"), set.translations.get("ko"), set.getCode(), set.getMagicCardsInfoCode(), CardSerializer.DATE.serialize(set.getReleaseDate(),
+								.translations.get("fr"), set.translations.get("it"), set.translations.get("es"), set.translations.get("pt"), set.translations.get("jp"), set
+								.translations.get
+										("cn"), set.translations.get("tw"), set.translations.get("ko"), set.getCode(), set.getMagicCardsInfoCode(), CardSerializer.DATE.serialize(set
+								.getReleaseDate(),
 						Date.class, null).getAsString(), set.getType(), set.getBlock(), new Gson().toJson(set.booster), set.getBorder(), set.getFinishedTranslations(), set.getMKMId(),
 						set.getMKMName());
 				connection.commit();

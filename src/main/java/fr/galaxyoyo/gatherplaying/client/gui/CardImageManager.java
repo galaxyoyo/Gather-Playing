@@ -105,7 +105,7 @@ public class CardImageManager
 
 				if (muId.contains("_"))
 					url = new URL("http://magiccards.info/scans/" + (card.getName().get(locale) != null ? "fr" : "en") + "/" + card.getSet().getMagicCardsInfoCode() + "/" +
-							MoreObjects.firstNonNull(card.getMciNumber(), card.getCardId()) + ".jpg");
+							MoreObjects.firstNonNull(card.getMciNumber(), card.getNumber()) + ".jpg");
 				else
 					url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" +
 							(card.getMuId(locale) != null ? card.getMuId(locale) : muId.replaceAll("[^\\d]", "")) + "&type=card");

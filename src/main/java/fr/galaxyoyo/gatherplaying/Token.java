@@ -2,24 +2,49 @@ package fr.galaxyoyo.gatherplaying;
 
 import com.google.common.base.Joiner;
 import fr.galaxyoyo.gatherplaying.client.I18n;
+import java8.util.stream.Collectors;
+import java8.util.stream.RefStreams;
 import javafx.beans.binding.StringBinding;
+
+import java.util.List;
 
 import static fr.galaxyoyo.gatherplaying.CardType.*;
 
 public enum Token
 {
+	// Eternal Masters (EMA)
+	SPIRIT_18(CREATURE_TOKEN, "EMA", "1", 1, 1, ManaColor.COLORLESS, SubType.valueOf("Spirit"), "413714"),
+	SOLDIER_21(CREATURE_TOKEN, "EMA", "2", 1, 1, ManaColor.WHITE, SubType.valueOf("Spirit"), "413566"),
+	SPIRIT_19(CREATURE_TOKEN, "EMA", "3", "Flying", "Vol", 1, 1, ManaColor.WHITE, SubType.valueOf("Spirit"), "413553"),
+	WALL(CREATURE_TOKEN, "EMA", "4", "Defender", "Défenseur", 5, 5, ManaColor.BLUE, SubType.valueOf("Spirit"), "413617"),
+	SERF(CREATURE_TOKEN, "EMA", "5", 0, 1, ManaColor.BLACK, SubType.valueOf("Serf"), "413647"),
+	ZOMBIE_28(CREATURE_TOKEN, "EMA", "6", 2, 2, ManaColor.BLACK, SubType.valueOf("Zombie"), "413658"),
+	CARNIVORE(CREATURE_TOKEN, "EMA", "7", 3, 1, ManaColor.RED, SubType.valueOf("Beast"), "413693"),
+	DRAGON_EGG(CREATURE_TOKEN, "EMA", "8", "Flying\n{R}: This creature gets +1/+0 until end of turn.", "Vol\n{R} : Cette créature gagne +1/+0 jusqu'à la fin du tour.",
+			2, 2, ManaColor.RED, SubType.valueOf("Dragon"), "413668"),
+	ELEMENTAL_22(CREATURE_TOKEN, "EMA", "9", 1, 1, ManaColor.RED, SubType.valueOf("Elemental"), "413697"),
+	GOBLIN_17(CREATURE_TOKEN, "EMA", "10", 1, 1, ManaColor.RED, SubType.valueOf("Goblin"), "413661", "413681", "413689"),
+	ELEPHANT_8(CREATURE_TOKEN, "EMA", "11", 3, 3, ManaColor.GREEN, SubType.valueOf("Elephant"), "413705"),
+	ELF_WARRIOR_6(CREATURE_TOKEN, "EMA", "12", 1, 1, ManaColor.GREEN, new SubType[]{SubType.valueOf("Elf"), SubType.valueOf("Warrior")}, "413715", "413718"),
+	WURM_9(CREATURE_TOKEN, "EMA", "13", "", "", 6, 6, new ManaColor[]{ManaColor.BLACK, ManaColor.GREEN}, false, SubType.valueOf("Wurm"), "413724"),
+	ELEMENTAL_23(CREATURE_TOKEN, "EMA", "14", "", "", 5, 5, new ManaColor[]{ManaColor.BLUE, ManaColor.RED}, false, SubType.valueOf("Elemental"), "413756"),
+	GOBLIN_SOLDIER_3(CREATURE_TOKEN, "EMA", "15", "", "", 1, 1, new ManaColor[]{ManaColor.RED, ManaColor.WHITE}, false, new SubType[]{SubType.valueOf("Goblin"),
+			SubType.valueOf("Soldier")}, "413745"),
+	DACK_FAYDEN_2(EMBLEM, "EMA", "16", "Whenever you cast a spell that targets one or more permanents, gain control of those permanents.",
+			"À chaque fois que vous lancez un sort qui cible un ou plusieurs permanents, acquérez le contrôle de ces permanents.", SubType.valueOf("Dack"), "413741"),
+
 	// Ténèbres sur Innistrad (SOI)
 	ANGEL_12(CREATURE_TOKEN, "SOI", "1", "Flying", "Vol", 4, 4, ManaColor.WHITE, SubType.valueOf("Angel")),
-	HUMAN_SOLDIER(CREATURE_TOKEN, "SOI", "2", 1, 1, ManaColor.WHITE, SubType.valueOf("Human"), SubType.valueOf("Soldier")),
+	HUMAN_SOLDIER(CREATURE_TOKEN, "SOI", "2", 1, 1, ManaColor.WHITE, new SubType[]{SubType.valueOf("Human"), SubType.valueOf("Soldier")}),
 	SPIRIT_17(CREATURE_TOKEN, "SOI", "3", "Flying", "Vol", 1, 1, ManaColor.WHITE, SubType.valueOf("Spirit")),
-	VAMPIRE_KNIGHT(CREATURE_TOKEN, "SOI", "4", "Lifelink", "Lien de vie", 1, 1, ManaColor.WHITE, SubType.valueOf("Vampire"), SubType.valueOf("Knight")),
+	VAMPIRE_KNIGHT(CREATURE_TOKEN, "SOI", "4", "Lifelink", "Lien de vie", 1, 1, ManaColor.WHITE, new SubType[]{SubType.valueOf("Vampire"), SubType.valueOf("Knight")}),
 	ZOMBIE_27(CREATURE_TOKEN, "SOI", "5", 2, 2, ManaColor.BLACK, SubType.valueOf("Zombie")),
 	DEVIL(CREATURE_TOKEN, "SOI", "6", "When this creature dies, it deals 1 damage to target creature or player.", "Quand cette créature meurt, elle inflige 1 blessure à une cible " +
 			"créature ou joueur.", 2, 2, ManaColor.BLACK, SubType.valueOf("Devil")),
 	INSECT_6(CREATURE_TOKEN, "SOI", "7", 1, 1, ManaColor.GREEN, SubType.valueOf("Insect")),
 	OOZE_7(CREATURE_TOKEN, "SOI", "8", 3, 3, ManaColor.GREEN, SubType.valueOf("Ooze")),
 	WOLF_14(CREATURE_TOKEN, "SOI", "9", 2, 2, ManaColor.GREEN, SubType.valueOf("Wolf")),
-	HUMAN_CLERIC(CREATURE_TOKEN, "SOI", "10", "", "", 1, 1, new ManaColor[]{ManaColor.WHITE}, false, SubType.valueOf("Human"), SubType.valueOf("Cleric")),
+	HUMAN_CLERIC(CREATURE_TOKEN, "SOI", "10", "", "", 1, 1, new ManaColor[]{ManaColor.WHITE, ManaColor.BLACK}, new SubType[]{SubType.valueOf("Human"), SubType.valueOf("Cleric")}),
 	CLUE_1(ARTIFACT_TOKEN, "SOI", "11", "{2}, Sacrifice this artifact: Draw a card.", "{2}, sacrifiez cet artefact : piochez une carte.", SubType.valueOf("Clue")),
 	CLUE_2(ARTIFACT_TOKEN, "SOI", "12", "{2}, Sacrifice this artifact: Draw a card.", "{2}, sacrifiez cet artefact : piochez une carte.", SubType.valueOf("Clue")),
 	CLUE_3(ARTIFACT_TOKEN, "SOI", "13", "{2}, Sacrifice this artifact: Draw a card.", "{2}, sacrifiez cet artefact : piochez une carte.", SubType.valueOf("Clue")),
@@ -34,18 +59,18 @@ public enum Token
 
 	// Le serment des sentinelles (OGW)
 	ELDRAZI_SCION_4(CREATURE_TOKEN, "OGW", "1", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 1, 1,
-			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")),
+			ManaColor.COLORLESS, new SubType[]{SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")}),
 	ELDRAZI_SCION_5(CREATURE_TOKEN, "OGW", "2", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 1, 1,
-			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")),
+			ManaColor.COLORLESS, new SubType[]{SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")}),
 	ELDRAZI_SCION_6(CREATURE_TOKEN, "OGW", "3", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 1, 1,
-			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")),
+			ManaColor.COLORLESS, new SubType[]{SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")}),
 	ELDRAZI_SCION_7(CREATURE_TOKEN, "OGW", "4", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 1, 1,
-			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")),
+			ManaColor.COLORLESS, new SubType[]{SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")}),
 	ELDRAZI_SCION_8(CREATURE_TOKEN, "OGW", "5", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 1, 1,
-			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")),
+			ManaColor.COLORLESS, new SubType[]{SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")}),
 	ELDRAZI_SCION_9(CREATURE_TOKEN, "OGW", "6", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 1, 1,
-			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")),
-	ANGEL_11(CREATURE_TOKEN, "OGW", "7", "Flying", "Vol", 3, 3, ManaColor.WHITE, SubType.valueOf("Angel")),
+			ManaColor.COLORLESS, new SubType[]{SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")}),
+	ANGEL_11(CREATURE_TOKEN, "OGW", "7", "Flying", "Vol", 3, 3, ManaColor.WHITE, SubType.valueOf("Angel"), "407535"),
 	ZOMBIE_26(CREATURE_TOKEN, "OGW", "8", 2, 2, ManaColor.BLACK, SubType.valueOf("Zombie")),
 	ELEMENTAL_20(CREATURE_TOKEN, "OGW", "9", "Haste", "Célérité", 2, 2, ManaColor.RED, SubType.valueOf("Elemental")),
 	ELEMENTAL_21(CREATURE_TOKEN, "OGW", "10", 0, 0, ManaColor.GREEN, SubType.valueOf("Elemental")),
@@ -60,13 +85,13 @@ public enum Token
 			"La force et l'endurance de cette créature sont égales au nombre de marqueurs « expérience » que vous avez.", 0, 0, new ManaColor[]{ManaColor.WHITE, ManaColor.BLACK},
 			false, SubType.valueOf("Spirit")),
 	KNIGHT_4(CREATURE_TOKEN, "C15", "7a", "First Strike", "Initiative", 2, 2, ManaColor.WHITE, SubType.valueOf("Knight")),
-	ELEMENTAL_SHAMAN_2(CREATURE_TOKEN, "C15", "7b", 3, 1, ManaColor.RED, SubType.valueOf("Elemental"), SubType.valueOf("Shaman")),
+	ELEMENTAL_SHAMAN_2(CREATURE_TOKEN, "C15", "7b", 3, 1, ManaColor.RED, new SubType[]{SubType.valueOf("Elemental"), SubType.valueOf("Shaman")}),
 	KNIGHT_5(CREATURE_TOKEN, "C15", "8a", "Vigilance", "Vigilance", 2, 2, ManaColor.WHITE, SubType.valueOf("Knight")),
 	GOLD_2(ARTIFACT_TOKEN, "C15", "9b", "Sacrifice this artifact: Add one mana of any color to your mana pool.",
 			"Sacrifiez cet artefact : Ajoutez un mana de la couleur de votre choix à votre réserve."),
 	DRAKE_2(CREATURE_TOKEN, "C15", "10a", "Flying", "Vol", 2, 2, ManaColor.BLUE, SubType.valueOf("Drake")),
 	GERM_4(CREATURE_TOKEN, "C15", "12a", 0, 0, ManaColor.BLACK, SubType.valueOf("Germ")),
-	FROG_LIZARD_2(CREATURE_TOKEN, "C15", "12b", 3, 3, ManaColor.RED, SubType.valueOf("Frog"), SubType.valueOf("Lizard")),
+	FROG_LIZARD_2(CREATURE_TOKEN, "C15", "12b", 3, 3, ManaColor.RED, new SubType[]{SubType.valueOf("Frog"), SubType.valueOf("Lizard")}),
 	ZOMBIE_25(CREATURE_TOKEN, "C15", "13a", 2, 2, ManaColor.BLACK, SubType.valueOf("Zombie")),
 	DRAGON_12(CREATURE_TOKEN, "C15", "17a", "Flying", "Vol", 5, 5, ManaColor.RED, SubType.valueOf("Dragon")),
 	LIGHTNING_RAGER(CREATURE_TOKEN, "C15", "18a", "Trample, haste\nAt the beginning of the end step, sacrifice this creature.",
@@ -82,13 +107,13 @@ public enum Token
 	// Bataille de Zendikar (BFZ)
 	ELDRAZI(CREATURE_TOKEN, "BFZ", "1", 10, 10, ManaColor.COLORLESS, SubType.valueOf("Eldrazi")),
 	ELDRAZI_SCION_1(CREATURE_TOKEN, "BFZ", "2", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 1, 1,
-			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")),
+			ManaColor.COLORLESS, new SubType[]{SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")}),
 	ELDRAZI_SCION_2(CREATURE_TOKEN, "BFZ", "3", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 1, 1,
-			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")),
+			ManaColor.COLORLESS, new SubType[]{SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")}),
 	ELDRAZI_SCION_3(CREATURE_TOKEN, "BFZ", "4", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 1, 1,
-			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")),
-	KNIGHT_ALLY(CREATURE_TOKEN, "BFZ", "5", 1, 1, ManaColor.WHITE, SubType.valueOf("Knight"), SubType.valueOf("Ally")),
-	KOR_ALLY(CREATURE_TOKEN, "BFZ", "6", 1, 1, ManaColor.WHITE, SubType.valueOf("Kor"), SubType.valueOf("Ally")),
+			ManaColor.COLORLESS, new SubType[]{SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")}),
+	KNIGHT_ALLY(CREATURE_TOKEN, "BFZ", "5", 1, 1, ManaColor.WHITE, new SubType[]{SubType.valueOf("Knight"), SubType.valueOf("Ally")}),
+	KOR_ALLY(CREATURE_TOKEN, "BFZ", "6", 1, 1, ManaColor.WHITE, new SubType[]{SubType.valueOf("Kor"), SubType.valueOf("Ally")}),
 	OCTOPUS(CREATURE_TOKEN, "BFZ", "7", 8, 8, ManaColor.BLUE, SubType.valueOf("Octopus")),
 	DRAGON_11(CREATURE_TOKEN, "BFZ", "8", "Flying", "Vol", 5, 5, ManaColor.RED, SubType.valueOf("Dragon")),
 	ELEMENTAL_19(CREATURE_TOKEN, "BFZ", "9", "Trample, Haste", "Piétinement, célérité", 3, 1, ManaColor.RED, SubType.valueOf("Elemental")),
@@ -110,7 +135,7 @@ public enum Token
 	GOBLIN_16(CREATURE_TOKEN, "ORI", "6", 1, 1, ManaColor.RED, SubType.valueOf("Goblin")),
 	ASHAYA(CREATURE_TOKEN, "ORI", "7", "", "", 4, 4, ManaColor.GREEN, true, SubType.valueOf("Elemental")),
 	ELEMENTAL_17(CREATURE_TOKEN, "ORI", "8", 2, 2, ManaColor.GREEN, SubType.valueOf("Elemental")),
-	ELF_WARRIOR_5(CREATURE_TOKEN, "ORI", "9", 1, 1, ManaColor.GREEN, SubType.valueOf("Elf"), SubType.valueOf("Warrior")),
+	ELF_WARRIOR_5(CREATURE_TOKEN, "ORI", "9", 1, 1, ManaColor.GREEN, new SubType[]{SubType.valueOf("Elf"), SubType.valueOf("Warrior")}),
 	THOPTER_3(CREATURE_ARTIFACT_TOKEN, "ORI", "10", "Flying", "Vol", 1, 1, ManaColor.COLORLESS, SubType.valueOf("Thopter")),
 	THOPTER_4(CREATURE_ARTIFACT_TOKEN, "ORI", "11", "Flying", "Vol", 1, 1, ManaColor.COLORLESS, SubType.valueOf("Thopter")),
 	JACE_TELEPATH_UNBOUND(EMBLEM, "ORI", "12", "Whenever you cast a spell, target opponent puts the top five cards of his or her library into his or her graveyard.",
@@ -122,14 +147,14 @@ public enum Token
 
 	//Modern Masters 2015 (MM2)
 	ELDRAZI_SPAWN_4(CREATURE_TOKEN, "MM2", "1", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 0, 1,
-			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Spawn")),
+			ManaColor.COLORLESS, new SubType[]{SubType.valueOf("Eldrazi"), SubType.valueOf("Spawn")}),
 	ELDRAZI_SPAWN_5(CREATURE_TOKEN, "MM2", "2", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 0, 1,
-			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Spawn")),
+			ManaColor.COLORLESS, new SubType[]{SubType.valueOf("Eldrazi"), SubType.valueOf("Spawn")}),
 	ELDRAZI_SPAWN_6(CREATURE_TOKEN, "MM2", "3", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 0, 1,
-			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Spawn")),
+			ManaColor.COLORLESS, new SubType[]{SubType.valueOf("Eldrazi"), SubType.valueOf("Spawn")}),
 	SOLDIER_19(CREATURE_TOKEN, "MM2", "4", 1, 1, ManaColor.WHITE, SubType.valueOf("Soldier")),
 	SPIRIT_14(CREATURE_TOKEN, "MM2", "5", "Flying", "Vl", 1, 1, ManaColor.WHITE, SubType.valueOf("Spirit")),
-	FAERIE_ROGUE_4(CREATURE_TOKEN, "MM2", "6", "Flying", "Vol", 1, 1, ManaColor.BLACK, SubType.valueOf("Faerie"), SubType.valueOf("Rogue")),
+	FAERIE_ROGUE_4(CREATURE_TOKEN, "MM2", "6", "Flying", "Vol", 1, 1, ManaColor.BLACK, new SubType[]{SubType.valueOf("Faerie"), SubType.valueOf("Rogue")}),
 	GERM_3(CREATURE_TOKEN, "MM2", "7", 0, 0, ManaColor.BLACK, SubType.valueOf("Germ")),
 	THRULL(CREATURE_TOKEN, "MM2", "8", 1, 1, ManaColor.BLACK, SubType.valueOf("Thrull")),
 	ELEPHANT_6(CREATURE_TOKEN, "MM2", "9", 3, 3, ManaColor.GREEN, SubType.valueOf("Elephant")),
@@ -143,9 +168,9 @@ public enum Token
 
 	// Dragons de Tarkir (DTK)
 	WARRIOR_5(CREATURE_TOKEN, "DTK", "1", 1, 1, ManaColor.WHITE, SubType.valueOf("Warrior")),
-	DJINN_MONK(CREATURE_TOKEN, "DTK", "2", "Flying", "Vol", 1, 1, ManaColor.BLUE, SubType.valueOf("Djinn"), SubType.valueOf("Monk")),
+	DJINN_MONK(CREATURE_TOKEN, "DTK", "2", "Flying", "Vol", 1, 1, ManaColor.BLUE, new SubType[]{SubType.valueOf("Djinn"), SubType.valueOf("Monk")}),
 	ZOMBIE_23(CREATURE_TOKEN, "DTK", "3", 2, 2, ManaColor.BLACK, SubType.valueOf("Zombie")),
-	ZOMBIE_HORROR(CREATURE_TOKEN, "DTK", "4", 0, 0, ManaColor.BLACK, SubType.valueOf("Zombie"), SubType.valueOf("Horror")),
+	ZOMBIE_HORROR(CREATURE_TOKEN, "DTK", "4", 0, 0, ManaColor.BLACK, new SubType[]{SubType.valueOf("Zombie"), SubType.valueOf("Horror")}),
 	DRAGON_10(CREATURE_TOKEN, "DTK", "5", "Flying", "Vol", 5, 5, ManaColor.RED, SubType.valueOf("Dragon")),
 	GOBLIN_15(CREATURE_TOKEN, "DTK", "6", 1, 1, ManaColor.RED, SubType.valueOf("Goblin")),
 	MORPH_2(CREATURE, "DTK", "7", "#_You can cover a face-down creature with this reminder card.\n A card with morph can be turned face up any time for its morph cost._#",
@@ -167,7 +192,7 @@ public enum Token
 
 	//Commander 2014 (C14)
 	ANGEL_8(CREATURE_TOKEN, "C14", "1a", "Flying", "Vol", 4, 4, ManaColor.WHITE, SubType.valueOf("Angel")),
-	KOR_SOLDIER_2(CREATURE_TOKEN, "C14", "2a", 1, 1, ManaColor.WHITE, SubType.valueOf("Kor"), SubType.valueOf("Soldier")),
+	KOR_SOLDIER_2(CREATURE_TOKEN, "C14", "2a", 1, 1, ManaColor.WHITE, new SubType[]{SubType.valueOf("Kor"), SubType.valueOf("Soldier")}),
 	PEGASUS(CREATURE_TOKEN, "C14", "2b", "Flying", "Vol", 1, 1, ManaColor.WHITE, SubType.valueOf("Pegasus")),
 	SOLDIER_18(CREATURE_TOKEN, "C14", "3a", 1, 1, ManaColor.WHITE, SubType.valueOf("Soldier")),
 	SPIRIT_12(CREATURE_TOKEN, "C14", "3b", "Flying", "Vol", 1, 1, ManaColor.WHITE, SubType.valueOf("Spirit")),
@@ -188,9 +213,9 @@ public enum Token
 	ELEMENTAL_16(CREATURE_TOKEN, "C14", "13a", 5, 3, ManaColor.GREEN, SubType.valueOf("Elemental")),
 	BEAST_15(CREATURE_TOKEN, "C14", "13b", 3, 3, ManaColor.GREEN, SubType.valueOf("Beast")),
 	ELEPHANT_5(CREATURE_TOKEN, "C14", "14a", 3, 3, ManaColor.GREEN, SubType.valueOf("Elephant")),
-	ELF_WARRIOR_4(CREATURE_TOKEN, "C14", "14b", 1, 1, ManaColor.GREEN, SubType.valueOf("Elf"), SubType.valueOf("Warrior")),
-	ELF_DRUID(CREATURE_TOKEN, "C14", "15a", "{T} : Add {G} to your mana pool", "{T} : Ajoutez {G} à votre réserve", 1, 1, ManaColor.GREEN, SubType.valueOf("Elf"),
-			SubType.valueOf("Druid")),
+	ELF_WARRIOR_4(CREATURE_TOKEN, "C14", "14b", 1, 1, ManaColor.GREEN, new SubType[]{SubType.valueOf("Elf"), SubType.valueOf("Warrior")}),
+	ELF_DRUID(CREATURE_TOKEN, "C14", "15a", "{T} : Add {G} to your mana pool", "{T} : Ajoutez {G} à votre réserve", 1, 1, ManaColor.GREEN, new SubType[]{SubType.valueOf("Elf"),
+			SubType.valueOf("Druid")}),
 	TREEFOLK(CREATURE_TOKEN, "C14", "16a", 0, 0, ManaColor.GREEN, SubType.valueOf("Treefolk")),
 	WOLF_11(CREATURE_TOKEN, "C14", "16b", 2, 2, ManaColor.GREEN, SubType.valueOf("Wolf")),
 	GARGOYLE_2(CREATURE_ARTIFACT_TOKEN, "C14", "17a", "Flying", "Vol", 3, 4, ManaColor.COLORLESS, SubType.valueOf("Gargoyle")),
@@ -213,7 +238,7 @@ public enum Token
 			"À chaque fois qu'un artefact est mis dans votre cimetière depuis le champ de bataille, renvoyez cette carte sur le champ de bataille au début de la prochaine" +
 					" étape de fin.", SubType.valueOf("Daretti")),
 	TUKTUK_THE_RETURNED_2(CREATURE_ARTIFACT_TOKEN, "C14", "24b", "Tuktuk the Returned is legendary.", "Tuktuk le Reparu est légendaire.", 5, 5, ManaColor.COLORLESS,
-			SubType.valueOf("Goblin"), SubType.valueOf("Golem")),
+			new SubType[]{SubType.valueOf("Goblin"), SubType.valueOf("Golem")}),
 
 	// Les Khans de Tarkir (KTK)
 	BIRD_11(CREATURE_TOKEN, "KTK", "1", "Flying", "Vol", 3, 4, ManaColor.WHITE, SubType.valueOf("Bird")),
@@ -225,7 +250,8 @@ public enum Token
 	GOBLIN_13(CREATURE_TOKEN, "KTK", "7", 1, 1, ManaColor.RED, SubType.valueOf("Goblin")),
 	BEAR_3(CREATURE_TOKEN, "KTK", "8", 4, 4, ManaColor.GREEN, SubType.valueOf("Bear")),
 	SNAKE_3(CREATURE_TOKEN, "KTK", "9", 1, 1, ManaColor.GREEN, SubType.valueOf("Snake")),
-	SPIRIT_WARRIOR(CREATURE_TOKEN, "KTK", "10", "", "", 0, 0, new ManaColor[]{ManaColor.BLACK, ManaColor.GREEN}, false, SubType.valueOf("Spirit"), SubType.valueOf("Warrior")),
+	SPIRIT_WARRIOR(CREATURE_TOKEN, "KTK", "10", "", "", 0, 0, new ManaColor[]{ManaColor.BLACK, ManaColor.GREEN}, false, new SubType[]{SubType.valueOf("Spirit"), SubType.valueOf
+			("Warrior")}),
 	MORPH_1(CREATURE, "KTK", "11", "#_You can cover a face-down creature with this reminder card.\nA card with morph can be turned up any this for its morph cost._#",
 			"#_Vous pouvez couvrir une créature face cachée avec cette carte de rappel .\nUne carte avec la mue peut être retournée face visible à tout moment pour son " +
 					"coût de mue._#", 2, 2, ManaColor.COLORLESS),
@@ -248,8 +274,8 @@ public enum Token
 	BEAST_14(CREATURE_TOKEN, "M15", "9", 3, 3, ManaColor.GREEN, SubType.valueOf("Beast")),
 	INSECT_4(CREATURE_TOKEN, "M15", "10", "Flying, deathtouch", "Vol, contact mortel", 1, 1, ManaColor.GREEN, SubType.valueOf("Insect")),
 	TREEFOLK_WARRIOR(CREATURE_TOKEN, "M15", "11", "This creature's power and toughness are each equal to the number of Forests you control.",
-			"La force et l'endurance de cette créature sont chacune égales au nombre de forêts que vous contrôlez.", 0, 0, ManaColor.GREEN, SubType.valueOf("Treefolk"),
-			SubType.valueOf("Warrior")),
+			"La force et l'endurance de cette créature sont chacune égales au nombre de forêts que vous contrôlez.", 0, 0, ManaColor.GREEN, new SubType[]{SubType.valueOf("Treefolk"),
+			SubType.valueOf("Warrior")}),
 	LAND_MINE(ARTIFACT_TOKEN, "M15", "12", "{R}, Sacrifice this artifact: This artifact deals 2 damage to target attacking creature without flying.",
 			"{R}, sacrifiez cet artefact : Cet artefact inflige 2 blessures à une créature attaquante sans le vol ciblée"),
 	AJANI_STEADFAST(EMBLEM, "M15", "13", "If a source would deal damage to you or a planewalker you control, prevent all but 1 of that damage.",
@@ -268,7 +294,7 @@ public enum Token
 	SQUIRREL_3(CREATURE_TOKEN, "CNS", "6", 1, 1, ManaColor.GREEN, SubType.valueOf("Squirrel")),
 	WOLF_10(CREATURE_TOKEN, "CNS", "7", 2, 2, ManaColor.GREEN, SubType.valueOf("Wolf")),
 	CONSTRUCT_2(CREATURE_ARTIFACT_TOKEN, "CNS", "8", "Defender", "Défenseur", 1, 1, ManaColor.COLORLESS, SubType.valueOf("Construct")),
-	DACK_FAYDEN(EMBLEM, "CNS", "9", "Whenever you cast a spell that targets one or more permanents, gain control of those permanents.",
+	DACK_FAYDEN_1(EMBLEM, "CNS", "9", "Whenever you cast a spell that targets one or more permanents, gain control of those permanents.",
 			"À chaque fois que vous lancez un sort qui cible un ou plusieurs permanents, acquérez le contrôle de ces permanents.", SubType.valueOf("Dack")),
 
 	// Modern Event Deck (MD1)
@@ -283,7 +309,7 @@ public enum Token
 
 	// Créations divines (BNG)
 	BIRD_10(CREATURE_TOKEN, "BNG", "1", "Flying", "Vol", 1, 1, ManaColor.WHITE, SubType.valueOf("Bird")),
-	CAT_SOLDIER(CREATURE_TOKEN, "BNG", "2", "Vigilance", "Vigilance", 1, 1, ManaColor.WHITE, SubType.valueOf("Cat"), SubType.valueOf("Soldier")),
+	CAT_SOLDIER(CREATURE_TOKEN, "BNG", "2", "Vigilance", "Vigilance", 1, 1, ManaColor.WHITE, new SubType[]{SubType.valueOf("Cat"), SubType.valueOf("Soldier")}),
 	SOLDIER_16(ENCHANTMENT_CREATURE_TOKEN, "BNG", "3", 1, 1, ManaColor.WHITE, SubType.valueOf("Soldier")),
 	BIRD_9(ENCHANTMENT_CREATURE_TOKEN, "BNG", "4", "Flying", "Vol", 2, 2, ManaColor.BLUE, SubType.valueOf("Bird")),
 	KRAKEN_1(CREATURE_TOKEN, "BNG", "5", 9, 9, ManaColor.WHITE, SubType.valueOf("Kraken")),
@@ -335,21 +361,21 @@ public enum Token
 	ELSPETH_KNIGHT_ERRANT(EMBLEM, "MMA", "1", "Artifacts, creatures, enchantments, and lands you control have indestructible.",
 			"Les artefacts, créatures, enchantements et terrains que vous contrôlez ont l'indestructible.", SubType.valueOf("Elspeth")),
 	WORM(CREATURE_TOKEN, "MMA", "2", "", "", 1, 1, new ManaColor[]{ManaColor.BLACK, ManaColor.GREEN}, false, SubType.valueOf("Worm")),
-	FAERIE_ROGUE_3(CREATURE_TOKEN, "MMA", "3", "Flying", "Vol", 1, 1, new ManaColor[]{ManaColor.BLUE, ManaColor.BLACK}, false, SubType.valueOf("Faerie"), SubType.valueOf
-			("Rogue")),
-	TREEFOLK_SHAMAN_2(CREATURE_TOKEN, "MMA", "4", 2, 5, ManaColor.GREEN, SubType.valueOf("Treefolk"), SubType.valueOf("Shaman")),
+	FAERIE_ROGUE_3(CREATURE_TOKEN, "MMA", "3", "Flying", "Vol", 1, 1, new ManaColor[]{ManaColor.BLUE, ManaColor.BLACK}, false, new SubType[]{SubType.valueOf("Faerie"), SubType.valueOf
+			("Rogue")}),
+	TREEFOLK_SHAMAN_2(CREATURE_TOKEN, "MMA", "4", 2, 5, ManaColor.GREEN, new SubType[]{SubType.valueOf("Treefolk"), SubType.valueOf("Shaman")}),
 	SAPROLING_7(CREATURE_TOKEN, "MMA", "5", 1, 1, ManaColor.GREEN, SubType.valueOf("Saproling")),
 	ELEMENTAL_11(CREATURE_TOKEN, "MMA", "6", 4, 4, ManaColor.GREEN, SubType.valueOf("Elemental")),
 	DRAGON_7(CREATURE_TOKEN, "MMA", "7", "Flying", "Vol", 4, 4, ManaColor.RED, SubType.valueOf("Dragon")),
 	GOBLIN_11(CREATURE_TOKEN, "MMA", "8", 1, 1, ManaColor.RED, SubType.valueOf("Goblin")),
 	ZOMBIE_14(CREATURE_TOKEN, "MMA", "9", 2, 2, ManaColor.BLACK, SubType.valueOf("Zombie")),
 	SPIDER_3(CREATURE_TOKEN, "MMA", "10", "Reach", "Portée", 2, 4, ManaColor.BLACK, SubType.valueOf("Spider")),
-	GOBLIN_ROGUE_2(CREATURE_TOKEN, "MMA", "11", 1, 1, ManaColor.BLACK, SubType.valueOf("Goblin"), SubType.valueOf("Rogue")),
+	GOBLIN_ROGUE_2(CREATURE_TOKEN, "MMA", "11", 1, 1, ManaColor.BLACK, new SubType[]{SubType.valueOf("Goblin"), SubType.valueOf("Rogue")}),
 	BAT(CREATURE_TOKEN, "MMA", "12", "Flying", "Vol", 1, 1, ManaColor.BLACK, SubType.valueOf("Bat")),
 	ILLUSION_2(CREATURE_TOKEN, "MMA", "13", "Flying", "Vol", 1, 1, ManaColor.BLUE, SubType.valueOf("Illusion")),
 	SOLDIER_12(CREATURE_TOKEN, "MMA", "15", 1, 1, ManaColor.WHITE, SubType.valueOf("Soldier")),
-	KITHKIN_SOLDIER_3(CREATURE_TOKEN, "MMA", "18", 1, 1, ManaColor.WHITE, SubType.valueOf("Kithkin"), SubType.valueOf("Soldier")),
-	GIANT_WARRIOR_3(CREATURE_TOKEN, "MMA", "19", 5, 5, ManaColor.WHITE, SubType.valueOf("Giant"), SubType.valueOf("Warrior")),
+	KITHKIN_SOLDIER_3(CREATURE_TOKEN, "MMA", "18", 1, 1, ManaColor.WHITE, new SubType[]{SubType.valueOf("Kithkin"), SubType.valueOf("Soldier")}),
+	GIANT_WARRIOR_3(CREATURE_TOKEN, "MMA", "19", 5, 5, ManaColor.WHITE, new SubType[]{SubType.valueOf("Giant"), SubType.valueOf("Warrior")}),
 
 	// Le labyrinthe du dragon (DGM)
 	ELEMENTAL_10(CREATURE_TOKEN, "DGM", "1", "This creature's power and toughness are each equal to the number of the number of creatures you control.",
@@ -360,7 +386,7 @@ public enum Token
 	// Insurrection (GTC)
 	ANGEL_6(CREATURE_TOKEN, "GTC", "1", "Flying", "Vol", 4, 4, ManaColor.WHITE, SubType.valueOf("Angel")),
 	RAT_2(CREATURE_TOKEN, "GTC", "2", 1, 1, ManaColor.BLACK, SubType.valueOf("Rat")),
-	FROG_LIZARD_1(CREATURE_TOKEN, "GTC", "3", 3, 3, ManaColor.GREEN, SubType.valueOf("Frog"), SubType.valueOf("Lizard")),
+	FROG_LIZARD_1(CREATURE_TOKEN, "GTC", "3", 3, 3, ManaColor.GREEN, new SubType[]{SubType.valueOf("Frog"), SubType.valueOf("Lizard")}),
 	CLERIC_1(CREATURE_TOKEN, "GTC", "4", "{3}{W}{B}{B}, {T}, Sacrifice this creature:\nReturn a card named Deathpact Angel from your graveyard to the battlefield.",
 			"{3}{W}{B}{B}, {T}, sacrifiez cette créature :\nRenvoyez sur le champ de bataille une carte nommée Ange du paxte de mort depuis votre cimetière."),
 	HORROR_2(CREATURE_TOKEN, "GTC", "5", "Flying", "Vol", 1, 1, new ManaColor[]{ManaColor.BLUE, ManaColor.BLACK}, false, SubType.valueOf("Horror")),
@@ -480,18 +506,18 @@ public enum Token
 
 	// L'ascension des Eldrazi (ROE)
 	ELDRAZI_SPAWN_1(CREATURE_TOKEN, "ROE", "1a", "Sacrifice this creature:\nAdd {C} to your mana pool.", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve.", 0, 1,
-			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Spawn")),
+			ManaColor.COLORLESS, new SubType[]{SubType.valueOf("Eldrazi"), SubType.valueOf("Spawn")}),
 	ELDRAZI_SPAWN_2(CREATURE_TOKEN, "ROE", "1b", "Sacrifice this creature:\nAdd {C} to your mana pool.", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve.", 0, 1,
-			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Spawn")),
+			ManaColor.COLORLESS, new SubType[]{SubType.valueOf("Eldrazi"), SubType.valueOf("Spawn")}),
 	ELDRAZI_SPAWN_3(CREATURE_TOKEN, "ROE", "1c", "Sacrifice this creature:\nAdd {C} to your mana pool.", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve.", 0, 1,
-			ManaColor.COLORLESS, SubType.valueOf("Eldrazi"), SubType.valueOf("Spawn")),
+			ManaColor.COLORLESS, new SubType[]{SubType.valueOf("Eldrazi"), SubType.valueOf("Spawn")}),
 	ELEMENTAL_8(CREATURE_TOKEN, "ROE", "2", 0, 0, ManaColor.RED, SubType.valueOf("Elemental")),
 	HELLION_1(CREATURE_TOKEN, "ROE", "3", 4, 4, ManaColor.RED, SubType.valueOf("Hellion")),
 	OOZE_2(CREATURE_TOKEN, "ROE", "4", 0, 0, ManaColor.GREEN, SubType.valueOf("Ooze")),
-	TUKTUK_THE_RETURNED_1(CREATURE_ARTIFACT_TOKEN, "ROE", "5", "", "", 5, 5, ManaColor.COLORLESS, true, SubType.valueOf("Goblin"), SubType.valueOf("Golem")),
+	TUKTUK_THE_RETURNED_1(CREATURE_ARTIFACT_TOKEN, "ROE", "5", "", "", 5, 5, ManaColor.COLORLESS, true, new SubType[]{SubType.valueOf("Goblin"), SubType.valueOf("Golem")}),
 
 	// Worldwake (WWK)
-	SOLDIER_ALLY(CREATURE_TOKEN, "WWK", "1", 1, 1, ManaColor.WHITE, SubType.valueOf("Soldier"), SubType.valueOf("Ally")),
+	SOLDIER_ALLY(CREATURE_TOKEN, "WWK", "1", 1, 1, ManaColor.WHITE, new SubType[]{SubType.valueOf("Soldier"), SubType.valueOf("Ally")}),
 	DRAGON_5(CREATURE_TOKEN, "WWK", "2", "Flying", "Vol", 5, 5, ManaColor.RED, SubType.valueOf("Dragon")),
 	OGRE_1(CREATURE_TOKEN, "WWK", "3", 3, 3, ManaColor.RED, SubType.valueOf("Ogre")),
 	ELEPHANT_3(CREATURE_TOKEN, "WWK", "4", 3, 3, ManaColor.GREEN, SubType.valueOf("Elephant")),
@@ -501,11 +527,11 @@ public enum Token
 	// Zendikar (ZEN)
 	ANGEL_3(CREATURE_TOKEN, "ZEN", "1", "Flying", "Vol", 4, 4, ManaColor.WHITE, SubType.valueOf("Angel")),
 	BIRD_3(CREATURE_TOKEN, "ZEN", "2", "Flying", "Vol", 1, 1, ManaColor.WHITE, SubType.valueOf("Bird")),
-	KOR_SOLDIER(CREATURE_TOKEN, "ZEN", "3", 1, 1, ManaColor.WHITE, SubType.valueOf("Kor"), SubType.valueOf("Soldier")),
+	KOR_SOLDIER(CREATURE_TOKEN, "ZEN", "3", 1, 1, ManaColor.WHITE, new SubType[]{SubType.valueOf("Kor"), SubType.valueOf("Soldier")}),
 	ILLUSION_1(CREATURE_TOKEN, "ZEN", "4", 2, 2, ManaColor.BLUE, SubType.valueOf("Illusion")),
 	MERFOLK(CREATURE_TOKEN, "ZEN", "5", 1, 1, ManaColor.BLUE, SubType.valueOf("Merfolk")),
 	VAMPIRE_1(CREATURE_TOKEN, "ZEN", "6", 0, 0, ManaColor.BLACK, SubType.valueOf("Vampire")),
-	ZOMBIE_GIANT(CREATURE_TOKEN, "ZEN", "7", 5, 5, ManaColor.BLACK, SubType.valueOf("Zombie"), SubType.valueOf("Giant")),
+	ZOMBIE_GIANT(CREATURE_TOKEN, "ZEN", "7", 5, 5, ManaColor.BLACK, new SubType[]{SubType.valueOf("Zombie"), SubType.valueOf("Giant")}),
 	ELEMENTAL_7(CREATURE_TOKEN, "ZEN", "8", "Trample, haste", "Piétinement, célérité", 7, 1, ManaColor.RED, SubType.valueOf("Elemental")),
 	BEAST_7(CREATURE_TOKEN, "ZEN", "9", 4, 4, ManaColor.GREEN, SubType.valueOf("Beast")),
 	SNAKE_1(CREATURE_TOKEN, "ZEN", "10", 1, 1, ManaColor.GREEN, SubType.valueOf("Snake")),
@@ -523,10 +549,11 @@ public enum Token
 	GARGOYLE_1(CREATURE_ARTIFACT_TOKEN, "M10", "8", "Flying", "Vol", 3, 4, ManaColor.COLORLESS, SubType.valueOf("Gargoyle")),
 
 	// La Renaissance d'Alara (ARB)
-	BIRD_SOLDIER(CREATURE_TOKEN, "ARB", "1", "Flying", "Vol", 1, 1, ManaColor.WHITE, SubType.valueOf("Bird"), SubType.valueOf("Soldier")),
+	BIRD_SOLDIER(CREATURE_TOKEN, "ARB", "1", "Flying", "Vol", 1, 1, ManaColor.WHITE, new SubType[]{SubType.valueOf("Bird"), SubType.valueOf("Soldier")}),
 	LIZARD(CREATURE_TOKEN, "ARB", "2", 2, 2, ManaColor.GREEN, SubType.valueOf("Lizard")),
 	DRAGON_4(CREATURE_TOKEN, "ARB", "3", "Flying, devour 2", "Vol, dévorement 2", 1, 1, new ManaColor[]{ManaColor.RED, ManaColor.GREEN}, false, SubType.valueOf("Dragon")),
-	ZOMBIE_WIZARD(CREATURE_TOKEN, "ARB", "4", "", "", 1, 1, new ManaColor[]{ManaColor.BLUE, ManaColor.BLACK}, false, SubType.valueOf("Zombie"), SubType.valueOf("Wizard")),
+	ZOMBIE_WIZARD(CREATURE_TOKEN, "ARB", "4", "", "", 1, 1, new ManaColor[]{ManaColor.BLUE, ManaColor.BLACK}, false, new SubType[]{SubType.valueOf("Zombie"),
+			SubType.valueOf("Wizard")}),
 
 	// Conflux (CON)
 	ANGEL_2(CREATURE_TOKEN, "CON", "1", "Flying", "Vol", 4, 4, ManaColor.WHITE, SubType.valueOf("Angel")),
@@ -551,40 +578,44 @@ public enum Token
 	SPIRIT_4(CREATURE_TOKEN, "EVE", "4", "Flying", "Vol", 1, 1, new ManaColor[]{ManaColor.BLACK, ManaColor.WHITE}, false, SubType.valueOf("Spirit")),
 	ELEMENTAL_5(CREATURE_TOKEN, "EVE", "5", "Flying", "Vol", 5, 5, new ManaColor[]{ManaColor.BLUE, ManaColor.RED}, false, SubType.valueOf("Elemental")),
 	WORM_1(CREATURE_TOKEN, "EVE", "6", "", "", 1, 1, new ManaColor[]{ManaColor.BLACK, ManaColor.GREEN}, false, SubType.valueOf("Worm")),
-	GOBLIN_SOLDIER_2(CREATURE_TOKEN, "EVE", "7", "", "", 1, 1, new ManaColor[]{ManaColor.RED, ManaColor.WHITE}, false, SubType.valueOf("Goblin"), SubType.valueOf("Soldier")),
+	GOBLIN_SOLDIER_2(CREATURE_TOKEN, "EVE", "7", "", "", 1, 1, new ManaColor[]{ManaColor.RED, ManaColor.WHITE}, false, new SubType[]{SubType.valueOf("Goblin"),
+			SubType.valueOf("Soldier")}),
 
 	// Sombrelande (SHM)
-	KITHKIN_SOLDIER_2(CREATURE_TOKEN, "SHM", "1", 1, 1, ManaColor.WHITE, SubType.valueOf("Kithkin"), SubType.valueOf("Soldier")),
+	KITHKIN_SOLDIER_2(CREATURE_TOKEN, "SHM", "1", 1, 1, ManaColor.WHITE, new SubType[]{SubType.valueOf("Kithkin"), SubType.valueOf("Soldier")}),
 	SPIRIT_3(CREATURE_TOKEN, "SHM", "2", "Flying", "Vol", 1, 1, ManaColor.WHITE, SubType.valueOf("Spirit")),
 	RAT_1(CREATURE_TOKEN, "SHM", "3", 1, 1, ManaColor.BLACK, SubType.valueOf("Rat")),
 	ELEMENTAL_3(CREATURE_TOKEN, "SHM", "4", "Haste", "Célérité", 1, 1, ManaColor.RED, SubType.valueOf("Elemental")),
-	ELF_WARRIOR_2(CREATURE_TOKEN, "SHM", "5", 1, 1, ManaColor.GREEN, SubType.valueOf("Elf"), SubType.valueOf("Warrior")),
+	ELF_WARRIOR_2(CREATURE_TOKEN, "SHM", "5", 1, 1, ManaColor.GREEN, new SubType[]{SubType.valueOf("Elf"), SubType.valueOf("Warrior")}),
 	SPIDER_1(CREATURE_TOKEN, "SHM", "6", "Reach", "Portée", 1, 2, ManaColor.GREEN, SubType.valueOf("Spider")),
 	WOLF_2(CREATURE_TOKEN, "SHM", "7", 2, 2, ManaColor.GREEN, SubType.valueOf("Wolf")),
-	FAERIE_ROGUE_2(CREATURE_TOKEN, "SHM", "8", "Flying", "Vol", 1, 1, new ManaColor[]{ManaColor.BLUE, ManaColor.BLACK}, false, SubType.valueOf("Faerie"), SubType.valueOf
-			("Rogue")),
+	FAERIE_ROGUE_2(CREATURE_TOKEN, "SHM", "8", "Flying", "Vol", 1, 1, new ManaColor[]{ManaColor.BLUE, ManaColor.BLACK}, false, new SubType[]{SubType.valueOf("Faerie"), SubType.valueOf
+			("Rogue")}),
 	ELEMENTAL_4(CREATURE_TOKEN, "SHM", "9", "", "", 5, 5, new ManaColor[]{ManaColor.BLACK, ManaColor.RED}, false, SubType.valueOf("Elemental")),
-	GIANT_WARRIOR_2(CREATURE_TOKEN, "SHM", "10", "Haste", "Célérité", 4, 4, new ManaColor[]{ManaColor.RED, ManaColor.GREEN}, false, SubType.valueOf("Giant"),
-			SubType.valueOf("Warrior")),
-	GOBLIN_WARRIOR(CREATURE_TOKEN, "SHM", "11", "", "", 1, 1, new ManaColor[]{ManaColor.RED, ManaColor.GREEN}, false, SubType.valueOf("Goblin"), SubType.valueOf("Warrior")),
-	ELF_WARRIOR_3(CREATURE_TOKEN, "SHM", "12", "", "", 1, 1, new ManaColor[]{ManaColor.GREEN, ManaColor.WHITE}, false, SubType.valueOf("Elf"), SubType.valueOf("Warrior")),
+	GIANT_WARRIOR_2(CREATURE_TOKEN, "SHM", "10", "Haste", "Célérité", 4, 4, new ManaColor[]{ManaColor.RED, ManaColor.GREEN}, false, new SubType[]{SubType.valueOf("Giant"),
+			SubType.valueOf("Warrior")}),
+	GOBLIN_WARRIOR(CREATURE_TOKEN, "SHM", "11", "", "", 1, 1, new ManaColor[]{ManaColor.RED, ManaColor.GREEN}, false, new SubType[]{SubType.valueOf("Goblin"),
+			SubType.valueOf("Warrior")}),
+	ELF_WARRIOR_3(CREATURE_TOKEN, "SHM", "12", "", "", 1, 1, new ManaColor[]{ManaColor.GREEN, ManaColor.WHITE}, false, new SubType[]{SubType.valueOf("Elf"),
+			SubType.valueOf("Warrior")}),
 
 	// Lèveciel (MOR)
-	GIANT_WARRIOR_1(CREATURE_TOKEN, "MOR", "1", "", "", 5, 5, new ManaColor[]{ManaColor.RED, ManaColor.GREEN}, false, SubType.valueOf("Giant"), SubType.valueOf("Warrior")),
-	FAERIE_ROGUE_1(CREATURE_TOKEN, "MOR", "2", "Flying", "Vol", 1, 1, ManaColor.BLACK, SubType.valueOf("Faerie"), SubType.valueOf("Rogue")),
-	TREEFOLK_SHAMAN(CREATURE_TOKEN, "MOR", "3", 2, 5, ManaColor.GREEN, SubType.valueOf("Treefolk"), SubType.valueOf("Shaman")),
+	GIANT_WARRIOR_1(CREATURE_TOKEN, "MOR", "1", "", "", 5, 5, new ManaColor[]{ManaColor.RED, ManaColor.GREEN}, false, new SubType[]{SubType.valueOf("Giant"),
+			SubType.valueOf("Warrior")}),
+	FAERIE_ROGUE_1(CREATURE_TOKEN, "MOR", "2", "Flying", "Vol", 1, 1, ManaColor.BLACK, new SubType[]{SubType.valueOf("Faerie"), SubType.valueOf("Rogue")}),
+	TREEFOLK_SHAMAN(CREATURE_TOKEN, "MOR", "3", 2, 5, ManaColor.GREEN, new SubType[]{SubType.valueOf("Treefolk"), SubType.valueOf("Shaman")}),
 
 	// Lorwyn (LRW)
 	AVATAR_1(CREATURE_TOKEN, "LRW", "1", "This creature's power and toughness are each equal to your life total.",
 			"La force et l'endurance de cette créature sont chacune égale à votre total de points de vie.", 0, 0, ManaColor.WHITE, SubType.valueOf("Avatar")),
 	ELEMENTAL_1(CREATURE_TOKEN, "LRW", "2", "Flying", "Vol", 4, 4, ManaColor.WHITE, SubType.valueOf("Elemental")),
-	KITHKIN_SOLDIER_1(CREATURE_TOKEN, "LRW", "3", 1, 1, ManaColor.WHITE, SubType.valueOf("Kithkin"), SubType.valueOf("Soldier")),
-	MERFOLK_WIZARD(CREATURE_TOKEN, "LRW", "4", 1, 1, ManaColor.BLUE, SubType.valueOf("Merfolk"), SubType.valueOf("Wizard")),
-	GOBLIN_ROGUE_1(CREATURE_TOKEN, "LRW", "5", 1, 1, ManaColor.BLACK, SubType.valueOf("Goblin"), SubType.valueOf("Rogue")),
-	ELEMENTAL_SHAMAN_1(CREATURE_TOKEN, "LRW", "6", 3, 1, ManaColor.RED, SubType.valueOf("Elemental"), SubType.valueOf("Shaman")),
+	KITHKIN_SOLDIER_1(CREATURE_TOKEN, "LRW", "3", 1, 1, ManaColor.WHITE, new SubType[]{SubType.valueOf("Kithkin"), SubType.valueOf("Soldier")}),
+	MERFOLK_WIZARD(CREATURE_TOKEN, "LRW", "4", 1, 1, ManaColor.BLUE, new SubType[]{SubType.valueOf("Merfolk"), SubType.valueOf("Wizard")}),
+	GOBLIN_ROGUE_1(CREATURE_TOKEN, "LRW", "5", 1, 1, ManaColor.BLACK, new SubType[]{SubType.valueOf("Goblin"), SubType.valueOf("Rogue")}),
+	ELEMENTAL_SHAMAN_1(CREATURE_TOKEN, "LRW", "6", 3, 1, ManaColor.RED, new SubType[]{SubType.valueOf("Elemental"), SubType.valueOf("Shaman")}),
 	BEAST_3(CREATURE_TOKEN, "LRW", "7", 3, 3, ManaColor.GREEN, SubType.valueOf("Beast")),
 	ELEMENTAL_2(CREATURE_TOKEN, "LRW", "8", 4, 4, ManaColor.GREEN, SubType.valueOf("Elemental")),
-	ELF_WARRIOR_1(CREATURE_TOKEN, "LRW", "9", 1, 1, ManaColor.GREEN, SubType.valueOf("Elf"), SubType.valueOf("Warrior")),
+	ELF_WARRIOR_1(CREATURE_TOKEN, "LRW", "9", 1, 1, ManaColor.GREEN, new SubType[]{SubType.valueOf("Elf"), SubType.valueOf("Warrior")}),
 	WOLF_1(CREATURE_TOKEN, "LRW", "10", 2, 2, ManaColor.GREEN, SubType.valueOf("Wolf")),
 	SHAPESHIFTER(CREATURE_TOKEN, "LRW", "11", "Changelin #_(This token is every creature type.)_#", "Changelin #_(Ce jeton a tous les types de créature.)_#", 1, 1,
 			ManaColor.COLORLESS, SubType.valueOf("Shapeshifter")),
@@ -652,7 +683,7 @@ public enum Token
 	// Apocalypse (APC)
 	GOBLIN_SOLDIER_1(CREATURE_TOKEN, "APC", "1", "#_They rarely question their orders. Of course, they rarely understand them._#",
 			"#_Ils interrogent rarement leurs ordres. Bien sûr, ils les comprennent rarement._#", 1, 1, new ManaColor[]{ManaColor.RED, ManaColor.WHITE}, false,
-			SubType.valueOf("Goblin"), SubType.valueOf("Soldier")),
+			new SubType[]{SubType.valueOf("Goblin"), SubType.valueOf("Soldier")}),
 
 	// Planeshift (PLS)
 	//SPIRIT_1(CREATURE_TOKEN, "PLS", "1", "Flying\n#_The joy of rebirth overshadows the sadness of death._#", "Vol\n#_La joie de la renaissance éclipse la tristesse de la mort._#",
@@ -676,23 +707,31 @@ public enum Token
 	private final int power;
 	private final int toughness;
 	private final boolean legendary;
+	private List<Card> related;
 
-	Token(CardType type, String set, String number, String ability_EN, String ability_FR, SubType... subtypes)
+	Token(CardType type, String set, String number, String ability_EN, String ability_FR, String... relatedCards)
 	{
-		this(type, set, number, ability_EN, ability_FR, Integer.MIN_VALUE, Integer.MIN_VALUE, ManaColor.COLORLESS, subtypes);
+		this(type, set, number, ability_EN, ability_FR, new SubType[0], relatedCards);
 	}
 
-	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor color, SubType... subtypes)
+	Token(CardType type, String set, String number, String ability_EN, String ability_FR, SubType[] subtypes, String... relatedCards)
 	{
-		this(type, set, number, ability_EN, ability_FR, power, toughness, color, false, subtypes);
+		this(type, set, number, ability_EN, ability_FR, Integer.MIN_VALUE, Integer.MIN_VALUE, ManaColor.COLORLESS, subtypes, relatedCards);
 	}
 
-	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor color, boolean legendary, SubType... subtypes)
+	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor color, SubType[] subtypes, String... relatedCards)
 	{
-		this(type, set, number, ability_EN, ability_FR, power, toughness, new ManaColor[]{color}, legendary, subtypes);
+		this(type, set, number, ability_EN, ability_FR, power, toughness, color, false, subtypes, relatedCards);
 	}
 
-	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor[] color, boolean legendary, SubType... subtypes)
+	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor color, boolean legendary, SubType[] subtypes, String...
+			relatedCards)
+	{
+		this(type, set, number, ability_EN, ability_FR, power, toughness, new ManaColor[]{color}, legendary, subtypes, relatedCards);
+	}
+
+	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor[] color, boolean legendary, SubType[] subtypes, String...
+			relatedCards)
 	{
 		this.type = type;
 		this.set = MySQL.getSet(set);
@@ -708,11 +747,49 @@ public enum Token
 		this.legendary = legendary;
 		for (SubType st : subtypes)
 			st.setCanApplicate(type);
+		related = RefStreams.of(relatedCards).map(MySQL::getCard).collect(Collectors.toList());
 	}
 
-	Token(CardType type, String set, String number, int power, int toughness, ManaColor color, SubType... subtypes)
+	Token(CardType type, String set, String number, String ability_EN, String ability_FR, SubType subtype, String... relatedCards)
 	{
-		this(type, set, number, "", "", power, toughness, color, subtypes);
+		this(type, set, number, ability_EN, ability_FR, Integer.MIN_VALUE, Integer.MIN_VALUE, ManaColor.COLORLESS, subtype, relatedCards);
+	}
+
+	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor color, String... relatedCards)
+	{
+		this(type, set, number, ability_EN, ability_FR, power, toughness, color, false, new SubType[0], relatedCards);
+	}
+
+	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor color, SubType subtype, String... relatedCards)
+	{
+		this(type, set, number, ability_EN, ability_FR, power, toughness, color, false, subtype, relatedCards);
+	}
+
+	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor color, boolean legendary, SubType subtype,
+		  String... relatedCards)
+	{
+		this(type, set, number, ability_EN, ability_FR, power, toughness, new ManaColor[]{color}, legendary, new SubType[]{subtype}, relatedCards);
+	}
+
+	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor[] color, boolean legendary, SubType subtype, String...
+			relatedCards)
+	{
+		this(type, set, number, ability_EN, ability_FR, power, toughness, color, legendary, new SubType[]{subtype}, relatedCards);
+	}
+
+	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor[] color, SubType[] subtypes, String... relatedCards)
+	{
+		this(type, set, number, ability_EN, ability_FR, power, toughness, color, false, subtypes, relatedCards);
+	}
+
+	Token(CardType type, String set, String number, int power, int toughness, ManaColor color, SubType subtype, String... relatedCards)
+	{
+		this(type, set, number, "", "", power, toughness, color, subtype, relatedCards);
+	}
+
+	Token(CardType type, String set, String number, int power, int toughness, ManaColor color, SubType[] subtypes, String... relatedCards)
+	{
+		this(type, set, number, "", "", power, toughness, color, subtypes, relatedCards);
 	}
 
 	public String getEnglishName()
@@ -790,5 +867,10 @@ public enum Token
 	public boolean isLegendary()
 	{
 		return legendary;
+	}
+
+	public List<Card> getRelated()
+	{
+		return related;
 	}
 }

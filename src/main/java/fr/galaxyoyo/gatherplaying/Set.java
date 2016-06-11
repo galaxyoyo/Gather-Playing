@@ -205,6 +205,7 @@ public class Set implements Comparable<Set>
 		String language = Config.getLocaleCode();
 		if (translations.get(language) != null)
 			return translations.get(language);
+
 		return name;
 	}
 

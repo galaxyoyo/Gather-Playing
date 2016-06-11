@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
+import org.apache.commons.io.FileUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -83,6 +84,17 @@ public class Main
 			});
 		}
 		MySQL.init();
+
+		String text = "// NAME: Shadows over Innistrad\n// \n// This deck file wasn't generated.\n// \n";
+		Set set = MySQL.getSet("SOI");
+		for (Card card : set.getCards())
+		{
+			if (card.getNumber().endsWith("b"))
+				continue;
+			text += "\t1 [SOI] " + card.getName().get("en") + "\n";
+		}
+		FileUtils.write(new File("C:\\MTG\\Cardgen\\cardgen-9.0.14", "SOI.mwDeck"), text);
+		System.exit(0);
 
 	/*	String content = "";
 		List<Token> tokens = Lists.newArrayList(Token.values());
@@ -497,6 +509,7 @@ public class Main
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private static void displayFolderImages(File dir)
 	{
 		Platform.runLater(() ->
@@ -555,7 +568,7 @@ public class Main
 				Card card = booster[j];
 				if (card == null)
 					continue;
-				BufferedImage subimg = ImageIO.read(new File("pics\\OGW", card.getMuId().get("fr") + ".png"));
+				BufferedImage subimg = ImageIO.read(new File("pics\\" + card.getSet().getCode(), card.getMuId().get("fr") + ".png"));
 				g.drawImage(subimg, x, y, 720, 1020, null);
 				if (booster.length - j > 14)
 					g.drawImage(SwingFXUtils.fromFXImage(CardImageManager.getFoilCover(), null), x, y, 720, 1020, null);

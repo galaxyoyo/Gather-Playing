@@ -8,6 +8,7 @@ import fr.galaxyoyo.gatherplaying.markers.Marker;
 import fr.galaxyoyo.gatherplaying.markers.MarkerType;
 import fr.galaxyoyo.gatherplaying.protocol.packets.*;
 import java8.util.stream.Collectors;
+import java8.util.stream.RefStreams;
 import java8.util.stream.StreamSupport;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -24,6 +25,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 
@@ -54,7 +56,8 @@ public class CardShower extends AnchorPane
 		getChildren().add(view);
 		this.played = played;
 		this.hand = null;
-		played.getAssociatedCards().addListener((ListChangeListener<? super PlayedCard>) c -> Platform.runLater(() -> {
+		played.getAssociatedCards().addListener((ListChangeListener<? super PlayedCard>) c -> Platform.runLater(() ->
+		{
 			ObservableList<PlayedCard> associatedCards = played.getAssociatedCards();
 			getChildren().clear();
 			for (int i = 0; i < associatedCards.size(); i++)
@@ -75,7 +78,8 @@ public class CardShower extends AnchorPane
 			updatePower();
 		}));
 		setOnMouseEntered(event -> GameMenu.instance().setImage(played));
-		setOnMouseReleased(event -> {
+		setOnMouseReleased(event ->
+		{
 			if (!played.getType().isPermanent())
 				return;
 			int index = Client.localPlayer.runningParty.getData(played.getController()).getPlayed().indexOf(played);
@@ -86,7 +90,8 @@ public class CardShower extends AnchorPane
 				pkt.card = played;
 				pkt.index = index;
 				PacketManager.sendPacketToServer(pkt);
-			} else if (event.getButton() == MouseButton.SECONDARY)
+			}
+			else if (event.getButton() == MouseButton.SECONDARY)
 			{
 				if (currentArrow != null)
 				{
@@ -113,7 +118,8 @@ public class CardShower extends AnchorPane
 				{
 					ContextMenu menu = new ContextMenu();
 					MenuItem gainControl = new MenuItem("Acquérir le contrôle");
-					gainControl.setOnAction(e -> {
+					gainControl.setOnAction(e ->
+					{
 						PacketMixGainControl pkt = PacketManager.createPacket(PacketMixGainControl.class);
 						pkt.index = index;
 						pkt.oldController = played.getController();
@@ -126,7 +132,8 @@ public class CardShower extends AnchorPane
 				}
 				ContextMenu menu = new ContextMenu();
 				MenuItem tap = new MenuItem("Engager");
-				tap.setOnAction(e -> {
+				tap.setOnAction(e ->
+				{
 					PacketMixTapCard pkt = PacketManager.createPacket(PacketMixTapCard.class);
 					pkt.shouldTap = true;
 					pkt.card = played;
@@ -135,7 +142,8 @@ public class CardShower extends AnchorPane
 				});
 				menu.getItems().add(tap);
 				MenuItem untap = new MenuItem("Dégager");
-				untap.setOnAction(e -> {
+				untap.setOnAction(e ->
+				{
 					PacketMixTapCard pkt = PacketManager.createPacket(PacketMixTapCard.class);
 					pkt.shouldTap = false;
 					pkt.card = played;
@@ -149,7 +157,8 @@ public class CardShower extends AnchorPane
 				{
 					menu.getItems().add(new SeparatorMenuItem());
 					MenuItem ret = new MenuItem("Retourner");
-					ret.setOnAction(e -> {
+					ret.setOnAction(e ->
+					{
 						PacketMixReturnCard pkt = PacketManager.createPacket(PacketMixReturnCard.class);
 						pkt.index = (short) Client.getRunningParty().getData(played.getController()).getPlayed().indexOf(played);
 						pkt.p = played.getController();
@@ -164,7 +173,8 @@ public class CardShower extends AnchorPane
 					if (!type.isApplicable(played.getType()))
 						continue;
 					MenuItem item = new MenuItem(type.getTranslatedName());
-					item.setOnAction(e -> {
+					item.setOnAction(e ->
+					{
 						PacketMixAddMarker pkt = PacketManager.createPacket(PacketMixAddMarker.class);
 						pkt.card = played;
 						pkt.type = type;
@@ -178,7 +188,8 @@ public class CardShower extends AnchorPane
 				for (Marker marker : played.getMarkers())
 				{
 					MenuItem item = new MenuItem(marker.getType().getTranslatedName());
-					item.setOnAction(e -> {
+					item.setOnAction(e ->
+					{
 						PacketMixRemoveMarker pkt = PacketManager.createPacket(PacketMixRemoveMarker.class);
 						pkt.card = played;
 						pkt.index = (short) played.getMarkers().indexOf(marker);
@@ -191,7 +202,8 @@ public class CardShower extends AnchorPane
 				if (played.getType().is(CardType.CREATURE))
 				{
 					MenuItem setLife = new MenuItem("Définir les stats");
-					setLife.setOnAction(e -> {
+					setLife.setOnAction(e ->
+					{
 						for (Marker m : played.getMarkers())
 							m.onCardUnmarked(played);
 						Dialog<ButtonType> dialog = new Dialog<>();
@@ -209,7 +221,8 @@ public class CardShower extends AnchorPane
 						GridPane.setColumnIndex(toughness, 1);
 						dialog.getDialogPane().setContent(pane);
 						dialog.getDialogPane().getButtonTypes().addAll(ButtonType.APPLY, ButtonType.CANCEL);
-						dialog.showAndWait().ifPresent(e1 -> {
+						dialog.showAndWait().ifPresent(e1 ->
+						{
 							if (e1 == ButtonType.APPLY)
 							{
 								PacketMixSetLife pkt = PacketManager.createPacket(PacketMixSetLife.class);
@@ -225,11 +238,13 @@ public class CardShower extends AnchorPane
 				if (addMarker.getItems().size() > 0)
 					menu.getItems().add(new SeparatorMenuItem());
 				MenuItem setType = new MenuItem("Changer le type ...");
-				setType.setOnAction(e -> {
+				setType.setOnAction(e ->
+				{
 					ChoiceDialog<CardType> dialog = new ChoiceDialog<>();
 					dialog.getItems().addAll(CardType.values());
 					dialog.setSelectedItem(played.getType());
-					dialog.showAndWait().ifPresent(cardType -> {
+					dialog.showAndWait().ifPresent(cardType ->
+					{
 						if (cardType != null)
 						{
 							PacketMixSetCardType pkt = PacketManager.createPacket(PacketMixSetCardType.class);
@@ -241,7 +256,8 @@ public class CardShower extends AnchorPane
 				});
 				menu.getItems().add(setType);
 				MenuItem subtypes = new MenuItem("Définir les sous-types ...");
-				subtypes.setOnAction(e -> {
+				subtypes.setOnAction(e ->
+				{
 					Dialog<ButtonType> dialog = new Dialog<>();
 					GridPane pane = new GridPane();
 					dialog.getDialogPane().setContent(pane);
@@ -263,7 +279,8 @@ public class CardShower extends AnchorPane
 							x = 0;
 						}
 					}
-					dialog.showAndWait().ifPresent(buttonType -> {
+					dialog.showAndWait().ifPresent(buttonType ->
+					{
 						if (buttonType == ButtonType.APPLY)
 						{
 							PacketMixSetCardSubtypes pkt = PacketManager.createPacket(PacketMixSetCardSubtypes.class);
@@ -279,22 +296,43 @@ public class CardShower extends AnchorPane
 				});
 				menu.getItems().add(subtypes);
 				menu.getItems().add(new SeparatorMenuItem());
-				MenuItem invokeToken = new MenuItem("Invoquer un jeton");
-				invokeToken.setOnAction(e -> {
+
+				List<Token> canCreate = RefStreams.of(Token.values()).filter(token -> played.isCard() && token.getRelated().contains(played.getCard())).collect(Collectors.toList());
+
+				Menu invokeToken = new Menu("Invoquer un jeton ...");
+				for (Token token : canCreate)
+				{
+					MenuItem item = new MenuItem(token.toString());
+					item.setOnAction(e ->
+					{
+						PacketMixInvokeToken pkt = PacketManager.createPacket(PacketMixInvokeToken.class);
+						pkt.token = token;
+						pkt.p = played.getController();
+						PacketManager.sendPacketToServer(pkt);
+					});
+					invokeToken.getItems().add(item);
+				}
+				MenuItem other = new MenuItem("Invoquer un autre jeton ...");
+				other.setOnAction(e ->
+				{
 					ChoiceDialog<Token> dialog = new ChoiceDialog<>();
 					dialog.getItems().addAll(Token.values());
 					dialog.setSelectedItem(dialog.getItems().get(0));
-					dialog.showAndWait().ifPresent(token -> {
+					dialog.showAndWait().ifPresent(token ->
+					{
 						PacketMixInvokeToken pkt = PacketManager.createPacket(PacketMixInvokeToken.class);
 						pkt.token = token;
 						pkt.p = played.getController();
 						PacketManager.sendPacketToServer(pkt);
 					});
 				});
+				invokeToken.getItems().add(other);
+
 				menu.getItems().add(invokeToken);
 				menu.getItems().add(new SeparatorMenuItem());
 				MenuItem graveyard = new MenuItem("Envoyer au cimetière");
-				graveyard.setOnAction(e -> {
+				graveyard.setOnAction(e ->
+				{
 					PacketMixDestroyCard pkt = PacketManager.createPacket(PacketMixDestroyCard.class);
 					pkt.dest = PacketMixDestroyCard.Destination.GRAVEYARD;
 					pkt.card = played;
@@ -302,7 +340,8 @@ public class CardShower extends AnchorPane
 				});
 				menu.getItems().add(graveyard);
 				MenuItem exile = new MenuItem("Exiler");
-				exile.setOnAction(e -> {
+				exile.setOnAction(e ->
+				{
 					PacketMixDestroyCard pkt = PacketManager.createPacket(PacketMixDestroyCard.class);
 					pkt.dest = PacketMixDestroyCard.Destination.EXILE;
 					pkt.card = played;
@@ -310,7 +349,8 @@ public class CardShower extends AnchorPane
 				});
 				menu.getItems().add(exile);
 				MenuItem hand = new MenuItem("Renvoyer dans la main");
-				hand.setOnAction(e -> {
+				hand.setOnAction(e ->
+				{
 					PacketMixDestroyCard pkt = PacketManager.createPacket(PacketMixDestroyCard.class);
 					pkt.dest = PacketMixDestroyCard.Destination.HAND;
 					pkt.card = played;
@@ -325,7 +365,8 @@ public class CardShower extends AnchorPane
 				menu.show(CardShower.this, event.getScreenX(), event.getScreenY());
 			}
 		});
-		setOnMouseDragged(event -> {
+		setOnMouseDragged(event ->
+		{
 			if (event.getButton() == MouseButton.PRIMARY)
 			{
 				if (played.getController() != Client.localPlayer)
@@ -373,7 +414,8 @@ public class CardShower extends AnchorPane
 						PacketManager.sendPacketToServer(pkt);
 					}
 				}
-			} else if (event.getButton() == MouseButton.SECONDARY)
+			}
+			else if (event.getButton() == MouseButton.SECONDARY)
 			{
 				if (currentArrow == null)
 				{
@@ -400,7 +442,8 @@ public class CardShower extends AnchorPane
 
 	public void updatePower()
 	{
-		Platform.runLater(() -> {
+		Platform.runLater(() ->
+		{
 			if (powerText != null)
 				getChildren().remove(powerText);
 			powerText = new Text();
@@ -426,7 +469,8 @@ public class CardShower extends AnchorPane
 
 	public void updateTap()
 	{
-		Platform.runLater(() -> {
+		Platform.runLater(() ->
+		{
 			double base = 0.0D;
 			if (played.getController() != Client.localPlayer)
 				base = 180.0D;
@@ -452,11 +496,13 @@ public class CardShower extends AnchorPane
 		getChildren().add(view);
 		this.played = null;
 		this.hand = hand;
-		setOnMouseEntered(event -> {
+		setOnMouseEntered(event ->
+		{
 			if (revealed || hand.getOwner() == Client.localPlayer)
 				GameMenu.instance().setImage(hand.getCard());
 		});
-		setOnMouseReleased(event -> {
+		setOnMouseReleased(event ->
+		{
 			if (hand.getOwner() != Client.localPlayer)
 				return;
 			if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2)
@@ -469,12 +515,14 @@ public class CardShower extends AnchorPane
 				pkt.card = hand;
 				pkt.action = PacketMixPlayCard.Action.PLAY;
 				PacketManager.sendPacketToServer(pkt);
-			} else if (event.getButton() == MouseButton.SECONDARY)
+			}
+			else if (event.getButton() == MouseButton.SECONDARY)
 			{
 				ContextMenu menu = new ContextMenu();
 
 				MenuItem play = new MenuItem("Jouer");
-				play.setOnAction(e -> {
+				play.setOnAction(e ->
+				{
 					PacketMixPlayCard pkt = PacketManager.createPacket(PacketMixPlayCard.class);
 					pkt.card = hand;
 					pkt.action = PacketMixPlayCard.Action.PLAY;
@@ -487,7 +535,8 @@ public class CardShower extends AnchorPane
 				menu.getItems().add(play);
 
 				MenuItem playHided = new MenuItem("Jouer retournée");
-				playHided.setOnAction(e -> {
+				playHided.setOnAction(e ->
+				{
 					PacketMixPlayCard pkt = PacketManager.createPacket(PacketMixPlayCard.class);
 					pkt.card = hand;
 					pkt.action = PacketMixPlayCard.Action.PLAY;
@@ -503,7 +552,8 @@ public class CardShower extends AnchorPane
 						hand.getCard().getLayout() == Layout.DOUBLE_FACED || hand.getCard().getLayout() == Layout.SPLIT || hand.getCard().getLayout() == Layout.FLIP)
 					menu.getItems().add(playHided);
 				MenuItem discard = new MenuItem("Défausser");
-				discard.setOnAction(e -> {
+				discard.setOnAction(e ->
+				{
 					PacketMixPlayCard pkt = PacketManager.createPacket(PacketMixPlayCard.class);
 					pkt.card = hand;
 					pkt.action = PacketMixPlayCard.Action.DISCARD;
@@ -511,7 +561,8 @@ public class CardShower extends AnchorPane
 				});
 				menu.getItems().add(discard);
 				MenuItem exile = new MenuItem("Exiler");
-				exile.setOnAction(e -> {
+				exile.setOnAction(e ->
+				{
 					PacketMixPlayCard pkt = PacketManager.createPacket(PacketMixPlayCard.class);
 					pkt.card = hand;
 					pkt.action = PacketMixPlayCard.Action.EXILE;
@@ -519,7 +570,8 @@ public class CardShower extends AnchorPane
 				});
 				menu.getItems().add(exile);
 				MenuItem reveal = new MenuItem("Révéler");
-				reveal.setOnAction(e -> {
+				reveal.setOnAction(e ->
+				{
 					PacketMixPlayCard pkt = PacketManager.createPacket(PacketMixPlayCard.class);
 					pkt.card = hand;
 					pkt.action = PacketMixPlayCard.Action.REVEAL;
@@ -527,7 +579,8 @@ public class CardShower extends AnchorPane
 				});
 				menu.getItems().add(reveal);
 				MenuItem upLib = new MenuItem("Placer sur la biblithèque");
-				upLib.setOnAction(e -> {
+				upLib.setOnAction(e ->
+				{
 					PacketMixPlayCard pkt = PacketManager.createPacket(PacketMixPlayCard.class);
 					pkt.card = hand;
 					pkt.action = PacketMixPlayCard.Action.UP_LIBRARY;
@@ -535,7 +588,8 @@ public class CardShower extends AnchorPane
 				});
 				menu.getItems().add(upLib);
 				MenuItem downLib = new MenuItem("Placer sous la biblithèque");
-				downLib.setOnAction(e -> {
+				downLib.setOnAction(e ->
+				{
 					PacketMixPlayCard pkt = PacketManager.createPacket(PacketMixPlayCard.class);
 					pkt.card = hand;
 					pkt.action = PacketMixPlayCard.Action.DOWN_LIBRARY;
@@ -555,13 +609,15 @@ public class CardShower extends AnchorPane
 			return;
 		revealed = true;
 		view.setImage(CardImageManager.getImage(hand.getCard()));
-		Executors.newSingleThreadExecutor().submit(() -> {
+		Executors.newSingleThreadExecutor().submit(() ->
+		{
 			try
 			{
 				Thread.sleep(5000L);
 				revealed = false;
 				view.setImage(CardImageManager.getImage(hand.getOwner() == Client.localPlayer ? hand.getCard() : null));
-			} catch (InterruptedException e)
+			}
+			catch (InterruptedException e)
 			{
 				e.printStackTrace();
 			}

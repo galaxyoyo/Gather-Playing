@@ -64,7 +64,8 @@ public class PlayedCard
 				relatedCard = StreamSupport.stream(MySQL.getAllCards()).filter(c -> c.getSet() == card.getCard().getSet() && (number + "e").equals(c.getMciNumber())).findAny().get();
 			else
 				relatedCard = StreamSupport.stream(MySQL.getAllCards()).filter(c -> c.getSet() == card.getCard().getSet() && (number + "a").equals(c.getMciNumber())).findAny().get();
-		} else if (card.getCard().getAbilityMap().get("en") != null && card.getCard().getAbilityMap().get("en").contains("Morph"))
+		}
+		else if (card.getCard().getAbilityMap().get("en") != null && card.getCard().getAbilityMap().get("en").contains("Morph"))
 			relatedCard = card.getCard();
 		if (Utils.getSide() == Side.CLIENT)
 		{
@@ -240,16 +241,6 @@ public class PlayedCard
 		this.summoningSickness = summoningSickness;
 	}
 
-	public List<Marker> getMarkers()
-	{
-		return markers;
-	}
-
-	public void setMarkers(List<Marker> markers)
-	{
-		this.markers = markers;
-	}
-
 	public ObservableList<PlayedCard> getAssociatedCards()
 	{
 		return associatedCards;
@@ -324,5 +315,15 @@ public class PlayedCard
 				}
 			}
 		}
+	}
+
+	public List<Marker> getMarkers()
+	{
+		return markers;
+	}
+
+	public void setMarkers(List<Marker> markers)
+	{
+		this.markers = markers;
 	}
 }

@@ -85,17 +85,6 @@ public class Main
 		}
 		MySQL.init();
 
-		String text = "// NAME: Shadows over Innistrad\n// \n// This deck file wasn't generated.\n// \n";
-		Set set = MySQL.getSet("SOI");
-		for (Card card : set.getCards())
-		{
-			if (card.getNumber().endsWith("b"))
-				continue;
-			text += "\t1 [SOI] " + card.getName().get("en") + "\n";
-		}
-		FileUtils.write(new File("C:\\MTG\\Cardgen\\cardgen-9.0.14", "SOI.mwDeck"), text);
-		System.exit(0);
-
 	/*	String content = "";
 		List<Token> tokens = Lists.newArrayList(Token.values());
 		tokens.sort((o1, o2) -> String.CASE_INSENSITIVE_ORDER.compare(o1.getEnglishName(), o2.getEnglishName()));

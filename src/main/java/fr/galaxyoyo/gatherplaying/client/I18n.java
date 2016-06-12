@@ -44,13 +44,15 @@ public class I18n
 			args = MoreObjects.firstNonNull(args, new String[0]);
 			for (int i = 0; i < args.length; ++i)
 				args[i] = strTr(args[i]);
-			return String.format(bundle.getString(toTranslate), (Object[]) args);
-		} catch (MissingResourceException ex)
+			return String.format(bundle.getString(toTranslate.replace(" ", "")), (Object[]) args);
+		}
+		catch (MissingResourceException ex)
 		{
 			try
 			{
-				return bundle_EN.getString(toTranslate);
-			} catch (MissingResourceException e)
+				return bundle_EN.getString(toTranslate.replace(" ", ""));
+			}
+			catch (MissingResourceException e)
 			{
 				return toTranslate;
 			}
@@ -65,7 +67,8 @@ public class I18n
 			for (int i = 0; i < args.length; ++i)
 				args[i] = entr(args[i]);
 			return String.format(bundle_EN.getString(toTranslate), (Object[]) args);
-		} catch (MissingResourceException ex)
+		}
+		catch (MissingResourceException ex)
 		{
 			return toTranslate;
 		}

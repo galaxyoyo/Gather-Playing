@@ -40,6 +40,7 @@ public class PartyCreater extends AbstractController implements Initializable
 		playerNumber.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(2, 2, 2));
 
 		rules.getItems().addAll(Rules.values());
+		rules.getItems().remove(Rules.DRAFT);
 		rules.getSelectionModel().select(Config.getFormat());
 	}
 

@@ -233,7 +233,7 @@ public class CardImageManager
 				img = new Image(url);
 			icons.put(id, img);
 			if (Utils.isDesktop())
-				ImageIO.write(SwingFXUtils.fromFXImage(img, null), "JPEG", file);
+				ImageIO.write(SwingFXUtils.fromFXImage(img, null), "PNG", file);
 			else
 				FileUtils.copyURLToFile(new URL(url), file);
 			return img;
@@ -244,7 +244,7 @@ public class CardImageManager
 		}
 	}
 
-	public static File getIconFile(String icon, boolean small) { return new File(DIR, "icons" + File.separatorChar + icon + (small ? "_small" : "") + ".jpg"); }
+	public static File getIconFile(String icon, boolean small) { return new File(DIR, "icons" + File.separatorChar + icon + (small ? "_small" : "") + ".png"); }
 
 	public static Image getIcon(String id, boolean small) { return getIcon0(id, small); }
 }

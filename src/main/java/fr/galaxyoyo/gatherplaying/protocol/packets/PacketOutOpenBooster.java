@@ -5,7 +5,10 @@ import fr.galaxyoyo.gatherplaying.Card;
 import fr.galaxyoyo.gatherplaying.Rules;
 import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.client.gui.DeckEditor;
+import fr.galaxyoyo.gatherplaying.client.gui.DeckShower;
+import fr.galaxyoyo.gatherplaying.client.gui.DraftWindow;
 import io.netty.buffer.ByteBuf;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -32,6 +35,26 @@ public class PacketOutOpenBooster extends Packet
 						(ObservableList<Card>) ((SortedList<Card>) ((FilteredList<Card>) ((SortedList<Card>) DeckEditor.getEditor().table.getItems()).getSource()).getSource())
 								.getSource();
 				list.addAll(cards);
+			}
+			else
+			{
+				if (cards.stream().anyMatch(Card::isBasic))
+				{
+					Platform.runLater(() -> {
+						DeckEditor editor = Client.show(DeckEditor.class);
+						assert editor != null;
+						DeckShower shower = DeckEditor.getDeckShower();
+						shower.initForLimited();
+						//noinspection unchecked
+						ObservableList<Card> list =
+								(ObservableList<Card>) ((SortedList<Card>) ((FilteredList<Card>) ((SortedList<Card>) DeckEditor.getEditor().table.getItems()).getSource()).getSource())
+										.getSource();
+						list.clear();
+						list.addAll(cards);
+					});
+				}
+				else
+					DraftWindow.instance().showCards(cards);
 			}
 		}
 	}

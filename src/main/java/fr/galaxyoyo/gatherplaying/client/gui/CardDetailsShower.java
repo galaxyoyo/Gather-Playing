@@ -34,6 +34,7 @@ public class CardDetailsShower extends AbstractController implements Initializab
 	public void initialize(URL location, ResourceBundle resources)
 	{
 		DeckEditor.setCardShower(this);
+		DraftWindow.setCardShower(this);
 		DeckShower.setShower(this);
 		nameTRLbl.visibleProperty().bind(name_TR.visibleProperty());
 		powerLbl.visibleProperty().bind(power.visibleProperty());

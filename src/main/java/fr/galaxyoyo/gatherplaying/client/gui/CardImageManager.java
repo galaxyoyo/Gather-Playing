@@ -62,7 +62,8 @@ public class CardImageManager
 						images.put(muId, img);
 						return img;
 					}
-				} else
+				}
+				else
 				{
 					if (file.exists())
 					{
@@ -82,7 +83,8 @@ public class CardImageManager
 					Image img = new Image("http://gp.arathia.fr/scanshq/fr/" + card.getSet().getCode() + "/" + card.getMuId("fr") + ".jpg");
 					if (!img.isError())
 					{
-						img.progressProperty().addListener((observable, oldValue, newValue) -> {
+						img.progressProperty().addListener((observable, oldValue, newValue) ->
+						{
 							if (newValue.doubleValue() >= 1.0D)
 							{
 								try
@@ -93,7 +95,8 @@ public class CardImageManager
 									else
 										FileUtils.copyURLToFile(new URL("http://gp.arathia.fr/scanshq/fr/" + card.getMuId("fr") + ".jpg"), f);
 									images.put(muId, img);
-								} catch (IOException ex)
+								}
+								catch (IOException ex)
 								{
 									ex.printStackTrace();
 								}
@@ -129,16 +132,20 @@ public class CardImageManager
 				return getImage((Card) null);
 			}
 
-			img.progressProperty().addListener((observable, oldValue, newValue) -> {
+			img.progressProperty().addListener((observable, oldValue, newValue) ->
+			{
 				if (newValue.doubleValue() >= 1.0D)
 				{
+					if (img.isError())
+						return;
 					try
 					{
 						if (Utils.isDesktop())
 							ImageIO.write(SwingFXUtils.fromFXImage(img, null), "PNG", file);
 						else
 							FileUtils.copyURLToFile(url, file);
-					} catch (IOException ex)
+					}
+					catch (IOException ex)
 					{
 						ex.printStackTrace();
 					}
@@ -146,7 +153,8 @@ public class CardImageManager
 			});
 			images.put(card == null ? null : muId, img);
 			return img;
-		} catch (IOException ex)
+		}
+		catch (IOException ex)
 		{
 			//	ex.printStackTrace();
 			if (card != null)
@@ -190,7 +198,8 @@ public class CardImageManager
 				FileUtils.copyURLToFile(new URL(url), file);
 			tokens.put(token, img);
 			return img;
-		} catch (IOException ex)
+		}
+		catch (IOException ex)
 		{
 			ex.printStackTrace();
 			return null;
@@ -237,7 +246,8 @@ public class CardImageManager
 			else
 				FileUtils.copyURLToFile(new URL(url), file);
 			return img;
-		} catch (IOException | IllegalArgumentException ex)
+		}
+		catch (IOException | IllegalArgumentException ex)
 		{
 			System.err.println("Couldn't get icon for " + id);
 			return null;

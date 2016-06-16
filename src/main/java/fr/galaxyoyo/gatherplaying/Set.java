@@ -119,7 +119,7 @@ public class Set implements Comparable<Set>
 			universe = ArrayUtils.removeElement(universe, "common");
 		}
 		Card foilCard;
-		if (random.nextInt(63) < 15)
+		if (!type.equals("reprint") && random.nextInt(63) < 15)
 		{
 			int nb = random.nextInt(128);
 			Predicate<Card> p;
@@ -165,21 +165,21 @@ public class Set implements Comparable<Set>
 			try
 			{
 				Rarity r = Rarity.valueOf(name);
-				matching = StreamSupport.stream(cards).filter(card -> card.getRarity() == r).collect(Collectors.toList());
+				matching = StreamSupport.stream(cards).filter(card -> card.getLayout() == Layout.NORMAL).filter(card -> card.getRarity() == r).collect(Collectors.toList());
 			}
 			catch (IllegalArgumentException e1)
 			{
 				try
 				{
 					Layout l = Layout.valueOf(name);
-					matching = StreamSupport.stream(cards).filter(card -> card.getLayout() == l).collect(Collectors.toList());
+					matching = StreamSupport.stream(cards).filter(card -> card.getLayout() == l && card.getNumber().endsWith("a")).collect(Collectors.toList());
 				}
 				catch (IllegalArgumentException e2)
 				{
 					try
 					{
 						CardType t = CardType.valueOf(name);
-						matching = StreamSupport.stream(cards).filter(card -> card.getType() == t).collect(Collectors.toList());
+						matching = StreamSupport.stream(cards).filter(card -> card.getLayout() == Layout.NORMAL).filter(card -> card.getType() == t).collect(Collectors.toList());
 					}
 					catch (IllegalArgumentException e3)
 					{

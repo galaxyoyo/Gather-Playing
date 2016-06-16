@@ -13,7 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
-import org.apache.commons.io.FileUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -84,6 +83,83 @@ public class Main
 			});
 		}
 		MySQL.init();
+
+	/*	String text = "// NAME: Eternal Masters\n// \n// This deck file wasn't generated.\n// \n";
+		Set set = MySQL.getSet("EMA");
+		for (Card card : set.getCards())
+			text += "\t1 [EMA] " + card.getName().get("en") + "\n";
+		FileUtils.write(new File("C:\\MTG\\Cardgen\\cardgen-9.0.14", "EMA.mwDeck"), text);
+
+		text = "";
+		for (Card card : set.getCards())
+		{
+			if (card.getName().get("en").contains(","))
+				text += "\"";
+			text += card.getName().get("en");
+			if (card.getName().get("en").contains(","))
+				text += "\"";
+			text += ",EMA,";
+			ManaColor[] colors = card.getColors();
+			if (colors.length != 1)
+				text += "Gld,";
+			else if (card.getType() == CardType.LAND)
+				text += "Land,";
+			else if (colors[0] == ManaColor.COLORLESS)
+				text += "Art,";
+			else
+				text += colors[0].getAbbreviate() + ",";
+			if (card.isLegendary())
+				text += "Legendary ";
+			if (card.isBasic())
+				text += "Basic ";
+			text += I18n.entr("type." + card.getType().name().toLowerCase());
+			SubType[] types = card.getSubtypes();
+			if (types.length != 0)
+			{
+				text += " — ";
+				for (SubType type : types)
+					text += I18n.entr("subtype." + type.name.toLowerCase()) + " ";
+				text = text.substring(0, text.length() - 1);
+			}
+			text += ",";
+			if (card.getType().is(CardType.CREATURE))
+				text += card.getPower() + "\\" + card.getToughness();
+			if (card.getType().is(CardType.PLANESWALKER))
+				text += "\\" + card.getLoyalty();
+			text += ",";
+			if (card.getFlavor() != null)
+			{
+				if (card.getFlavor().contains("\n") || card.getFlavor().contains(","))
+					text += "\"";
+				String flavor = card.getFlavor();
+				while (flavor.contains("\""))
+					flavor = flavor.replaceFirst("\"", "“").replaceFirst("\"", "”");
+				text += flavor;
+				if (card.getFlavor().contains("\n") || card.getFlavor().contains(","))
+					text += "\"";
+			}
+			text += "," + (card.getRarity() == Rarity.BASIC_LAND ? 'L' : card.getRarity().name().charAt(0)) + ",";
+			ManaColor[] cost = card.getManaCost();
+			if (cost != null)
+			{
+				for (ManaColor color : cost)
+					text += "{" + color.getAbbreviate().replace("/", "") + "}";
+			}
+			text += ",";
+			if (card.getAbility() != null)
+			{
+				if (card.getAbility().contains("\n") || card.getAbility().contains(","))
+					text += "\"";
+				String ability = card.getAbility();
+				while (ability.contains("\""))
+					ability = ability.replaceFirst("\"", "“").replaceFirst("\"", "”");
+				text += ability;
+				if (card.getAbility().contains("\n") || card.getAbility().contains(","))
+					text += "\"";
+			}
+			text += ",," + card.getArtist() + "," + card.getNumber() + "\\249\n";
+		}
+		FileUtils.write(new File("C:\\MTG\\Cardgen\\cardgen-9.0.14", "data.csv"), text);*/
 
 	/*	String content = "";
 		List<Token> tokens = Lists.newArrayList(Token.values());
@@ -445,6 +521,27 @@ public class Main
 				"https://repo1.maven.org/maven2/io/netty/netty-all/5.0.0.Alpha2/netty-all-5.0.0.Alpha2.jar");
 		detectDependency("com.google.protobuf.Any", new File(dir, "protobuf-java-3.0.0-beta-1.jar"),
 				"https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.0.0-beta-1/protobuf-java-3.0.0-beta-1.jar");
+	}
+
+	@SuppressWarnings("unsued")
+	private static void cropImages(String setCode) throws IOException, InterruptedException
+	{
+		Set set = MySQL.getSet(setCode);
+		for (Card card : set.getCards())
+		{
+			File file = new File("C:\\MTG\\Cardgen\\Pictures\\Main\\EMA", card.getName().get("en") + ".jpg");
+			if (file.exists())
+				continue;
+			System.out.println("Croping " + card.getName().get("en"));
+			Image fromImg = CardImageManager.getImage(card);
+			assert fromImg != null;
+			while (fromImg.getProgress() < 1)
+				Thread.sleep(50L);
+			BufferedImage img = SwingFXUtils.fromFXImage(fromImg, null);
+			BufferedImage crop = new BufferedImage(188, 137, BufferedImage.TYPE_INT_RGB);
+			crop.createGraphics().drawImage(img.getSubimage(17, 35, 188, 137), 0, 0, Color.BLACK, null);
+			ImageIO.write(crop, "JPG", file);
+		}
 	}
 
 	private static void detectDependency(String clazz, File file, String urlDL)

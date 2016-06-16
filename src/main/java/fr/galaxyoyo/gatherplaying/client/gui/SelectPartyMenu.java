@@ -118,6 +118,8 @@ public class SelectPartyMenu extends AbstractController implements Initializable
 				//noinspection unchecked
 				((SortedList<Card>) ((FilteredList<Card>) ((SortedList<Card>) DeckEditor.getEditor().table.getItems()).getSource()).getSource()).getSource().clear();
 			}
+			else
+				Client.show(DraftWindow.class);
 		}
 
 		Client.localPlayer.runningParty = party;

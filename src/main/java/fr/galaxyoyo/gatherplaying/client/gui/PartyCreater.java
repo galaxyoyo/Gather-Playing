@@ -40,7 +40,6 @@ public class PartyCreater extends AbstractController implements Initializable
 		playerNumber.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(2, 2, 2));
 
 		rules.getItems().addAll(Rules.values());
-		rules.getItems().remove(Rules.DRAFT);
 		rules.getSelectionModel().select(Config.getFormat());
 	}
 
@@ -50,7 +49,9 @@ public class PartyCreater extends AbstractController implements Initializable
 		{
 			List<Set> withBoosters = StreamSupport.stream(MySQL.getAllSets()).filter(set -> set.booster != null && set.booster.length > 0).collect(Collectors.toList());
 			withBoosters.sort(((Comparator<Set>) Set::compareTo).reversed());
-			List<Set> chosen = Lists.newArrayList(null, null, null, null, null, null);
+			List<Set> chosen = Lists.newArrayList(null, null, null);
+			if (rules.getValue() == Rules.SEALED)
+				chosen.addAll(Lists.newArrayList(null, null, null));
 			Dialog<Object> dialog = new Dialog<>();
 			dialog.setTitle("Paramètres de la partie limitée");
 			dialog.setHeaderText("Sélectionnez les boosters à jouer");
@@ -105,6 +106,8 @@ public class PartyCreater extends AbstractController implements Initializable
 					//noinspection unchecked
 					((SortedList<Card>) ((FilteredList<Card>) ((SortedList<Card>) DeckEditor.getEditor().table.getItems()).getSource()).getSource()).getSource().clear();
 				}
+				else // Draft
+					Client.show(DraftWindow.class);
 			});
 		}
 		else

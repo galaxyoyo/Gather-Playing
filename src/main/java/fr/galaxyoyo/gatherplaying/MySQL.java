@@ -259,14 +259,7 @@ public class MySQL
 	public static void updateCard(Card card)
 	{
 		delete("cards", Condition.equals(new Value("id_EN", card.getMuId("en"))));
-		try
-		{
-			insertCard(card);
-		}
-		catch (RuntimeException ex)
-		{
-			throw new RuntimeException("Error while updating: " + card, ex.getCause());
-		}
+		insertCard(card);
 	}
 
 	private static void insertCard(Card card)
@@ -274,18 +267,25 @@ public class MySQL
 		Gson gson = new GsonBuilder().registerTypeAdapter(Date.class, CardSerializer.DATE).registerTypeAdapter(SubType.class, CardSerializer.SUBTYPE)
 				.registerTypeAdapter(ManaColor.class, CardSerializer.MANACOLOR).create();
 
-		insert("cards", CARD_COLUMNS, card.getMuId("en"), card.getMuId("de"), card.getMuId("fr"), card.getMuId("it"), card.getMuId("es"), card.getMuId("pt"), card.getMuId("ru"),
-				card.getMuId("cn"), card.getMuId("tw"), card.getMuId("jp"), card.getMuId("ko"), card.getName().get("en"), card.getName().get("de"), card.getName().get("fr"),
-				card.getName().get("it"), card.getName().get("es"), card.getName().get("pt"), card.getName().get("ru"), card.getName().get("cn"), card.getName().get("tw"),
-				card.getName().get("jp"), card.getName().get("ko"), card.getNumber(), card.getMciNumber(), card.getSet().getCode(), card.getType().name().toLowerCase(),
-				gson.toJson(card.getSubtypes()), card.isLegendary(), card.isBasic(), card.isWorld(), card.isSnow(), card.isOngoing(), card.getPower(), card.getToughness(),
-				card.getLoyalty(), gson.toJson(card.getManaCost()).toLowerCase(), card.getCmc(), gson.toJson(card.getColors()).toLowerCase(),
-				gson.toJson(card.getColorIdentity()).toLowerCase(), gson.toJson(card.getVariations()), card.getAbilityMap().get("en"), card.getAbilityMap().get("de"),
-				card.getAbilityMap().get("fr"), card.getAbilityMap().get("it"), card.getAbilityMap().get("es"), card.getAbilityMap().get("pt"), card.getAbilityMap().get("ru"),
-				card.getAbilityMap().get("cn"), card.getAbilityMap().get("tw"), card.getAbilityMap().get("jp"), card.getAbilityMap().get("ko"), card.getFlavorMap().get("en"),
-				card.getFlavorMap().get("de"), card.getFlavorMap().get("fr"), card.getFlavorMap().get("it"), card.getFlavorMap().get("es"), card.getFlavorMap().get("pt"),
-				card.getFlavorMap().get("ru"), card.getFlavorMap().get("cn"), card.getFlavorMap().get("tw"), card.getFlavorMap().get("jp"), card.getFlavorMap().get("ko"),
-				card.getRarity().name().toLowerCase(), card.getLayout().name().toLowerCase(), card.getArtist(), card.getImageName(), card.getWatermark());
+		try
+		{
+			insert("cards", CARD_COLUMNS, card.getMuId("en"), card.getMuId("de"), card.getMuId("fr"), card.getMuId("it"), card.getMuId("es"), card.getMuId("pt"), card.getMuId("ru"),
+					card.getMuId("cn"), card.getMuId("tw"), card.getMuId("jp"), card.getMuId("ko"), card.getName().get("en"), card.getName().get("de"), card.getName().get("fr"),
+					card.getName().get("it"), card.getName().get("es"), card.getName().get("pt"), card.getName().get("ru"), card.getName().get("cn"), card.getName().get("tw"),
+					card.getName().get("jp"), card.getName().get("ko"), card.getNumber(), card.getMciNumber(), card.getSet().getCode(), card.getType().name().toLowerCase(),
+					gson.toJson(card.getSubtypes()), card.isLegendary(), card.isBasic(), card.isWorld(), card.isSnow(), card.isOngoing(), card.getPower(), card.getToughness(),
+					card.getLoyalty(), gson.toJson(card.getManaCost()).toLowerCase(), card.getCmc(), gson.toJson(card.getColors()).toLowerCase(),
+					gson.toJson(card.getColorIdentity()).toLowerCase(), gson.toJson(card.getVariations()), card.getAbilityMap().get("en"), card.getAbilityMap().get("de"),
+					card.getAbilityMap().get("fr"), card.getAbilityMap().get("it"), card.getAbilityMap().get("es"), card.getAbilityMap().get("pt"), card.getAbilityMap().get("ru"),
+					card.getAbilityMap().get("cn"), card.getAbilityMap().get("tw"), card.getAbilityMap().get("jp"), card.getAbilityMap().get("ko"), card.getFlavorMap().get("en"),
+					card.getFlavorMap().get("de"), card.getFlavorMap().get("fr"), card.getFlavorMap().get("it"), card.getFlavorMap().get("es"), card.getFlavorMap().get("pt"),
+					card.getFlavorMap().get("ru"), card.getFlavorMap().get("cn"), card.getFlavorMap().get("tw"), card.getFlavorMap().get("jp"), card.getFlavorMap().get("ko"),
+					card.getRarity().name().toLowerCase(), card.getLayout().name().toLowerCase(), card.getArtist(), card.getImageName(), card.getWatermark());
+		}
+		catch (RuntimeException ex)
+		{
+			throw new RuntimeException("Error while updating: " + card, ex.getCause());
+		}
 	}
 
 	public static Player getPlayer(String email)

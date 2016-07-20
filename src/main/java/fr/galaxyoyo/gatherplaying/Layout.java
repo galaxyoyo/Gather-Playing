@@ -6,8 +6,8 @@ public enum Layout
 
 	public enum MeldPair
 	{
-		BRISELA(0, 0, 0),
-
+		BRISELA(414304, 414319, 414305),
+		CHITTERING_HOST(414391, 414386, 414392),
 		HANWEIR(414428, 414511, 414429);
 
 		private final Card first;
@@ -19,6 +19,17 @@ public enum Layout
 			first = MySQL.getCard(firstId);
 			second = MySQL.getCard(secondId);
 			result = MySQL.getCard(resultId);
+		}
+
+		public static MeldPair getMeldPair(Card card)
+		{
+			for (MeldPair pair : values())
+			{
+				if (pair.getFirst() == card || pair.getSecond() == card || pair.getResult() == card)
+					return pair;
+			}
+
+			return null;
 		}
 
 		public Card getFirst()
@@ -34,17 +45,6 @@ public enum Layout
 		public Card getResult()
 		{
 			return result;
-		}
-
-		public static MeldPair getMeldPair(Card card)
-		{
-			for (MeldPair pair : values())
-			{
-				if (pair.getFirst() == card || pair.getSecond() == card || pair.getResult() == card)
-					return pair;
-			}
-
-			return null;
 		}
 	}
 }

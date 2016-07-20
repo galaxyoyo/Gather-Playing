@@ -57,9 +57,12 @@ public class CardDetailsShower extends AbstractController implements Initializab
 		if (card == null)
 			return;
 		Executors.newSingleThreadExecutor().submit(() -> Platform.runLater(() -> {
-			if (card.getLayout() == Layout.DOUBLE_FACED)
+			if (card.getLayout() == Layout.DOUBLE_FACED || card.getLayout() == Layout.MELD)
 			{
 				int muid = card.getMuId("en") + 1;
+				if (card.getLayout() == Layout.MELD)
+					//noinspection ConstantConditions
+					muid = Layout.MeldPair.getMeldPair(card).getResult().getMuId("en");
 				Card doubleFaced = MySQL.getCard(muid);
 				doubleFacedImage.setImage(CardImageManager.getImage(doubleFaced));
 				if (Utils.isMobile())
@@ -143,9 +146,12 @@ public class CardDetailsShower extends AbstractController implements Initializab
 			html += "<br /><i>" + flavor.replaceAll("#|_", "").replaceAll("\\n|£", "<br/>") + "</i>";
 		html += "</div>";
 
-		if (card.getLayout() == Layout.DOUBLE_FACED)
+		if (card.getLayout() == Layout.DOUBLE_FACED || card.getLayout() == Layout.MELD)
 		{
 			int muid = card.getMuId("en") + 1;
+			if (card.getLayout() == Layout.MELD)
+				//noinspection ConstantConditions
+				muid = Layout.MeldPair.getMeldPair(card).getResult().getMuId("en");
 			Card doubleFaced = MySQL.getCard(muid);
 			html += "<br /><hr /><br /><div style=\"\">";
 			if (doubleFaced.getAbilityMap().get("en") != null)

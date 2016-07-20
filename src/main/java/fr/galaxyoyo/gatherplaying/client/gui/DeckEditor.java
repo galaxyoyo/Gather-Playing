@@ -112,7 +112,7 @@ public class DeckEditor extends AbstractController implements Initializable
 				return false;
 			if (card.getLayout() == Layout.TOKEN)
 				return false;
-			if ((card.getLayout() == Layout.DOUBLE_FACED || card.getLayout() == Layout.FLIP) && card.getManaCost() == null)
+			if ((card.getLayout() == Layout.DOUBLE_FACED || card.getLayout() == Layout.MELD || card.getLayout() == Layout.FLIP) && card.getManaCost() == null)
 				return false;
 			if (filters.getRarity().getSelectionModel().isEmpty() || filters.getColor().getSelectionModel().isEmpty() || filters.getCmc().getSelectionModel().isEmpty() ||
 					filters.getType().getSelectionModel().isEmpty() || filters.getSubtypes().getSelectionModel().isEmpty() || filters.getSet().getSelectionModel().isEmpty())

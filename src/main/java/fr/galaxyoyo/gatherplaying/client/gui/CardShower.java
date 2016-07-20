@@ -115,7 +115,8 @@ public class CardShower extends AnchorPane
 						playHided.setDisable(true);
 					if ((card.getCard().getAbilityMap().get("en") != null &&
 							(card.getCard().getAbilityMap().get("en").contains("Morph") || card.getCard().getAbilityMap().get("en").contains("Manifest"))) ||
-							card.getCard().getLayout() == Layout.DOUBLE_FACED || card.getCard().getLayout() == Layout.SPLIT || card.getCard().getLayout() == Layout.FLIP)
+							card.getCard().getLayout() == Layout.DOUBLE_FACED || card.getCard().getLayout() == Layout.MELD || card.getCard().getLayout() == Layout.SPLIT || card.getCard()
+							.getLayout() == Layout.FLIP)
 						menu.getItems().add(playHided);
 					MenuItem discard = new MenuItem("Défausser");
 					discard.setOnAction(e ->
@@ -277,7 +278,8 @@ public class CardShower extends AnchorPane
 					menu.getItems().add(untap);
 					if (card.isCard() &&
 							((card.getCard().getAbilityMap().get("en") != null && card.getCard().getAbilityMap().get("en").contains("Morph") && card.getRelatedCard() == null) ||
-									card.getCard().getLayout() == Layout.DOUBLE_FACED || card.getCard().getLayout() == Layout.SPLIT || card.getCard().getLayout() == Layout.FLIP))
+									card.getCard().getLayout() == Layout.DOUBLE_FACED || card.getCard().getLayout() == Layout.MELD || card.getCard().getLayout() == Layout.SPLIT || card
+									.getCard().getLayout() == Layout.FLIP))
 					{
 						menu.getItems().add(new SeparatorMenuItem());
 						MenuItem ret = new MenuItem("Retourner");

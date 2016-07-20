@@ -116,7 +116,7 @@ public class Set implements Comparable<Set>
 			{
 				if ((cardData.layout == Layout.DOUBLE_FACED || cardData.layout == Layout.MELD) && cardData.number.endsWith("b"))
 					cardData.multiverseid++;
-				Card card = StreamSupport.stream(cards).filter(c -> c != null && cardData.multiverseid == c.getMuId(language)).findAny().orElse(null);
+				Card card = StreamSupport.stream(cards).filter(c -> c.getMuId(language) != null && cardData.multiverseid == c.getMuId(language)).findAny().orElse(null);
 				if (card == null)
 				{
 					StreamSupport.stream(cards).filter(Card::isBasic).forEach(c -> System.out.println(c.getMuId("fr")));

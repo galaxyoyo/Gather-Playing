@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.ConnectException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
 
@@ -99,7 +100,16 @@ public class Set implements Comparable<Set>
 			return;
 		try
 		{
-			String json = IOUtils.toString(new URL("http://gp.arathia.fr/json/" + code.replace("CON", "CON_") + "." + language + ".json"), "UTF-8");
+			URL url = new URL("http://gp.arathia.fr/json/" + code + "." + language + ".json");
+			HttpURLConnection co = (HttpURLConnection) url.openConnection();
+			co.connect();
+			if (co.getResponseCode() == 404)
+			{
+				co.disconnect();
+				throw new FileNotFoundException();
+			}
+			String json = IOUtils.toString(co.getInputStream(), "UTF-8");
+			co.disconnect();
 			Gson gson = new GsonBuilder().registerTypeAdapter(Layout.class, CardSerializer.LAYOUT).create();
 			LanguageData data = gson.fromJson(json, LanguageData.class);
 			for (CardLanguageData cardData : data.cards)

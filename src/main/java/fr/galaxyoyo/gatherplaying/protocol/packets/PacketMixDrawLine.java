@@ -1,34 +1,47 @@
 package fr.galaxyoyo.gatherplaying.protocol.packets;
 
-import fr.galaxyoyo.gatherplaying.PlayedCard;
-import fr.galaxyoyo.gatherplaying.Side;
-import fr.galaxyoyo.gatherplaying.Utils;
+import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.client.gui.Arrow;
-import fr.galaxyoyo.gatherplaying.client.gui.CardShower;
 import io.netty.buffer.ByteBuf;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Bounds;
+import javafx.scene.Node;
 
 public class PacketMixDrawLine extends Packet
 {
-	public PlayedCard from;
-	public PlayedCard to;
+	public Targetable from;
+	public Targetable to;
 
 	@Override
 	public void read(ByteBuf buf)
 	{
-		from = player.runningParty.getData(readUUID(buf)).getPlayed().get(buf.readInt());
-		to = player.runningParty.getData(readUUID(buf)).getPlayed().get(buf.readInt());
+		PlayerData fromData = player.runningParty.getData(readUUID(buf));
+		byte type = buf.readByte();
+		if (type == 0)
+			from = fromData.getPlayed().get(buf.readInt());
+		else if (type == 1)
+			from = fromData.getHand().get(buf.readInt());
+		else if (type == 2)
+			from = fromData;
+
+		PlayerData toData = player.runningParty.getData(readUUID(buf));
+		type = buf.readByte();
+		if (type == 0)
+			to = toData.getPlayed().get(buf.readInt());
+		else if (type == 1)
+			to = toData.getHand().get(buf.readInt());
+		else if (type == 2)
+			to = toData;
 
 		if (Utils.getSide() == Side.SERVER)
 			sendToParty();
 		else
 		{
 			Platform.runLater(() -> {
-				CardShower fromShower = CardShower.getShower(from);
-				CardShower toShower = CardShower.getShower(to);
+				Node fromShower = from.getVisible();
+				Node toShower = to.getVisible();
 				Arrow arrow = new Arrow();
 				ChangeListener<Object> listener = (observable, oldValue, newValue) -> {
 					Bounds fromBounds = fromShower.localToScene(fromShower.getBoundsInLocal());
@@ -49,9 +62,46 @@ public class PacketMixDrawLine extends Packet
 	@Override
 	public void write(ByteBuf buf)
 	{
-		writeUUID(from.getController().uuid, buf);
-		buf.writeInt(player.runningParty.getData(from.getController()).getPlayed().indexOf(from));
-		writeUUID(to.getController().uuid, buf);
-		buf.writeInt(player.runningParty.getData(to.getController()).getPlayed().indexOf(to));
+		if (from instanceof PlayedCard)
+		{
+			if (!((PlayedCard) from).isHand())
+			{
+				writeUUID(((PlayedCard) from).getController().uuid, buf);
+				buf.writeByte(0);
+				buf.writeInt(player.runningParty.getData(((PlayedCard) from).getController()).getPlayed().indexOf(from));
+			}
+			else
+			{
+				writeUUID(((OwnedCard) from).getOwner().uuid, buf);
+				buf.writeByte(1);
+				buf.writeInt(((OwnedCard) from).getOwner().getData().getHand().indexOf(from));
+			}
+		}
+		else if (from instanceof PlayerData)
+		{
+			writeUUID(((PlayerData) from).getPlayer().uuid, buf);
+			buf.writeByte(2);
+		}
+
+		if (to instanceof PlayedCard)
+		{
+			if (!((PlayedCard) to).isHand())
+			{
+				writeUUID(((PlayedCard) to).getController().uuid, buf);
+				buf.writeByte(0);
+				buf.writeInt(player.runningParty.getData(((PlayedCard) to).getController()).getPlayed().indexOf(to));
+			}
+			else
+			{
+				writeUUID(((OwnedCard) to).getOwner().uuid, buf);
+				buf.writeByte(1);
+				buf.writeInt(((OwnedCard) to).getOwner().getData().getHand().indexOf(to));
+			}
+		}
+		else if (to instanceof PlayerData)
+		{
+			writeUUID(((PlayerData) to).getPlayer().uuid, buf);
+			buf.writeByte(2);
+		}
 	}
 }

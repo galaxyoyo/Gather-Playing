@@ -64,7 +64,7 @@ public class PacketMixPlayFounded extends Packet
 				played.setDefaultStats();
 				break;
 			case EXILE:
-				data.getExile().add(card);
+				data.getExile().add(new PlayedCard(card));
 				if (Utils.getSide() == Side.CLIENT)
 					if (card.getOwner() == player)
 						GameMenu.instance().playerInfos.exile(new PlayedCard(card));
@@ -72,7 +72,7 @@ public class PacketMixPlayFounded extends Packet
 						GameMenu.instance().adverseInfos.exile(new PlayedCard(card));
 				break;
 			case GRAVEYARD:
-				data.getGraveyard().add(card);
+				data.getGraveyard().add(new PlayedCard(card));
 				if (Utils.getSide() == Side.CLIENT)
 					if (card.getOwner() == player)
 						GameMenu.instance().playerInfos.graveyard(new PlayedCard(card));
@@ -80,13 +80,13 @@ public class PacketMixPlayFounded extends Packet
 						GameMenu.instance().adverseInfos.graveyard(new PlayedCard(card));
 				break;
 			case HAND:
-				data.getHand().add(card);
+				data.getHand().add(new PlayedCard(card));
 				if (Utils.getSide() == Side.CLIENT)
 				{
 					if (player == card.getOwner())
-						Platform.runLater(() -> GameMenu.instance().hand.getChildren().add(new CardShower(card)));
+						Platform.runLater(() -> GameMenu.instance().hand.getChildren().add(new CardShower(new PlayedCard(card))));
 					else
-						Platform.runLater(() -> GameMenu.instance().adverseHand.getChildren().add(new CardShower(card)));
+						Platform.runLater(() -> GameMenu.instance().adverseHand.getChildren().add(new CardShower(new PlayedCard(card))));
 				}
 				break;
 			case UP_LIBRARY:

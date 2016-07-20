@@ -17,6 +17,8 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.StringReader;
+import java.net.ConnectException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -28,7 +30,7 @@ import java.util.regex.Pattern;
 
 public class MySQL
 {
-	private static final Map<String, Card> cards = Maps.newHashMap();
+	private static final Map<Integer, Card> cards = Maps.newHashMap();
 	private static final Map<String, Set> sets = Maps.newHashMap();
 	private static final String BOOLEAN = "BOOLEAN";
 	private static final String INTEGER = "INT";
@@ -179,7 +181,39 @@ public class MySQL
 			for (String locale : LOCALES)
 			{
 				card.getName().put(locale, set.getString("name_" + locale.toUpperCase()));
-				card.getMuId().put(locale, set.getString("id_" + locale.toUpperCase()));
+				String id = set.getString("id_" + locale.toUpperCase());
+		/*		if (id != null && id.equals("20574b"))
+					id = "20574";
+				else if (id != null && id.equals("20576b"))
+					id = "20576";
+				else if (id != null && id.equals("20578b"))
+					id = "20578";
+				else if (id != null && id.equals("20580b"))
+					id = "20580";
+				else if (id != null && id.equals("20582b"))
+					id = "20582";
+				else if (id != null && id.equals("26691b"))
+					id = "26691";
+				else if (id != null && id.equals("27161b"))
+					id = "27161";
+				else if (id != null && id.equals("27162b"))
+					id = "27162";
+				else if (id != null && id.equals("27164b"))
+					id = "27164";
+				else if (id != null && id.equals("27166b"))
+					id = "27166";
+				else if (id != null && id.equals("27168b"))
+					id = "27168";
+				else if (id != null && id.equals("78600b"))
+					id = "78600";
+				else if (id != null && id.equals("78695b"))
+					id = "78695";
+				else if (id != null && id.equals("78686b"))
+					id = "78686";
+				else */if (id != null && (id.contains("b") || id.contains("c") || id.contains("d") || id.contains("e")))
+					id = Integer.toString(Integer.parseInt(id.replaceAll("[^\\d]", "")) + 1);
+				if (id != null)
+					card.getMuId().put(locale, Integer.parseInt(id));
 				card.getAbilityMap().put(locale, set.getString("ability_" + locale.toUpperCase()));
 				card.getFlavorMap().put(locale, set.getString("flavor_" + locale.toUpperCase()));
 			}
@@ -187,9 +221,10 @@ public class MySQL
 			card.setNumber(set.getString("number"));
 			card.setMciNumber(set.getString("mci_number"));
 			card.setSet(sets.get(ed));
-			//	System.out.println(ed + ", " + sets.get(ed).getCode());
 			if (sets.get(ed) == null)
 				System.err.println(ed);
+			if (card.getSet().isPreview())
+				card.setPreview();
 			card.getSet().getCards().add(card);
 			card.setType(cardTypes.get(set.getString("type").toUpperCase()));
 			card.setSubtypes(gson.fromJson(set.getString("subtypes"), SubType[].class));
@@ -220,8 +255,6 @@ public class MySQL
 		}
 		return card;
 	}
-
-	private static void insertSingleCard(Card card) { insertCard(card); }
 
 	public static void updateCard(Card card)
 	{
@@ -314,6 +347,34 @@ public class MySQL
 			ex.printStackTrace();
 			return -1;
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static Deck getDeck(UUID uuid)
+	{
+		Gson gson = new GsonBuilder().registerTypeAdapter(OwnedCard.class, CardSerializer.OWNEDCARD).create();
+		try
+		{
+			ResultSet set = query("decks", Condition.equals(new Value("uuid", uuid)));
+			assert set != null;
+			set.next();
+			Deck deck = new Deck();
+			deck.setUuid(java.util.UUID.fromString(set.getString("uuid")));
+			deck.setFree(set.getBoolean("free"));
+			deck.setName(set.getString("name"));
+			deck.setDesc(set.getString("desc"));
+			deck.setCards(FXCollections.observableSet((java.util.Set<OwnedCard>) gson.fromJson(set.getString("cards"), new TypeToken<HashSet<OwnedCard>>() {}.getType())));
+			deck.setSideboard(FXCollections.observableSet((java.util.Set<OwnedCard>) gson.fromJson(set.getString("sideboard"), new TypeToken<HashSet<OwnedCard>>() {}.getType
+					())));
+			deck.setColors(gson.fromJson(set.getString("colors"), ManaColor[].class));
+			deck.setLegalities(gson.fromJson(set.getString("legalities"), new TypeToken<HashSet<Rules>>() {}.getType()));
+			return deck;
+		}
+		catch (SQLException ex)
+		{
+			ex.printStackTrace();
+		}
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -528,7 +589,15 @@ public class MySQL
 				createTable("cards", columns.toArray(new Column[columns.size()]));
 			}
 			Loading.setLabel("Détection des paramètres");
-			String actualDBVersion = IOUtils.toString(new URL("http://" + (Utils.DEBUG ? "localhost/gatherplaying" : "gp.arathia.fr") + "/DB_VERSION.php"));
+			String actualDBVersion = "1.0";
+			try
+			{
+				actualDBVersion = IOUtils.toString(new URL("http://" + (Utils.DEBUG ? "localhost/gatherplaying" : "gp.arathia.fr") + "/DB_VERSION.php"));
+			}
+			catch (IOException ex)
+			{
+				System.err.println("Error while checking DB version.");
+			}
 			if (!checkexists("config"))
 			{
 				Loading.setLabel("Création de la table des paramètres ...");
@@ -571,6 +640,8 @@ public class MySQL
 				set.setFinishedTranslations(setsSet.getString("finished_translations"));
 				set.setMKMId(setsSet.getInt("mkm_id"));
 				set.setMKMName(setsSet.getString("mkm_name"));
+				if (set.getReleaseDate().getTime() - System.currentTimeMillis() > 864000000L)
+					set.setPreview();
 				sets.put(set.getCode(), set);
 				Loading.setLabel(setsSet.getRow() + " extensions chargées");
 			}
@@ -590,10 +661,14 @@ public class MySQL
 			try
 			{
 				setCodes = gson.fromJson(IOUtils.toString(new URL("http://gp.arathia.fr/json/SetCodes.json")), String[].class);
+			/*	HttpURLConnection co = (HttpURLConnection) new URL("https://mtgjson.com/json/SetCodes.json").openConnection();
+				co.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0");
+				setCodes = gson.fromJson(IOUtils.toString(co.getInputStream()), String[].class);*/
 			}
 			catch (IOException ex)
 			{
-				ex.printStackTrace();
+				if (!(ex instanceof ConnectException))
+					ex.printStackTrace();
 				setCodes = new String[sets.size()];
 				int i = 0;
 				for (Iterator<Set> $i = sets.values().iterator(); i < sets.size() && $i.hasNext(); ++i)
@@ -614,6 +689,9 @@ public class MySQL
 				Loading.setLabel("Installation de l'édition " + code + " ...");
 				timestamp = System.currentTimeMillis();
 				String jsoned = IOUtils.toString(new URL("http://gp.arathia.fr/json/" + code + ".json"), StandardCharsets.UTF_8);
+			/*	HttpURLConnection co = (HttpURLConnection) new URL("https://mtgjson.com/json/" + code + "-x.json").openConnection();
+				co.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0");
+				String jsoned = IOUtils.toString(co.getInputStream());*/
 				System.out.println("Time to download : " + (System.currentTimeMillis() - timestamp) + " ms");
 				timestamp = System.currentTimeMillis();
 				Set set = Set.read(jsoned);
@@ -622,11 +700,7 @@ public class MySQL
 				sets.put(set.getCode(), set);
 				for (Card card : set.getCards())
 				{
-					String muId = card.getMuId().get("en");
-					if (cards.containsKey(muId))
-						muId += "b";
-					while (cards.containsKey(muId))
-						muId = muId.substring(0, muId.length() - 1) + (char) (muId.charAt(muId.length() - 1) + 1);
+					int muId = card.getMuId().get("en");
 					card.getMuId().put("en", muId);
 					insertSingleCard(card);
 					cards.put(muId, card);
@@ -712,7 +786,7 @@ public class MySQL
 									continue;
 								System.out.println(Arrays.toString(card.getVariations()));
 								if (card.getVariations() != null)
-									card = getCard(String.valueOf(card.getVariations()[Math.min(ver, card.getVariations().length) - 1]));
+									card = getCard(card.getVariations()[Math.min(ver, card.getVariations().length) - 1]);
 								System.out.println(card);
 							}
 							else
@@ -794,11 +868,31 @@ public class MySQL
 
 	public static Collection<Card> getAllCards() { return cards.values(); }
 
-	public static Card getCard(String muId) { return cards.get(muId); }
+	public static Card getCard(int muId) { return cards.get(muId); }
 
 	public static Set getSet(String code) { return sets.get(code); }
 
 	public static Collection<Set> getAllSets() { return sets.values(); }
+
+	public static void addCard(Card card)
+	{
+		cards.put(card.getMuId("en"), card);
+		insertSingleCard(card);
+	}
+
+	private static void insertSingleCard(Card card) { insertCard(card); }
+
+	public static void addSet(Set set)
+	{
+		sets.put(set.getCode(), set);
+		insert("sets", new String[]{"name", "name_DE", "name_FR", "name_IT", "name_ES", "name_PT", "name_JP", "name_CN", "name_TW", "name_KO", "code", "magic_cards_info_code",
+						"release_date", "type", "block", "booster", "border", "finished_translations", "mkm_id", "mkm_name"}, set.getName(), set.translations.get("de"), set
+						.translations.get("fr"), set.translations.get("it"), set.translations.get("es"), set.translations.get("pt"), set.translations.get("jp"), set
+						.translations.get("cn"), set.translations.get("tw"), set.translations.get("ko"), set.getCode(), set.getMagicCardsInfoCode(), CardSerializer.DATE.serialize(set
+						.getReleaseDate(),
+				Date.class, null).getAsString(), set.getType(), set.getBlock(), new Gson().toJson(set.booster), set.getBorder(), set.getFinishedTranslations(), set.getMKMId(),
+				set.getMKMName());
+	}
 
 	private static class Column
 	{

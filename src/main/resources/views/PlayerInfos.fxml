@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/null" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.PlayerInfos">
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/null" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.PlayerInfos" fx:id="parent">
     <Label fx:id="name" alignment="CENTER" style="-fx-background-color: lightgray;" textAlignment="CENTER"/>
     <GridPane>
         <Button fx:id="minus1Life" alignment="CENTER" maxWidth="1.7976931348623157E308" style="-fx-background-radius: 0px; -fx-font-size: 10px;" text="-1"

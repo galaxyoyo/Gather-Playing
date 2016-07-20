@@ -71,11 +71,21 @@ tasks.withType(Zip) { task ->
 run {
     if (project.hasProperty("appArgs")) {
         args Eval.me(appArgs)
-        if (side == 'server')
-            workingDir 'C:\\IDEA Workspace\\Gather Playing\\server'
-        else if (side == 'client')
-            workingDir 'C:\\IDEA Workspace\\Gather Playing\\client'
-        else
-            workingDir 'C:\\IDEA Workspace\\Gather Playing\\client 2'
+        if (System.getProperty("os.name").toLowerCase().contains("win")) {
+            if (side == 'server')
+                workingDir 'C:\\IDEA Workspace\\Gather Playing\\server'
+            else if (side == 'client')
+                workingDir 'C:\\IDEA Workspace\\Gather Playing\\client'
+            else
+                workingDir 'C:\\IDEA Workspace\\Gather Playing\\client 2'
+        }
+        else {
+            if (side == 'server')
+                workingDir '/media/galaxyoyo/02BCCE48BCCE35C7/IDEA Workspace/Gather Playing/server'
+            else if (side == 'client')
+                workingDir '/media/galaxyoyo/02BCCE48BCCE35C7/IDEA Workspace/Gather Playing/client'
+            else
+                workingDir '/media/galaxyoyo/02BCCE48BCCE35C7/IDEA Workspace/Gather Playing/client 2'
+        }
     }
 }

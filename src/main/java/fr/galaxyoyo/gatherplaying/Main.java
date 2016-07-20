@@ -83,6 +83,7 @@ public class Main
 			});
 		}
 		MySQL.init();
+		Utils.startNetty();
 
 	/*	String text = "// NAME: Eternal Masters\n// \n// This deck file wasn't generated.\n// \n";
 		Set set = MySQL.getSet("EMA");
@@ -180,7 +181,7 @@ public class Main
 		FileUtils.writeStringToFile(new File("tokens.txt"), content);
 		System.exit(0);*/
 		//	PreconstructedDeck.loadAll();
-		Utils.startNetty();
+		//	Utils.startNetty();
 
 	/*	Platform.runLater(() -> {
 			Set set = MySQL.getSet("SOI");
@@ -523,27 +524,6 @@ public class Main
 				"https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.0.0-beta-1/protobuf-java-3.0.0-beta-1.jar");
 	}
 
-	@SuppressWarnings("unsued")
-	private static void cropImages(String setCode) throws IOException, InterruptedException
-	{
-		Set set = MySQL.getSet(setCode);
-		for (Card card : set.getCards())
-		{
-			File file = new File("C:\\MTG\\Cardgen\\Pictures\\Main\\EMA", card.getName().get("en") + ".jpg");
-			if (file.exists())
-				continue;
-			System.out.println("Croping " + card.getName().get("en"));
-			Image fromImg = CardImageManager.getImage(card);
-			assert fromImg != null;
-			while (fromImg.getProgress() < 1)
-				Thread.sleep(50L);
-			BufferedImage img = SwingFXUtils.fromFXImage(fromImg, null);
-			BufferedImage crop = new BufferedImage(188, 137, BufferedImage.TYPE_INT_RGB);
-			crop.createGraphics().drawImage(img.getSubimage(17, 35, 188, 137), 0, 0, Color.BLACK, null);
-			ImageIO.write(crop, "JPG", file);
-		}
-	}
-
 	private static void detectDependency(String clazz, File file, String urlDL)
 	{
 		try
@@ -592,6 +572,25 @@ public class Main
 		catch (Throwable t)
 		{
 			t.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings("unsued")
+	private static void cropImages(String setCode) throws IOException, InterruptedException
+	{
+		File dir = new File("C:\\MTG\\Cardgen\\Pictures\\Main", setCode);
+		File localDir = new File("pics", setCode);
+		//noinspection ConstantConditions
+		for (File local : localDir.listFiles())
+		{
+			File file = new File(dir, local.getName());
+			if (file.exists())
+				continue;
+			System.out.println("Croping " + local.getName().replace(".png", ""));
+			BufferedImage img = ImageIO.read(local);
+			BufferedImage crop = new BufferedImage(188, 137, BufferedImage.TYPE_INT_RGB);
+			crop.createGraphics().drawImage(img.getSubimage(17, 35, 188, 137), 0, 0, Color.BLACK, null);
+			ImageIO.write(crop, "JPG", file);
 		}
 	}
 

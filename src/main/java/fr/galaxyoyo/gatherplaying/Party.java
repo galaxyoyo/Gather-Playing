@@ -30,6 +30,7 @@ public class Party
 	private SpellTimer currentSpell;
 	private ObservableMap<Player, PlayerData> datas = FXCollections.observableHashMap();
 	private Phase currentPhase = Phase.MAIN;
+	private Combat combat;
 	private boolean started = false;
 	private List<Set> boosters;
 	private int draftBoosterSize;
@@ -98,7 +99,7 @@ public class Party
 				for (int i = 0; i < 7; ++i)
 				{
 					OwnedCard card = getData(p).getLibrary().drawCard();
-					getData(p).getHand().add(card);
+					getData(p).getHand().add(new PlayedCard(card));
 					draw.cards.add(card);
 				}
 				PacketManager.sendPacketToParty(this, draw);
@@ -201,6 +202,10 @@ public class Party
 			for (PlayedCard card : getData(player).getPlayed())
 				card.setSummoningSickness(false);
 		}
+		if (combat == null && phase.isCombat())
+			combat = new Combat(this);
+		else if (combat != null && !phase.isCombat())
+			combat = null;
 		if (Utils.getSide() == Side.CLIENT)
 			return;
 		Server.sendChat(this, "text.phase.prefix", null, "text.phase." + phase.name().toLowerCase());
@@ -226,7 +231,7 @@ public class Party
 			pkt.count = 1;
 			pkt.cards = Lists.newArrayList();
 			OwnedCard card = getData(player).getLibrary().drawCard();
-			getData(player).getHand().add(card);
+			getData(player).getHand().add(new PlayedCard(card));
 			pkt.cards.add(card);
 			PacketManager.sendPacketToParty(this, pkt);
 			nextPhase();

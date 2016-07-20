@@ -17,7 +17,7 @@ public class PacketMixInvokeToken extends Packet
 	@Override
 	public void read(ByteBuf buf)
 	{
-		token = Token.values()[buf.readByte()];
+		token = Token.values()[buf.readShort()];
 		p = player.runningParty.getPlayer(readUUID(buf));
 		PlayedCard card = new PlayedCard(token, p);
 		player.runningParty.getData(p).getPlayed().add(card);
@@ -55,7 +55,7 @@ public class PacketMixInvokeToken extends Packet
 	@Override
 	public void write(ByteBuf buf)
 	{
-		buf.writeByte(token.ordinal());
+		buf.writeShort(token.ordinal());
 		writeUUID(p.uuid, buf);
 	}
 }

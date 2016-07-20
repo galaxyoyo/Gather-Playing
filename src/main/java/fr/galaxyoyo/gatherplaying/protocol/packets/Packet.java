@@ -31,7 +31,7 @@ public abstract class Packet implements Cloneable
 		buf.writeLong(uuid.getLeastSignificantBits());
 	}
 
-	public final Card readCard(ByteBuf buf) { return MySQL.getCard(readUTF(buf)); }
+	public final Card readCard(ByteBuf buf) { return MySQL.getCard(buf.readInt()); }
 
 	public final String readUTF(ByteBuf buf)
 	{
@@ -43,7 +43,7 @@ public abstract class Packet implements Cloneable
 		return new String(array, StandardCharsets.UTF_8);
 	}
 
-	public final void writeCard(Card card, ByteBuf buf) { writeUTF(card.getMuId("en"), buf); }
+	public final void writeCard(Card card, ByteBuf buf) { buf.writeInt(card.getMuId("en")); }
 
 	public final void writeUTF(String utf, ByteBuf buf)
 	{

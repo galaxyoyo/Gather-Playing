@@ -17,10 +17,10 @@ import java.util.Map;
 
 public class CardImageManager
 {
-	private static final Map<String, Image> images = Maps.newHashMap();
-	private static final Map<String, Image> imagesHQ = Maps.newHashMap();
+	private static final Map<Integer, Image> images = Maps.newHashMap();
+	private static final Map<Integer, Image> imagesHQ = Maps.newHashMap();
 	@SuppressWarnings("unused")
-	private static final Map<String, Image> generateds = Maps.newHashMap();
+	private static final Map<Integer, Image> generateds = Maps.newHashMap();
 	private static final Map<Token, Image> tokens = Maps.newHashMap();
 	private static final Map<String, Image> icons = Maps.newHashMap();
 	private static final File DIR = Utils.newFile("pics");
@@ -38,7 +38,7 @@ public class CardImageManager
 
 	public static Image getImage(Card card)
 	{
-		String muId = card == null ? null : card.getMuId("en");
+		Integer muId = card == null ? null : card.getMuId("en");
 		String locale = Config.getLocaleCode();
 		if (!Config.getHqCards() && images.containsKey(card == null ? "" : muId))
 			return images.get(card == null ? "" : muId);
@@ -106,23 +106,14 @@ public class CardImageManager
 					}
 				}
 
-				if (muId.contains("_"))
-					url = new URL("http://magiccards.info/scans/" + (card.getName().get(locale) != null ? "fr" : "en") + "/" + card.getSet().getMagicCardsInfoCode() + "/" +
-							MoreObjects.firstNonNull(card.getMciNumber(), card.getNumber()) + ".jpg");
-				else
-					url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" +
-							(card.getMuId(locale) != null ? card.getMuId(locale) : muId.replaceAll("[^\\d]", "")) + "&type=card");
+				url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + (card.getMuId(locale) != null ? card.getMuId(locale) : muId) + "&type=card");
 			}
 			HttpURLConnection co = (HttpURLConnection) url.openConnection();
 			co.connect();
 			if (card != null && (co.getResponseCode() == 404 || co.getContentLength() == 73739L || co.getContentLength() == 0L))
 			{
 				co.disconnect();
-				if (muId.contains("_"))
-					co = (HttpURLConnection) new URL(url.toString().replace("fr", "en")).openConnection();
-				else
-					co = (HttpURLConnection) new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + muId.replaceAll("[^\\d]", "") + "&type=card")
-							.openConnection();
+				co = (HttpURLConnection) new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + muId+ "&type=card").openConnection();
 				co.connect();
 			}
 			Image img = new Image(co.getURL().toString(), 0, 0, true, true, true);

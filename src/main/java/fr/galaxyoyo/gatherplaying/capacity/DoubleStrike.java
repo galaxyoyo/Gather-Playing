@@ -2,9 +2,9 @@ package fr.galaxyoyo.gatherplaying.capacity;
 
 import fr.galaxyoyo.gatherplaying.PlayedCard;
 
-public class DeathTouch extends Capacity
+public class DoubleStrike extends Capacity
 {
-	public DeathTouch(PlayedCard card)
+	public DoubleStrike(PlayedCard card)
 	{
 		super(card);
 	}

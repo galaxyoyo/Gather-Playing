@@ -1,52 +1,73 @@
 package fr.galaxyoyo.gatherplaying;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 import fr.galaxyoyo.gatherplaying.client.I18n;
 import java8.util.stream.Collectors;
 import java8.util.stream.RefStreams;
+import java8.util.stream.StreamSupport;
 import javafx.beans.binding.StringBinding;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static fr.galaxyoyo.gatherplaying.CardType.*;
 
 public enum Token
 {
+	// La lune hermétique (EMN)
+	ELDRAZI_HORROR(CREATURE_TOKEN, "EMN", "1", 3, 2, ManaColor.COLORLESS, new SubType[]{SubType.valueOf("Eldrazi"), SubType.valueOf("Horror")}, 414311, 414313, 414352, 414375,
+			414437, 414457, 414459, 414314, 414429, 414471),
+	HUMAN_WIZARD(CREATURE_TOKEN, "EMN", "2", 1, 1, ManaColor.BLUE, new SubType[]{SubType.valueOf("Human"), SubType.valueOf("Wizard")}, 414349, 414350),
+	ZOMBIE_29(CREATURE_TOKEN, "EMN", "3", 2, 2, ManaColor.BLACK, SubType.valueOf("Zombie"), 414381, 414382, 414385, 414388, 414394, 414395),
+	ZOMBIE_30(CREATURE_TOKEN, "EMN", "4", 2, 2, ManaColor.BLACK, SubType.valueOf("Zombie"), 414381, 414382, 414385, 414388, 414394, 414395),
+	ZOMBIE_31(CREATURE_TOKEN, "EMN", "5", 2, 2, ManaColor.BLACK, SubType.valueOf("Zombie"), 414381, 414382, 414385, 414388, 414394, 414395),
+	ZOMBIE_32(CREATURE_TOKEN, "EMN", "6", 0, 0, ManaColor.BLACK, SubType.valueOf("Zombie"), 414506),
+	HUMAN_4(CREATURE_TOKEN, "EMN", "7", 1, 1, ManaColor.RED, SubType.valueOf("Human"), 414428),
+	SPIDER_6(CREATURE_TOKEN, "EMN", "8", "Reach", "Portée", 1, 2, ManaColor.GREEN, SubType.valueOf("Spider"), 414463),
+	LILIANA_THE_LAST_HOPE(EMBLEM, "EMN", "9", "At the beginning of your end step, put X 2/2 black Zombie creature tokens onto the battlefield, where X is two plus the number of " +
+			"Zombies you control.", "Au début de votre étape de fin, mettez sur le champ de bataille X jetons de créature 2/2 noire Zombie, X étant deux plus le nombre de zombies " +
+			"que" +
+			" vous contrôlez.", SubType.valueOf("Liliana"), 414388),
+	TAMIYO_FIELD_RESEARCHER(EMBLEM, "EMN", "10", "You may cast nonland cards from your hand without paying their mana costs.",
+			"Vous pouvez lancer des cartes non-terrain depuis votre main sans payer leur coût de mana.", SubType.valueOf("Tamiyo"), 414495),
+
 	// Eternal Masters (EMA)
-	SPIRIT_18(CREATURE_TOKEN, "EMA", "1", 1, 1, ManaColor.COLORLESS, SubType.valueOf("Spirit"), "413714"),
-	SOLDIER_21(CREATURE_TOKEN, "EMA", "2", 1, 1, ManaColor.WHITE, SubType.valueOf("Soldier"), "413566"),
-	SPIRIT_19(CREATURE_TOKEN, "EMA", "3", "Flying", "Vol", 1, 1, ManaColor.WHITE, SubType.valueOf("Spirit"), "413553"),
-	WALL(CREATURE_TOKEN, "EMA", "4", "Defender", "Défenseur", 5, 5, ManaColor.BLUE, SubType.valueOf("Wall"), "413617"),
-	SERF(CREATURE_TOKEN, "EMA", "5", 0, 1, ManaColor.BLACK, SubType.valueOf("Serf"), "413647"),
-	ZOMBIE_28(CREATURE_TOKEN, "EMA", "6", 2, 2, ManaColor.BLACK, SubType.valueOf("Zombie"), "413658"),
-	CARNIVORE(CREATURE_TOKEN, "EMA", "7", 3, 1, ManaColor.RED, SubType.valueOf("Beast"), "413693"),
+	SPIRIT_18(CREATURE_TOKEN, "EMA", "1", 1, 1, ManaColor.COLORLESS, SubType.valueOf("Spirit"), 413714),
+	SOLDIER_21(CREATURE_TOKEN, "EMA", "2", 1, 1, ManaColor.WHITE, SubType.valueOf("Soldier"), 413566),
+	SPIRIT_19(CREATURE_TOKEN, "EMA", "3", "Flying", "Vol", 1, 1, ManaColor.WHITE, SubType.valueOf("Spirit"), 413553),
+	WALL(CREATURE_TOKEN, "EMA", "4", "Defender", "Défenseur", 5, 5, ManaColor.BLUE, SubType.valueOf("Wall"), 413617),
+	SERF(CREATURE_TOKEN, "EMA", "5", 0, 1, ManaColor.BLACK, SubType.valueOf("Serf"), 413647),
+	ZOMBIE_28(CREATURE_TOKEN, "EMA", "6", 2, 2, ManaColor.BLACK, SubType.valueOf("Zombie"), 413658),
+	CARNIVORE(CREATURE_TOKEN, "EMA", "7", 3, 1, ManaColor.RED, SubType.valueOf("Beast"), 413693),
 	DRAGON_14(CREATURE_TOKEN, "EMA", "8", "Flying\n{R}: This creature gets +1/+0 until end of turn.", "Vol\n{R} : Cette créature gagne +1/+0 jusqu'à la fin du tour.",
-			2, 2, ManaColor.RED, SubType.valueOf("Dragon"), "413668"),
-	ELEMENTAL_22(CREATURE_TOKEN, "EMA", "9", 1, 1, ManaColor.RED, SubType.valueOf("Elemental"), "413697"),
-	GOBLIN_17(CREATURE_TOKEN, "EMA", "10", 1, 1, ManaColor.RED, SubType.valueOf("Goblin"), "413661", "413681", "413689"),
-	ELEPHANT_8(CREATURE_TOKEN, "EMA", "11", 3, 3, ManaColor.GREEN, SubType.valueOf("Elephant"), "413705"),
-	ELF_WARRIOR_6(CREATURE_TOKEN, "EMA", "12", 1, 1, ManaColor.GREEN, new SubType[]{SubType.valueOf("Elf"), SubType.valueOf("Warrior")}, "413715", "413718"),
-	WURM_9(CREATURE_TOKEN, "EMA", "13", 6, 6, new ManaColor[]{ManaColor.BLACK, ManaColor.GREEN}, SubType.valueOf("Wurm"), "413724"),
-	ELEMENTAL_23(CREATURE_TOKEN, "EMA", "14", 5, 5, new ManaColor[]{ManaColor.BLUE, ManaColor.RED}, SubType.valueOf("Elemental"), "413756"),
+			2, 2, ManaColor.RED, SubType.valueOf("Dragon"), 413668),
+	ELEMENTAL_22(CREATURE_TOKEN, "EMA", "9", 1, 1, ManaColor.RED, SubType.valueOf("Elemental"), 413697),
+	GOBLIN_17(CREATURE_TOKEN, "EMA", "10", 1, 1, ManaColor.RED, SubType.valueOf("Goblin"), 413661, 413681, 413689),
+	ELEPHANT_8(CREATURE_TOKEN, "EMA", "11", 3, 3, ManaColor.GREEN, SubType.valueOf("Elephant"), 413705),
+	ELF_WARRIOR_6(CREATURE_TOKEN, "EMA", "12", 1, 1, ManaColor.GREEN, new SubType[]{SubType.valueOf("Elf"), SubType.valueOf("Warrior")}, 413715, 413718),
+	WURM_9(CREATURE_TOKEN, "EMA", "13", 6, 6, new ManaColor[]{ManaColor.BLACK, ManaColor.GREEN}, SubType.valueOf("Wurm"), 413724),
+	ELEMENTAL_23(CREATURE_TOKEN, "EMA", "14", 5, 5, new ManaColor[]{ManaColor.BLUE, ManaColor.RED}, SubType.valueOf("Elemental"), 413756),
 	GOBLIN_SOLDIER_3(CREATURE_TOKEN, "EMA", "15", 1, 1, new ManaColor[]{ManaColor.RED, ManaColor.WHITE}, new SubType[]{SubType.valueOf("Goblin"),
-			SubType.valueOf("Soldier")}, "413745"),
+			SubType.valueOf("Soldier")}, 413745),
 	DACK_FAYDEN_2(EMBLEM, "EMA", "16", "Whenever you cast a spell that targets one or more permanents, gain control of those permanents.",
-			"À chaque fois que vous lancez un sort qui cible un ou plusieurs permanents, acquérez le contrôle de ces permanents.", SubType.valueOf("Dack"), "413741"),
+			"À chaque fois que vous lancez un sort qui cible un ou plusieurs permanents, acquérez le contrôle de ces permanents.", SubType.valueOf("Dack"), 413741),
 
 	// Ténèbres sur Innistrad (SOI)
-	ANGEL_12(CREATURE_TOKEN, "SOI", "1", "Flying", "Vol", 4, 4, ManaColor.WHITE, SubType.valueOf("Angel"), "409751", "410011"),
-	HUMAN_SOLDIER(CREATURE_TOKEN, "SOI", "2", 1, 1, ManaColor.WHITE, new SubType[]{SubType.valueOf("Human"), SubType.valueOf("Soldier")}, "410015", "409780", "410000"),
-	SPIRIT_17(CREATURE_TOKEN, "SOI", "3", "Flying", "Vol", 1, 1, ManaColor.WHITE, SubType.valueOf("Spirit"), "409749", "409753", "409755", "409769", "409768", "410031", "409789"),
-	VAMPIRE_KNIGHT(CREATURE_TOKEN, "SOI", "4", "Lifelink", "Lien de vie", 1, 1, ManaColor.WHITE, new SubType[]{SubType.valueOf("Vampire"), SubType.valueOf("Knight")}, "409850",
-			"410016"),
-	ZOMBIE_27(CREATURE_TOKEN, "SOI", "5", 2, 2, ManaColor.BLACK, SubType.valueOf("Zombie"), "409854", "409800", "409859", "409860", "409862", "409826", "409884"),
+	ANGEL_12(CREATURE_TOKEN, "SOI", "1", "Flying", "Vol", 4, 4, ManaColor.WHITE, SubType.valueOf("Angel"), 409751, 410011),
+	HUMAN_SOLDIER(CREATURE_TOKEN, "SOI", "2", 1, 1, ManaColor.WHITE, new SubType[]{SubType.valueOf("Human"), SubType.valueOf("Soldier")}, 410015, 409780, 410000, 414340),
+	SPIRIT_17(CREATURE_TOKEN, "SOI", "3", "Flying", "Vol", 1, 1, ManaColor.WHITE, SubType.valueOf("Spirit"), 409749, 409753, 409755, 409769, 409768, 410031, 409789,
+			414331, 414335, 414387),
+	VAMPIRE_KNIGHT(CREATURE_TOKEN, "SOI", "4", "Lifelink", "Lien de vie", 1, 1, ManaColor.WHITE, new SubType[]{SubType.valueOf("Vampire"), SubType.valueOf("Knight")}, 409850,
+			410016),
+	ZOMBIE_27(CREATURE_TOKEN, "SOI", "5", 2, 2, ManaColor.BLACK, SubType.valueOf("Zombie"), 409854, 409800, 409859, 409860, 409862, 409826, 409884),
 	DEVIL(CREATURE_TOKEN, "SOI", "6", "When this creature dies, it deals 1 damage to target creature or player.", "Quand cette créature meurt, elle inflige 1 blessure à une cible " +
-			"créature ou joueur.", 2, 2, ManaColor.BLACK, SubType.valueOf("Devil"), "409902", "409903"),
-	INSECT_6(CREATURE_TOKEN, "SOI", "7", 1, 1, ManaColor.GREEN, SubType.valueOf("Insect"), "409957"),
-	OOZE_7(CREATURE_TOKEN, "SOI", "8", 3, 3, ManaColor.GREEN, SubType.valueOf("Ooze"), "409973"),
-	WOLF_14(CREATURE_TOKEN, "SOI", "9", 2, 2, ManaColor.GREEN, SubType.valueOf("Wolf"), "410007", "409959", "409983", "409991"),
+			"créature ou joueur.", 2, 2, ManaColor.BLACK, SubType.valueOf("Devil"), 409902, 409903, 414434),
+	INSECT_6(CREATURE_TOKEN, "SOI", "7", 1, 1, ManaColor.GREEN, SubType.valueOf("Insect"), 409957, 414297),
+	OOZE_7(CREATURE_TOKEN, "SOI", "8", 3, 3, ManaColor.GREEN, SubType.valueOf("Ooze"), 409973),
+	WOLF_14(CREATURE_TOKEN, "SOI", "9", 2, 2, ManaColor.GREEN, SubType.valueOf("Wolf"), 410007, 409959, 409983, 409991, 414483),
 	HUMAN_CLERIC(CREATURE_TOKEN, "SOI", "10", 1, 1, new ManaColor[]{ManaColor.WHITE, ManaColor.BLACK}, new SubType[]{SubType.valueOf("Human"), SubType.valueOf("Cleric")},
-			"410049", "409760"),
+			410049, 409760),
 	CLUE_1(ARTIFACT_TOKEN, "SOI", "11", "{2}, Sacrifice this artifact: Draw a card.", "{2}, sacrifiez cet artefact : piochez une carte.", SubType.valueOf("Clue")),
 	CLUE_2(ARTIFACT_TOKEN, "SOI", "12", "{2}, Sacrifice this artifact: Draw a card.", "{2}, sacrifiez cet artefact : piochez une carte.", SubType.valueOf("Clue")),
 	CLUE_3(ARTIFACT_TOKEN, "SOI", "13", "{2}, Sacrifice this artifact: Draw a card.", "{2}, sacrifiez cet artefact : piochez une carte.", SubType.valueOf("Clue")),
@@ -54,10 +75,10 @@ public enum Token
 	CLUE_5(ARTIFACT_TOKEN, "SOI", "15", "{2}, Sacrifice this artifact: Draw a card.", "{2}, sacrifiez cet artefact : piochez une carte.", SubType.valueOf("Clue")),
 	CLUE_6(ARTIFACT_TOKEN, "SOI", "16", "{2}, Sacrifice this artifact: Draw a card.", "{2}, sacrifiez cet artefact : piochez une carte.", SubType.valueOf("Clue")),
 	JACE_UNRAVELER_OF_SECRETS(EMBLEM, "SOI", "17", "Whenever an opponent casts his or her first spell each turn, counter that spell.",
-			"À chaque fois qu'un adversaire lance son premier sort, contrecarrez ce sort.", SubType.valueOf("Jace"), "409812"),
+			"À chaque fois qu'un adversaire lance son premier sort, contrecarrez ce sort.", SubType.valueOf("Jace"), 409812),
 	ARLINN_EMBRACED_BY_THE_MOON(EMBLEM, "SOI", "18", "Creatures you control have haste and \"{T}: This creature deals damage equals to its power to target creature or player.\"",
 			"Les créatures que vous contrôlez ont la célérité et « {T} : Cette créature inflige à la cible créature ou joueur un nombre de blessures égale à sa force. »", SubType
-			.valueOf("Arlinn"), "410008"),
+			.valueOf("Arlinn"), 410008),
 
 	// Le serment des sentinelles (OGW)
 	ELDRAZI_SCION_4(CREATURE_TOKEN, "OGW", "1", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 1, 1,
@@ -72,7 +93,7 @@ public enum Token
 			ManaColor.COLORLESS, new SubType[]{SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")}),
 	ELDRAZI_SCION_9(CREATURE_TOKEN, "OGW", "6", "Sacrifice this creature:\nAdd {C} to your mana pool", "Sacrifiez cette créature :\nAjoutez {C} à votre réserve", 1, 1,
 			ManaColor.COLORLESS, new SubType[]{SubType.valueOf("Eldrazi"), SubType.valueOf("Scion")}),
-	ANGEL_11(CREATURE_TOKEN, "OGW", "7", "Flying", "Vol", 3, 3, ManaColor.WHITE, SubType.valueOf("Angel"), "407535"),
+	ANGEL_11(CREATURE_TOKEN, "OGW", "7", "Flying", "Vol", 3, 3, ManaColor.WHITE, SubType.valueOf("Angel"), 407535),
 	ZOMBIE_26(CREATURE_TOKEN, "OGW", "8", 2, 2, ManaColor.BLACK, SubType.valueOf("Zombie")),
 	ELEMENTAL_20(CREATURE_TOKEN, "OGW", "9", "Haste", "Célérité", 2, 2, ManaColor.RED, SubType.valueOf("Elemental")),
 	ELEMENTAL_21(CREATURE_TOKEN, "OGW", "10", 0, 0, ManaColor.GREEN, SubType.valueOf("Elemental")),
@@ -432,10 +453,10 @@ public enum Token
 
 	// Avacyn Ressucité (AVR)
 	ANGEL_5(CREATURE_TOKEN, "AVR", "1", "Flying", "Vol", 4, 4, ManaColor.WHITE, SubType.valueOf("Angel")),
-	HUMAN_4(CREATURE_TOKEN, "AVR", "2", 1, 1, ManaColor.WHITE, SubType.valueOf("Human")),
+	HUMAN_2(CREATURE_TOKEN, "AVR", "2", 1, 1, ManaColor.WHITE, SubType.valueOf("Human")),
 	SPIRIT_6(CREATURE_TOKEN, "AVR", "3", "Flying", "Vol", 1, 1, ManaColor.WHITE, SubType.valueOf("Spirit")),
 	SPIRIT_7(CREATURE_TOKEN, "AVR", "4", "Flying", "Vol", 1, 1, ManaColor.BLUE, SubType.valueOf("Spirit")),
-	HUMAN_5(CREATURE_TOKEN, "AVR", "5", 1, 1, ManaColor.RED, SubType.valueOf("Human")),
+	HUMAN_3(CREATURE_TOKEN, "AVR", "5", 1, 1, ManaColor.RED, SubType.valueOf("Human")),
 	ZOMBIE_12(CREATURE_TOKEN, "AVR", "6", 2, 2, ManaColor.BLACK, SubType.valueOf("Zombie")),
 	DEMON_3(CREATURE_TOKEN, "AVR", "7", "Flying", "Vol", 5, 5, ManaColor.BLACK, SubType.valueOf("Demon")),
 	TAMIYO_THE_MOON_SAGE(EMBLEM, "AVR", "8", "You have no maximum hand size.\nWhenever a card is put into your graveyard from anywhere, you may return it to your hand.",
@@ -443,7 +464,7 @@ public enum Token
 					"dans votre main.", SubType.valueOf("Tamiyo")),
 
 	// Obscure Ascension (DKA)
-	HUMAN_3(CREATURE_TOKEN, "DKA", "1", 1, 1, ManaColor.WHITE, SubType.valueOf("Human")),
+	HUMAN_1(CREATURE_TOKEN, "DKA", "1", 1, 1, ManaColor.WHITE, SubType.valueOf("Human")),
 	VAMPIRE_3(CREATURE_TOKEN, "DKA", "2", "Lifelink", "Lien de vie", 1, 1, ManaColor.BLACK, SubType.valueOf("Vampire")),
 
 	// Innistrad (ISD)
@@ -711,29 +732,29 @@ public enum Token
 	private final boolean legendary;
 	private List<Card> related;
 
-	Token(CardType type, String set, String number, String ability_EN, String ability_FR, String... relatedCards)
+	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int... relatedCards)
 	{
 		this(type, set, number, ability_EN, ability_FR, new SubType[0], relatedCards);
 	}
 
-	Token(CardType type, String set, String number, String ability_EN, String ability_FR, SubType[] subtypes, String... relatedCards)
+	Token(CardType type, String set, String number, String ability_EN, String ability_FR, SubType[] subtypes, int... relatedCards)
 	{
 		this(type, set, number, ability_EN, ability_FR, Integer.MIN_VALUE, Integer.MIN_VALUE, ManaColor.COLORLESS, subtypes, relatedCards);
 	}
 
-	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor color, SubType[] subtypes, String... relatedCards)
+	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor color, SubType[] subtypes, int... relatedCards)
 	{
 		this(type, set, number, ability_EN, ability_FR, power, toughness, color, false, subtypes, relatedCards);
 	}
 
-	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor color, boolean legendary, SubType[] subtypes, String...
-			relatedCards)
+	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor color, boolean legendary, SubType[] subtypes,
+		  int... relatedCards)
 	{
 		this(type, set, number, ability_EN, ability_FR, power, toughness, new ManaColor[]{color}, legendary, subtypes, relatedCards);
 	}
 
-	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor[] color, boolean legendary, SubType[] subtypes, String...
-			relatedCards)
+	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor[] color, boolean legendary, SubType[] subtypes,
+		  int... relatedCards)
 	{
 		this.type = type;
 		this.set = MySQL.getSet(set);
@@ -749,79 +770,82 @@ public enum Token
 		this.legendary = legendary;
 		for (SubType st : subtypes)
 			st.setCanApplicate(type);
-		related = RefStreams.of(relatedCards).map(MySQL::getCard).collect(Collectors.toList());
+		List<Integer> ids = Lists.newArrayList();
+		for (int id : relatedCards)
+			ids.add(id);
+		related = StreamSupport.stream(ids).map(MySQL::getCard).collect(Collectors.toList());
 	}
 
-	Token(CardType type, String set, String number, String ability_EN, String ability_FR, SubType subtype, String... relatedCards)
+	Token(CardType type, String set, String number, String ability_EN, String ability_FR, SubType subtype, int... relatedCards)
 	{
 		this(type, set, number, ability_EN, ability_FR, Integer.MIN_VALUE, Integer.MIN_VALUE, ManaColor.COLORLESS, subtype, relatedCards);
 	}
 
-	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor color, String... relatedCards)
-	{
-		this(type, set, number, ability_EN, ability_FR, power, toughness, color, false, new SubType[0], relatedCards);
-	}
-
-	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor color, SubType subtype, String... relatedCards)
+	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor color, SubType subtype, int... relatedCards)
 	{
 		this(type, set, number, ability_EN, ability_FR, power, toughness, color, false, subtype, relatedCards);
 	}
 
 	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor color, boolean legendary, SubType subtype,
-		  String... relatedCards)
+		  int... relatedCards)
 	{
 		this(type, set, number, ability_EN, ability_FR, power, toughness, new ManaColor[]{color}, legendary, new SubType[]{subtype}, relatedCards);
 	}
 
-	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor[] color, boolean legendary, SubType subtype, String...
+	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor color, int... relatedCards)
+	{
+		this(type, set, number, ability_EN, ability_FR, power, toughness, color, false, new SubType[0], relatedCards);
+	}
+
+	Token(CardType type, String set, String number, int power, int toughness, ManaColor color, SubType subtype, int... relatedCards)
+	{
+		this(type, set, number, "", "", power, toughness, color, subtype, relatedCards);
+	}
+
+	Token(CardType type, String set, String number, int power, int toughness, ManaColor color, SubType[] subtypes, int... relatedCards)
+	{
+		this(type, set, number, "", "", power, toughness, color, subtypes, relatedCards);
+	}
+
+	Token(CardType type, String set, String number, int power, int toughness, ManaColor[] color, SubType subtype, int... relatedCards)
+	{
+		this(type, set, number, "", "", power, toughness, color, false, subtype, relatedCards);
+	}
+
+	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor[] color, boolean legendary, SubType subtype, int...
 			relatedCards)
 	{
 		this(type, set, number, ability_EN, ability_FR, power, toughness, color, legendary, new SubType[]{subtype}, relatedCards);
 	}
 
-	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor[] color, SubType[] subtypes, String... relatedCards)
+	Token(CardType type, String set, String number, int power, int toughness, ManaColor[] color, SubType[] subtypes, int... relatedCards)
 	{
-		this(type, set, number, ability_EN, ability_FR, power, toughness, color, false, subtypes, relatedCards);
+		this(type, set, number, "", "", power, toughness, color, false, subtypes, relatedCards);
 	}
 
-	Token(CardType type, String set, String number, int power, int toughness, ManaColor color, SubType subtype, String... relatedCards)
-	{
-		this(type, set, number, "", "", power, toughness, color, subtype, relatedCards);
-	}
-
-	Token(CardType type, String set, String number, int power, int toughness, ManaColor color, SubType[] subtypes, String... relatedCards)
-	{
-		this(type, set, number, "", "", power, toughness, color, subtypes, relatedCards);
-	}
-
-	Token(CardType type, String set, String number, int power, int toughness, ManaColor[] color, SubType subtype, String ... relatedCards)
-	{
-		this (type, set, number, "", "", power, toughness, color, false, subtype, relatedCards);
-	}
-
-	Token(CardType type, String set, String number, int power, int toughness, ManaColor[] color, SubType[] subtypes, String ... relatedCards)
-	{
-		this (type, set, number, "", "", power, toughness, color, false, subtypes, relatedCards);
-	}
-
-	Token(CardType type, String set, String number, int power, int toughness, ManaColor color, String... relatedCards)
+	Token(CardType type, String set, String number, int power, int toughness, ManaColor color, int... relatedCards)
 	{
 		this(type, set, number, "", "", power, toughness, color, new SubType[0], relatedCards);
 	}
 
-	Token(CardType type, String set, String number, int power, int toughness, ManaColor color, boolean legendary, SubType subtype, String... relatedCards)
+	Token(CardType type, String set, String number, int power, int toughness, ManaColor color, boolean legendary, SubType subtype, int... relatedCards)
 	{
 		this(type, set, number, "", "", power, toughness, color, legendary, subtype, relatedCards);
 	}
 
-	Token(CardType type, String set, String number, int power, int toughness, ManaColor color, boolean legendary, SubType[] subtypes, String... relatedCards)
+	Token(CardType type, String set, String number, int power, int toughness, ManaColor color, boolean legendary, SubType[] subtypes, int... relatedCards)
 	{
 		this(type, set, number, "", "", power, toughness, color, legendary, subtypes, relatedCards);
 	}
 
-	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor[] color, SubType subtype, String... relatedCards)
+	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor[] color, SubType subtype, int... relatedCards)
 	{
-		this (type, set, number, ability_EN, ability_FR, power, toughness, color, new SubType[] {subtype}, relatedCards);
+		this(type, set, number, ability_EN, ability_FR, power, toughness, color, new SubType[]{subtype}, relatedCards);
+	}
+
+	Token(CardType type, String set, String number, String ability_EN, String ability_FR, int power, int toughness, ManaColor[] color, SubType[] subtypes, int... relatedCards)
+	{
+		this(type, set, number, ability_EN, ability_FR, power, toughness, color, false, subtypes, relatedCards);
 	}
 
 	public String getEnglishName()

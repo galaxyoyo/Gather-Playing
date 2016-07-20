@@ -59,8 +59,8 @@ public class CardDetailsShower extends AbstractController implements Initializab
 		Executors.newSingleThreadExecutor().submit(() -> Platform.runLater(() -> {
 			if (card.getLayout() == Layout.DOUBLE_FACED)
 			{
-				int muid = Integer.parseInt(card.getMuId("en")) + 1;
-				Card doubleFaced = MySQL.getCard(String.valueOf(muid));
+				int muid = card.getMuId("en") + 1;
+				Card doubleFaced = MySQL.getCard(muid);
 				doubleFacedImage.setImage(CardImageManager.getImage(doubleFaced));
 				if (Utils.isMobile())
 				{
@@ -145,8 +145,8 @@ public class CardDetailsShower extends AbstractController implements Initializab
 
 		if (card.getLayout() == Layout.DOUBLE_FACED)
 		{
-			int muid = Integer.parseInt(card.getMuId("en")) + 1;
-			Card doubleFaced = MySQL.getCard(String.valueOf(muid));
+			int muid = card.getMuId("en") + 1;
+			Card doubleFaced = MySQL.getCard(muid);
 			html += "<br /><hr /><br /><div style=\"\">";
 			if (doubleFaced.getAbilityMap().get("en") != null)
 			{

@@ -1,6 +1,6 @@
 package fr.galaxyoyo.gatherplaying.client.gui;
 
-import fr.galaxyoyo.gatherplaying.OwnedCard;
+import fr.galaxyoyo.gatherplaying.PlayedCard;
 import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketManager;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketMixPlayDestroyed;
@@ -12,7 +12,7 @@ import javafx.scene.layout.HBox;
 
 public class DestroyedCardShower extends ImageView
 {
-	public DestroyedCardShower(OwnedCard card, boolean exiled)
+	public DestroyedCardShower(PlayedCard card, boolean exiled)
 	{
 		super();
 		Platform.runLater(() -> setImage(CardImageManager.getImage(card.getCard())));

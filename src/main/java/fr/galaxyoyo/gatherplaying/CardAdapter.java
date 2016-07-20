@@ -36,7 +36,7 @@ public class CardAdapter extends TypeAdapter<Card>
 		ABBREVIATES.put("Korean", "ko");
 	}
 
-	private List<String> usedForeignMuIds = Lists.newArrayList();
+	private List<Integer> usedForeignMuIds = Lists.newArrayList();
 
 	@Override
 	public void write(JsonWriter w, Card card) throws IOException { }
@@ -204,7 +204,7 @@ public class CardAdapter extends TypeAdapter<Card>
 					r.endArray();
 					break;
 				case "multiverseid":
-					card.getMuId().put("en", r.nextString());
+					card.getMuId().put("en", Integer.parseInt(r.nextString()));
 					break;
 				case "variations":
 					r.beginArray();
@@ -240,7 +240,7 @@ public class CardAdapter extends TypeAdapter<Card>
 							continue;
 						}
 						r.nextName();
-						String muId = r.nextString();
+						int muId = Integer.parseInt(r.nextString());
 						String abbreviate = ABBREVIATES.get(locale);
 						if (card.getMuId(abbreviate) == null && !usedForeignMuIds.contains(muId))
 						{

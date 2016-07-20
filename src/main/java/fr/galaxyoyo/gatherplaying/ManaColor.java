@@ -24,7 +24,7 @@ public enum ManaColor
 		return null;
 	}
 
-	public String getAbbreviate() { return String.valueOf(symbol); }
+	public String getAbbreviate() { return symbol; }
 
 	@Override
 	public String toString() { return getTranslatedName().get(); }

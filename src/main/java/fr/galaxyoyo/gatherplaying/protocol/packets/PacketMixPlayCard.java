@@ -13,33 +13,34 @@ import javafx.scene.layout.HBox;
 
 public class PacketMixPlayCard extends Packet
 {
-	public OwnedCard card;
+	public Player controller;
+	public short index;
 	public Action action = Action.PLAY;
-	public boolean hided = false;
+	public boolean hidden = false;
 
 	@Override
 	public void read(ByteBuf buf)
 	{
 		action = Action.values()[buf.readByte()];
-		card = new OwnedCard(readCard(buf), player.runningParty.getPlayer(readUUID(buf)), buf.readBoolean());
-		PlayerData data = player.runningParty.getData(card.getOwner());
-		hided = buf.readBoolean();
+		controller = player.runningParty.getPlayer(readUUID(buf));
+		PlayerData data = player.runningParty.getData(controller);
+		index = buf.readShort();
+		PlayedCard card = data.getHand().get(index);
+		hidden = buf.readBoolean();
 		int handIndex = data.getHand().indexOf(card);
-		PlayedCard played = null;
 		if (action != Action.REVEAL)
 		{
 			data.getHand().remove(handIndex);
-			played = new PlayedCard(card);
 			data.setMulligan((byte) 0xFF);
-			if (hided)
+			if (hidden)
 			{
 				if (card.getCard().getLayout() == Layout.NORMAL)
-					played.setHided(true);
+					card.hide(true);
 				else
 				{
 					Card oldCard = card.getCard();
-					played.card.set(played.getRelatedCard());
-					played.setRelatedCard(oldCard);
+					card.card.set(card.getRelatedCard());
+					card.setRelatedCard(oldCard);
 				}
 			}
 			if (action == Action.DISCARD)
@@ -54,23 +55,23 @@ public class PacketMixPlayCard extends Packet
 				{
 					Library lib = data.getLibrary();
 					if (action == Action.UP_LIBRARY)
-						lib.addCardUp(card);
+						lib.addCardUp(card.toOwnedCard());
 					else
-						lib.addCard(card);
+						lib.addCard(card.toOwnedCard());
 				}
 			}
 		}
 		if (action == Action.PLAY)
 		{
 			if (Utils.getSide() == Side.SERVER)
-				Server.sendChat(player.runningParty, "chat.play", "color: blue;", played.getController().name, "<i>" + played.getTranslatedName().get() + "</i>");
-			if (played.getType().is(CardType.LAND))
+				Server.sendChat(player.runningParty, "chat.play", "color: blue;", card.getController().name, "<i>" + card.getTranslatedName().get() + "</i>");
+			if (card.getType().is(CardType.LAND))
 			{
-				data.getPlayed().add(played);
+				data.getPlayed().add(card);
 				if (Utils.getSide() == Side.CLIENT)
 				{
-					CardShower shower = new CardShower(played);
-					final PlayedCard finalPlayed = played;
+					CardShower shower = new CardShower(card);
+					final PlayedCard finalPlayed = card;
 					Platform.runLater(() -> {
 						if (finalPlayed.getOwner() == Client.localPlayer)
 							GameMenu.instance().lands.getChildren().add(shower);
@@ -83,9 +84,9 @@ public class PacketMixPlayCard extends Packet
 			else
 			{
 				if (player.runningParty.getCurrentSpell() == null)
-					player.runningParty.setCurrentSpell(new SpellTimer(played, player.runningParty));
+					player.runningParty.setCurrentSpell(new SpellTimer(card, player.runningParty));
 				else
-					player.runningParty.getCurrentSpell().addSpell(played);
+					player.runningParty.getCurrentSpell().addSpell(card);
 			}
 		}
 		if (Utils.getSide() == Side.SERVER)
@@ -99,11 +100,11 @@ public class PacketMixPlayCard extends Packet
 				else
 					Platform.runLater(() -> GameMenu.instance().adverseHand.getChildren().remove(handIndex));
 			}
-			assert played != null;
+			assert card != null;
 			if (action == Action.DISCARD)
-				PlayerInfos.getInfos(played.getOwner()).graveyard(played);
+				PlayerInfos.getInfos(card.getOwner()).graveyard(card);
 			else if (action == Action.EXILE)
-				PlayerInfos.getInfos(played.getOwner()).exile(played);
+				PlayerInfos.getInfos(card.getOwner()).exile(card);
 			else if (action == Action.REVEAL)
 			{
 				CardShower shower = (CardShower) (card.getOwner() == player ? GameMenu.instance().hand : GameMenu.instance().adverseHand).getChildren().get(handIndex);
@@ -116,10 +117,15 @@ public class PacketMixPlayCard extends Packet
 	public void write(ByteBuf buf)
 	{
 		buf.writeByte(action.ordinal());
-		writeCard(card.getCard(), buf);
-		writeUUID(card.getOwner().uuid, buf);
-		buf.writeBoolean(card.isFoiled());
-		buf.writeBoolean(hided);
+		writeUUID(controller.uuid, buf);
+		buf.writeShort(index);
+		buf.writeBoolean(hidden);
+	}
+
+	public void setCard(PlayedCard card)
+	{
+		controller = card.getController();
+		index = (short) card.getController().getData().getHand().indexOf(card);
 	}
 
 	public enum Action

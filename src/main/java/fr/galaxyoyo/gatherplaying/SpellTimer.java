@@ -4,8 +4,7 @@ import com.google.common.collect.Lists;
 import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.client.gui.CardShower;
 import fr.galaxyoyo.gatherplaying.client.gui.GameMenu;
-import fr.galaxyoyo.gatherplaying.markers.Marker;
-import fr.galaxyoyo.gatherplaying.markers.MarkerType;
+import java8.util.stream.StreamSupport;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,7 +12,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
 import java.util.List;
-import java8.util.stream.StreamSupport;
 
 public class SpellTimer
 {
@@ -49,7 +47,8 @@ public class SpellTimer
 		if (Utils.getSide() == Side.CLIENT)
 		{
 			Platform.runLater(() -> {
-				CardShower shower = new CardShower(card);
+				CardShower shower = CardShower.getShower(card);
+				shower.reload();
 				Client.getStackPane().getChildren().add(shower);
 				StackPane.setAlignment(shower, Pos.CENTER);
 				card.setDefaultStats();
@@ -88,7 +87,7 @@ public class SpellTimer
 			}
 			else
 			{
-				party.getData(card.getController()).getGraveyard().add(new OwnedCard(card.getCard(), card.getOwner(), card.isFoiled()));
+				party.getData(card.getController()).getGraveyard().add(card);
 				if (Utils.getSide() == Side.CLIENT)
 				{
 					Platform.runLater(() -> StreamSupport.stream(spells).forEach(c -> Client.getStackPane().getChildren().remove(CardShower.getShower(c))));

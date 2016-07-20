@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Nouvelle carte</title>
+    <style>
+        label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<form method="post">
+    <table>
+        <tbody>
+        <tr>
+            <td>
+                <label for="name">Nom de la carte (en) :</label>
+            </td>
+            <td>
+                <input type="text" name="name" id="name" value=""/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="name_fr">Nom de la carte (fr) :</label>
+            </td>
+            <td>
+                <input type="text" name="name_fr" id="name_fr" value=""/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="set">Extension :</label>
+            </td>
+            <td>
+                <select name="set" id="set">
+                    <option value="EMN">La lune hermétique</option>
+                    <option value="V16">From The Vault: Lore</option>
+                    <option value="CN2">Conspiracy: Take the Crown</option>
+                    <option value="DDR">Duel Decks: Nissa vs. Ob Nixilis</option>
+                    <option value="KLD">Kaladesh</option>
+                    <option value="C16">Commander 2016</option>
+                    <option value="PCA">Planechase: Anthology</option>
+                    <option value="AER">La révolte éthérique</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="manaCost">Coût de mana :</label>
+            </td>
+            <td>
+                <input type="text" name="manaCost" id="manaCost" value=""/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="cmc">Coût converti de mana :</label>
+            </td>
+            <td>
+                <input type="number" name="cmc" id="cmc" value=""/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="colors">Couleurs</label>
+            </td>
+            <td>
+                <select name="colors" id="colors">
+                    <optgroup label="Monochrome">
+                        <option value="W">Blanc</option>
+                        <option value="U">Bleu</option>
+                        <option value="B">Noir</option>
+                        <option value="R">Rouge</option>
+                        <option value="G">Vert</option>
+                        <option value="C">Incolore</option>
+                    </optgroup>
+                    <optgroup label="Bicolore">
+                        <option value="B/R">Noir/Rouge</option>
+                        <option value="B/G">Noir/Vert</option>
+                        <option value="R/G">Rouge/Vert</option>
+                        <option value="R/W">Rouge/Blanc</option>
+                        <option value="G/W">Vert/Blanc</option>
+                        <option value="G/U">Vert/Bleu</option>
+                        <option value="W/B">Blanc/Noir</option>
+                        <option value="W/U">Blanc/Bleu</option>
+                        <option value="U/R">Bleu/Rouge</option>
+                        <option value="U/B">Bleu/Noir</option>
+                    </optgroup>
+                    <optgroup label="Tricolore">
+                        <option value="G/W/U">Vert/Blanc/Bleu</option>
+                        <option value="W/U/B">Blanc/Bleu/Noir</option>
+                        <option value="U/B/R">Bleu/Noir/Rouge</option>
+                        <option value="B/R/G">Noir/Rouge/Vert</option>
+                        <option value="R/G/W">Rouge/Vert/Blanc</option>
+                        <option value="W/B/R">Blanc/Noir/Rouge</option>
+                        <option value="U/R/G">Bleu/Rouge/Vert</option>
+                        <option value="B/G/W">Noir/Vert/Blanc</option>
+                        <option value="R/W/U">Rouge/Blanc/Bleu</option>
+                        <option value="G/U/B">Vert/Bleu/Noir</option>
+                    </optgroup>
+                    <optgroup label="Quadricolore">
+                        <option value="W/U/B/R">Blanc/Bleu/Noir/Rouge</option>
+                        <option value="U/B/R/G">Bleu/Noir/Rouge/Vert</option>
+                        <option value="B/R/G/W">Noir/Rouge/Vert/Blanc</option>
+                        <option value="R/G/W/U">Rouge/Vert/Blanc/Bleu</option>
+                        <option value="G/W/U/B">Vert/Blanc/Bleu/Noir</option>
+                    </optgroup>
+                    <optgroup label="Pentacolore">
+                        <option value="W/U/B/R/G">Blanc/Bleu/Noir/Rouge/Vert</option>
+                    </optgroup>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="type">Type :</label>
+            </td>
+            <td>
+                <select name="type" id="type">
+                    <option value="land">Terrain</option>
+                    <option value="instant">Éphémère</option>
+                    <option value="sorcery">Rituel</option>
+                    <option value="creature">Créature</option>
+                    <option value="artifact">Artefact</option>
+                    <option value="creature_artifact">Créature-artefact</option>
+                    <option value="enchantment">Enchantement</option>
+                    <option value="planeswalker">Planeswalker</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="subtypes">Sous-types :</label>
+            </td>
+            <td>
+                <input type="text" name="subtypes" id="subtypes" value=""/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="ability">Texte (en) :</label>
+            </td>
+            <td>
+                <textarea name="ability" id="ability" rows="7" cols="120"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="ability_fr">Texte (fr) :</label>
+            </td>
+            <td>
+                <textarea name="ability_fr" id="ability_fr" rows="7" cols="120"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="flavor">Texte d'ambiance (en) :</label>
+            </td>
+            <td>
+                <textarea name="flavor" id="flavor" rows="7" cols="120"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="flavor_fr">Texte d'ambiance (fr) :</label>
+            </td>
+            <td>
+                <textarea name="flavor_fr" id="flavor_fr" rows="7" cols="120"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="power">Force :</label>
+            </td>
+            <td>
+                <input type="text" name="power" id="power" value=""/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="toughness">Endurance :</label>
+            </td>
+            <td>
+                <input type="text" name="toughness" id="toughness" value=""/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="loyalty">Loyauté :</label>
+            </td>
+            <td>
+                <input type="number" name="loyalty" id="loyalty" value="0"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="rarity">Rareté :</label>
+            </td>
+            <td>
+                <select name="rarity" id="rarity">
+                    <option value="common">Commun</option>
+                    <option value="uncommon">Non commun</option>
+                    <option value="rare">Rare</option>
+                    <option value="mythic">Mythique</option>
+                    <option value="basic_land">Terrain de base</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="layout">Layout :</label>
+            </td>
+            <td>
+                <select name="layout" id="layout">
+                    <option value="normal">Normal</option>
+                    <option value="double_faced">Double face</option>
+                    <option value="meld">Assimilation</option>
+                    <option value="leveler">Leveler</option>
+                    <option value="split">Split</option>
+                    <option value="plane">Plan</option>
+                    <option value="scheme">Schéma</option>
+                    <option value="flip">Flip</option>
+                    <option value="vanguard">Vanguard</option>
+                    <option value="phenomenon">Phénomène</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="supertype">Particularité :</label>
+            </td>
+            <td>
+                <select name="supertype" id="supertype">
+                    <option value="no">Aucune</option>
+                    <option value="basic">de base</option>
+                    <option value="legendary">légendaire</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="artist">Artiste :</label>
+            </td>
+            <td>
+                <input type="text" name="artist" id="artist" value=""/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="watermark">Watermark :</label>
+            </td>
+            <td>
+                <input type="text" name="watermark" id="watermark" value=""/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="number">Numéro de la carte :</label>
+            </td>
+            <td>
+                <input type="text" name="number" id="number" value=""/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="imageURL">URL de l'image :</label>
+            </td>
+            <td>
+                <input type="url" name="imageURL" id="imageURL" value=""/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <input type="submit"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+</body>
+</html>

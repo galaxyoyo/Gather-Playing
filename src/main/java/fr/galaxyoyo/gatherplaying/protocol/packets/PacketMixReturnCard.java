@@ -17,10 +17,10 @@ public class PacketMixReturnCard extends Packet
 		p = player.runningParty.getPlayer(readUUID(buf));
 		PlayedCard card = player.runningParty.getData(p).getPlayed().get(index);
 		Card oldCard = card.getCard();
-		if (card.getCard().getMuId("en").contains("74358"))
+		if (card.getCard().getMuId("en") == 74358)
 		{
-			String number = card.getCard().getMuId("en").replaceAll("[^\\d]", "");
-			String letter = card.getCard().getMuId("en").replace(number, "");
+		/*	String number = card.getCard().getNumber().replaceAll("[^\\d]", "");
+			String letter = card.getCard().getNumber().replace(number, "");
 			switch (letter)
 			{
 				case "a":
@@ -38,9 +38,10 @@ public class PacketMixReturnCard extends Packet
 				default:
 					card.card.set(MySQL.getCard(number + "a"));
 					break;
-			}
+			}*/
 			card.setRelatedCard(oldCard);
-		} else
+		}
+		else
 		{
 			card.card.set(card.getRelatedCard());
 			card.setRelatedCard(oldCard);
@@ -52,18 +53,21 @@ public class PacketMixReturnCard extends Packet
 			try
 			{
 				card.setPower(Integer.parseInt(card.getCard().getPower()));
-			} catch (NumberFormatException ex)
+			}
+			catch (NumberFormatException ex)
 			{
 				card.setPower(0);
 			}
 			try
 			{
 				card.setToughness(Integer.parseInt(card.getCard().getToughness()));
-			} catch (NumberFormatException ex)
+			}
+			catch (NumberFormatException ex)
 			{
 				card.setToughness(0);
 			}
-		} else if (card.getCard().getType().is(CardType.PLANESWALKER))
+		}
+		else if (card.getCard().getType().is(CardType.PLANESWALKER))
 		{
 			card.setLoyalty(0);
 			for (int i = 0; i < card.getCard().getLoyalty(); ++i)

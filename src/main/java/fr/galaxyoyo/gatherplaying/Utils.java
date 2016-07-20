@@ -105,8 +105,6 @@ public class Utils
 							.childHandler(new WebChannelInitializer());
 			webBoot.bind(42000).sync();
 
-			System.out.println("Bonjour !");
-
 			new Thread("Keep-Alive Thread")
 			{
 				@Override

@@ -1,8 +1,7 @@
 package fr.galaxyoyo.gatherplaying.web;
 
 import com.google.common.collect.Lists;
-import fr.galaxyoyo.gatherplaying.web.servlets.SimpleHtmlReaderServlet;
-import fr.galaxyoyo.gatherplaying.web.servlets.WebServlet;
+import fr.galaxyoyo.gatherplaying.web.servlets.*;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -10,14 +9,14 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
-import static io.netty.handler.codec.http.HttpHeaderNames.CONTENT_TYPE;
 import static io.netty.handler.codec.http.HttpResponseStatus.*;
-import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 public class WebServerHandler extends SimpleChannelInboundHandler<FullHttpRequest>
 {
@@ -28,6 +27,12 @@ public class WebServerHandler extends SimpleChannelInboundHandler<FullHttpReques
 	{
 		DATE_FORMATTER.setTimeZone(TimeZone.getTimeZone("GMT"));
 		registerServlet(new SimpleHtmlReaderServlet("(?i)^/$|^/accueil$|^/home$", "/web/index.html"));
+		registerServlet(new LoginServlet());
+		registerServlet(new ViewDeckServlet());
+		registerServlet(new CardShowerServlet());
+		registerServlet(new SetShowerServlet());
+		registerServlet(new RegisterSetServlet());
+		registerServlet(new RegisterCardServlet());
 	}
 
 	public static void registerServlet(WebServlet servlet)
@@ -36,34 +41,70 @@ public class WebServerHandler extends SimpleChannelInboundHandler<FullHttpReques
 	}
 
 	@Override
-	protected void messageReceived(ChannelHandlerContext ctx, FullHttpRequest req) throws Exception
+	protected void messageReceived(ChannelHandlerContext ctx, FullHttpRequest _req) throws Exception
 	{
-		if (!req.decoderResult().isSuccess())
+		if (!_req.decoderResult().isSuccess())
 		{
-			sendError(ctx, BAD_REQUEST);
+			sendError(ctx, BAD_REQUEST, new UnknownError("Impossible to decode"));
 			return;
 		}
 
-		final String uri = req.uri();
+		HttpRequest req = new HttpRequest(_req);
 
-		FullHttpResponse resp = new DefaultFullHttpResponse(HTTP_1_1, OK);
-		resp.headers().set(CONTENT_TYPE, "text/html; charset=utf-8");
-		if (HttpHeaderUtil.isKeepAlive(req))
-			resp.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
+		final String uri = req.uri().split("\\?")[0];
+
+		HttpResponse resp = new HttpResponse();
+		resp.setContentType("text/html; charset=utf-8");
+		if (req.isKeepAlive())
+			resp.setHeader(HttpHeader.CONNECTION, HttpHeader.Values.KEEP_ALIVE);
+		resp.setHeader(HttpHeader.CACHE_CONTROL, "max-age=86400");
 		AtomicBoolean found = new AtomicBoolean(false);
 		servlets.stream().filter(servlet -> Pattern.compile(servlet.getPattern()).matcher(uri).find()).forEach(servlet ->
 		{
 			found.set(true);
 			if (req.method() == HttpMethod.GET)
+			{
+				if (servlet instanceof AbstractWebServlet)
+				{
+					Date lastModified = ((AbstractWebServlet) servlet).getLastModifiedDate();
+					if (lastModified != null)
+					{
+						Date ifModifiedSince = req.getHeaderDate(HttpHeader.IF_MODIFIED_SINCE);
+						if (ifModifiedSince != null)
+						{
+							if (lastModified.before(ifModifiedSince))
+							{
+								resp.setStatus(NOT_MODIFIED);
+								Calendar time = new GregorianCalendar();
+								resp.headers().set(HttpHeaderNames.DATE, DATE_FORMATTER.format(time.getTime()));
+								ctx.writeAndFlush(resp).addListener(ChannelFutureListener.CLOSE);
+								return;
+							}
+						}
+						resp.setHeader(HttpHeader.LAST_MODIFIED, new Date());
+						Calendar cal = new GregorianCalendar();
+						cal.add(Calendar.DAY_OF_YEAR, 1);
+						resp.setHeader(HttpHeader.EXPIRES, cal.getTime());
+					}
+				}
 				servlet.doGet(req, resp);
+			}
 			else if (req.method() == HttpMethod.POST)
 				servlet.doPost(req, resp);
 		});
-		if (!found.get())
+		if (!found.get() || resp.status() == NOT_FOUND)
 			sendNotFound(resp);
-		System.out.println(resp);
 		Calendar time = new GregorianCalendar();
 		resp.headers().set(HttpHeaderNames.DATE, DATE_FORMATTER.format(time.getTime()));
+		ctx.writeAndFlush(resp).addListener(ChannelFutureListener.CLOSE);
+	}
+
+	private void sendError(ChannelHandlerContext ctx, HttpResponseStatus status, Throwable cause)
+	{
+		StringWriter sw = new StringWriter();
+		cause.printStackTrace(new PrintWriter(sw));
+		HttpResponse resp = new HttpResponse(status, Unpooled.copiedBuffer("Failure: " + status + "\r\n" + sw, CharsetUtil.UTF_8));
+		resp.setContentType("text/plain; charset=utf-8");
 		ctx.writeAndFlush(resp).addListener(ChannelFutureListener.CLOSE);
 	}
 
@@ -75,16 +116,9 @@ public class WebServerHandler extends SimpleChannelInboundHandler<FullHttpReques
 				CharsetUtil.UTF_8));
 	}
 
-	private void sendError(ChannelHandlerContext ctx, HttpResponseStatus status)
-	{
-		FullHttpResponse resp = new DefaultFullHttpResponse(HTTP_1_1, status, Unpooled.copiedBuffer("Failure: " + status + "\r\n", CharsetUtil.UTF_8));
-		resp.headers().set(CONTENT_TYPE, "text/plain; charset=utf-8");
-		ctx.writeAndFlush(resp).addListener(ChannelFutureListener.CLOSE);
-	}
-
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception
 	{
-		sendError(ctx, INTERNAL_SERVER_ERROR);
+		sendError(ctx, INTERNAL_SERVER_ERROR, cause);
 	}
 }

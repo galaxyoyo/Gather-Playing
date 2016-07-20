@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
@@ -173,7 +174,7 @@ public class PlayerInfos extends AbstractController implements Initializable
 					Dialog<Integer> dialog = new Dialog<>();
 					dialog.setTitle("Piocher des cartes");
 					dialog.setHeaderText("Choisissez combien de cartes vous voulez piocher");
-					Spinner<Integer> spinner = new Spinner<>(1, 1, getLibrary());
+					Spinner<Integer> spinner = new Spinner<>(1, getLibrary(), 1);
 					dialog.getDialogPane().setContent(spinner);
 					dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 					dialog.setResultConverter(param -> param == ButtonType.OK ? spinner.getValue() : null);
@@ -316,7 +317,7 @@ public class PlayerInfos extends AbstractController implements Initializable
 			MenuItem show = new MenuItem("Afficher le cimetière");
 			show.setOnAction(e -> {
 				HBox box = new HBox();
-				for (OwnedCard c : player.getData().getGraveyard())
+				for (PlayedCard c : player.getData().getGraveyard())
 				{
 					DestroyedCardShower shower = new DestroyedCardShower(c, false);
 					box.getChildren().add(shower);
@@ -364,7 +365,7 @@ public class PlayerInfos extends AbstractController implements Initializable
 				Dialog<Object> dialog = new Dialog<>();
 				dialog.setTitle("Affichage de l'exil");
 				HBox box = new HBox();
-				for (OwnedCard c : player.getData().getExile())
+				for (PlayedCard c : player.getData().getExile())
 				{
 					DestroyedCardShower shower = new DestroyedCardShower(c, true);
 					box.getChildren().add(shower);
@@ -407,7 +408,10 @@ public class PlayerInfos extends AbstractController implements Initializable
 			{
 				GameMenu.instance().playerInfos = this;
 				setPlayer(Client.localPlayer);
-				ScrollPane scrollPane = (ScrollPane) library.getParent().getParent().getParent().getParent();
+				Parent parent = getParent();
+				while (!(parent instanceof ScrollPane))
+					parent = parent.getParent();
+				ScrollPane scrollPane = (ScrollPane) parent;
 				scrollPane.prefWidthProperty().bind(Bindings.max(library.widthProperty(), GameMenu.instance().adverseInfos.library.widthProperty()).add(20));
 			}
 		});
@@ -461,6 +465,11 @@ public class PlayerInfos extends AbstractController implements Initializable
 	public void removeLibrary()
 	{
 		setLibrary(getLibrary() - 1);
+	}
+
+	public Label getLibraryField()
+	{
+		return library;
 	}
 
 	public void graveyard(PlayedCard card)

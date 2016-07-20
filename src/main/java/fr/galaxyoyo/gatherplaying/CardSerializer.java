@@ -107,7 +107,7 @@ public class CardSerializer implements JsonDeserializer<Card>
 		{
 			r.beginObject();
 			r.nextName();
-			Card c = MySQL.getCard(r.nextString());
+			Card c = MySQL.getCard(r.nextInt());
 			r.nextName();
 			boolean foiled = r.nextBoolean();
 			r.nextName();
@@ -129,5 +129,5 @@ public class CardSerializer implements JsonDeserializer<Card>
 	}
 
 	@Override
-	public Card deserialize(JsonElement elem, Type type, JsonDeserializationContext ctx) throws JsonParseException { return MySQL.getCard(elem.getAsString()); }
+	public Card deserialize(JsonElement elem, Type type, JsonDeserializationContext ctx) throws JsonParseException { return MySQL.getCard(elem.getAsInt()); }
 }

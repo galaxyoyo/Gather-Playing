@@ -1,10 +1,10 @@
 package fr.galaxyoyo.gatherplaying.web.servlets;
 
+import fr.galaxyoyo.gatherplaying.web.HttpHeader;
+import fr.galaxyoyo.gatherplaying.web.HttpRequest;
+import fr.galaxyoyo.gatherplaying.web.HttpResponse;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.handler.codec.http.FullHttpRequest;
-import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.util.CharsetUtil;
 import org.apache.commons.io.IOUtils;
@@ -25,14 +25,21 @@ public class SimpleHtmlReaderServlet extends AbstractWebServlet
 	}
 
 	@Override
-	public void doGet(FullHttpRequest request, FullHttpResponse resp)
+	public void doGet(HttpRequest request, HttpResponse resp)
 	{
 		try
 		{
 			resp.setStatus(HttpResponseStatus.OK);
-			resp.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/html; charset=utf-8");
+			resp.setContentType("text/html; charset=utf-8");
 			String text = IOUtils.toString(getClass().getResourceAsStream(htmlPath), StandardCharsets.UTF_8);
-			resp.headers().set(HttpHeaderNames.CONTENT_LENGTH, "" + text.getBytes(StandardCharsets.UTF_8).length);
+			text = text.replace("%W", "<img src=\"http://www.magiccorporation.com/images/magic/manas/mini/w.gif\" />")
+					.replace("%U", "<img src=\"http://www.magiccorporation.com/images/magic/manas/mini/u.gif\" />")
+					.replace("%B", "<img src=\"http://www.magiccorporation.com/images/magic/manas/mini/b.gif\" />")
+					.replace("%R", "<img src=\"http://www.magiccorporation.com/images/magic/manas/mini/r.gif\" />")
+					.replace("%G", "<img src=\"http://www.magiccorporation.com/images/magic/manas/mini/g.gif\" />")
+					.replace("%C", "<img src=\"http://www.magiccorporation.com/images/magic/manas/mini/c.gif\" />");
+			text = processReplaces(request, text);
+			resp.setHeader(HttpHeader.CONTENT_LENGTH, text.getBytes(StandardCharsets.UTF_8).length);
 			ByteBuf buffer = Unpooled.copiedBuffer(text, CharsetUtil.UTF_8);
 			resp.content().writeBytes(buffer);
 			buffer.release();
@@ -43,8 +50,13 @@ public class SimpleHtmlReaderServlet extends AbstractWebServlet
 		}
 	}
 
+	public String processReplaces(HttpRequest req, String text)
+	{
+		return text;
+	}
+
 	@Override
-	public void doPost(FullHttpRequest request, FullHttpResponse resp)
+	public void doPost(HttpRequest request, HttpResponse resp)
 	{
 		doGet(request, resp);
 	}

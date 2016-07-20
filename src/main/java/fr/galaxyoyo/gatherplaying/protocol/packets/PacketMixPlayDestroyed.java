@@ -27,7 +27,7 @@ public class PacketMixPlayDestroyed extends Packet
 		exiled = buf.readBoolean();
 		dest = Destination.values()[buf.readByte()];
 		index = buf.readInt();
-		OwnedCard c;
+		PlayedCard c;
 		if (exiled)
 			c = data.getExile().remove(index);
 		else
@@ -45,21 +45,21 @@ public class PacketMixPlayDestroyed extends Packet
 			data.getGraveyard().add(c);
 			if (Utils.getSide() == Side.CLIENT)
 				if (p == player)
-					GameMenu.instance().playerInfos.graveyard(new PlayedCard(c));
+					GameMenu.instance().playerInfos.graveyard(c.duplicate());
 				else
-					GameMenu.instance().adverseInfos.graveyard(new PlayedCard(c));
+					GameMenu.instance().adverseInfos.graveyard(c.duplicate());
 		} else if (dest == Destination.EXILE)
 		{
 			data.getExile().add(c);
 			if (Utils.getSide() == Side.CLIENT)
 				if (p == player)
-					GameMenu.instance().playerInfos.exile(new PlayedCard(c));
+					GameMenu.instance().playerInfos.exile(c.duplicate());
 				else
-					GameMenu.instance().adverseInfos.exile(new PlayedCard(c));
+					GameMenu.instance().adverseInfos.exile(c.duplicate());
 		} else if (dest == Destination.UP_LIBRARY)
 		{
 			if (Utils.getSide() == Side.SERVER)
-				data.getLibrary().addCardUp(c);
+				data.getLibrary().addCardUp(c.toOwnedCard());
 			else if (p == player)
 				GameMenu.instance().playerInfos.addLibrary();
 			else
@@ -67,14 +67,14 @@ public class PacketMixPlayDestroyed extends Packet
 		} else if (dest == Destination.DOWN_LIBRARY)
 		{
 			if (Utils.getSide() == Side.SERVER)
-				data.getLibrary().addCard(c);
+				data.getLibrary().addCard(c.toOwnedCard());
 			else if (p == player)
 				GameMenu.instance().playerInfos.addLibrary();
 			else
 				GameMenu.instance().adverseInfos.addLibrary();
 		} else if (dest == Destination.BATTLEFIELD)
 		{
-			PlayedCard card = new PlayedCard(c);
+			PlayedCard card = c.duplicate();
 			data.getPlayed().add(card);
 			if (Utils.getSide() == Side.CLIENT)
 			{
@@ -105,7 +105,7 @@ public class PacketMixPlayDestroyed extends Packet
 			}
 		} else if (dest == Destination.OTHER_BATTLEFIELD)
 		{
-			PlayedCard card = new PlayedCard(c);
+			PlayedCard card = c.duplicate();
 			java.util.Set<Player> onlinePlayers = player.runningParty.getOnlinePlayers();
 			card.setController(StreamSupport.stream(onlinePlayers).filter(pl -> !pl.uuid.equals(p.uuid)).findAny().get());
 			data.getPlayed().add(card);
@@ -142,20 +142,20 @@ public class PacketMixPlayDestroyed extends Packet
 		{
 			if (exiled)
 			{
-				List<OwnedCard> cards = data.getExile();
-				OwnedCard last = cards.isEmpty() ? null : cards.get(cards.size() - 1);
+				List<PlayedCard> cards = data.getExile();
+				PlayedCard last = cards.isEmpty() ? null : cards.get(cards.size() - 1);
 				if (player == p)
-					GameMenu.instance().playerInfos.exile(last == null ? null : new PlayedCard(last));
+					GameMenu.instance().playerInfos.exile(last == null ? null : last.duplicate());
 				else
-					GameMenu.instance().adverseInfos.exile(last == null ? null : new PlayedCard(last));
+					GameMenu.instance().adverseInfos.exile(last == null ? null : last.duplicate());
 			} else
 			{
-				List<OwnedCard> cards = data.getGraveyard();
-				OwnedCard last = cards.isEmpty() ? null : cards.get(cards.size() - 1);
+				List<PlayedCard> cards = data.getGraveyard();
+				PlayedCard last = cards.isEmpty() ? null : cards.get(cards.size() - 1);
 				if (player == p)
-					GameMenu.instance().playerInfos.graveyard(last == null ? null : new PlayedCard(last));
+					GameMenu.instance().playerInfos.graveyard(last == null ? null : last.duplicate());
 				else
-					GameMenu.instance().adverseInfos.graveyard(last == null ? null : new PlayedCard(last));
+					GameMenu.instance().adverseInfos.graveyard(last == null ? null : last.duplicate());
 			}
 		}
 	}

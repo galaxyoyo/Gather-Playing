@@ -10,6 +10,7 @@ import io.netty.buffer.ByteBuf;
 import javafx.application.Platform;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PacketMixDrawCard extends Packet
 {
@@ -32,8 +33,8 @@ public class PacketMixDrawCard extends Packet
 				if (count <= 0)
 					return;
 				data.setMulligan((byte) count);
-				for (OwnedCard card : data.getHand())
-					data.getLibrary().addCard(card);
+				for (PlayedCard card : data.getHand())
+					data.getLibrary().addCard(card.toOwnedCard());
 				data.getHand().clear();
 				data.getLibrary().shuffle();
 				Server.sendChat(player.runningParty, "chat.mulligan", "color: green;", player.name, Integer.toString(count), count > 1 ? "text.card" : "text.cards");
@@ -45,7 +46,9 @@ public class PacketMixDrawCard extends Packet
 			for (int i = 0; i < count; ++i)
 			{
 				OwnedCard card = data.getLibrary().drawCard();
-				data.getHand().add(card);
+				PlayedCard c = new PlayedCard(card);
+				c.setHand(true);
+				data.getHand().add(c);
 				cards.add(card);
 			}
 			sendToParty();
@@ -71,17 +74,19 @@ public class PacketMixDrawCard extends Packet
 			}
 			for (int i = 0; i < count; ++i)
 				cards.add(new OwnedCard(readCard(buf), p, buf.readBoolean()));
-			data.getHand().addAll(cards);
+			List<PlayedCard> list = Lists.newArrayList(cards.stream().map(PlayedCard::new).collect(Collectors.toList()));
+			list.forEach(c -> c.setHand(true));
+			data.getHand().addAll(list);
 			if (p == player)
 			{
 				GameMenu.instance().playerInfos.addLibrary(-count);
-				for (OwnedCard card : cards)
+				for (PlayedCard card : list)
 					Platform.runLater(() -> GameMenu.instance().hand.getChildren().add(new CardShower(card)));
 			}
 			else
 			{
 				GameMenu.instance().adverseInfos.addLibrary(-count);
-				for (OwnedCard card : cards)
+				for (PlayedCard card : list)
 					Platform.runLater(() -> GameMenu.instance().adverseHand.getChildren().add(new CardShower(card)));
 			}
 		}

@@ -1,13 +1,13 @@
 package fr.galaxyoyo.gatherplaying.web.servlets;
 
-import io.netty.handler.codec.http.FullHttpRequest;
-import io.netty.handler.codec.http.FullHttpResponse;
+import fr.galaxyoyo.gatherplaying.web.HttpRequest;
+import fr.galaxyoyo.gatherplaying.web.HttpResponse;
 
 public interface WebServlet
 {
-	void doGet(FullHttpRequest request, FullHttpResponse resp);
+	void doGet(HttpRequest request, HttpResponse resp);
 
-	void doPost(FullHttpRequest request, FullHttpResponse resp);
+	void doPost(HttpRequest request, HttpResponse resp);
 
 	String getPattern();
 }

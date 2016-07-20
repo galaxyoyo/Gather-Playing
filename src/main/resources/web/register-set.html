@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Nouvelle extension</title>
+    <style>
+        label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<form method="post">
+    <table>
+        <tbody>
+        <tr>
+            <td>
+                <label for="name">Nom de l'extension (en) :</label>
+            </td>
+            <td>
+                <input type="text" name="name" id="name"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="name_fr">Nom de l'extension (fr) :</label>
+            </td>
+            <td>
+                <input type="text" name="name_fr" id="name_fr"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="code">Code de l'extension :</label>
+            </td>
+            <td>
+                <input type="text" name="code" id="code" maxlength="3"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="date">Date de sortie :</label>
+            </td>
+            <td>
+                <input type="date" name="date" id="date"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="block">Bloc :</label>
+            </td>
+            <td>
+                <input type="text" name="block" id="block" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="type">Type :</label>
+            </td>
+            <td>
+                <select name="type" id="type">
+                    <option value="expansion">Extension</option>
+                    <option value="duel deck">Duel Deck</option>
+                    <option value="commander">Commander</option>
+                    <option value="reprint">Réimpression</option>
+                    <option value="promo">Promo</option>
+                    <option value="from the vault">From the Vault</option>
+                    <option value="conspiracy">Conspiracy</option>
+                    <option value="planechase">Planechase</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <input type="submit"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+</body>
+</html>

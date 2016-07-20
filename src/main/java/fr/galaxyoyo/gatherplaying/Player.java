@@ -28,7 +28,7 @@ public class Player
 
 	public PlayerData getData()
 	{
-		assert runningParty != null : new IllegalAccessException("The player isn't playing!");
+		assert runningParty != null;
 		return runningParty.getData(this);
 	}
 
@@ -43,11 +43,26 @@ public class Player
 	}
 
 	@Override
-	public String toString() { return name; }
-
-	@Override
 	public int hashCode()
 	{
-		return uuid.hashCode();
+		int result = uuid.hashCode();
+		result = 31 * result + name.hashCode();
+		return result;
 	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o) return true;
+		if (!(o instanceof Player)) return false;
+
+		Player player = (Player) o;
+
+		if (!uuid.equals(player.uuid)) return false;
+		return name.equals(player.name);
+
+	}
+
+	@Override
+	public String toString() { return name; }
 }

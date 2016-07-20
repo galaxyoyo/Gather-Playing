@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.URL;
 import java.util.*;
 
@@ -37,6 +38,7 @@ public class Set implements Comparable<Set>
 	private int mkm_id = -1;
 	private boolean buyable = false;
 	private String finishedTranslations = "";
+	private boolean preview = false;
 
 	public static Set read(String jsoned)
 	{
@@ -44,8 +46,12 @@ public class Set implements Comparable<Set>
 		Set set = gson.fromJson(jsoned, Set.class);
 		if (set.magicCardsInfoCode == null)
 			set.magicCardsInfoCode = set.code.toLowerCase();
+		if (set.getReleaseDate().getTime() - System.currentTimeMillis() > 864000000L)
+			set.setPreview();
 		for (Card card : Sets.newHashSet(set.cards))
 		{
+			if (set.isPreview())
+				card.setPreview();
 			if (card.getType() == null)
 			{
 				System.out.println(card);
@@ -67,6 +73,26 @@ public class Set implements Comparable<Set>
 		return set;
 	}
 
+	public void setPreview()
+	{
+		if (code.equals("EMN"))
+			new Exception("EMN").printStackTrace();
+		if (booster == null)
+			booster = new Object[]{new Object[]{"mythic rare", "rare"}, "uncommon", "uncommon", "uncommon", "common", "common", "common", "common", "common", "common", "common",
+					"common", "common", "common"};
+		preview = true;
+	}
+
+	public boolean isPreview()
+	{
+		return preview;
+	}
+
+	public Map<String, String> getTranslations()
+	{
+		return translations;
+	}
+
 	public void addLang(String language)
 	{
 		try
@@ -78,7 +104,7 @@ public class Set implements Comparable<Set>
 			{
 				if (cardData.layout == Layout.DOUBLE_FACED && cardData.number.endsWith("b"))
 					cardData.multiverseid++;
-				Card card = StreamSupport.stream(cards).filter(c -> Integer.toString(cardData.multiverseid).equalsIgnoreCase(c.getMuId(language))).findAny().orElse(null);
+				Card card = StreamSupport.stream(cards).filter(c -> cardData.multiverseid == c.getMuId(language)).findAny().orElse(null);
 				if (card == null)
 				{
 					StreamSupport.stream(cards).filter(Card::isBasic).forEach(c -> System.out.println(c.getMuId("fr")));
@@ -91,7 +117,7 @@ public class Set implements Comparable<Set>
 				MySQL.updateCard(card);
 			}
 		}
-		catch (FileNotFoundException ignored)
+		catch (FileNotFoundException | ConnectException ignored)
 		{
 		}
 		catch (IOException ex)

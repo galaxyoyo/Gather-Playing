@@ -259,7 +259,14 @@ public class MySQL
 	public static void updateCard(Card card)
 	{
 		delete("cards", Condition.equals(new Value("id_EN", card.getMuId("en"))));
-		insertCard(card);
+		try
+		{
+			insertCard(card);
+		}
+		catch (RuntimeException ex)
+		{
+			throw new RuntimeException("Error while updating: " + card, ex.getCause());
+		}
 	}
 
 	private static void insertCard(Card card)

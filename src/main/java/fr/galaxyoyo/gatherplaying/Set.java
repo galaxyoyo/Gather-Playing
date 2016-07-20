@@ -95,6 +95,8 @@ public class Set implements Comparable<Set>
 
 	public void addLang(String language)
 	{
+		if (finishedTranslations.contains(language))
+			return;
 		try
 		{
 			String json = IOUtils.toString(new URL("http://gp.arathia.fr/json/" + code.replace("CON", "CON_") + "." + language + ".json"), "UTF-8");

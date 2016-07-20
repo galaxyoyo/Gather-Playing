@@ -712,8 +712,6 @@ public class MySQL
 					insertSingleCard(card);
 					cards.put(muId, card);
 				}
-				if (Utils.getSide() == Side.SERVER)
-					set.addLang(Config.getLocaleCode());
 				timestamp = System.currentTimeMillis();
 				insert("sets", new String[]{"name", "name_DE", "name_FR", "name_IT", "name_ES", "name_PT", "name_JP", "name_CN", "name_TW", "name_KO", "code", "magic_cards_info_code",
 								"release_date", "type", "block", "booster", "border", "finished_translations", "mkm_id", "mkm_name"}, set.getName(), set.translations.get("de"), set
@@ -727,7 +725,13 @@ public class MySQL
 				System.out.println("Time to commit : " + (System.currentTimeMillis() - timestamp) + " ms");
 			}
 			Loading.setLabel("Mise à jour des traductions");
-			StreamSupport.stream(sets.values()).filter(set -> !set.getFinishedTranslations().contains(Config.getLocaleCode())).forEach(set -> set.addLang(Config.getLocaleCode()));
+			if (Utils.getSide() == Side.CLIENT)
+				StreamSupport.stream(sets.values()).forEach(set -> set.addLang(Config.getLocaleCode()));
+			else
+				StreamSupport.stream(sets.values()).forEach(set -> {
+					for (String locale : LOCALES)
+						set.addLang(locale);
+				});
 			connection.commit();
 			connection.setAutoCommit(true);
 			if (Utils.getSide() == Side.SERVER)

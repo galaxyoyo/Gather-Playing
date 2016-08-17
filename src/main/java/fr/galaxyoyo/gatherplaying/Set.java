@@ -108,6 +108,7 @@ public class Set implements Comparable<Set>
 				co.disconnect();
 				throw new FileNotFoundException();
 			}
+			System.out.println("Getting language '" + language + "' of " + name + "...");
 			String json = IOUtils.toString(co.getInputStream(), "UTF-8");
 			co.disconnect();
 			Gson gson = new GsonBuilder().registerTypeAdapter(Layout.class, CardSerializer.LAYOUT).create();

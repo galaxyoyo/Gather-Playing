@@ -36,10 +36,11 @@ public class CardShowerServlet extends AbstractWebServlet
 		String html = "<!doctype html><html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\" /><title>";
 		html += card.getName().get(locale);
 		html += "</title></head><body><table><tbody><tr><td>";
-		if (card.isPreview())
+		html += "<img src=\"/render-card?muId=" + card.getMuId("en") + "&locale=" + locale + "\" />";
+	/*	if (card.isPreview())
 			html += "<img src=\"" + card.getImageName() + "\" />";
 		else
-			html += "<img src=\"http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + card.getMuId(locale) + "&type=card\" />";
+			html += "<img src=\"http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + card.getMuId(locale) + "&type=card\" />";*/
 		html += "</td><td><table><tbody><tr><td><b>Nom de la carte :</b></td><td>" + card.getName().get(locale) + "</td></tr>";
 		if (card.getManaCost() != null)
 		{
@@ -221,7 +222,7 @@ public class CardShowerServlet extends AbstractWebServlet
 	{
 		try
 		{
-			return new SimpleDateFormat("dd-MM-yyyy HH:mm").parse("15-07-2016 22:00");
+			return new SimpleDateFormat("dd-MM-yyyy HH:mm").parse("04-08-2016 17:42");
 		}
 		catch (ParseException e)
 		{

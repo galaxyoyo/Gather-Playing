@@ -33,6 +33,7 @@ public class WebServerHandler extends SimpleChannelInboundHandler<FullHttpReques
 		registerServlet(new SetShowerServlet());
 		registerServlet(new RegisterSetServlet());
 		registerServlet(new RegisterCardServlet());
+		registerServlet(new RenderCardServet());
 	}
 
 	public static void registerServlet(WebServlet servlet)

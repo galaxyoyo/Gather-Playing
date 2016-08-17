@@ -1,5 +1,6 @@
 package fr.galaxyoyo.gatherplaying.web.servlets;
 
+import com.google.common.base.Strings;
 import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.web.HttpHeader;
 import fr.galaxyoyo.gatherplaying.web.HttpRequest;
@@ -48,12 +49,12 @@ public class RegisterCardServlet extends SimpleHtmlReaderServlet
 		for (int i = 0; i < colorsSplit.length; i++)
 			colors[i] = ManaColor.getBySignificant(colorsSplit[i]);
 		CardType type = CardType.valueOf(request.getParameter("type").toUpperCase());
-		String[] subtypesSplit = request.getParameter("subtypes").split(" et ");
+		String[] subtypesSplit = request.getParameter("subtypes") == null ? new String[0] : request.getParameter("subtypes").split(" et ");
 		SubType[] subtypes = new SubType[subtypesSplit.length];
 		for (int i = 0; i < subtypes.length; i++)
 		{
 			String stName = subtypesSplit[i];
-			subtypes[i] = Arrays.stream(SubType.values()).filter(st -> st.getTranslatedName().get().equalsIgnoreCase(stName)).findAny().orElse(null);
+			subtypes[i] = Arrays.stream(SubType.values()).filter(st -> st.getTranslatedName().get().equalsIgnoreCase(stName)).findAny().orElse(SubType.valueOf(stName));
 		}
 		String ability = request.getParameter("ability");
 		String ability_fr = request.getParameter("ability_fr");
@@ -72,7 +73,7 @@ public class RegisterCardServlet extends SimpleHtmlReaderServlet
 
 		Card card;
 		if (request.getParameter("edit") != null)
-			card = MySQL.getAllCards().stream().filter(c -> c.getMuId().values().contains(request.getParameter("edit"))).findAny().get();
+			card = MySQL.getAllCards().stream().filter(c -> c.getMuId().values().contains(request.getIntParameter("edit"))).findAny().get();
 		else
 			card = new Card();
 		card.getName().put("en", name);
@@ -128,7 +129,7 @@ public class RegisterCardServlet extends SimpleHtmlReaderServlet
 	{
 		if (request.getParameter("edit") != null)
 		{
-			Card card = MySQL.getAllCards().stream().filter(c -> c.getMuId().values().contains(request.getParameter("edit"))).findAny().get();
+			Card card = MySQL.getAllCards().stream().filter(c -> c.getMuId().values().contains(request.getIntParameter("edit"))).findAny().get();
 			text = text.replaceFirst("value=\"\"", "value=\"" + card.getName().get("en") + "\"");
 			text = text.replaceFirst("value=\"\"", "value=\"" + card.getName().get("fr") + "\"");
 			text = text.replaceFirst("<option value=\"" + card.getSet().getCode() + "\">", "<option value=\"" + card.getSet().getCode() + "\" selected>");
@@ -149,14 +150,14 @@ public class RegisterCardServlet extends SimpleHtmlReaderServlet
 			text = text.replaceFirst("<option value=\"" + card.getType().name().toLowerCase() + "\">", "<option value=\"" + card.getType().name().toLowerCase() + "\" selected>");
 			String stStr = "";
 			for (SubType st : card.getSubtypes())
-				stStr += " et " + st.getTranslatedName().get().toLowerCase();
-			text = text.replaceFirst("value=\"\"", "value=\"" + stStr.substring(4) + "\"");
+				stStr += " et " + (st == null ? "null" : st.getTranslatedName().get().toLowerCase());
+			text = text.replaceFirst("value=\"\"", "value=\"" + (stStr.isEmpty() ? "¶" : stStr.substring(4)) + "\"");
 			text = text.replaceFirst("></textarea>", ">" + StringUtils.defaultIfEmpty(card.getAbilityMap().get("en"), "¶") + "</textarea>");
 			text = text.replaceFirst("></textarea>", ">" + StringUtils.defaultIfEmpty(card.getAbilityMap().get("fr"), "¶") + "</textarea>");
 			text = text.replaceFirst("></textarea>", ">" + StringUtils.defaultIfEmpty(card.getFlavorMap().get("en"), "¶") + "</textarea>");
 			text = text.replaceFirst("></textarea>", ">" + StringUtils.defaultIfEmpty(card.getFlavorMap().get("fr"), "¶") + "</textarea>");
-			text = text.replaceFirst("value=\"\"", "value=\"" + card.getPower() + "\"");
-			text = text.replaceFirst("value=\"\"", "value=\"" + card.getToughness() + "\"");
+			text = text.replaceFirst("value=\"\"", "value=\"" + StringUtils.defaultIfEmpty(card.getPower(), "¶") + "\"");
+			text = text.replaceFirst("value=\"\"", "value=\"" + StringUtils.defaultIfEmpty(card.getToughness(), "¶") + "\"");
 			text = text.replaceFirst("value=\"0\"", "value=\"" + card.getLoyalty() + "\"");
 			text = text.replaceFirst("<option value=\"" + card.getRarity().name().toLowerCase() + "\">", "<option value=\"" + card.getRarity().name().toLowerCase() + "\" selected>");
 			text = text.replaceFirst("<option value=\"" + card.getLayout().name().toLowerCase() + "\">", "<option value=\"" + card.getLayout().name().toLowerCase() + "\" selected>");
@@ -166,8 +167,8 @@ public class RegisterCardServlet extends SimpleHtmlReaderServlet
 				text = text.replace("<option value=\"legendary\">", "<option value=\"legendary\" selected>");
 			text = text.replaceFirst("value=\"\"", "value=\"" + card.getArtist() + "\"");
 			text = text.replaceFirst("value=\"\"", "value=\"" + StringUtils.defaultIfEmpty(card.getWatermark(), "¶") + "\"");
-			text = text.replaceFirst("value=\"\"", "value=\"" + card.getNumber() + "\"");
-			text = text.replaceFirst("value=\"\"", "value=\"" + card.getImageName() + "\"");
+			text = text.replaceFirst("value=\"\"", "value=\"" + StringUtils.defaultIfEmpty(card.getNumber(), "¶") + "\"");
+			text = text.replaceFirst("value=\"\"", "value=\"" + StringUtils.defaultIfEmpty(card.getImageName(), "¶") + "\"");
 			text = text.replace("¶", "");
 		}
 		return text;

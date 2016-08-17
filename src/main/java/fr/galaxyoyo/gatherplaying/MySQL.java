@@ -229,7 +229,10 @@ public class MySQL
 			card.setType(cardTypes.get(set.getString("type").toUpperCase()));
 			card.setSubtypes(gson.fromJson(set.getString("subtypes"), SubType[].class));
 			for (SubType st : card.getSubtypes())
-				st.setCanApplicate(card.getType());
+			{
+				if (st != null)
+					st.setCanApplicate(card.getType());
+			}
 			card.setLegendary(set.getBoolean("legendary"));
 			card.setBasic(set.getBoolean("basic"));
 			card.setWorld(set.getBoolean("world"));
@@ -477,7 +480,7 @@ public class MySQL
 			if (Utils.isMobile())
 				DriverManager.registerDriver((Driver) Class.forName("org.sqldroid.SQLDroidDriver").newInstance());
 			connection = DriverManager.getConnection("jdbc:sqlite:" + Utils.newFile("cards.db").getAbsolutePath());
-			connection.createStatement().execute("PRAGMA encoding = \"UTF-8\";");
+			connection.createStatement().execute("PRAGMA encoding = 'UTF-8';");
 			Loading.setLabel("Vérification de la base de données");
 			if (!checkexists("sets"))
 			{

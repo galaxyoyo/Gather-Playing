@@ -77,10 +77,11 @@ public class SetShowerServlet extends AbstractWebServlet
 			if (muId == null)
 				muId = card.getMuId("en");
 			html += "<a href=\"/card/" + muId + "\">";
-			if (card.isPreview())
+			html += "<img src=\"/render-card?muId=" + card.getMuId("en") + "&locale=fr\" />";
+		/*	if (card.isPreview())
 				html += "<img src=\"" + card.getImageName() + "\" />";
 			else
-				html += "<img src=\"http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + muId + "&type=card\" />";
+				html += "<img src=\"http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + muId + "&type=card\" />";*/
 			html += "</a>";
 		}
 		html += "</body></html>";
@@ -106,7 +107,7 @@ public class SetShowerServlet extends AbstractWebServlet
 	{
 		try
 		{
-			return new SimpleDateFormat("dd-MM-yyyy HH:mm").parse("15-07-2016 22:00");
+			return new SimpleDateFormat("dd-MM-yyyy HH:mm").parse("04-08-2016 17:42");
 		}
 		catch (ParseException e)
 		{

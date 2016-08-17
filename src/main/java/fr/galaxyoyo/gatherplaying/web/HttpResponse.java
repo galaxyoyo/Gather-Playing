@@ -103,6 +103,7 @@ public class HttpResponse extends DefaultFullHttpResponse
 
 	public void setContentType(String contentType)
 	{
+		headers().remove(HttpHeader.CONTENT_TYPE.getName());
 		setHeader(HttpHeader.CONTENT_TYPE, contentType);
 	}
 

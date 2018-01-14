@@ -82,11 +82,11 @@ run {
         }
         else {
             if (side == 'server')
-                workingDir '/media/galaxyoyo/02BCCE48BCCE35C7/IDEA Workspace/Gather Playing/server'
+                workingDir '/home/galaxyoyo/IDEA Workspace/Gather Playing/server'
             else if (side == 'client')
-                workingDir '/media/galaxyoyo/02BCCE48BCCE35C7/IDEA Workspace/Gather Playing/client'
+                workingDir '/home/galaxyoyo/IDEA Workspace/Gather Playing/client'
             else
-                workingDir '/media/galaxyoyo/02BCCE48BCCE35C7/IDEA Workspace/Gather Playing/client 2'
+                workingDir '/home/galaxyoyo/IDEA Workspace/Gather Playing/client 2'
         }
     }
 }

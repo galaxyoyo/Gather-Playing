@@ -24,7 +24,7 @@ public class ImageWriter
 	{
 		try
 		{
-			File titleToLandColorsFile = new File("C:\\MTG\\Cardgen\\data", "titleToLandColors.csv");
+			File titleToLandColorsFile = new File(CardRenderer.DIR + "/data", "titleToLandColors.csv");
 			List<String> lines = FileUtils.readLines(titleToLandColorsFile, StandardCharsets.UTF_8);
 			for (String line : lines)
 			{
@@ -74,7 +74,7 @@ public class ImageWriter
 		for (Map.Entry<Renderer, BufferedImage> entry : renderers.entrySet())
 		{
 			Renderer renderer = entry.getKey();
-			if (renderer.getOutputFile().isFile())
+			if (renderer.getOutputFile().isFile() && !Utils.DEBUG)
 			{
 				try
 				{
@@ -89,10 +89,11 @@ public class ImageWriter
 			try
 			{
 				entry.setValue(renderer.render());
-				if (!renderer.getOutputFile().isDirectory())
-					renderer.getOutputFile().mkdirs();
-				if (!Utils.DEBUG && (!(renderer instanceof CardRenderer) || ((CardRenderer) renderer).getCard().isPreview()) && (!(renderer instanceof TokenRenderer) || (
-						(TokenRenderer) renderer).getToken().getSet().isPreview()))
+				if (!renderer.getOutputFile().getParentFile().isDirectory())
+					renderer.getOutputFile().getParentFile().mkdirs();
+				renderer.getOutputFile().createNewFile();
+			//	if (!Utils.DEBUG && (!(renderer instanceof CardRenderer) || ((CardRenderer) renderer).getCard().isPreview()) && (!(renderer instanceof TokenRenderer) || (
+			//			(TokenRenderer) renderer).getToken().getSet().isPreview()))
 					ImageIO.write(entry.getValue(), "JPEG", renderer.getOutputFile());
 			}
 			catch (IOException e)

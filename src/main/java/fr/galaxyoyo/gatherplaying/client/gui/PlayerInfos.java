@@ -1,7 +1,10 @@
 package fr.galaxyoyo.gatherplaying.client.gui;
 
 import com.google.common.collect.Maps;
-import fr.galaxyoyo.gatherplaying.*;
+import fr.galaxyoyo.gatherplaying.Card;
+import fr.galaxyoyo.gatherplaying.PlayedCard;
+import fr.galaxyoyo.gatherplaying.Player;
+import fr.galaxyoyo.gatherplaying.Utils;
 import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.protocol.packets.*;
 import javafx.application.Platform;

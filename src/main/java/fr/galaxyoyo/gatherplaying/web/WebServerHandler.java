@@ -30,10 +30,12 @@ public class WebServerHandler extends SimpleChannelInboundHandler<FullHttpReques
 		registerServlet(new LoginServlet());
 		registerServlet(new ViewDeckServlet());
 		registerServlet(new CardShowerServlet());
+		registerServlet(new TokenShowerServlet());
 		registerServlet(new SetShowerServlet());
 		registerServlet(new RegisterSetServlet());
 		registerServlet(new RegisterCardServlet());
 		registerServlet(new RenderCardServet());
+		registerServlet(new RenderTokenServlet());
 	}
 
 	public static void registerServlet(WebServlet servlet)

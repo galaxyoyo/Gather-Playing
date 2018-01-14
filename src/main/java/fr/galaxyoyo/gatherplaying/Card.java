@@ -3,7 +3,6 @@ package fr.galaxyoyo.gatherplaying;
 import com.google.gson.Gson;
 import fr.galaxyoyo.gatherplaying.client.Config;
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.StringBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;

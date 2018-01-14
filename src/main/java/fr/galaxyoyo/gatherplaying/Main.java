@@ -4,6 +4,7 @@ import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.client.Config;
 import fr.galaxyoyo.gatherplaying.client.I18n;
 import fr.galaxyoyo.gatherplaying.client.gui.CardImageManager;
+import fr.galaxyoyo.gatherplaying.rendering.CardRenderer;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Group;
@@ -578,7 +579,7 @@ public class Main
 	@SuppressWarnings("unsued")
 	private static void cropImages(String setCode) throws IOException, InterruptedException
 	{
-		File dir = new File("C:\\MTG\\Cardgen\\Pictures\\Main", setCode);
+		File dir = new File(CardRenderer.DIR + "/Pictures/Main", setCode);
 		File localDir = new File("pics", setCode);
 		//noinspection ConstantConditions
 		for (File local : localDir.listFiles())

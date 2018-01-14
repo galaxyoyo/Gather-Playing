@@ -1,6 +1,5 @@
 package fr.galaxyoyo.gatherplaying.client.gui;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.collect.Maps;
 import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.client.Config;
@@ -38,7 +37,7 @@ public class CardImageManager
 
 	public static Image getImage(Card card)
 	{
-		Integer muId = card == null ? null : card.getMuId("en");
+		Integer muId = card == null ? null : card.getMuId(Config.getLocaleCode());
 		String locale = Config.getLocaleCode();
 		if (!Config.getHqCards() && images.containsKey(card == null ? "" : muId))
 			return images.get(card == null ? "" : muId);
@@ -78,9 +77,9 @@ public class CardImageManager
 				url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=-1&type=card");
 			else
 			{
-				if (Config.getHqCards() && locale.equals("fr"))
+				if (Config.getHqCards())
 				{
-					Image img = new Image("http://gp.arathia.fr/scanshq/fr/" + card.getSet().getCode() + "/" + card.getMuId("fr") + ".jpg");
+					Image img = new Image("http://galaxyoyo.com:42000/render-card?muId=" + card.getMuId("en") + "&locale=" + Config.getLocaleCode());
 					if (!img.isError())
 					{
 						img.progressProperty().addListener((observable, oldValue, newValue) ->
@@ -93,7 +92,7 @@ public class CardImageManager
 									if (Utils.isDesktop())
 										ImageIO.write(SwingFXUtils.fromFXImage(img, null), "PNG", f);
 									else
-										FileUtils.copyURLToFile(new URL("http://gp.arathia.fr/scanshq/fr/" + card.getMuId("fr") + ".jpg"), f);
+										FileUtils.copyURLToFile(new URL("http://galaxyoyo.com:42000/render-card?muId=" + card.getMuId("en") + "&locale=" + Config.getLocaleCode()), f);
 									images.put(muId, img);
 								}
 								catch (IOException ex)
@@ -123,6 +122,7 @@ public class CardImageManager
 				return getImage((Card) null);
 			}
 
+			URL finalUrl = url;
 			img.progressProperty().addListener((observable, oldValue, newValue) ->
 			{
 				if (newValue.doubleValue() >= 1.0D)
@@ -134,7 +134,7 @@ public class CardImageManager
 						if (Utils.isDesktop())
 							ImageIO.write(SwingFXUtils.fromFXImage(img, null), "PNG", file);
 						else
-							FileUtils.copyURLToFile(url, file);
+							FileUtils.copyURLToFile(finalUrl, file);
 					}
 					catch (IOException ex)
 					{

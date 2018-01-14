@@ -1,6 +1,5 @@
 package fr.galaxyoyo.gatherplaying.web.servlets;
 
-import com.google.common.base.Strings;
 import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.web.HttpHeader;
 import fr.galaxyoyo.gatherplaying.web.HttpRequest;

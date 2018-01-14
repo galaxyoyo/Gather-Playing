@@ -100,7 +100,7 @@ public class Set implements Comparable<Set>
 			return;
 		try
 		{
-			URL url = new URL("http://gp.arathia.fr/json/" + code + "." + language + ".json");
+			URL url = new URL("http://galaxyoyo.com/gp/json/" + code + "." + language + ".json");
 			HttpURLConnection co = (HttpURLConnection) url.openConnection();
 			co.connect();
 			if (co.getResponseCode() == 404)
@@ -123,7 +123,7 @@ public class Set implements Comparable<Set>
 					StreamSupport.stream(cards).filter(Card::isBasic).forEach(c -> System.out.println(c.getMuId("fr")));
 					System.out.println(cardData.multiverseid + " (" + code + ")");
 					System.out.println(cardData.originalText);
-					System.exit(0);
+					continue;
 				}
 				card.getAbilityMap().put(language, cardData.originalText);
 				card.getFlavorMap().put(language, cardData.flavor);

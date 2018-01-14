@@ -40,6 +40,10 @@ public class CardDetailsShower extends AbstractController implements Initializab
 		powerLbl.visibleProperty().bind(power.visibleProperty());
 		getParent().prefWidthProperty().bind(Client.getStage().widthProperty().multiply(0.375));
 
+		image.setSmooth(false);
+		image.setPreserveRatio(true);
+		doubleFacedImage.setSmooth(true);
+
 		if (Utils.isMobile())
 		{
 			image.setFitWidth(74.0D);
@@ -47,8 +51,8 @@ public class CardDetailsShower extends AbstractController implements Initializab
 		}
 		else if (Config.getHqCards())
 		{
-			image.setFitWidth(360.0D);
-			image.setFitHeight(510.0D);
+			image.setFitWidth(720.0D / 2.0D);
+		//	image.setFitHeight(1024.0D / 3.0D);
 		}
 	}
 
@@ -72,8 +76,8 @@ public class CardDetailsShower extends AbstractController implements Initializab
 				}
 				else if (Config.getHqCards())
 				{
-					doubleFacedImage.setFitWidth(360.0D);
-					doubleFacedImage.setFitHeight(510.0D);
+					doubleFacedImage.setFitWidth(720.0D / 3.0D);
+					doubleFacedImage.setFitHeight(1024.0D / 3.0D);
 				}
 				else
 				{

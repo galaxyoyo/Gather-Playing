@@ -8,10 +8,12 @@ import fr.galaxyoyo.gatherplaying.client.Config;
 import java8.util.stream.Collectors;
 import java8.util.stream.RefStreams;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -33,12 +35,33 @@ public class M15Planeswalker extends CardRenderer
 
 		ManaColor[] colorsObj = getCard().getColors();
 		String colors = String.join("", RefStreams.of(colorsObj).map(ManaColor::getAbbreviate).collect(Collectors.toList()));
+		switch (colors)
+		{
+			case "WG":
+				colors = "GW";
+				break;
+			case "WR":
+				colors = "RW";
+				break;
+		}
 		boolean useMulticolorFrame = colors.length() == 2;
 
 		BufferedImage img = new BufferedImage(720, 1020, BufferedImage.TYPE_INT_RGB);
+
 		Graphics2D g = img.createGraphics();
 
-		drawArt(g, new File(ARTDIR, getCard().getSet().getCode() + "/" + getCard().getName().get("en") + ".jpg"), 0, 0, 1020, 720);
+		File picDir = new File(ARTDIR, getCard().getSet().getCode());
+		picDir.mkdirs();
+		File artFile = new File(picDir, getCard().getName().get("en") + ".jpg");
+		if (!artFile.isFile())
+		{
+			BufferedImage art = ImageIO.read(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + (getCard().getMuId("en")) + "&type=card")).getSubimage(18, 36,
+					205 - 18, 173 - 36);
+			ImageIO.write(art, "PNG", artFile);
+		}
+
+		//drawArt(g, artFile, 0, 0, 1020, 720);
+		drawArt(g, artFile, 107, 43, 569, 674);
 
 		System.out.print(".");
 
@@ -74,7 +97,19 @@ public class M15Planeswalker extends CardRenderer
 		System.out.print(".");
 
 		int typex = frameDir.getName().equals("transform-night") || frameDir.getName().equals("transform-ignite") ? 87 : 51;
-		drawText(g, typex, 616, rarityLeft - typex, "Planeswalker : " + getCard().getSubtypes()[0].getTranslatedName().get(), false, false);
+		String type = "Planeswalker";
+		if (getCard().isLegendary())
+		{
+			if (Config.getLocaleCode().equals("fr"))
+				type += " légendaire";
+			else
+				type = "Legendary Planeswalker";
+		}
+		if (Config.getLocaleCode().equals("fr"))
+			type += " : ";
+		else
+			type += " — ";
+		drawText(g, typex, 616, rarityLeft - typex, type + getCard().getSubtypes()[0].getTranslatedName().get(), false, false);
 
 		String legal = getCard().getAbility().replace(" : ", ": ").replace('−', '-').replace("\r\n", "\n").replace("\r", "\n");
 		String[][] infos = new String[3][2];
@@ -115,23 +150,23 @@ public class M15Planeswalker extends CardRenderer
 			switch (i)
 			{
 				case 0:
-					y = 626;
+					y = 680;
 					break;
 				case 1:
-					y = 725;
+					y = 782;
 					break;
 				case 2:
-					y = 815;
+					y = 872;
 					break;
 			}
 
 			if (image != null)
-				g.drawImage(image, 0, y, 120, 120, null);
+				g.drawImage(image, 0, y - 57, 120, 120, null);
 			g.setColor(Color.WHITE);
 			g.setFont(Fonts.LOYALTY_CHANGE);
-			drawText(g, 60, y + 57, 114, infos[i][0], true, true);
+			drawText(g, 60, y, 114, infos[i][0], true, true);
 			g.setColor(Color.BLACK);
-			drawChunksWrapped(g, (int) (y + (90 - (i == 0 ? map1 : i == 1 ? map2 : map3).get("height").floatValue()) + f.getSize2D() / 2.0F), 122,
+			drawChunksWrapped(g, (int) (y  + f.getSize2D() - ((i == 0 ? map1 : i == 1 ? map2 : map3).get("height").floatValue()) / 2.0F), 122,
 					673, getChunks(infos[i][1]), f);
 		}
 
@@ -154,7 +189,7 @@ public class M15Planeswalker extends CardRenderer
 		g.setFont(Fonts.ARTIST);
 		drawText(g, 64 + w, 996, 99999, getCard().getArtist(), false, false);
 
-		String copyright = "Gather Playing ™ & © 2016 Wizards of the Coast";
+		String copyright = "GP ™ & © 2018 Wizards of the Coast";
 		g.setFont(Fonts.COPYRIGHT);
 		drawText(g, 680 - (int) getStringWidth(copyright, g.getFont()), 996, 99999, copyright, false, false);
 

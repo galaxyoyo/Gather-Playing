@@ -1,9 +1,7 @@
 package fr.galaxyoyo.gatherplaying.rendering;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.io.File;
-import java.io.IOException;
 
 import static fr.galaxyoyo.gatherplaying.rendering.Renderer.DIR;
 
@@ -27,7 +25,7 @@ public class Fonts
 		{
 			return Font.createFont(Font.TRUETYPE_FONT, new File(DIR, "fonts/" + file + (file.endsWith(".ttf") ? "" : ".ttf"))).deriveFont((float) size);
 		}
-		catch (FontFormatException | IOException e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
 			return null;

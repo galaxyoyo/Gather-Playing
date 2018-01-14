@@ -1,6 +1,7 @@
 package fr.galaxyoyo.gatherplaying.rendering;
 
 import fr.galaxyoyo.gatherplaying.*;
+import fr.galaxyoyo.gatherplaying.client.Config;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -158,6 +159,6 @@ public abstract class CardRenderer extends Renderer
 	@Override
 	public File getOutputFile()
 	{
-		return new File(DIR, "output\\" + getCard().getSet().getCode() + "\\" + getCard().getMuId("fr") + ".jpg");
+		return new File(DIR, "output/" + getCard().getSet().getCode() + "/" + getCard().getMuId(Config.getLocaleCode()) + ".jpg");
 	}
 }

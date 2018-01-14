@@ -14,7 +14,8 @@ public enum Rules
 {
 	DRAFT, SEALED, STANDARD, MODERN, COMMANDER, LEGACY, VINTAGE, KAMIGAWA_BLOCK, ICE_AGE_BLOCK, INNISTRAD_BLOCK, INVASION_BLOCK, LORWYN_SHADOWMOOR_BLOCK, MASQUES_BLOCK, MIRAGE_BLOCK,
 	MIRRODIN_BLOCK, ODYSSEY_BLOCK, ONSLAUGHT_BLOCK, RAVNICA_BLOCK, RETURN_TO_RAVNICA_BLOCK, SCARS_OF_MIRRODIN_BLOCK, SHARDS_OF_ALARA_BLOCK, KHANS_OF_TARKIR_BLOCK, TEMPEST_BLOCK,
-	THEROS_BLOCK, TIME_SPIRAL_BLOCK, URZA_BLOCK, ZENDIKAR_BLOCK, BATTLE_FOR_ZENDIKAR_BLOCK, SHADOWS_OVER_INNISTRAD_BLOCK, UN_SETS, FREEFORM;
+	THEROS_BLOCK, TIME_SPIRAL_BLOCK, URZA_BLOCK, ZENDIKAR_BLOCK, BATTLE_FOR_ZENDIKAR_BLOCK, SHADOWS_OVER_INNISTRAD_BLOCK, KALADESH_BLOCK, AMONKHET_BLOCK, IXALAN_BLOCK, UN_SETS,
+	FREEFORM;
 	// CLASSIC, WARS_LEGACY, TRIBAL_WARS_LEGACY, TRIBAL_WARS_STANDARD, PRISMATIC, SINGLETON_100
 
 	private final ObservableSet<String> legals = FXCollections.observableSet("Plains", "Mountain", "Swamp", "Forest", "Island");
@@ -39,20 +40,26 @@ public enum Rules
 			case FREEFORM:
 				return true;
 			case STANDARD:
+				switch (card.getName().get("en"))
+				{
+					case "Aetherworks Marvel":
+					case "Felidar Guardian":
+					case "Smuggler's Copter":
+						return false;
+				}
 				switch (card.getSet().getCode())
 				{
-					case "DTK":
-					case "ORI":
-					case "BFZ":
-					case "OGW":
-					case "SOI":
-					case "W16":
-						// Be added on July 22th
-					case "EMN":
+					case "KLD":
+					case "AER":
+					case "AKH":
+					case "HOU":
+					case "IXN":
+					case "W17":
+					case "RIX":
 						legals.add(card.getName().get("en"));
 						return true;
 					default:
-						for (Set set : RefStreams.of("DTK", "ORI", "BFZ", "OGW", "SOI", "W16", "EMN").map(MySQL::getSet).collect(Collectors.toSet()))
+						for (Set set : RefStreams.of("KLD", "AER", "AKH", "HOU", "IXN", "W17", "RIX").map(MySQL::getSet).collect(Collectors.toSet()))
 						{
 							if (set == null)
 								continue;
@@ -69,48 +76,36 @@ public enum Rules
 						return false;
 				}
 			case VINTAGE:
+				if (card.getType() == CardType.CONSPIRACY)
+					return false;
 				switch (card.getName().get("en"))
 				{
-					case "Advantageous Proclamation":
 					case "Amulet of Quoz":
-					case "Backup Plan":
-					case "Brago's Favor":
 					case "Bronze Tablet":
 					case "Chaos Orb":
 					case "Contract from Below":
 					case "Darkpact":
 					case "Demonic Attorney":
-					case "Double Stroke":
 					case "Falling Star":
-					case "Immediate Action":
-					case "Iterative Analysis":
 					case "Jeweled Bird":
-					case "Muzzio 's Preparations":
-					case "Power Play":
 					case "Rebirth":
-					case "Secret Summoning":
-					case "Secrets of Paradise":
-					case "Sentinel Dispatch":
 					case "Shahrazad":
 					case "Tempest Efreet":
 					case "Timmerian Fiends":
-					case "Unexpected Potential":
-					case "Worldknit":
 						return false;
 					default:
 						return card.getSet().getBorder().equalsIgnoreCase("black") || card.getSet().getBorder().equalsIgnoreCase("white");
 				}
 			case LEGACY:
+				if (card.getType() == CardType.CONSPIRACY)
+					return false;
 				switch (card.getName().get("en"))
 				{
-					case "Advantageous Proclamation":
 					case "Amulet of Quoz":
 					case "Ancestral Recall":
-					case "Backup Plan":
 					case "Balance":
 					case "Bazaar of Baghdad":
 					case "Black Lotus":
-					case "Brago's Favor":
 					case "Bronze Tablet":
 					case "Channel":
 					case "Chaos Orb":
@@ -120,7 +115,6 @@ public enum Rules
 					case "Demonic Consultation":
 					case "Demonic Tutor":
 					case "Dig Through Time":
-					case "Double Stroke":
 					case "Earthcraft":
 					case "Falling Star":
 					case "Fastbond":
@@ -129,12 +123,10 @@ public enum Rules
 					case "Goblin Recruiter":
 					case "Gush":
 					case "Hermit Druid":
-					case "Immediate Action":
 					case "Imperial Seal":
-					case "Iterative Analysis":
 					case "Jeweled Bird":
 					case "Library of Alexandria":
-					case "Mana Cryp":
+					case "Mana Crypt":
 					case "Mana Drain":
 					case "Mana Vault":
 					case "Memory Jar":
@@ -147,15 +139,10 @@ public enum Rules
 					case "Mox Pearl":
 					case "Mox Ruby":
 					case "Mox Sapphire":
-					case "Muzzio's Preparations":
 					case "Mystical Tutor":
 					case "Necropotence":
 					case "Oath of Druids":
-					case "Power Play":
 					case "Rebirth":
-					case "Secret Summoning":
-					case "Secrets of Paradise":
-					case "Sentinel Dispatch":
 					case "Shahrazad":
 					case "Skullclamp":
 					case "Sol Ring":
@@ -169,13 +156,11 @@ public enum Rules
 					case "Tinker":
 					case "Tolarian Academy":
 					case "Treasure Cruise":
-					case "Unexpected Potential":
 					case "Vampiric Tutor":
 					case "Wheel of Fortune":
 					case "Windfall":
-					case "Worldknit":
 					case "Yawgmoth's Bargain":
-					case "Yawgmoth' s Will":
+					case "Yawgmoth's Will":
 						return false;
 					default:
 						return !UN_SETS.isLegal(card) && card.getSet().getBorder().equalsIgnoreCase("black");
@@ -183,7 +168,7 @@ public enum Rules
 			case MODERN:
 				switch (card.getName().get("en"))
 				{
-					case "Ancestral Vision":
+					//case "Ancestral Vision":
 					case "Ancient Den":
 					case "Birthing Pod":
 					case "Blazing Shoal":
@@ -194,12 +179,15 @@ public enum Rules
 					case "Deathrite Shaman":
 					case "Dig Through Time":
 					case "Dread Return":
+					case "Eye of Ugin":
+					case "Gitaxian Probe":
 					case "Glimpse of Nature":
+					case "Golgari Grave-Troll":
 					case "Great Furnace":
 					case "Green Sun 's Zenith":
 					case "Hypergenesis":
 					case "Jace, the Mind Sculptor":
-					case "Mental Misstep ":
+					case "Mental Misstep":
 					case "Ponder":
 					case "Preordain":
 					case "Punishing Fire":
@@ -212,7 +200,7 @@ public enum Rules
 					case "Splinter Twin":
 					case "Stoneforge Mystic":
 					case "Summer Bloom":
-					case "Sword of the Meek":
+					//case "Sword of the Meek":
 					case "Treasure Cruise":
 					case "Tree of Tales":
 					case "Umezawa 's Jitte":
@@ -222,12 +210,11 @@ public enum Rules
 						return card.getSet().compareTo(MySQL.getSet("8ED")) >= 0;
 				}
 			case COMMANDER:
+				if (card.getType() == CardType.CONSPIRACY)
+					return false;
 				switch (card.getName().get("en"))
 				{
-					case "Advantageous Proclamation":
-					case "Amulet of Quoz":
 					case "Ancestral Recall":
-					case "Backup Plan":
 					case "Balance":
 					case "Biorhythm":
 					case "Black Lotus":
@@ -237,55 +224,38 @@ public enum Rules
 					case "Chaos Orb":
 					case "Coalition Victory":
 					case "Channel":
-					case "Contract from Below":
-					case "Darkpact":
-					case "Demonic Attorney":
-					case "Double Stroke":
 					case "Emrakul, the Aeons Torn":
 					case "Erayo, Soratami Ascendant":
 					case "Falling Star":
 					case "Fastbond":
 					case "Gifts Ungiven":
 					case "Griselbrand":
-					case "Immediate Action":
-					case "Iterative Analysis":
-					case "Jeweled Bird":
 					case "Karakas":
+					case "Leovold, Emissary of Trest":
 					case "Library of Alexandria":
 					case "Limited Resources":
-					case "Mox  Emerald":
+					case "Mox Emerald":
 					case "Mox Jet":
 					case "Mox Pearl":
 					case "Mox Ruby":
 					case "Mox Sapphire":
-					case "Muzzio's Preparations":
 					case "Painter's Servant":
 					case "Panoptic Mirror":
-					case "Power Play":
 					case "Primeval Titan":
-					case "Protean Hulk":
-					case "Rebirth":
-					case "Recurring Nightmare":
+					case "Prophet of Kruphix":
 					case "Rofellos, Llanowar Emissary":
-					case "Secret Summoning":
-					case "Secrets of Paradise":
-					case "Sentinel Dispatch":
 					case "Shahrazad":
 					case "Sundering Titan":
 					case "Sway of the Stars":
 					case "Sylvan Primordial":
-					case "Tempest Efreet":
 					case "Time Vault":
 					case "Time Walk":
-					case "Timmerian Fiends":
 					case "Tinker":
 					case "Tolarian Academy":
 					case "Trade Secrets":
-					case "Unexpected Potential":
 					case "Upheaval":
 					case "Worldfire":
-					case "Worldknit":
-					case "Yawgmoth 's Bargain":
+					case "Yawgmoth's Bargain":
 						return false;
 					default:
 						return card.getSet().getBorder().equalsIgnoreCase("black") || card.getSet().getBorder().equalsIgnoreCase("white");
@@ -357,18 +327,22 @@ public enum Rules
 			case "Channel":
 			case "Demonic Consultation":
 			case "Demonic Tutor":
-			case " Dig Through Time":
+			case "Dig Through Time":
 			case "Fastbond":
 			case "Flash":
+			case "Gitaxian Probe":
+			case "Gush":
 			case "Imperial Seal":
-			case "Library of " + "Alexandria":
+			case "Library of Alexandria":
 			case "Lion's Eye Diamond":
+			case "Lodestone Golem":
 			case "Lotus Petal":
 			case "Mana Crypt":
 			case "Mana Vault":
 			case "Memory Jar":
 			case "Merchant Scroll":
 			case "Mind's Desire":
+			case "Monastery Mentor":
 			case "Mox Emerald":
 			case "Mox Jet":
 			case "Mox Pearl":
@@ -379,6 +353,7 @@ public enum Rules
 			case "Ponder":
 			case "Sol Ring":
 			case "Strip Mine":
+			case "Thorn of Amethyst":
 			case "Time Vault":
 			case "Time Walk":
 			case "Timetwister":

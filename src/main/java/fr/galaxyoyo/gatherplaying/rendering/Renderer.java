@@ -3,7 +3,6 @@ package fr.galaxyoyo.gatherplaying.rendering;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import fr.galaxyoyo.gatherplaying.CardType;
-import fr.galaxyoyo.gatherplaying.Utils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -22,7 +21,7 @@ import java.util.regex.Pattern;
 
 public abstract class Renderer
 {
-	protected static final File DIR = new File(Utils.DEBUG ? "C:\\MTG\\Cardgen" : "Cardgen");
+	public static final File DIR = new File("cardgen");
 
 	protected static List<Chunk> getChunks(String text)
 	{
@@ -56,6 +55,7 @@ public abstract class Renderer
 		}
 		catch (IOException e)
 		{
+			e.printStackTrace();
 			System.out.println("Warning: " + path + " not found");
 			return null;
 		}

@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.net.ConnectException;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -670,7 +669,7 @@ public class MySQL
 			String[] setCodes;
 			try
 			{
-				setCodes = gson.fromJson(IOUtils.toString(new URL("http://gp.arathia.fr/json/SetCodes.json")), String[].class);
+				setCodes = gson.fromJson(IOUtils.toString(new URL("http://galaxyoyo.com/gp/json/SetCodes.json")), String[].class);
 			/*	HttpURLConnection co = (HttpURLConnection) new URL("https://mtgjson.com/json/SetCodes.json").openConnection();
 				co.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0");
 				setCodes = gson.fromJson(IOUtils.toString(co.getInputStream()), String[].class);*/
@@ -698,7 +697,7 @@ public class MySQL
 					continue;
 				Loading.setLabel("Installation de l'édition " + code + " ...");
 				timestamp = System.currentTimeMillis();
-				String jsoned = IOUtils.toString(new URL("http://gp.arathia.fr/json/" + code + ".json"), StandardCharsets.UTF_8);
+				String jsoned = IOUtils.toString(new URL("http://galaxyoyo.com/gp/json/" + code + ".json"), StandardCharsets.UTF_8);
 			/*	HttpURLConnection co = (HttpURLConnection) new URL("https://mtgjson.com/json/" + code + "-x.json").openConnection();
 				co.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0");
 				String jsoned = IOUtils.toString(co.getInputStream());*/
@@ -711,7 +710,11 @@ public class MySQL
 				for (Card card : set.getCards())
 				{
 					int muId = card.getMuId().get("en");
-					card.getMuId().put("en", muId);
+					if (cards.containsKey(muId))
+					{
+						System.err.println("MuId already exists: " + muId + ". Perhaps a flip-card?");
+						continue;
+					}
 					insertSingleCard(card);
 					cards.put(muId, card);
 				}
@@ -733,9 +736,18 @@ public class MySQL
 			else
 				StreamSupport.stream(sets.values()).forEach(set -> {
 					for (String locale : LOCALES)
+					{
 						set.addLang(locale);
+						try
+						{
+							connection.commit();
+						}
+						catch (SQLException e)
+						{
+							e.printStackTrace();
+						}
+					}
 				});
-			connection.commit();
 			connection.setAutoCommit(true);
 			if (Utils.getSide() == Side.SERVER)
 			{

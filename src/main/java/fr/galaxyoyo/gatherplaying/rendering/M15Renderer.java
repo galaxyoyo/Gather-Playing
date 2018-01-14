@@ -7,10 +7,12 @@ import java8.util.stream.RefStreams;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
@@ -35,21 +37,31 @@ public class M15Renderer extends CardRenderer
 		Graphics2D g = img.createGraphics();
 		g.setColor(frameDir.getName().equals("transform-night") ? Color.WHITE : Color.BLACK);
 
+		File picDir = new File(ARTDIR, getCard().getSet().getCode());
+		picDir.mkdirs();
+		File artFile = new File(picDir, getCard().getName().get("en") + ".jpg");
+		if (!artFile.isFile())
+		{
+			BufferedImage art = ImageIO.read(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + (getCard().getMuId("en")) + "&type=card")).getSubimage(18, 36,
+					205 - 18, 173 - 36);
+			ImageIO.write(art, "PNG", artFile);
+		}
+
 		boolean isEldrazi =
 				getCard().getType().is(CardType.CREATURE) && !getCard().getType().is(CardType.ARTIFACT) && (ArrayUtils.contains(getCard().getSubtypes(), SubType.valueOf("Eldrazi")) ||
 						(getCard().getManaCost() != null && getCard().getManaCost().length <= 1 && getCard().getColors()[0] == ManaColor.COLORLESS));
 		boolean devoid = getCard().getAbilityMap().get("en") != null && getCard().getAbilityMap().get("en").contains("Devoid");
 		if (isEldrazi || devoid)
-			drawArt(g, new File(ARTDIR, getCard().getSet().getCode() + "/" + getCard().getName().get("en") + ".jpg"), 21, 17, 955, 703);
+			drawArt(g, artFile, 21, 17, 955, 703);
 		else if (frameDir.getName().equals("fullartbasicland") || getCard().getSet().getCode().equals("EXP"))
-			drawArt(g, new File(ARTDIR, getCard().getSet().getCode() + "/" + getCard().getName().get("en") + ".jpg"), 103, 36, 842, 682);
+			drawArt(g, artFile, 103, 36, 842, 682);
 		else
-			drawArt(g, new File(ARTDIR, getCard().getSet().getCode() + "/" + getCard().getName().get("en") + ".jpg"), 107, 43, 569, 674);
+			drawArt(g, artFile, 107, 43, 569, 674);
 
 		System.out.print(".");
 
 		String holoFoil = "";
-		if (getCard().getRarity() == Rarity.RARE || getCard().getRarity() == Rarity.MYTHIC || getCard().getRarity() == Rarity.SPECIAL)
+		if ((getCard().getRarity() == Rarity.RARE || getCard().getRarity() == Rarity.MYTHIC || getCard().getRarity() == Rarity.SPECIAL) && !getCard().getNumber().endsWith("b"))
 			holoFoil = "_H";
 
 		BufferedImage borderImage = null;
@@ -82,6 +94,15 @@ public class M15Renderer extends CardRenderer
 			if (cost == null)
 				cost = new ManaColor[0];
 			costColors = String.join("", RefStreams.of(cost).filter(color -> !color.name().contains("NEUTRAL")).map(ManaColor::getAbbreviate).distinct().collect(Collectors.toList()));
+			switch (costColors)
+			{
+				case "WG":
+					costColors = "GW";
+					break;
+				case "WR":
+					costColors = "RW";
+					break;
+			}
 			if (!useMulticolorFrame && costColors.length() >= 2)
 				costColors = "Gld";
 			else if (costColors.isEmpty())
@@ -128,7 +149,7 @@ public class M15Renderer extends CardRenderer
 			if (pt != null)
 				g.drawImage(pt, 0, 0, 720, 1020, null);
 			g.setFont(Fonts.PT);
-			drawText(g, 629, 942, 95, getCard().getPower() + "/" + getCard().getToughness(), true, true);
+			drawText(g, 629, 938, 95, getCard().getPower() + "/" + getCard().getToughness(), true, true);
 		}
 
 		if (frameDir.getName().startsWith("transform-") && getCard().getNumber().endsWith("a"))
@@ -140,11 +161,14 @@ public class M15Renderer extends CardRenderer
 			else
 				back = MySQL.getCard(getCard().getMuId("en") + 1);
 
-			Color oldColor = g.getColor();
-			g.setColor(new Color(127, 127, 127));
-			g.setFont(Fonts.PT.deriveFont(80.0F));
-			drawText(g, 650, 885, 50, back.getPower() + "/" + back.getToughness(), true, true);
-			g.setColor(oldColor);
+			if (back.getType().is(CardType.CREATURE))
+			{
+				Color oldColor = g.getColor();
+				g.setColor(new Color(127, 127, 127));
+				g.setFont(Fonts.PT.deriveFont(80.0F));
+				drawText(g, 650, 885, 50, back.getPower() + "/" + back.getToughness(), true, true);
+				g.setColor(oldColor);
+			}
 		}
 
 		int costLeft = drawCastingCost(g, getCard().getManaCost(), costColors.length() >= 2 && StringUtils.isAllUpperCase(costColors) ? 53 : 51, 677, 35);
@@ -156,7 +180,7 @@ public class M15Renderer extends CardRenderer
 		drawText(g, titleX, frameDir.getName().startsWith("transform-") ? 82 : 84, costLeft - 20 - titleX, getCard().getTranslatedName().get(), false, false);
 		System.out.print(".");
 
-		if (Pattern.matches("BFZ|OGW|ZEN|UNH|UGL", getCard().getSet().getCode()) && frameDir.getName().equals("fullartbasicland"))
+		if (Pattern.matches("BFZ|OGW|ZEN|UNH|UGL|UST", getCard().getSet().getCode()) && frameDir.getName().equals("fullartbasicland"))
 		{
 			drawText(g, 51, 885, 439, "Terrain de base", false, false);
 			if (!getCard().getName().get("en").equals("Wastes"))
@@ -165,17 +189,30 @@ public class M15Renderer extends CardRenderer
 		else
 		{
 			int typex = frameDir.getName().equals("transform-night") ? 85 : 51;
-			String type = getCard().getType().getTranslatedName().get();
+			StringBuilder type = new StringBuilder(getCard().getType().getTranslatedName().get());
+			if (getCard().isLegendary())
+			{
+				if (Config.getLocaleCode().equals("fr"))
+					type.append(" légendaire");
+				else
+					type = new StringBuilder("Legendary ").append(type);
+			}
 			if (getCard().getSubtypes() != null && getCard().getSubtypes().length > 0)
 			{
-				type += " : ";
+				type.append(Config.getLocaleCode().equals("fr") ? " : " : " — ");
 				for (SubType st : getCard().getSubtypes())
-					type += st.getTranslatedName().get().toLowerCase() + " et ";
-				type = type.substring(0, type.length() - 4);
+				{
+					String name = st.getTranslatedName().get();
+					if (Config.getLocaleCode().equals("fr"))
+						name = name.toLowerCase();
+					type.append(name).append(Config.getLocaleCode().equals("fr") ? " et " : " ");
+				}
+				type = new StringBuilder(type.substring(0, type.length() - (Config.getLocaleCode().equals("fr") ? 4 : 1)));
 			}
-			drawText(g, typex, 616, rarityLeft - typex, type, false, false);
+			drawText(g, typex, 616, rarityLeft - typex, type.toString(), false, false);
 		}
 
+		g.setColor(Color.BLACK);
 		g.setColor(Color.BLACK);
 		String legal = getCard().getAbilityMap().get("en") == null ? "" : getCard().getAbility();
 		String legalTemp = legal.replace("#", "");
@@ -232,14 +269,14 @@ public class M15Renderer extends CardRenderer
 		g.setColor(Color.WHITE);
 		g.setFont(Fonts.COLLECTION);
 
-		String collectorNumber = getCard().getNumber().replaceAll("[^\\d]", "") + "/";
+		StringBuilder collectorNumber = new StringBuilder(getCard().getNumber().replaceAll("[^\\d]", "") + "/");
 		while (collectorNumber.length() < 4)
-			collectorNumber = "0" + collectorNumber;
+			collectorNumber.insert(0, "0");
 		AtomicInteger max = new AtomicInteger(0);
 		getCard().getSet().getCards().forEach(c -> max.set(Math.max(max.get(), Integer.parseInt(c.getNumber().replaceAll("[^\\d]", "")))));
-		collectorNumber += max.get();
+		collectorNumber.append(max.get());
 
-		String collectionTxtL1 = collectorNumber;
+		String collectionTxtL1 = collectorNumber.toString();
 		String collectionTxtL2 = getCard().getSet().getCode() + " • " + language.toUpperCase() + " ";
 
 		drawText(g, 37, 977, 99999, collectionTxtL1 + "\n" + collectionTxtL2 + "{brush2}", false, false);
@@ -248,9 +285,10 @@ public class M15Renderer extends CardRenderer
 		g.setFont(Fonts.ARTIST);
 		drawText(g, 64 + w, 996, 99999, getCard().getArtist(), false, false);
 
-		String copyright = "Gather Playing ™ & © 2016 Wizards of the Coast";
+		String copyright = "GP ™ & © 2018 Wizards of the Coast";
 		g.setFont(Fonts.COPYRIGHT);
-		drawText(g, 680 - (int) getStringWidth(copyright, g.getFont()), getCard().getType().is(CardType.CREATURE) ? 996 : 977, 99999, copyright, false, false);
+		drawText(g, 680 - (int) getStringWidth(copyright, g.getFont()), getCard().getType().is(CardType.CREATURE) ? 996 : 977, 99999, copyright, false,
+				false);
 
 		return img;
 	}
@@ -276,6 +314,8 @@ public class M15Renderer extends CardRenderer
 					dirName = "transform-spark";
 				else if (getCard().getSet().getCode().equals("EMN") && getCard().getMuId("en") != 414496 && getCard().getMuId("en") != 414497)
 					dirName = "transform-" + (getCard().getNumber().endsWith("a") ? "moon" : "eldrazi");
+				else if (getCard().getSet().getCode().equals("XLN") || getCard().getSet().getCode().equals("RIX"))
+					dirName = "transform-" + (getCard().getNumber().endsWith("a") ? "explore" : "destination");
 				else
 					dirName = "transform-" + (getCard().getNumber().endsWith("a") ? "day" : "night");
 				break;

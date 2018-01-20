@@ -13,6 +13,18 @@ import static fr.galaxyoyo.gatherplaying.CardType.*;
 
 public enum Token
 {
+	// Les Combattants d'Ixalan (RIX)
+	ELEMENTAL_28(CREATURE_TOKEN, "RIX", "1", "At the beginning of your upkeep, sacrifice this creature and return target card named Rekindling from your graveyard to the battlefield." +
+			" It gains haste until end of turn", "Au début de votre entretien, sacrifiez cette créature et renvoyez sur le champ de bataille une carte appelée Phénix ravivé depuis " +
+			"votre cimetière. Elle acquiert la célérité jusqu'à la fin du tour.", 0, 1, ManaColor.RED, SubType.valueOf("Elemental"), 439768),
+	ELEMENTAL_29(CREATURE_TOKEN, "RIX", "2", 1, 1, ManaColor.RED, SubType.valueOf("Elemental"), 439778),
+	SAPROLING_15(CREATURE_TOKEN, "RIX", "3", 1, 1, ManaColor.GREEN, SubType.valueOf("Saproling"), 439798, 439804),
+	GOLEM_7(CREATURE_ARTIFACT_TOKEN, "RIX", "4", 4, 4, ManaColor.COLORLESS, SubType.valueOf("Golem"), 439843),
+	HUATLI_RADIANT_CHAMPION(EMBLEM, "RIX", "5", "Whenever a creature enters the battlefield under your control, you may draw a card.", "À chaque fois qu'une créature arrive sur le " +
+			"champ de bataille sous votre contrôle, vous pouvez piocher une carte.", SubType.valueOf("Huatli"), 439817),
+	CITY_S_BLESSING(MONARCH, "RIX", "6", "#_Once you have ascended to the highest temple of Orazca, the power of the Immortal Sun is yours to wield forever._#", "#_Quand vous aurez " +
+			"atteint le temple le plus élevé d'Orazca, le pouvoir du Soleil Immortel sera le vôtre à tout jamais._#"),
+
 	// Unstable (UST)
 	ANGEL_15(CREATURE_TOKEN, "UST", "1", "Flying", "Vol", 4, 4, ManaColor.WHITE, SubType.valueOf("Angel")),
 	GOAT_6(CREATURE_TOKEN, "UST", "2", 0, 1, ManaColor.WHITE, SubType.valueOf("Goat"), 439536),
@@ -961,6 +973,12 @@ public enum Token
 			"#_Il n'est pas lent. Il est en train de décider de vous piétiner ou de vous encorner._#", 3, 3, ManaColor.GREEN, SubType.valueOf("Elephant")),
 	SAPROLING_1(CREATURE_TOKEN, "INV", "3", "#_The nauseating wriggling of a saproling is exceeded only by the nauseating of its prey._#",
 			"#_Le frétillement nauséabond d'un saprobionte est seulement dépassé par la puanteur de sa proie._#", 1, 1, ManaColor.GREEN, SubType.valueOf("Saproling"));
+
+	static
+	{
+		THE_MONARCH.related.addAll(MySQL.getAllCards().stream().filter(c -> c.getAbilityMap().get("en").contains("Monarch")).collect(java.util.stream.Collectors.toList()));
+		CITY_S_BLESSING.related.addAll(MySQL.getAllCards().stream().filter(c -> c.getAbilityMap().get("en").contains("Ascend")).collect(java.util.stream.Collectors.toList()));
+	}
 
 	private final CardType type;
 	private final Set set;

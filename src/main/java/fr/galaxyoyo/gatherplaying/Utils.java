@@ -78,7 +78,7 @@ public class Utils
 			Bootstrap boot = new Bootstrap().group(group).channel(NioSocketChannel.class).option(ChannelOption.TCP_NODELAY, true).option(ChannelOption.SO_KEEPALIVE, true)
 					.option(ChannelOption.SO_RCVBUF, 0x42666).option(ChannelOption.RCVBUF_ALLOCATOR, new FixedRecvByteBufAllocator(0x42666))
 					.option(ChannelOption.SO_REUSEADDR, false).handler(new ClientChannelInitializer());
-			ChannelFuture f = boot.connect(!DEBUG ? "localhost" : "galaxyoyo.com", 42666);
+			ChannelFuture f = boot.connect(DEBUG ? "localhost" : "galaxyoyo.com", 42666);
 			try
 			{
 				f.get(1, TimeUnit.SECONDS);

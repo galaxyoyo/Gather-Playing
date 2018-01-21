@@ -54,7 +54,7 @@ public enum Token
 	ANGEL_14(CREATURE_TOKEN, "IMA", "1", "Flying", "Vol", 4, 4, ManaColor.WHITE, SubType.valueOf("Angel"), 438573),
 	BIRD_15(CREATURE_TOKEN, "IMA", "2", "Flying", "Vol", 1, 1, ManaColor.WHITE, SubType.valueOf("Bird"), 438586),
 	SPIRIT_24(CREATURE_TOKEN, "IMA", "3", "Flying", "Vol", 1, 1, ManaColor.WHITE, SubType.valueOf("Spirit"), 438582),
-	DJINN_MONK(CREATURE_TOKEN, "IMA", "4", "Flying", "Vol", 1, 1, ManaColor.BLUE, new SubType[]{SubType.valueOf("Djinn"), SubType.valueOf("Monk")}, 438639),
+	DJINN_MONK_2(CREATURE_TOKEN, "IMA", "4", "Flying", "Vol", 1, 1, ManaColor.BLUE, new SubType[]{SubType.valueOf("Djinn"), SubType.valueOf("Monk")}, 438639),
 	DRAGON_19(CREATURE_TOKEN, "IMA", "5", "Flying\n{R}: This creature gets +1/0 until end of turn.", "Vol\n{R}: Cette créature gagne +1/+0 jusqu'à la fin du tour.", 2, 2, ManaColor.RED,
 			SubType.valueOf("Dragon"), 438690),
 	DRAGON_20(CREATURE_TOKEN, "IMA", "6", "Flying", "Vol", 5, 5, ManaColor.RED,	SubType.valueOf("Dragon"), 438615),
@@ -106,9 +106,9 @@ public enum Token
 	DREAMSTEALER(CREATURE_TOKEN, "HOU", "3", "Menace\nWhen Dreamstealer deals combat damage to a player, that player discards that many cards.",
 			"Menace\nQuand le Voleur de rêves inflige des blessures de combat à un joueur, ce joueur se défausse d'autant de cartes.", 4, 4, ManaColor.BLACK,
 			new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Human"), SubType.valueOf("Wizard")}, 430752),
-	EARTHSHAKER_KENRA(CREATURE_TOKEN, "HOU", "4", "Haste\nWhen Earthshaker Khenra enters the battlefield, target creature with power less than or equal to Earthshaker Khenra's power " +
-			"can't block this turn.", "Célérité\nQuand le Khenra trembleterre arrive sur le champ de bataille, une créature ciblée avec une force inférieure ou égale à la force de la" +
-			" Khenra trembleterre ne peut pas bloquer ce tour-ci.", 4, 4, ManaColor.BLACK, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Jackal"), SubType.valueOf
+	EARTHSHAKER_KHENRA(CREATURE_TOKEN, "HOU", "4", "Haste\nWhen Earthshaker Khenra enters the battlefield, target creature with power less than or equal to Earthshaker Khenra's power" +
+			" can't block this turn.", "Célérité\nQuand le Khenra trembleterre arrive sur le champ de bataille, une créature ciblée avec une force inférieure ou égale à la force de " +
+			"la Khenra trembleterre ne peut pas bloquer ce tour-ci.", 4, 4, ManaColor.BLACK, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Jackal"), SubType.valueOf
 			("Warrior")}, 430779),
 	PROVEN_COMBATANT(CREATURE_TOKEN, "HOU", "5", 4, 4, ManaColor.BLACK, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Human"), SubType.valueOf("Warrior")}, 430731),
 	RESILIENT_KHENRA(CREATURE_TOKEN, "HOU", "6", "When Resilient Khenra enters the battlefield, you may have target creature get +X/+X until end of turn, where X is Resilient " +
@@ -152,10 +152,10 @@ public enum Token
 			("Soldier")}, 426724),
 	SACRED_CAT(CREATURE_TOKEN, "ANH", "10", "Lifelink", "Lien de vie", 1, 1, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Cat")}, 426729),
 	TAH_CROP_SKIRMISHER(CREATURE_TOKEN, "ANH", "11", 2, 1, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Naga"), SubType.valueOf("Warrior")}, 426774),
-	TEMMET_VIZIER_OF_NAKATAMUN(CREATURE_TOKEN, "ANH", "12", "At the beginning of combat on your turn, target creature token you control gets +1/+1 until end of turn and can't be " +
+	TEMMET_VIZIER_OF_NAKTAMUN(CREATURE_TOKEN, "ANH", "12", "At the beginning of combat on your turn, target creature token you control gets +1/+1 until end of turn and can't be " +
 			"blocked this turn.", "Au début du combat pendant votre tour, un jeton de créature ciblé que vous contrôlez gagne +1/+1 jusqu'à la fin du tour et ne peut pas être bloqué " +
 			"ce tour-ci.", 2, 2, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Human"), SubType.valueOf("Cleric")}, 426909),
-	TRUEHEART_DUALIST(CREATURE_TOKEN, "ANH", "13", "Trueheart Duelist can block an additional creature each combat.", "La Duelliste au cœur pur peut bloquer une créature " +
+	TRUEHEART_DUELIST(CREATURE_TOKEN, "ANH", "13", "Trueheart Duelist can block an additional creature each combat.", "La Duelliste au cœur pur peut bloquer une créature " +
 			"supplémentaire à chaque combat.", 2, 2, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Human"), SubType.valueOf("Warrior")}, 426737),
 	UNWAVERING_INITIATE(CREATURE_TOKEN, "ANH", "14", "Vigilance", "Vigilance", 3, 2, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Human"),
 			SubType.valueOf("Warrior")}, 426738),
@@ -174,7 +174,7 @@ public enum Token
 	SNAKE_6(CREATURE_TOKEN, "ANH", "23", "Deathtouch", "Contact mortel", 1, 1, ManaColor.GREEN, SubType.valueOf("Snake"), 426901),
 	WURM_11(CREATURE_TOKEN, "ANH", "24", 5, 5, ManaColor.GREEN, SubType.valueOf("Wurm"), 426885),
 	GIDEON_OF_THE_TRIALS(EMBLEM, "ANH", "25", "As long as you control a Gideon planeswalker, you can't lose the game and your opponents can't win the game.", "Tant que vous contrôlez" +
-			" un planeswalker Gideon, vous ne pouvez pas perdre la partie et vos adversaires ne peuvent pas la gagner", SubType.valueOf("Gideon"), 426716),
+			" un planeswalker Gideon, vous nepouvez pas perdre la partie et vos adversaires ne peuvent pas la gagner", SubType.valueOf("Gideon"), 426716),
 
 	// Modern Masters 2017 (MM3)
 	ANGEL_13(CREATURE_TOKEN, "MM3", "1", "Flying", "Vol", 4, 4, ManaColor.WHITE, SubType.valueOf("Angel"), 425829),
@@ -190,7 +190,7 @@ public enum Token
 	CENTAUR_4(CREATURE_TOKEN, "MM3", "11", 3, 3, ManaColor.GREEN, SubType.valueOf("Centaur"), 425979),
 	ELEPHANT_9(CREATURE_TOKEN, "MM3", "12", 3, 3, ManaColor.GREEN, SubType.valueOf("Elephant"), 426616),
 	OOZE_8(CREATURE_TOKEN, "MM3", "13", 0, 0, ManaColor.GREEN, SubType.valueOf("Ooze"), 425962, 425999),
-	SAPROLING_13(CREATURE_TOKEN, "MM3", "14", 1, 1, ManaColor.GREEN, SubType.valueOf("Saproling"), 425951, 425992, 426014),
+	SAPROLING_13(CREATURE_TOKEN, "MM3", "14", 1, 1,  ManaColor.GREEN, SubType.valueOf("Saproling"), 425951, 425992, 426014),
 	WURM_10(CREATURE_TOKEN, "MM3", "15", "Trample", "Piétinement", 5, 5, ManaColor.GREEN, SubType.valueOf("Wurm"), 425972),
 	ELEMENTAL_25(CREATURE_TOKEN, "MM3", "16", "This creature's power and toughness are each equal to the number of creatures you control.", "La force et l'endurance de cette créature" +
 			" sont toutes deux égales au nombre de créature que vous contrôlez.", 0, 0, new ManaColor[] {ManaColor.GREEN, ManaColor.WHITE}, SubType.valueOf("Elemental"), 426025),

@@ -101,7 +101,8 @@ public class DeckEditorFilter extends AbstractController implements Initializabl
 
 		type.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		type.getItems().addAll(RefStreams.of(CardType.values())
-				.filter(type -> !type.name().contains("TOKEN") && type != CardType.EMBLEM && type != CardType.PHENOMENON && type != CardType.PLANE && type != CardType.SCHEME &&
+				.filter(type -> !type.name().contains("TOKEN") && type != CardType.EMBLEM && type != CardType.MONARCH && type != CardType.PHENOMENON && type != CardType.PLANE && type !=
+						CardType.SCHEME &&
 						type != CardType.PLAYER && type != CardType.CREATURE_PLANESWALKER).collect(Collectors.toList()));
 		type.getSelectionModel().selectAll();
 

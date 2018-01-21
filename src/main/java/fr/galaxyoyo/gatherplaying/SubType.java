@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import fr.galaxyoyo.gatherplaying.client.I18n;
 import javafx.beans.binding.StringBinding;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -57,10 +58,10 @@ public class SubType implements Comparable<SubType>
 	public void setCanApplicate(CardType type) { applicables.add(type); }
 
 	@Override
-	public int compareTo(SubType o) { return String.CASE_INSENSITIVE_ORDER.compare(toString(), o.toString()); }
+	public int compareTo(@NotNull SubType o) { return String.CASE_INSENSITIVE_ORDER.compare(toString(), o.toString()); }
 
 	@Override
 	public String toString() { return getTranslatedName().get(); }
 
-	public StringBinding getTranslatedName() { return I18n.tr("subtype." + name.toLowerCase()); }
+	public StringBinding getTranslatedName() { return I18n.tr("subtype." + name.toLowerCase().replace("'", "")); }
 }

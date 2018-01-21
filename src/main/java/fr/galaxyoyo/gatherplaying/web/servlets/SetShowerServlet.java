@@ -91,8 +91,8 @@ public class SetShowerServlet extends AbstractWebServlet
 		List<Token> tokens = RefStreams.of(Token.values()).filter(t -> t.getSet() == set).collect(Collectors.toList());
 		for (Token token : tokens)
 		{
-			html.append("<a href=\"/token/").append(token.getSet().getName()).append("/").append(token.getNumber()).append("\"/>");
-			html.append("<img src=·\"*render-token?token=").append(token.name().toLowerCase()).append("&locale=fr\" />");
+			html.append("<a href=\"/token/").append(token.getSet().getCode()).append("/").append(token.getNumber()).append("\"/>");
+			html.append("<img src=\"/render-token?token=").append(token.name().toLowerCase()).append("&locale=fr\" />");
 			html.append("</a>\n");
 		}
 		html.append("</body></html>");

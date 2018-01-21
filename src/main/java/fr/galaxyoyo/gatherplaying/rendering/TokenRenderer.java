@@ -1,5 +1,6 @@
 package fr.galaxyoyo.gatherplaying.rendering;
 
+import com.google.common.collect.Maps;
 import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.client.Config;
 import java8.util.stream.Collectors;
@@ -13,6 +14,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import static fr.galaxyoyo.gatherplaying.rendering.CardRenderer.ARTDIR;
@@ -20,6 +22,32 @@ import static fr.galaxyoyo.gatherplaying.rendering.CardRenderer.ARTDIR;
 @AllArgsConstructor
 public class TokenRenderer extends Renderer
 {
+	private static final Map<Character, BufferedImage> TITLE_FONT = Maps.newHashMap();
+
+	static
+	{
+		File FONT_DIR = new File(DIR, "images/symbols/tokenfont");
+		char[] special_chars = new char[] {'é', 'æ', '&', '\'', 'ç', 'â', 'ê', 'î', 'ô', 'û', ':', ',', '-', 'ä', 'ë', 'ï', 'ö', 'ü', 'ÿ', '”', '“', 'Ð', '!', 'à', 'è', 'ù',
+			'«', 'œ', '?', '¿', '»', 'ß', '‘', 'ø', ' ', 'Ł', 'Þ'};
+		String[] special_names = new String[] {"acuteE", "ae", "ampersand", "apostrophe", "cedillaC", "circumA", "circumE", "circumI", "circumO", "circumU", "colon", "comma", "dash",
+				"diaeresisA", "diaeresisE", "diaeresisI", "diaeresisO", "diaeresisU", "diaeresisY", "doublequoteclose", "doublequoteopen", "eth", "exclamation", "graveA", "graveE",
+				"graveU", "leftdoublearrow", "oe", "question", "questioninverted", "rightdoublearrow", "sharps", "singlequoteopen", "slashO", "space", "strokeL", "thorne"};
+		try
+		{
+			for (char c = 'a'; c <= 'z'; ++c)
+				TITLE_FONT.put(c, ImageIO.read(new File(FONT_DIR, c + ".png")));
+			for (int i = 0; i < special_chars.length; ++i)
+			{
+				System.out.println(special_chars[i] + ", " + special_names[i]);
+				TITLE_FONT.put(special_chars[i], ImageIO.read(new File(FONT_DIR, special_names[i] + ".png")));
+			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
 	@Getter
 	private final Token token;
 
@@ -79,6 +107,8 @@ public class TokenRenderer extends Renderer
 				costColors = "Art";
 			if (getToken().getType().is(CardType.EMBLEM))
 				costColors = "Emblem";
+			else if (getToken().getType().is(CardType.MONARCH))
+				costColors = "Monarch";
 			if (costColors.equals("Art") || getToken().getType().is(CardType.ARTIFACT))
 			{
 				bgImage = readImage(new File(frameDir, "cards/Art" + holoFoil + ".png"));
@@ -115,12 +145,13 @@ public class TokenRenderer extends Renderer
 		}
 
 		int titleX = 51;
-		g.setFont(Fonts.TITLE);
-		g.setColor(Color.ORANGE);
-		drawText(g, (677 + titleX) / 2, (90 + g.getFont().getSize()) / 2, 677 - titleX, getToken().getTranslatedName().get(), true, true);
-		g.setColor(Color.BLACK);
+		int titleY = 70;
+		if (getToken().getType().is(CardType.MONARCH))
+			titleY = 675;
+		drawTitle(g, (677 + titleX) / 2, titleY, getToken().getType() == CardType.EMBLEM ? CardType.EMBLEM.getTranslatedName().get() : getToken().getTranslatedName().get());
 		System.out.print(".");
 
+		g.setFont(Fonts.TITLE);
 		int typex = 51;
 		StringBuilder type = new StringBuilder(getToken().getType().getTranslatedName().get());
 		if (getToken().isLegendary())
@@ -136,7 +167,7 @@ public class TokenRenderer extends Renderer
 			for (SubType st : getToken().getSubtypes())
 			{
 				String name = st.getTranslatedName().get();
-				if (Config.getLocaleCode().equals("fr"))
+				if (Config.getLocaleCode().equals("fr") && getToken().getType() != CardType.EMBLEM)
 					name = name.toLowerCase();
 				type.append(name).append(Config.getLocaleCode().equals("fr") ? " et " : " ");
 			}
@@ -149,36 +180,57 @@ public class TokenRenderer extends Renderer
 			int rarityLeft = drawRarity(g, Rarity.TOKEN, getToken().getSet(), 675, 867, 41, 76);
 			drawText(g, typex, 880, rarityLeft - typex, type.toString(), false, false);
 		}
-		else
+		else if (frameDir.getName().equals("m15emblem"))
 		{
 			int rarityLeft = drawRarity(g, Rarity.TOKEN, getToken().getSet(), 675, 731, 41, 76);
 			drawText(g, typex, 743, rarityLeft - typex, type.toString(), false, false);
 		}
+		else if (frameDir.getName().equals("m15tokentext"))
+		{
+			int rarityLeft = drawRarity(g, Rarity.TOKEN, getToken().getSet(), 675, 721, 41, 76);
+			drawText(g, typex, 733, rarityLeft - typex, type.toString(), false, false);
+		}
+		else if (frameDir.getName().equals("monarch"))
+			drawRarity(g, Rarity.TOKEN, getToken().getSet(), 675, 675, 41, 76);
+		else
+		{
+			int rarityLeft = drawRarity(g, Rarity.TOKEN, getToken().getSet(), 675, 604, 41, 76);
+			drawText(g, typex, 616, rarityLeft - typex, type.toString(), false, false);
+		}
 
-		g.setColor(Color.BLACK);
 		g.setColor(Color.BLACK);
 		String legal = Config.getLocaleCode().equals("fr") ? getToken().getAbility_FR() : getToken().getAbility_EN();
 		String legalTemp = legal.replace("#", "");
 
-		if (getToken().getType().is(CardType.CREATURE))
+		g.setFont(Fonts.TEXT);
+		if (getToken().getType().is(CardType.EMBLEM))
 		{
-			g.setFont(Fonts.TEXT);
-			if ((legalTemp.length() <= 40 ||
-					Pattern.matches("(?u)(?s)([\\#]{0,1}[\\((]\\{T\\}[ \\::]{1,2}.*?\\{[WUBRG]\\}.*?\\{[WUBRG]\\}.*?[\\.?][\\))][\\#]{0,1})(?!.)", legalTemp)) &&
-					!legalTemp.contains("\r"))
-				drawText(g, 358, 910, 99999, legal, true, true);
-			else
-				drawLegalText(g, 777, 52, 920, 668, legal, 14);
-		}
-		else
-		{
-			g.setFont(Fonts.TEXT);
 			if ((legalTemp.length() <= 40 ||
 					Pattern.matches("(?u)(?s)([\\#]{0,1}[\\((]\\{T\\}[ \\::]{1,2}.*?\\{[WUBRG]\\}.*?\\{[WUBRG]\\}.*?[\\.?][\\))][\\#]{0,1})(?!.)", legalTemp)) &&
 					!legalTemp.contains("\n"))
 				drawText(g, 358, 915, 99999, legal, true, true);
 			else
 				drawLegalText(g, 777, 52, 930, 668, legal, 0);
+		}
+		else if (frameDir.getName().equals("m15tokentext"))
+		{
+			if ((legalTemp.length() <= 40 ||
+					Pattern.matches("(?u)(?s)([\\#]{0,1}[\\((]\\{T\\}[ \\::]{1,2}.*?\\{[WUBRG]\\}.*?\\{[WUBRG]\\}.*?[\\.?][\\))][\\#]{0,1})(?!.)", legalTemp)) &&
+					!legalTemp.contains("\n"))
+				drawText(g, 358, 777 + (910 - 777) / 2, 99999, legal, true, true);
+			else
+				drawLegalText(g, 777, 52, 920, 668, legal, 14);
+		}
+		else if (frameDir.getName().equals("monarch"))
+			drawLegalText(g, 710, 52, 930, 668, legal, 0);
+		else
+		{
+			if ((legalTemp.length() <= 40 ||
+					Pattern.matches("(?u)(?s)([\\#]{0,1}[\\((]\\{T\\}[ \\::]{1,2}.*?\\{[WUBRG]\\}.*?\\{[WUBRG]\\}.*?[\\.?][\\))][\\#]{0,1})(?!.)", legalTemp)) &&
+					!legalTemp.contains("\n"))
+				drawText(g, 358, 783, 99999, legal, true, true);
+			else
+				drawLegalText(g, 647, 52, 920, 668, legal, 14);
 		}
 
 		g.setColor(Color.WHITE);
@@ -205,6 +257,45 @@ public class TokenRenderer extends Renderer
 				false);
 
 		return img;
+	}
+	public void drawTitle(Graphics2D g, int left, int baseline, String title)
+	{
+		title = title.trim();
+		BufferedImage[] letters = new BufferedImage[title.length()];
+		int width = 0, height = 0;
+		for (int i = 0; i < letters.length; ++i)
+		{
+			letters[i] = TITLE_FONT.get(Character.toLowerCase(title.charAt(i)));
+			if (letters[i] == null)
+				System.out.println(title.charAt(i));
+			double m = Character.isUpperCase(title.charAt(i)) || title.charAt(i) == '-' ? 1 : 0.8;
+			width += letters[i].getWidth() * m;
+			height = Math.max(height, (int) (letters[i].getHeight() * m));
+		}
+		left -= width / 2;
+		baseline -= height / 2;
+
+		if (getToken().getType() == CardType.EMBLEM)
+			baseline += 4;
+
+		int x = left;
+		for (int i = 0; i < letters.length; i++)
+		{
+			BufferedImage letter = letters[i];
+			double m = Character.isUpperCase(title.charAt(i)) || title.charAt(i) == '-' ? 1 : 0.8;
+			if (getToken().getType() == CardType.EMBLEM)
+			{
+				BufferedImage newLetter = new BufferedImage(letter.getWidth(), letter.getHeight(), BufferedImage.TYPE_USHORT_GRAY);
+				Graphics2D g2D = newLetter.createGraphics();
+				g2D.drawImage(letter, 0, 0, null, null);
+				letter = newLetter;
+				m *= 0.95;
+			}
+			int w = (int) (letters[i].getWidth() * m);
+			int h = (int) (height * m);
+			g.drawImage(letter, x, (int) (baseline + height * (Character.isUpperCase(title.charAt(i)) || title.charAt(i) == '-' ? 0 : 0.15)), w, h, null, null);
+			x += w;
+		}
 	}
 
 	public void drawLegalText(Graphics2D g, int top, int left, int bottom, int right, String legal, int heightAdjust)
@@ -253,6 +344,10 @@ public class TokenRenderer extends Renderer
 			dirName = "m15clue";
 		else if (getToken().getType().is(CardType.EMBLEM))
 			dirName = "m15emblem";
+		else if (getToken().getType() == CardType.MONARCH)
+			dirName = "monarch";
+		else if (getToken().getAbility_EN().length() >= 120)
+			dirName = "m15tokenlargetextbox";
 		else if (!getToken().getAbility_EN().isEmpty())
 			dirName = "m15tokentext";
 		return new File(dir, dirName);

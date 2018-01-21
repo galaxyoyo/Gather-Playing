@@ -22,8 +22,8 @@ public enum Token
 	GOLEM_7(CREATURE_ARTIFACT_TOKEN, "RIX", "4", 4, 4, ManaColor.COLORLESS, SubType.valueOf("Golem"), 439843),
 	HUATLI_RADIANT_CHAMPION(EMBLEM, "RIX", "5", "Whenever a creature enters the battlefield under your control, you may draw a card.", "À chaque fois qu'une créature arrive sur le " +
 			"champ de bataille sous votre contrôle, vous pouvez piocher une carte.", SubType.valueOf("Huatli"), 439817),
-	CITY_S_BLESSING(MONARCH, "RIX", "6", "#_Once you have ascended to the highest temple of Orazca, the power of the Immortal Sun is yours to wield forever._#", "#_Quand vous aurez " +
-			"atteint le temple le plus élevé d'Orazca, le pouvoir du Soleil Immortel sera le vôtre à tout jamais._#"),
+	CITY_S_BLESSING(MONARCH, "RIX", "6", "#Once you have ascended to the highest temple of Orazca, the power of the Immortal Sun is yours to wield forever.#", "#Quand vous aurez " +
+			"atteint le temple le plus élevé d'Orazca, le pouvoir du Soleil Immortel sera le vôtre à tout jamais.#"),
 
 	// Unstable (UST)
 	ANGEL_15(CREATURE_TOKEN, "UST", "1", "Flying", "Vol", 4, 4, ManaColor.WHITE, SubType.valueOf("Angel")),
@@ -125,55 +125,55 @@ public enum Token
 	SNAKE_7(CREATURE_TOKEN, "HOU", "11", 5, 4, ManaColor.GREEN, SubType.valueOf("Snake"), 430821),
 	INSECT_9(CREATURE_TOKEN, "HOU", "12", "Flying, haste", "Vol, célérité", 1, 1, new ManaColor[] {ManaColor.BLUE, ManaColor.RED}, SubType.valueOf("Insect"), 430828),
 
-	//Amonkhet (ANH)
-	ANGEL_OF_SANCTIONS(CREATURE_TOKEN, "ANH", "1", "Flying\nWhen Angel of Sanctions enters the battlefield, you may exile target nonland permanent an opponent controls until Angel of" +
+	//Amonkhet (AKH)
+	ANGEL_OF_SANCTIONS(CREATURE_TOKEN, "AKH", "1", "Flying\nWhen Angel of Sanctions enters the battlefield, you may exile target nonland permanent an opponent controls until Angel of" +
 			" Sanctions leaves the battlefield.", "Vol\nQuand l'Ange des condamnations arrive sur le champ de bataille, vous pouvez exiler un permanent non-terrain ciblé qu'un " +
 			"adversaire contrôle jusqu'à ce que l'Ange des condamnations quitte le champ de bataille.", 3, 4, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"),
 			SubType.valueOf("Angel")}, 426703),
-	ANOINTER_PRIEST(CREATURE_TOKEN, "ANH", "2", "Whenever a creature token enters the battlefield under your control, you gain 1 life.", "À chaque fois qu'un jeton de créature arrive" +
+	ANOINTER_PRIEST(CREATURE_TOKEN, "AKH", "2", "Whenever a creature token enters the battlefield under your control, you gain 1 life.", "À chaque fois qu'un jeton de créature arrive" +
 			" sur le champ de bataille sous votre contrôle, vous gagnez 1 point de vie.", 1, 3, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Human"),
 			SubType.valueOf("Cleric")}, 426705),
-	AVEN_INITIATE(CREATURE_TOKEN, "ANH", "3", "Flying", "Vol", 3, 2, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Bird"), SubType.valueOf("Warrior")},
+	AVEN_INITIATE(CREATURE_TOKEN, "AKH", "3", "Flying", "Vol", 3, 2, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Bird"), SubType.valueOf("Warrior")},
 			426745),
-	AVEN_WIND_GUIDE(CREATURE_TOKEN, "ANH", "4", "Flying, vigilance\nCreature tokens you control have flying and vigilance.", "Vol, vigilance\nLes jetons de créature que vous " +
+	AVEN_WIND_GUIDE(CREATURE_TOKEN, "AKH", "4", "Flying, vigilance\nCreature tokens you control have flying and vigilance.", "Vol, vigilance\nLes jetons de créature que vous " +
 			"contrôlez ont le vol et la vigilance.", 2, 3, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Bird"), SubType.valueOf("Warrior")}, 426897),
-	GLYPH_KEEPER(CREATURE_TOKEN, "ANH", "5", "Flying\nWhenever Glyph Keeper becomes the target of a spell or ability for the first time each turn, counter that spell or ability.",
+	GLYPH_KEEPER(CREATURE_TOKEN, "AKH", "5", "Flying\nWhenever Glyph Keeper becomes the target of a spell or ability for the first time each turn, counter that spell or ability.",
 			"Vol\nÀ chaque fois que le Gardien des glyphes devient la cible d'un sort ou d'une capacité pour la première fois à chaque tour, contrecarrez ce sort ou cette capacité.",
 			5, 5, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Sphinx")}, 426757),
-	HEART_PIERCER_MANTICORE(CREATURE_TOKEN, "ANH", "6", "When Heart-Piercer Manticore enters the battlefield, you may sacrifice another creature. When you do, Heart-Piercer Manticore" +
+	HEART_PIERCER_MANTICORE(CREATURE_TOKEN, "AKH", "6", "When Heart-Piercer Manticore enters the battlefield, you may sacrifice another creature. When you do, Heart-Piercer Manticore" +
 			" deals damage equal to that creature's power to target creature or player.", "Quand la Manticore perce-cœur arrive sur le champ de bataille, vous pouvez sacrifier une " +
 			"autre créature. Quand vous faites ainsi, la Manticore perce-cœur inflige à une cible, créature ou joueur, un nombre de blessures égal à la force de cette créature.", 4,
 			3, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Manticore")}, 426840),
-	HONORED_HYDRA(CREATURE_TOKEN, "ANH", "7", "Trample", "Piétinement", 6, 6, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Snake"),
+	HONORED_HYDRA(CREATURE_TOKEN, "AKH", "7", "Trample", "Piétinement", 6, 6, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Snake"),
 			SubType.valueOf("Hydra")}, 426874),
-	LABYRINTH_GUARDIAN(CREATURE_TOKEN, "ANH", "8", "When Labyrinth Guardian becomes the target of a spell, sacrifice it.", "Quand le Vigile du labyrinthe devient la cible d'un sort, " +
+	LABYRINTH_GUARDIAN(CREATURE_TOKEN, "AKH", "8", "When Labyrinth Guardian becomes the target of a spell, sacrifice it.", "Quand le Vigile du labyrinthe devient la cible d'un sort, " +
 			"sacrifiez-le.", 2, 3, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Illusion"), SubType.valueOf("Warrior")}, 426762),
-	OKETRA_S_ATTENDANT(CREATURE_TOKEN, "ANH", "9", "Flying", "Vol", 3, 3, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Bird"), SubType.valueOf
+	OKETRA_S_ATTENDANT(CREATURE_TOKEN, "AKH", "9", "Flying", "Vol", 3, 3, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Bird"), SubType.valueOf
 			("Soldier")}, 426724),
-	SACRED_CAT(CREATURE_TOKEN, "ANH", "10", "Lifelink", "Lien de vie", 1, 1, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Cat")}, 426729),
-	TAH_CROP_SKIRMISHER(CREATURE_TOKEN, "ANH", "11", 2, 1, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Naga"), SubType.valueOf("Warrior")}, 426774),
-	TEMMET_VIZIER_OF_NAKTAMUN(CREATURE_TOKEN, "ANH", "12", "At the beginning of combat on your turn, target creature token you control gets +1/+1 until end of turn and can't be " +
+	SACRED_CAT(CREATURE_TOKEN, "AKH", "10", "Lifelink", "Lien de vie", 1, 1, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Cat")}, 426729),
+	TAH_CROP_SKIRMISHER(CREATURE_TOKEN, "AKH", "11", 2, 1, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Naga"), SubType.valueOf("Warrior")}, 426774),
+	TEMMET_VIZIER_OF_NAKTAMUN(CREATURE_TOKEN, "AKH", "12", "At the beginning of combat on your turn, target creature token you control gets +1/+1 until end of turn and can't be " +
 			"blocked this turn.", "Au début du combat pendant votre tour, un jeton de créature ciblé que vous contrôlez gagne +1/+1 jusqu'à la fin du tour et ne peut pas être bloqué " +
 			"ce tour-ci.", 2, 2, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Human"), SubType.valueOf("Cleric")}, 426909),
-	TRUEHEART_DUELIST(CREATURE_TOKEN, "ANH", "13", "Trueheart Duelist can block an additional creature each combat.", "La Duelliste au cœur pur peut bloquer une créature " +
+	TRUEHEART_DUELIST(CREATURE_TOKEN, "AKH", "13", "Trueheart Duelist can block an additional creature each combat.", "La Duelliste au cœur pur peut bloquer une créature " +
 			"supplémentaire à chaque combat.", 2, 2, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Human"), SubType.valueOf("Warrior")}, 426737),
-	UNWAVERING_INITIATE(CREATURE_TOKEN, "ANH", "14", "Vigilance", "Vigilance", 3, 2, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Human"),
+	UNWAVERING_INITIATE(CREATURE_TOKEN, "AKH", "14", "Vigilance", "Vigilance", 3, 2, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Human"),
 			SubType.valueOf("Warrior")}, 426738),
-	VIZIER_OF_MANY_FACES(CREATURE_TOKEN, "ANH", "15", "You may have Vizier of Many Faces enter the battlefield as a copy of any creature on the battlefield, except if Vizier of Many " +
+	VIZIER_OF_MANY_FACES(CREATURE_TOKEN, "AKH", "15", "You may have Vizier of Many Faces enter the battlefield as a copy of any creature on the battlefield, except if Vizier of Many " +
 			"Faces was embalmed, the token has no mana cost, it's white, and it's a Zombie in addition to its other types.", "Vous pouvez faire que le Vizir aux nombreux visages " +
 			"arrive sur le champ de bataille comme une copie de n'importe quelle créature sur le champ de bataille, excepté si le Vizir aux nombreux visages a été embaumé, le jeton " +
 			"n'a pas de coût de mana, est blanc et c'est un zombie en plus de ses autres types.", 0, 0, ManaColor.WHITE, new SubType[] {SubType.valueOf("Zombie"),
 			SubType.valueOf("Shapeshifter"), SubType.valueOf("Cleric")}, 426776, 430815),
-	CAT_5(CREATURE_TOKEN, "ANH", "16", "Lifelink", "Lien de vie", 1, 1, ManaColor.WHITE, SubType.valueOf("Cat"), 426726),
-	WARRIOR_6(CREATURE_TOKEN, "ANH", "17", "Vigilance", "Vigilance", 1, 1, ManaColor.WHITE, SubType.valueOf("Warrior"), 426709, 429864, 426935, 426917, 426732, 430714),
-	DRAKE_3(CREATURE_TOKEN, "ANH", "18", "Flying", "Vol", 2, 2, ManaColor.BLUE, SubType.valueOf("Drake"), 426753),
-	INSECT_8(CREATURE_TOKEN, "ANH", "19", 1, 1, ManaColor.GREEN, SubType.valueOf("Insect"), 426803),
-	ZOMBIE_36(CREATURE_TOKEN, "ANH", "20", 2, 2, ManaColor.BLACK, SubType.valueOf("Zombie"), 426943, 426799, 426800, 426789, 426812, 430864, 430809),
-	BEAST_22(CREATURE_TOKEN, "ANH", "21", 4, 2, ManaColor.GREEN, SubType.valueOf("Beast"), 426893),
-	HIPPO(CREATURE_TOKEN, "ANH", "22", 3, 3, ManaColor.GREEN, SubType.valueOf("Hippo"), 426916),
-	SNAKE_6(CREATURE_TOKEN, "ANH", "23", "Deathtouch", "Contact mortel", 1, 1, ManaColor.GREEN, SubType.valueOf("Snake"), 426901),
-	WURM_11(CREATURE_TOKEN, "ANH", "24", 5, 5, ManaColor.GREEN, SubType.valueOf("Wurm"), 426885),
-	GIDEON_OF_THE_TRIALS(EMBLEM, "ANH", "25", "As long as you control a Gideon planeswalker, you can't lose the game and your opponents can't win the game.", "Tant que vous contrôlez" +
+	CAT_5(CREATURE_TOKEN, "AKH", "16", "Lifelink", "Lien de vie", 1, 1, ManaColor.WHITE, SubType.valueOf("Cat"), 426726),
+	WARRIOR_6(CREATURE_TOKEN, "AKH", "17", "Vigilance", "Vigilance", 1, 1, ManaColor.WHITE, SubType.valueOf("Warrior"), 426709, 429864, 426935, 426917, 426732, 430714),
+	DRAKE_3(CREATURE_TOKEN, "AKH", "18", "Flying", "Vol", 2, 2, ManaColor.BLUE, SubType.valueOf("Drake"), 426753),
+	INSECT_8(CREATURE_TOKEN, "AKH", "19", 1, 1, ManaColor.GREEN, SubType.valueOf("Insect"), 426803),
+	ZOMBIE_36(CREATURE_TOKEN, "AKH", "20", 2, 2, ManaColor.BLACK, SubType.valueOf("Zombie"), 426943, 426799, 426800, 426789, 426812, 430864, 430809),
+	BEAST_22(CREATURE_TOKEN, "AKH", "21", 4, 2, ManaColor.GREEN, SubType.valueOf("Beast"), 426893),
+	HIPPO(CREATURE_TOKEN, "AKH", "22", 3, 3, ManaColor.GREEN, SubType.valueOf("Hippo"), 426916),
+	SNAKE_6(CREATURE_TOKEN, "AKH", "23", "Deathtouch", "Contact mortel", 1, 1, ManaColor.GREEN, SubType.valueOf("Snake"), 426901),
+	WURM_11(CREATURE_TOKEN, "AKH", "24", 5, 5, ManaColor.GREEN, SubType.valueOf("Wurm"), 426885),
+	GIDEON_OF_THE_TRIALS(EMBLEM, "AKH", "25", "As long as you control a Gideon planeswalker, you can't lose the game and your opponents can't win the game.", "Tant que vous contrôlez" +
 			" un planeswalker Gideon, vous nepouvez pas perdre la partie et vos adversaires ne peuvent pas la gagner", SubType.valueOf("Gideon"), 426716),
 
 	// Modern Masters 2017 (MM3)
@@ -976,8 +976,10 @@ public enum Token
 
 	static
 	{
-		THE_MONARCH.related.addAll(MySQL.getAllCards().stream().filter(c -> c.getAbilityMap().get("en").contains("Monarch")).collect(java.util.stream.Collectors.toList()));
-		CITY_S_BLESSING.related.addAll(MySQL.getAllCards().stream().filter(c -> c.getAbilityMap().get("en").contains("Ascend")).collect(java.util.stream.Collectors.toList()));
+		THE_MONARCH.related.addAll(THE_MONARCH.getSet().getCards().stream().filter(c -> c.getAbilityMap().get("en") != null && c.getAbilityMap().get("en").contains("Monarch"))
+				.collect(java.util.stream.Collectors.toList()));
+		CITY_S_BLESSING.related.addAll(CITY_S_BLESSING.getSet().getCards().stream().filter(c -> c.getAbilityMap().get("en") != null && c.getAbilityMap().get("en").contains("Ascend"))
+				.collect(java.util.stream.Collectors.toList()));
 	}
 
 	private final CardType type;

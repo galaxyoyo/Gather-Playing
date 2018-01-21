@@ -39,7 +39,7 @@ public class M15Renderer extends CardRenderer
 
 		File picDir = new File(ARTDIR, getCard().getSet().getCode());
 		picDir.mkdirs();
-		File artFile = new File(picDir, getCard().getName().get("en") + ".jpg");
+		File artFile = new File(picDir, getCard().getImageName() + ".jpg");
 		if (!artFile.isFile())
 		{
 			BufferedImage art = ImageIO.read(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + (getCard().getMuId("en")) + "&type=card")).getSubimage(18, 36,
@@ -180,6 +180,7 @@ public class M15Renderer extends CardRenderer
 		drawText(g, titleX, frameDir.getName().startsWith("transform-") ? 82 : 84, costLeft - 20 - titleX, getCard().getTranslatedName().get(), false, false);
 		System.out.print(".");
 
+		g.setFont(Fonts.TEXT);
 		if (Pattern.matches("BFZ|OGW|ZEN|UNH|UGL|UST", getCard().getSet().getCode()) && frameDir.getName().equals("fullartbasicland"))
 		{
 			drawText(g, 51, 885, 439, "Terrain de base", false, false);
@@ -203,7 +204,7 @@ public class M15Renderer extends CardRenderer
 				for (SubType st : getCard().getSubtypes())
 				{
 					String name = st.getTranslatedName().get();
-					if (Config.getLocaleCode().equals("fr"))
+					if (Config.getLocaleCode().equals("fr") && !getCard().getType().is(CardType.PLANESWALKER))
 						name = name.toLowerCase();
 					type.append(name).append(Config.getLocaleCode().equals("fr") ? " et " : " ");
 				}
@@ -212,7 +213,6 @@ public class M15Renderer extends CardRenderer
 			drawText(g, typex, 616, rarityLeft - typex, type.toString(), false, false);
 		}
 
-		g.setColor(Color.BLACK);
 		g.setColor(Color.BLACK);
 		String legal = getCard().getAbilityMap().get("en") == null ? "" : getCard().getAbility();
 		String legalTemp = legal.replace("#", "");

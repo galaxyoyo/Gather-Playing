@@ -647,14 +647,14 @@ public class Main
 		{
 			BufferedImage img = new BufferedImage(4320, 3060, BufferedImage.TYPE_INT_RGB);
 			Graphics2D g = img.createGraphics();
-			Card[] booster = MySQL.getSet("OGW").generateBooster();
+			Card[] booster = MySQL.getSet("RIX").generateBooster();
 			int x = 0, y = 0;
 			for (int j = 0; j < booster.length; ++j)
 			{
 				Card card = booster[j];
 				if (card == null)
 					continue;
-				BufferedImage subimg = ImageIO.read(new File("pics\\" + card.getSet().getCode(), card.getMuId().get("fr") + ".png"));
+				BufferedImage subimg = SwingFXUtils.fromFXImage(CardImageManager.getImage(card), null);
 				g.drawImage(subimg, x, y, 720, 1020, null);
 				if (booster.length - j > 14)
 					g.drawImage(SwingFXUtils.fromFXImage(CardImageManager.getFoilCover(), null), x, y, 720, 1020, null);

@@ -31,7 +31,7 @@ public class PacketMixInvokeToken extends Packet
 		} else
 		{
 			Platform.runLater(() -> {
-				CardShower shower = new CardShower(card);
+				CardShower shower = CardShower.getShower(card);
 				card.setPower(token.getPower());
 				card.setToughness(token.getToughness());
 				if (token.getType().is(CardType.CREATURE))

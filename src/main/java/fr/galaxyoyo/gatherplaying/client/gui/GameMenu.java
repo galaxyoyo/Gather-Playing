@@ -21,6 +21,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -46,7 +47,7 @@ public class GameMenu extends AbstractController implements Initializable
 	public HBox adverseHand, adverseLands, adversePlayed, adverseCreatures, adverseEnchants, played, creatures, enchants, lands, hand;
 	public PlayerInfos playerInfos, adverseInfos;
 	@FXML
-	public VBox infosPanel;
+	public ScrollPane infosPanel, adversePanel;
 	@FXML
 	private ImageView image;
 	@FXML

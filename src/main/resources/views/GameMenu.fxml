@@ -6,8 +6,8 @@
 <?import javafx.scene.web.WebView?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="parent" xmlns="http://javafx.com/javafx/null" fx:controller="fr.galaxyoyo.gatherplaying.client.gui.GameMenu">
     <right>
-        <VBox alignment="CENTER" prefWidth="223.0" BorderPane.alignment="CENTER">
-            <ImageView fx:id="image" fitHeight="310.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true"/>
+        <VBox alignment="CENTER" prefWidth="360.0" BorderPane.alignment="CENTER">
+            <ImageView fx:id="image" fitHeight="512.0" fitWidth="360.0" pickOnBounds="true" preserveRatio="true"/>
             <WebView fx:id="chat" VBox.vgrow="ALWAYS"/>
             <TextField fx:id="chatBar"/>
         </VBox>
@@ -21,10 +21,10 @@
                 <RowConstraints vgrow="ALWAYS"/>
                 <RowConstraints vgrow="ALWAYS"/>
             </rowConstraints>
-            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: transparent;">
-                <fx:include fx:id="infosPanel" source="PlayerInfos.fxml"/>
+            <ScrollPane fx:id="adversePanel" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: transparent;">
+                <fx:include source="PlayerInfos.fxml"/>
             </ScrollPane>
-            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: transparent;" GridPane.rowIndex="1">
+            <ScrollPane fx:id="infosPanel" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: transparent;" GridPane.rowIndex="1">
                 <fx:include source="PlayerInfos.fxml"/>
             </ScrollPane>
         </GridPane>

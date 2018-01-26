@@ -66,7 +66,10 @@ public class SpellTimer
 				if (Utils.getSide() == Side.CLIENT)
 				{
 					CardShower shower = CardShower.getShower(card);
-					Platform.runLater(() -> Client.getStackPane().getChildren().remove(shower));
+					Platform.runLater(() -> {
+					//	Client.getStackPane().getChildren().removeIf(n -> n instanceof CardShower && ((CardShower) n).card == card);
+						Client.getStackPane().getChildren().remove(shower);
+					});
 					if ((card.getType().is(CardType.ENCHANTMENT) && !card.getSubtypes().contains(SubType.valueOf("Aura"))) || card.getType().is(CardType.ARTIFACT) ||
 							card.getType().is(CardType.PLANESWALKER))
 					{

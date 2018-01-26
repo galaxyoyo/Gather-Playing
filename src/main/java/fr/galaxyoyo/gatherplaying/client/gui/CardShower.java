@@ -27,11 +27,12 @@ import javafx.scene.text.Text;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.Executors;
 
 public class CardShower extends AnchorPane
 {
-	private static final Map<PlayedCard, CardShower> showers = Maps.newHashMap();
+	private static final java.util.Set<CardShower> showers = Sets.newHashSet();
 	public final PlayedCard card;
 	private final ImageView view;
 	private Arrow currentArrow = null;
@@ -51,13 +52,16 @@ public class CardShower extends AnchorPane
 	{
 		if (view.imageProperty().isBound())
 			view.imageProperty().unbind();
+		getChildren().clear();
 		if (card.isHand())
 		{
 			if (Utils.getSide() == Side.CLIENT)
 			{
 				Platform.runLater(() -> view.setImage(CardImageManager.getImage(card.getOwner() == Client.localPlayer ? card.getCard() : null)));
-				if (card.getOwner() != Client.localPlayer)
+				if (card.getController() != Client.localPlayer)
 					setRotate(180.0D);
+				else
+					setRotate(0.0D);
 			}
 			view.setFitWidth(74.0D);
 			view.setFitHeight(103.0D);
@@ -170,7 +174,6 @@ public class CardShower extends AnchorPane
 		}
 		else
 		{
-
 			if (Utils.getSide() == Side.CLIENT)
 				view.imageProperty().bind(Bindings.createObjectBinding(() -> CardImageManager.getImage(card), card.card));
 			view.setFitWidth(74.0D);
@@ -221,7 +224,7 @@ public class CardShower extends AnchorPane
 					if (currentArrow != null)
 					{
 						CardShower dest = null;
-						for (CardShower shower : showers.values())
+						for (CardShower shower : showers)
 						{
 							if (shower.localToScene(shower.getBoundsInLocal()).contains(event.getSceneX(), event.getSceneY()))
 							{
@@ -371,13 +374,10 @@ public class CardShower extends AnchorPane
 						dialog.setSelectedItem(card.getType());
 						dialog.showAndWait().ifPresent(cardType ->
 						{
-							if (cardType != null)
-							{
-								PacketMixSetCardType pkt = PacketManager.createPacket(PacketMixSetCardType.class);
-								pkt.card = card;
-								pkt.newType = cardType;
-								PacketManager.sendPacketToServer(pkt);
-							}
+							PacketMixSetCardType pkt = PacketManager.createPacket(PacketMixSetCardType.class);
+							pkt.card = card;
+							pkt.newType = cardType;
+							PacketManager.sendPacketToServer(pkt);
 						});
 					});
 					menu.getItems().add(setType);
@@ -499,7 +499,7 @@ public class CardShower extends AnchorPane
 						return;
 
 					CardShower dest = null;
-					for (CardShower shower : showers.values())
+					for (CardShower shower : showers)
 					{
 						if (shower != this && shower.localToScene(shower.getBoundsInLocal()).contains(event.getSceneX(), event.getSceneY()))
 						{
@@ -553,7 +553,7 @@ public class CardShower extends AnchorPane
 					currentArrow.setY2(event.getSceneY());
 				}
 			});
-			showers.put(card, this);
+			showers.add(this);
 			if (Utils.getSide() == Side.CLIENT)
 			{
 				updatePower();
@@ -564,8 +564,12 @@ public class CardShower extends AnchorPane
 
 	public static CardShower getShower(PlayedCard card)
 	{
-		showers.putIfAbsent(card, new CardShower(card));
-		return showers.get(card);
+		Optional<CardShower> opt = showers.stream().filter(s -> s.card == card).findAny();
+		if (opt.isPresent())
+			return opt.get();
+		CardShower shower = new CardShower(card);
+		showers.add(shower);
+		return shower;
 	}
 
 	public void updatePower()
@@ -633,6 +637,6 @@ public class CardShower extends AnchorPane
 
 	public void destroy()
 	{
-		showers.remove(card);
+		showers.remove(this);
 	}
 }

@@ -46,6 +46,7 @@ public class PlayedCard implements Targetable
 	private boolean hidden = false;
 	private boolean tapped = false;
 	private boolean hand = false;
+	private boolean duplicated = false;
 
 	public PlayedCard(OwnedCard card)
 	{
@@ -97,14 +98,27 @@ public class PlayedCard implements Targetable
 	{
 		Party p = getController().runningParty;
 		OwnedCard c = new OwnedCard(getCard(), getOwner(), isFoiled());
-		if (isToken())
+		if (isToken() || isDuplicated())
 		{
 			if (Utils.getSide() == Side.CLIENT)
 			{
+				CardShower shower = CardShower.getShower(this);
 				if (getController() == Client.localPlayer)
-					Platform.runLater(() -> GameMenu.instance().creatures.getChildren().remove(CardShower.getShower(this)));
+				{
+					Platform.runLater(() -> {
+						GameMenu.instance().lands.getChildren().remove(shower);
+						GameMenu.instance().enchants.getChildren().remove(shower);
+						GameMenu.instance().creatures.getChildren().remove(shower);
+					});
+				}
 				else
-					Platform.runLater(() -> GameMenu.instance().adverseCreatures.getChildren().remove(CardShower.getShower(this)));
+				{
+					Platform.runLater(() -> {
+						GameMenu.instance().adverseLands.getChildren().remove(shower);
+						GameMenu.instance().adverseEnchants.getChildren().remove(shower);
+						GameMenu.instance().adverseCreatures.getChildren().remove(shower);
+					});
+				}
 			}
 			else
 			{
@@ -114,12 +128,12 @@ public class PlayedCard implements Targetable
 				pkt.index = p.getData(getController()).getPlayed().indexOf(this);
 				PacketManager.sendPacketToParty(p, pkt);
 			}
-			Client.localPlayer.getData().getPlayed().remove(this);
+			getController().getData().getPlayed().remove(this);
 			return;
 		}
 		if (Utils.getSide() == Side.CLIENT)
 		{
-			if (owner == Client.localPlayer)
+			if (getOwner() == Client.localPlayer)
 			{
 				if (dest == PacketMixDestroyCard.Destination.EXILE)
 					GameMenu.instance().playerInfos.exile(this);
@@ -128,7 +142,7 @@ public class PlayedCard implements Targetable
 				else if (dest == PacketMixDestroyCard.Destination.HAND)
 				{
 					setHand(true);
-					Platform.runLater(() -> GameMenu.instance().hand.getChildren().add(new CardShower(this)));
+					Platform.runLater(() -> GameMenu.instance().hand.getChildren().add(CardShower.getShower(this)));
 				}
 				else
 					GameMenu.instance().playerInfos.setLibrary(GameMenu.instance().playerInfos.getLibrary() + 1);
@@ -142,35 +156,39 @@ public class PlayedCard implements Targetable
 				else if (dest == PacketMixDestroyCard.Destination.HAND)
 				{
 					setHand(true);
-					Platform.runLater(() -> GameMenu.instance().adverseHand.getChildren().add(new CardShower(this)));
+					Platform.runLater(() -> GameMenu.instance().adverseHand.getChildren().add(CardShower.getShower(this)));
 				}
 				else
 					GameMenu.instance().adverseInfos.addLibrary();
 			}
 			CardShower shower = CardShower.getShower(this);
-			shower.destroy();
-			if (getType().is(CardType.LAND))
+			if (dest != PacketMixDestroyCard.Destination.UP_LIBRARY && dest != PacketMixDestroyCard.Destination.DOWN_LIBRARY)
 			{
-				if (getOwner() == Client.localPlayer)
-					Platform.runLater(() -> GameMenu.instance().lands.getChildren().remove(shower));
+				if (getType().is(CardType.LAND))
+				{
+					if (getController() == Client.localPlayer)
+						Platform.runLater(() -> GameMenu.instance().lands.getChildren().remove(shower));
+					else
+						Platform.runLater(() -> GameMenu.instance().adverseLands.getChildren().remove(shower));
+				}
+				else if ((getType().is(CardType.ENCHANTMENT) && !getSubtypes().contains(SubType.valueOf("Aura"))) || getType().is(CardType.ARTIFACT) ||
+						getType().is(CardType.PLANESWALKER))
+				{
+					if (getController() == Client.localPlayer)
+						Platform.runLater(() -> GameMenu.instance().enchants.getChildren().remove(shower));
+					else
+						Platform.runLater(() -> GameMenu.instance().adverseEnchants.getChildren().remove(shower));
+				}
 				else
-					Platform.runLater(() -> GameMenu.instance().adverseLands.getChildren().remove(shower));
+				{
+					if (getController() == Client.localPlayer)
+						Platform.runLater(() -> GameMenu.instance().creatures.getChildren().remove(shower));
+					else
+						Platform.runLater(() -> GameMenu.instance().adverseCreatures.getChildren().remove(shower));
+				}
 			}
-			else if ((getType().is(CardType.ENCHANTMENT) && !getSubtypes().contains(SubType.valueOf("Aura"))) || getType().is(CardType.ARTIFACT) ||
-					getType().is(CardType.PLANESWALKER))
-			{
-				if (getOwner() == Client.localPlayer)
-					Platform.runLater(() -> GameMenu.instance().enchants.getChildren().remove(shower));
-				else
-					Platform.runLater(() -> GameMenu.instance().adverseEnchants.getChildren().remove(shower));
-			}
-			else
-			{
-				if (getOwner() == Client.localPlayer)
-					Platform.runLater(() -> GameMenu.instance().creatures.getChildren().remove(shower));
-				else
-					Platform.runLater(() -> GameMenu.instance().adverseCreatures.getChildren().remove(shower));
-			}
+			setController(getOwner());
+			Platform.runLater(shower::reload);
 		}
 		else
 		{
@@ -192,13 +210,14 @@ public class PlayedCard implements Targetable
 				Server.sendChat(p, "chat.todownlibrary", null, "<i>" + c.getCard().getTranslatedName().get() + "</i>", c.getOwner().name);
 		}
 		PlayerData data = p.getData(getController());
+		setController(getOwner());
 		data.getPlayed().remove(this);
 		if (dest == PacketMixDestroyCard.Destination.EXILE)
-			data.getExile().add(new PlayedCard(c));
+			data.getExile().add(this);
 		else if (dest == PacketMixDestroyCard.Destination.GRAVEYARD)
-			data.getGraveyard().add(new PlayedCard(c));
+			data.getGraveyard().add(this);
 		else if (dest == PacketMixDestroyCard.Destination.HAND)
-			data.getHand().add(new PlayedCard(c));
+			data.getHand().add(this);
 		else if (Utils.getSide() == Side.SERVER)
 		{
 			Library lib = data.getLibrary();
@@ -474,10 +493,19 @@ public class PlayedCard implements Targetable
 		this.hand = hand;
 	}
 
+	public boolean isDuplicated()
+	{
+		return duplicated;
+	}
+
 	public PlayedCard duplicate()
 	{
 		if (isCard())
-			return new PlayedCard(toOwnedCard());
+		{
+			PlayedCard played = new PlayedCard(toOwnedCard());
+			played.duplicated = true;
+			return played;
+		}
 		else if (isToken())
 			return new PlayedCard(getToken(), getController());
 		else

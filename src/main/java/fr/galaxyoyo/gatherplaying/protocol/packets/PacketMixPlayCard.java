@@ -26,6 +26,7 @@ public class PacketMixPlayCard extends Packet
 		PlayerData data = player.runningParty.getData(controller);
 		index = buf.readShort();
 		PlayedCard card = data.getHand().get(index);
+		System.err.println("Card: " + card.getTranslatedName().get());
 		hidden = buf.readBoolean();
 		int handIndex = data.getHand().indexOf(card);
 		if (action != Action.REVEAL)
@@ -61,6 +62,9 @@ public class PacketMixPlayCard extends Packet
 				}
 			}
 		}
+		card.setHand(false);
+		if (Utils.getSide() == Side.CLIENT)
+			Platform.runLater(() -> CardShower.getShower(card).reload());
 		if (action == Action.PLAY)
 		{
 			if (Utils.getSide() == Side.SERVER)
@@ -70,9 +74,10 @@ public class PacketMixPlayCard extends Packet
 				data.getPlayed().add(card);
 				if (Utils.getSide() == Side.CLIENT)
 				{
-					CardShower shower = new CardShower(card);
+					CardShower shower = CardShower.getShower(card);
 					final PlayedCard finalPlayed = card;
 					Platform.runLater(() -> {
+						shower.reload();
 						if (finalPlayed.getOwner() == Client.localPlayer)
 							GameMenu.instance().lands.getChildren().add(shower);
 						else
@@ -93,14 +98,10 @@ public class PacketMixPlayCard extends Packet
 			sendToParty();
 		else
 		{
-			if (action != Action.REVEAL)
-			{
-				if (card.getOwner() == player)
-					Platform.runLater(() -> GameMenu.instance().hand.getChildren().remove(handIndex));
-				else
-					Platform.runLater(() -> GameMenu.instance().adverseHand.getChildren().remove(handIndex));
-			}
-			assert card != null;
+			if (card.getOwner() == Client.localPlayer)
+				Platform.runLater(() -> GameMenu.instance().hand.getChildren().remove(CardShower.getShower(card)));
+			else
+				Platform.runLater(() -> GameMenu.instance().adverseHand.getChildren().remove(CardShower.getShower(card)));
 			if (action == Action.DISCARD)
 				PlayerInfos.getInfos(card.getOwner()).graveyard(card);
 			else if (action == Action.EXILE)

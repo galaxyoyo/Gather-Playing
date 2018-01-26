@@ -17,7 +17,6 @@ import java.util.Map;
 public class CardImageManager
 {
 	private static final Map<Integer, Image> images = Maps.newHashMap();
-	private static final Map<Integer, Image> imagesHQ = Maps.newHashMap();
 	@SuppressWarnings("unused")
 	private static final Map<Integer, Image> generateds = Maps.newHashMap();
 	private static final Map<Token, Image> tokens = Maps.newHashMap();
@@ -39,9 +38,7 @@ public class CardImageManager
 	{
 		Integer muId = card == null ? null : card.getMuId(Config.getLocaleCode());
 		String locale = Config.getLocaleCode();
-		if (!Config.getHqCards() && images.containsKey(card == null ? "" : muId))
-			return images.get(card == null ? "" : muId);
-		else if (Config.getHqCards() && imagesHQ.containsKey(card == null ? "" : muId))
+		if (images.containsKey(card == null ? "" : muId))
 			return images.get(card == null ? "" : muId);
 		try
 		{
@@ -51,25 +48,11 @@ public class CardImageManager
 				file.getParentFile().mkdirs();
 			else
 			{
-				if (Config.getHqCards())
+				if (file.exists())
 				{
-					assert card != null;
-					File f = new File(DIR, card.getSet().getCode().replace("CON", "CON ") + File.separatorChar + card.getPreferredMuID() + "_HQ.png");
-					if (f.exists())
-					{
-						Image img = new Image(f.toURI().toURL().toString(), true);
-						images.put(muId, img);
-						return img;
-					}
-				}
-				else
-				{
-					if (file.exists())
-					{
-						Image img = new Image(file.toURI().toURL().toString(), true);
-						images.put(muId, img);
-						return img;
-					}
+					Image img = new Image(file.toURI().toURL().toString(), true);
+					images.put(muId, img);
+					return img;
 				}
 			}
 			URL url;
@@ -171,6 +154,7 @@ public class CardImageManager
 				return img;
 			}
 			String url = "http://cartes.mtgfrance.com/images/cards/fr/token/" + token.getSet().getMagicCardsInfoCode().toLowerCase() + "/" + token.getNumber() + ".jpg";
+			url = "http://galaxyoyo.com:42000/render-token?token=" + token.name().toLowerCase() + "&locale=" + Config.getLocaleCode();
 			Image img = new Image(url, 223.0D, 310.0D, true, true);
 			if (img.isError())
 			{

@@ -180,7 +180,7 @@ public class M15Renderer extends CardRenderer
 		drawText(g, titleX, frameDir.getName().startsWith("transform-") ? 82 : 84, costLeft - 20 - titleX, getCard().getTranslatedName().get(), false, false);
 		System.out.print(".");
 
-		g.setFont(Fonts.TEXT);
+		g.setFont(Fonts.TYPE);
 		if (Pattern.matches("BFZ|OGW|ZEN|UNH|UGL|UST", getCard().getSet().getCode()) && frameDir.getName().equals("fullartbasicland"))
 		{
 			drawText(g, 51, 885, 439, "Terrain de base", false, false);

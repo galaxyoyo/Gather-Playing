@@ -81,13 +81,13 @@ public class PacketMixDrawCard extends Packet
 			{
 				GameMenu.instance().playerInfos.addLibrary(-count);
 				for (PlayedCard card : list)
-					Platform.runLater(() -> GameMenu.instance().hand.getChildren().add(new CardShower(card)));
+					Platform.runLater(() -> GameMenu.instance().hand.getChildren().add(CardShower.getShower(card)));
 			}
 			else
 			{
 				GameMenu.instance().adverseInfos.addLibrary(-count);
 				for (PlayedCard card : list)
-					Platform.runLater(() -> GameMenu.instance().adverseHand.getChildren().add(new CardShower(card)));
+					Platform.runLater(() -> GameMenu.instance().adverseHand.getChildren().add(CardShower.getShower(card)));
 			}
 		}
 	}

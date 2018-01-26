@@ -30,11 +30,11 @@ public class PacketMixPlayFounded extends Packet
 			else
 				GameMenu.instance().adverseInfos.removeLibrary();
 		}
+		PlayedCard played = new PlayedCard(card);
 		switch (dest)
 		{
 			case BATTLEFIELD:
-				PlayedCard played = new PlayedCard(card);
-				CardShower shower = new CardShower(played);
+				CardShower shower = CardShower.getShower(played);
 				data.getPlayed().add(played);
 				if (Utils.getSide() == Side.CLIENT)
 				{
@@ -64,29 +64,30 @@ public class PacketMixPlayFounded extends Packet
 				played.setDefaultStats();
 				break;
 			case EXILE:
-				data.getExile().add(new PlayedCard(card));
+				data.getExile().add(played);
 				if (Utils.getSide() == Side.CLIENT)
 					if (card.getOwner() == player)
-						GameMenu.instance().playerInfos.exile(new PlayedCard(card));
+						GameMenu.instance().playerInfos.exile(played);
 					else
-						GameMenu.instance().adverseInfos.exile(new PlayedCard(card));
+						GameMenu.instance().adverseInfos.exile(played);
 				break;
 			case GRAVEYARD:
-				data.getGraveyard().add(new PlayedCard(card));
+				data.getGraveyard().add(played);
 				if (Utils.getSide() == Side.CLIENT)
 					if (card.getOwner() == player)
-						GameMenu.instance().playerInfos.graveyard(new PlayedCard(card));
+						GameMenu.instance().playerInfos.graveyard(played);
 					else
-						GameMenu.instance().adverseInfos.graveyard(new PlayedCard(card));
+						GameMenu.instance().adverseInfos.graveyard(played);
 				break;
 			case HAND:
-				data.getHand().add(new PlayedCard(card));
+				data.getHand().add(played);
+				played.setHand(true);
 				if (Utils.getSide() == Side.CLIENT)
 				{
 					if (player == card.getOwner())
-						Platform.runLater(() -> GameMenu.instance().hand.getChildren().add(new CardShower(new PlayedCard(card))));
+						Platform.runLater(() -> GameMenu.instance().hand.getChildren().add(CardShower.getShower(played)));
 					else
-						Platform.runLater(() -> GameMenu.instance().adverseHand.getChildren().add(new CardShower(new PlayedCard(card))));
+						Platform.runLater(() -> GameMenu.instance().adverseHand.getChildren().add(CardShower.getShower(played)));
 				}
 				break;
 			case UP_LIBRARY:

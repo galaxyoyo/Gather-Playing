@@ -1,9 +1,6 @@
 package fr.galaxyoyo.gatherplaying.protocol.packets;
 
-import fr.galaxyoyo.gatherplaying.PlayedCard;
-import fr.galaxyoyo.gatherplaying.Player;
-import fr.galaxyoyo.gatherplaying.Side;
-import fr.galaxyoyo.gatherplaying.Utils;
+import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.client.gui.CardShower;
 import fr.galaxyoyo.gatherplaying.client.gui.GameMenu;
 import fr.galaxyoyo.gatherplaying.server.Server;
@@ -32,18 +29,33 @@ public class PacketMixGainControl extends Packet
 						card.getOwner().name);
 			else
 				Server.sendChat(player.runningParty, "chat.recovercontrol", null, newController.name, "<i>" + card.getTranslatedName().get() + "</i>");
-		} else
+		}
+		else
 		{
 			CardShower shower = CardShower.getShower(card);
 			if (player == newController)
 			{
-				Platform.runLater(() -> GameMenu.instance().adverseCreatures.getChildren().remove(shower));
-				Platform.runLater(() -> GameMenu.instance().creatures.getChildren().add(shower));
-			} else
-			{
-				Platform.runLater(() -> GameMenu.instance().creatures.getChildren().remove(shower));
-				Platform.runLater(() -> GameMenu.instance().adverseCreatures.getChildren().add(shower));
+			//	Platform.runLater(() -> GameMenu.instance().adverseCreatures.getChildren().remove(shower));
+				if (card.getType().is(CardType.LAND))
+					Platform.runLater(() -> GameMenu.instance().lands.getChildren().add(shower));
+				else if ((card.getType().is(CardType.ENCHANTMENT) && !card.getSubtypes().contains(SubType.valueOf("Aura"))) || card.getType().is(CardType.ARTIFACT) ||
+					card.getType().is(CardType.PLANESWALKER))
+					Platform.runLater(() -> GameMenu.instance().enchants.getChildren().add(shower));
+				else
+					Platform.runLater(() -> GameMenu.instance().creatures.getChildren().add(shower));
 			}
+			else
+			{
+			//	Platform.runLater(() -> GameMenu.instance().creatures.getChildren().remove(shower));
+				if (card.getType().is(CardType.LAND))
+					Platform.runLater(() -> GameMenu.instance().adverseLands.getChildren().add(shower));
+				else if ((card.getType().is(CardType.ENCHANTMENT) && !card.getSubtypes().contains(SubType.valueOf("Aura"))) || card.getType().is(CardType.ARTIFACT) ||
+						card.getType().is(CardType.PLANESWALKER))
+					Platform.runLater(() -> GameMenu.instance().adverseEnchants.getChildren().add(shower));
+				else
+					Platform.runLater(() -> GameMenu.instance().adverseCreatures.getChildren().add(shower));
+			}
+			Platform.runLater(shower::reload);
 		}
 	}
 

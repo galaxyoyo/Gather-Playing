@@ -13,7 +13,6 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
@@ -411,10 +410,7 @@ public class PlayerInfos extends AbstractController implements Initializable
 			{
 				GameMenu.instance().playerInfos = this;
 				setPlayer(Client.localPlayer);
-				Parent parent = getParent();
-				while (!(parent instanceof ScrollPane))
-					parent = parent.getParent();
-				ScrollPane scrollPane = (ScrollPane) parent;
+				ScrollPane scrollPane = GameMenu.instance().infosPanel;
 				scrollPane.prefWidthProperty().bind(Bindings.max(library.widthProperty(), GameMenu.instance().adverseInfos.library.widthProperty()).add(20));
 			}
 		});

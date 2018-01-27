@@ -60,7 +60,7 @@ public class M15Planeswalker extends CardRenderer
 		{
 			BufferedImage art = ImageIO.read(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + (getCard().getMuId("en")) + "&type=card")).getSubimage(18, 36,
 					205 - 18, 173 - 36);
-			ImageIO.write(art, "PNG", artFile);
+			ImageIO.write(art, "JPG", artFile);
 		}
 
 		//drawArt(g, artFile, 0, 0, 1020, 720);
@@ -68,13 +68,17 @@ public class M15Planeswalker extends CardRenderer
 
 		System.out.print(".");
 
+		String legal = getCard().getAbility().replace(" : ", ": ").replace('−', '-').replace("\r\n", "\n").replace("\r", "\n");
+		String[] split = legal.split("\n");
+		String nb = split.length == 4 ? "4" : split.length == 2 ? "2" : "";
+
 		BufferedImage bgImage;
 		if (colorsObj[0] == ManaColor.COLORLESS)
-			bgImage = readImage(new File(frameDir, "cards/Art.png"));
+			bgImage = readImage(new File(frameDir, "cards/Art" + nb + ".png"));
 		else if (useMulticolorFrame)
-			bgImage = readImage(new File(frameDir, "cards/Gld" + colors + ".png"));
+			bgImage = readImage(new File(frameDir, "cards/Gld" + colors + nb + ".png"));
 		else
-			bgImage = readImage(new File(frameDir, "cards/" + (colors.length() >= 3 ? "Gld" : colors) + ".png"));
+			bgImage = readImage(new File(frameDir, "cards/" + (colors.length() >= 3 ? "Gld" : colors) + nb + ".png"));
 
 		if (bgImage != null)
 			g.drawImage(bgImage, 0, 0, 720, 1020, null);
@@ -91,7 +95,7 @@ public class M15Planeswalker extends CardRenderer
 
 		int costLeft = drawCastingCost(g, getCard().getManaCost(), colors.length() >= 2 ? 37 : 35, 677, 35);
 		System.out.print(".");
-		int rarityLeft = drawRarity(g, getCard().getRarity(), getCard().getSet(), 675, 604, 41, 76);
+		int rarityLeft = drawRarity(g, getCard().getRarity(), getCard().getSet(), 675, split.length == 4 ? 534 : 604, 41, 76);
 
 		int titleX = frameDir.getName().startsWith("transform-") ? 105 : 51;
 		g.setColor(Color.BLACK);
@@ -112,11 +116,8 @@ public class M15Planeswalker extends CardRenderer
 			type += " : ";
 		else
 			type += " — ";
-		drawText(g, typex, 616, rarityLeft - typex, type + getCard().getSubtypes()[0].getTranslatedName().get(), false, false);
-
-		String legal = getCard().getAbility().replace(" : ", ": ").replace('−', '-').replace("\r\n", "\n").replace("\r", "\n");
-		String[][] infos = new String[3][2];
-		String[] split = legal.split("\n");
+		drawText(g, typex, split.length == 4 ? 546 : 616, rarityLeft - typex, type + getCard().getSubtypes()[0].getTranslatedName().get(), false, false);
+		String[][] infos = new String[split.length][2];
 		for (int i = 0; i < split.length; ++i)
 		{
 			infos[i] = split[i].split(":[ | ]");
@@ -125,40 +126,71 @@ public class M15Planeswalker extends CardRenderer
 		}
 		int maxWidth = 673;
 		Font f = Fonts.TEXT;
-		Map<String, Number> map1, map2, map3;
-		while (true)
+		Map<String, Number> map1, map2, map3, map4 = null;
+		if (split.length == 4)
 		{
-			map1 = testChunksWrapped(maxWidth, getChunks(infos[0][1]), f);
-			map2 = testChunksWrapped(maxWidth, getChunks(infos[1][1]), f);
-			map3 = testChunksWrapped(maxWidth, getChunks(infos[2][1]), f);
-			int difference = Math.max(Math.max(map1.get("height").intValue(), map2.get("height").intValue()), map3.get("height").intValue()) - 65;
-			int lastLineWidth = map3.get("lastLineWidth").intValue();
-			float decrement;
-			if (difference < 0 && lastLineWidth <= 600)
-				break;
-			else if (15 > difference)
-				decrement = 0.05F;
-			else if (30 > difference)
-				decrement = 0.2F;
-			else if (difference < 100)
-				decrement = 0.4F;
-			else
-				decrement = 0.8F;
-			f = f.deriveFont(f.getSize2D() - decrement);
+			while (true)
+			{
+				map1 = testChunksWrapped(maxWidth, getChunks(infos[0][1]), f);
+				map2 = testChunksWrapped(maxWidth, getChunks(infos[1][1]), f);
+				map3 = testChunksWrapped(maxWidth, getChunks(infos[2][1]), f);
+				map4 = testChunksWrapped(maxWidth, getChunks(infos[3][1]), f);
+				int difference = Math.max(Math.max(Math.max(map1.get("height").intValue(), map2.get("height").intValue()), map3.get("height").intValue()),
+						map4.get("height").intValue()) - 65;
+				int lastLineWidth = map3.get("lastLineWidth").intValue();
+				float decrement;
+				if (difference < 0 && lastLineWidth <= 600)
+					break;
+				else if (15 > difference)
+					decrement = 0.05F;
+				else if (30 > difference)
+					decrement = 0.2F;
+				else if (difference < 100)
+					decrement = 0.4F;
+				else
+					decrement = 0.8F;
+				f = f.deriveFont(f.getSize2D() - decrement);
+			}
 		}
-		for (int i = 0; i < 3; i++)
+		else
+		{
+			while (true)
+			{
+				map1 = testChunksWrapped(maxWidth, getChunks(infos[0][1]), f);
+				map2 = testChunksWrapped(maxWidth, getChunks(infos[1][1]), f);
+				map3 = testChunksWrapped(maxWidth, getChunks(infos[2][1]), f);
+				int difference = Math.max(Math.max(map1.get("height").intValue(), map2.get("height").intValue()), map3.get("height").intValue()) - 65;
+				int lastLineWidth = map3.get("lastLineWidth").intValue();
+				float decrement;
+				if (difference < 0 && lastLineWidth <= 600)
+					break;
+				else if (15 > difference)
+					decrement = 0.05F;
+				else if (30 > difference)
+					decrement = 0.2F;
+				else if (difference < 100)
+					decrement = 0.4F;
+				else
+					decrement = 0.8F;
+				f = f.deriveFont(f.getSize2D() - decrement);
+			}
+		}
+		for (int i = 0; i < split.length; i++)
 		{
 			BufferedImage image = infos[i][0].isEmpty() ? null : loyaltyIcon(infos[i][0].charAt(0));
 			int y = 0;
-			switch (i)
+			switch (split.length - i)
 			{
-				case 0:
+				case 4:
+					y = 600;
+					break;
+				case 3:
 					y = 680;
 					break;
-				case 1:
+				case 2:
 					y = 782;
 					break;
-				case 2:
+				case 1:
 					y = 872;
 					break;
 			}
@@ -169,7 +201,7 @@ public class M15Planeswalker extends CardRenderer
 			g.setFont(Fonts.LOYALTY_CHANGE);
 			drawText(g, 60, y, 114, infos[i][0], true, true);
 			g.setColor(Color.BLACK);
-			drawChunksWrapped(g, (int) (y  + f.getSize2D() - ((i == 0 ? map1 : i == 1 ? map2 : map3).get("height").floatValue()) / 2.0F), 122,
+			drawChunksWrapped(g, (int) (y  + f.getSize2D() - ((i == 0 ? map1 : i == 1 ? map2 : i == 2 ? map3 : map4).get("height").floatValue()) / 2.0F), 122,
 					673, getChunks(infos[i][1]), f);
 		}
 

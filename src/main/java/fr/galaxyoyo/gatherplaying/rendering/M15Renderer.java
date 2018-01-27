@@ -105,6 +105,8 @@ public class M15Renderer extends CardRenderer
 			}
 			if (!useMulticolorFrame && costColors.length() >= 2)
 				costColors = "Gld";
+			else if (devoid || isEldrazi)
+				costColors = "C";
 			else if (costColors.isEmpty())
 				costColors = "Art";
 			if (getCard().getType().is(CardType.CONSPIRACY))
@@ -141,7 +143,7 @@ public class M15Renderer extends CardRenderer
 		if (getCard().getType().is(CardType.CREATURE))
 		{
 			BufferedImage pt;
-			if (costColors.length() > 1)
+			if (costColors.length() > 1 && !costColors.equals("Art"))
 				pt = readImage(new File(frameDir, "pt/Gld.png"));
 			else
 				pt = readImage(new File(frameDir, "pt/" + costColors + ".png"));

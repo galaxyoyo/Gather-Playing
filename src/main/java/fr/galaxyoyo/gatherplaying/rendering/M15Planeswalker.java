@@ -43,6 +43,9 @@ public class M15Planeswalker extends CardRenderer
 			case "WR":
 				colors = "RW";
 				break;
+			case "UG":
+				colors = "GU";
+				break;
 		}
 		boolean useMulticolorFrame = colors.length() == 2;
 

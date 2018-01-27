@@ -93,7 +93,7 @@ public class M15Renderer extends CardRenderer
 				cost = getCard().getColors();
 			if (cost == null)
 				cost = new ManaColor[0];
-			costColors = String.join("", RefStreams.of(cost).filter(color -> !color.name().contains("NEUTRAL")).map(ManaColor::getAbbreviate).distinct().collect(Collectors.toList()));
+			costColors = String.join("", RefStreams.of(cost).filter(color -> !color.name().contains("NEUTRAL")).map(ManaColor::getAbbreviate).distinct().collect(Collectors.toList())).replace("/P", "");
 			switch (costColors)
 			{
 				case "WG":

@@ -90,7 +90,7 @@ public abstract class CardRenderer extends Renderer
 		String text = legal.replace("\n", "\n\n");
 		if (flavor != null && !flavor.trim().isEmpty())
 			text += "\n\n#" + flavor + '#';
-		drawTextWrappedAndScaled(g, top, left, bottom, right, text, g.getFont(), heightAdjust);
+		drawTextWrappedAndScaled(g, top, left, bottom, right, text.trim(), g.getFont(), heightAdjust);
 	}
 
 	public int drawRarity(Graphics2D g, Rarity rarity, Set set, int right, int middle, int height, int width)

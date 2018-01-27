@@ -3,6 +3,7 @@ package fr.galaxyoyo.gatherplaying.rendering;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import fr.galaxyoyo.gatherplaying.CardType;
+import fr.galaxyoyo.gatherplaying.client.Config;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -230,7 +231,7 @@ public abstract class Renderer
 
 	protected int drawSymbol(Graphics2D g, int top, int left, int height, String symbol, boolean shadow)
 	{
-		String language = "fr";
+		String language = Config.getLocaleCode();
 		Color color = g != null ? g.getColor() : Color.BLACK;
 		if (symbol.equals("*") && (color.getRGB() & 0x00FFFFFF) != 0x0 && (color.getRGB() & 0x00FFFFFF) != 0xFFFFFF)
 		{
@@ -372,6 +373,8 @@ public abstract class Renderer
 			else if (this instanceof PreEightRenderer && (symbol.equals("T") ||
 					(Pattern.matches("(?s)(W|U|B|R|G)", symbol) && ArrayUtils.contains(oldManaSets, ((CardRenderer) this).getCard().getSet().getCode()))))
 				symbol += "_pre";
+			if (symbol.endsWith("/P"))
+				symbol = "P" + symbol.substring(0, symbol.length() - 2);
 
 			try
 			{

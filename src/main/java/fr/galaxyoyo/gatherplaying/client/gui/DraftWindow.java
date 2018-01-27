@@ -51,6 +51,8 @@ public class DraftWindow extends AbstractController
 			{
 				Image image = CardImageManager.getImage(card);
 				ImageView view = new ImageView(image);
+				view.setPreserveRatio(true);
+				view.setFitHeight(512.0D);
 				views.put(card, view);
 				view.setCursor(Cursor.HAND);
 				view.setOnMouseEntered(event -> cardShower.updateCard(card));

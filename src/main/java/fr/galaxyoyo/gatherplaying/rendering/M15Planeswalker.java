@@ -55,12 +55,12 @@ public class M15Planeswalker extends CardRenderer
 
 		File picDir = new File(ARTDIR, getCard().getSet().getCode());
 		picDir.mkdirs();
-		File artFile = new File(picDir, getCard().getName().get("en") + ".jpg");
+		File artFile = new File(picDir, getCard().getName().get("en") + ".png");
 		if (!artFile.isFile())
 		{
 			BufferedImage art = ImageIO.read(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + (getCard().getMuId("en")) + "&type=card")).getSubimage(18, 36,
 					205 - 18, 173 - 36);
-			ImageIO.write(art, "JPG", artFile);
+			ImageIO.write(art, "PNG", artFile);
 		}
 
 		//drawArt(g, artFile, 0, 0, 1020, 720);

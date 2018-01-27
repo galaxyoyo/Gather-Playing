@@ -39,12 +39,12 @@ public class M15Renderer extends CardRenderer
 
 		File picDir = new File(ARTDIR, getCard().getSet().getCode());
 		picDir.mkdirs();
-		File artFile = new File(picDir, getCard().getImageName() + ".jpg");
+		File artFile = new File(picDir, getCard().getImageName() + ".png");
 		if (!artFile.isFile())
 		{
 			BufferedImage art = ImageIO.read(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + (getCard().getMuId("en")) + "&type=card")).getSubimage(18, 36,
 					205 - 18, 173 - 36);
-			ImageIO.write(art, "JPG", artFile);
+			ImageIO.write(art, "PNG", artFile);
 		}
 
 		boolean isEldrazi =

@@ -58,14 +58,14 @@ public class M15AfterMathRender extends M15Renderer
 
 		File picDir = new File(ARTDIR, getCard().getSet().getCode());
 		picDir.mkdirs();
-		File artFileLeft = new File(picDir, getCardLeft().getImageName() + ".jpg");
+		File artFileLeft = new File(picDir, getCardLeft().getImageName() + ".png");
 	//	if (!artFileLeft.isFile())
 		{
 			BufferedImage art = ImageIO.read(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + (getCard().getMuId("en")) + "&type=card")).getSubimage(18, 36,
 					205 - 18, 105 - 36);
-			ImageIO.write(art, "JPG", artFileLeft);
+			ImageIO.write(art, "PNG", artFileLeft);
 		}
-		File artFileRight = new File(picDir, getCardRight().getImageName() + ".jpg");
+		File artFileRight = new File(picDir, getCardRight().getImageName() + ".png");
 	//	if (!artFileRight.isFile())
 		{
 			BufferedImage rotatedArt = ImageIO.read(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + (getCard().getMuId("en")) + "&type=card")).getSubimage
@@ -75,7 +75,7 @@ public class M15AfterMathRender extends M15Renderer
 			at.rotate(-Math.PI / 2.0, 32, 54);
 			at.translate(54 - 32, 54 - 32);
 			art.createGraphics().drawImage(rotatedArt, at, null);
-			ImageIO.write(art, "JPG", artFileRight);
+			ImageIO.write(art, "PNG", artFileRight);
 		}
 
 		drawArt(gLeft, artFileLeft, 107, 43, 341, 674);

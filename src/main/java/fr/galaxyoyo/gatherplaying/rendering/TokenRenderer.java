@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -65,26 +66,16 @@ public class TokenRenderer extends Renderer
 		Graphics2D g = img.createGraphics();
 		g.setColor(frameDir.getName().equals("transform-night") ? Color.WHITE : Color.BLACK);
 
-		File picDir = new File(ARTDIR, getToken().getSet().getCode());
+		File picDir = new File(ARTDIR, getToken().getSet().getCode() + "/tokens");
 		picDir.mkdirs();
 		File artFile = new File(picDir, getToken().name().toLowerCase() + ".jpg");
-	/*	if (!artFile.isFile())
+		if (!artFile.isFile())
 		{
-			BufferedImage art = ImageIO.read(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + (getCard().getMuId("en")) + "&type=card")).getSubimage(18, 36,
-					205 - 18, 173 - 36);
-			ImageIO.write(art, "PNG", artFile);
-		}*/
-
-	/*	boolean isEldrazi =
-				getCard().getType().is(CardType.CREATURE) && !getCard().getType().is(CardType.ARTIFACT) && (ArrayUtils.contains(getCard().getSubtypes(), SubType.valueOf("Eldrazi")) ||
-						(getCard().getManaCost() != null && getCard().getManaCost().length <= 1 && getCard().getColors()[0] == ManaColor.COLORLESS));
-		boolean devoid = getCard().getAbilityMap().get("en") != null && getCard().getAbilityMap().get("en").contains("Devoid");
-		if (isEldrazi || devoid)
-			drawArt(g, artFile, 21, 17, 955, 703);
-		else if (frameDir.getName().equals("fullartbasicland") || getCard().getSet().getCode().equals("EXP"))
-			drawArt(g, artFile, 103, 36, 842, 682);
-		else*/
-	//		drawArt(g, artFile, 107, 43, 569, 674);
+			BufferedImage art = ImageIO.read(new URL("http://cartes.mtgfrance.com/images/cards/en/token/" + token.getSet().getMagicCardsInfoCode().toLowerCase() + "/"
+					+ token.getNumber() + ".jpg"));
+			ImageIO.write(art, "JPG", artFile);
+		}
+		g.drawImage(ImageIO.read(artFile), 0, 0, 720, 1020, null);
 
 		System.out.print(".");
 

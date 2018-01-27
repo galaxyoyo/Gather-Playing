@@ -102,7 +102,7 @@ public enum Token
 			430691),
 	CHAMPION_OF_WITS(CREATURE_TOKEN, "HOU", "2", "When Champion of Wits enters the battlefield, you may draw cards equal to its power. If you do, discard two cards.",
 			"Quand la Championne d'esprits arrive sur le champ de bataille, vous pouvez piocher un nombre de cartes égal à sa force. Si vous faites ainsi, défaussez-vous de deux " +
-					"cartes.", 4, 4, ManaColor.BLACK, new SubType[] {SubType.valueOf("Zobmie"), SubType.valueOf("Naga"), SubType.valueOf("Wizard")}, 430720),
+					"cartes.", 4, 4, ManaColor.BLACK, new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Naga"), SubType.valueOf("Wizard")}, 430720),
 	DREAMSTEALER(CREATURE_TOKEN, "HOU", "3", "Menace\nWhen Dreamstealer deals combat damage to a player, that player discards that many cards.",
 			"Menace\nQuand le Voleur de rêves inflige des blessures de combat à un joueur, ce joueur se défausse d'autant de cartes.", 4, 4, ManaColor.BLACK,
 			new SubType[] {SubType.valueOf("Zombie"), SubType.valueOf("Human"), SubType.valueOf("Wizard")}, 430752),

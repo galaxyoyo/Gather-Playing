@@ -44,7 +44,7 @@ public class M15Renderer extends CardRenderer
 		{
 			BufferedImage art = ImageIO.read(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + (getCard().getMuId("en")) + "&type=card")).getSubimage(18, 36,
 					205 - 18, 173 - 36);
-			ImageIO.write(art, "PNG", artFile);
+			ImageIO.write(art, "JPG", artFile);
 		}
 
 		boolean isEldrazi =

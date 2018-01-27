@@ -26,7 +26,8 @@ public abstract class Renderer
 
 	protected static List<Chunk> getChunks(String text)
 	{
-		text = text.replace("\r\n", "\n").replace("# ", " #").replace("\n\n•", "\n•").replace("#(", "(").replace("(", "#(").replace(")#", ")").replace(")", ")#") + "\n";
+		text = text.replace("\r\n", "\n").replace("# ", " #").replace("\n\n•", "\n•").replace("#(", "(")
+				.replace("(", "#(").replace(")#", ")").replace(")", ")#") + "\n";
 		Pattern pattern = Pattern.compile("(.*?)((?!&)[{}#\n])([^{}#\n]*)");
 		Matcher matcher = pattern.matcher(text);
 		List<Chunk> chunks = Lists.newArrayList();
@@ -180,7 +181,7 @@ public abstract class Renderer
 				}
 				if (xOffset != 0 && !chunks.get(i - 1).isSymbol())
 					xOffset += spaceWidth;
-				xOffset += drawSymbol(g, baseline - font.getSize() + 2, left + xOffset, font.getSize(), chunk.getValue(), false);
+				xOffset += drawSymbol(g, baseline - font.getSize() + (chunk.value.contains("brush") ? 3 : 7), left + xOffset, font.getSize() - 5, chunk.getValue(), false);
 			}
 			else
 			{

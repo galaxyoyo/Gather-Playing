@@ -11,6 +11,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 
 @AllArgsConstructor
 public abstract class CardRenderer extends Renderer
@@ -93,9 +95,14 @@ public abstract class CardRenderer extends Renderer
 		drawTextWrappedAndScaled(g, top, left, bottom, right, text.trim(), g.getFont(), heightAdjust);
 	}
 
+	@SuppressWarnings("Duplicates")
 	public int drawRarity(Graphics2D g, Rarity rarity, Set set, int right, int middle, int height, int width)
 	{
-		String[] preEXOSet = {"LEA", "LEB", "2ED", "ARN", "ATQ", "3ED", "LEG", "DRK", "FEM", "4ED", "ICE", "ALL", "HML", "CHR", "5ED", "EXO", "MIR", "POR", "STH", "TMP", "VIS", "WTH"};
+		List<String> preEXOSet = Arrays.asList("LEA", "LEB", "2ED", "ARN", "ATQ", "3ED", "LEG", "DRK", "FEM", "4ED", "ICE", "ALL", "HML", "CHR", "5ED", "EXO", "MIR", "POR", "STH", "TMP",
+			"VIS", "WTH");
+		if (preEXOSet.contains(getCard().getSet().getCode()))
+			return right;
+
 		if (rarity == Rarity.TOKEN || rarity == Rarity.BASIC_LAND)
 			rarity = Rarity.COMMON;
 		try
@@ -139,16 +146,6 @@ public abstract class CardRenderer extends Renderer
 		for (ManaColor symbol : symbols)
 			x += drawSymbol(g, top, x, symbolSize, symbol.getAbbreviate(), true) + 4;
 		return left;
-	}
-
-	public int drawFutureshiftedCastingCost(Graphics2D g, ManaColor[] symbols, int top, int right, int symbolSize)
-	{
-		return drawCastingCost(g, symbols, top, right, symbolSize);
-	}
-
-	public int drawFutureshiftedTextlessCastingCost(Graphics2D g, ManaColor[] symbols, int top, int right, int symbolSize)
-	{
-		return drawCastingCost(g, symbols, top, right, symbolSize);
 	}
 
 	public String getCardName()

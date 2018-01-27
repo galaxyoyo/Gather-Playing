@@ -47,7 +47,7 @@ public class Card implements Comparable<Card>
 	private String artist;
 	private String imageName;
 	private String watermark;
-	private Card related;
+	private transient Card related;
 	private boolean preview = false;
 
 	public boolean isLegal(Rules rules) { return rules == Rules.FREEFORM || rules.isLegal(this) || isRestricted(rules); }

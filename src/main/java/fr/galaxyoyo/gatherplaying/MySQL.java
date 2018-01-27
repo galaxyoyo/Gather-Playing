@@ -211,7 +211,7 @@ public class MySQL
 					id = "78686";
 				else */
 				if (id != null && (id.contains("a") || id.contains("b") || id.contains("c") || id.contains("d") || id.contains("e")))
-					id = Integer.toString(Integer.parseInt(id.replaceAll("[^\\d]", "")) + 1);
+					id = Integer.toString(Integer.parseInt(id.replaceAll("[^\\d]", "")));
 				if (id != null)
 					card.getMuId().put(locale, Integer.parseInt(id));
 				card.getAbilityMap().put(locale, set.getString("ability_" + locale.toUpperCase()));
@@ -261,7 +261,10 @@ public class MySQL
 
 	public static void updateCard(Card card)
 	{
-		delete("cards", Condition.equals(new Value("id_EN", card.getMuId("en"))));
+		String l = card.getNumber() == null ? "" : card.getNumber().replaceAll("[0-9F-Zf-z]", "");
+		if (l.equals("a") || card.getLayout() == Layout.DOUBLE_FACED || card.getRarity() == Rarity.BASIC_LAND || !cards.containsKey(card.getMuId("en")))
+			l = "";
+		delete("cards", Condition.equals(new Value("id_EN", card.getMuId("en") + l)));
 		insertCard(card);
 	}
 

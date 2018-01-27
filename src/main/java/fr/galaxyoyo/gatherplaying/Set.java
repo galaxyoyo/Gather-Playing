@@ -118,13 +118,18 @@ public class Set implements Comparable<Set>
 				if ((cardData.layout == Layout.DOUBLE_FACED || cardData.layout == Layout.MELD) && cardData.number.endsWith("b"))
 					cardData.multiverseid++;
 				Card card = StreamSupport.stream(cards).filter(c -> c.getMuId(language) != null && cardData.multiverseid == c.getMuId(language)).findAny().orElse(null);
+				if (card != null && card.getLayout() == Layout.AFTERMATH && card.getRelated() != null && !card.getNumber().equals(cardData.number))
+				{
+					card = card.getRelated();
+					System.out.println(card.getTranslatedName().get() + " : " + card.getNumber() + ", " + card.getNumber() + ", " + cardData.originalText);
+				}
 				if (card == null)
 				{
 					StreamSupport.stream(cards).filter(Card::isBasic).forEach(c -> System.out.println(c.getMuId("fr")));
-					System.out.println(cardData.multiverseid + " (" + code + ")");
-					System.out.println(cardData.originalText);
 					continue;
 				}
+				if (cardData.names != null && cardData.names.length > 1 && card.getName().get(language) == null)
+					card.getName().put(language, cardData.names[1]);
 				card.getAbilityMap().put(language, cardData.originalText);
 				card.getFlavorMap().put(language, cardData.flavor);
 				MySQL.updateCard(card);
@@ -386,6 +391,8 @@ public class Set implements Comparable<Set>
 	@SuppressWarnings("unused")
 	private class CardLanguageData
 	{
+		private String name;
+		private String[] names;
 		private String flavor;
 		private Layout layout;
 		private int multiverseid;

@@ -1,10 +1,7 @@
 package fr.galaxyoyo.gatherplaying.rendering;
 
 import com.google.common.collect.Maps;
-import fr.galaxyoyo.gatherplaying.Card;
-import fr.galaxyoyo.gatherplaying.CardType;
-import fr.galaxyoyo.gatherplaying.Token;
-import fr.galaxyoyo.gatherplaying.Utils;
+import fr.galaxyoyo.gatherplaying.*;
 import lombok.Getter;
 import org.apache.commons.io.FileUtils;
 
@@ -56,6 +53,8 @@ public class ImageWriter
 	{
 		if (card.getType().is(CardType.PLANESWALKER))
 			return new M15Planeswalker(card);
+		else if (card.getLayout() == Layout.AFTERMATH)
+			return new M15AfterMathRender(card);
 		return new M15Renderer(card);
 	}
 

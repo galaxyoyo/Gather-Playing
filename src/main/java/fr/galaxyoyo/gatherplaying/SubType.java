@@ -63,5 +63,5 @@ public class SubType implements Comparable<SubType>
 	@Override
 	public String toString() { return getTranslatedName().get(); }
 
-	public StringBinding getTranslatedName() { return I18n.tr("subtype." + name.toLowerCase().replace("'", "")); }
+	public StringBinding getTranslatedName() { return I18n.tr("subtype." + name.toLowerCase().replace("'", "").replace("’", "")); }
 }

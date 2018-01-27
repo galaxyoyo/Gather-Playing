@@ -209,7 +209,8 @@ public class MySQL
 					id = "78695";
 				else if (id != null && id.equals("78686b"))
 					id = "78686";
-				else */if (id != null && (id.contains("b") || id.contains("c") || id.contains("d") || id.contains("e")))
+				else */
+				if (id != null && (id.contains("a") || id.contains("b") || id.contains("c") || id.contains("d") || id.contains("e")))
 					id = Integer.toString(Integer.parseInt(id.replaceAll("[^\\d]", "")) + 1);
 				if (id != null)
 					card.getMuId().put(locale, Integer.parseInt(id));
@@ -271,8 +272,14 @@ public class MySQL
 
 		try
 		{
-			insert("cards", CARD_COLUMNS, card.getMuId("en"), card.getMuId("de"), card.getMuId("fr"), card.getMuId("it"), card.getMuId("es"), card.getMuId("pt"), card.getMuId("ru"),
-					card.getMuId("cn"), card.getMuId("tw"), card.getMuId("jp"), card.getMuId("ko"), card.getName().get("en"), card.getName().get("de"), card.getName().get("fr"),
+			String l = card.getNumber() == null ? "" : card.getNumber().replaceAll("[0-9F-Zf-z]", "");
+			if (l.equals("a") || card.getLayout() == Layout.DOUBLE_FACED || card.getRarity() == Rarity.BASIC_LAND || !cards.containsKey(card.getMuId("en")))
+				l = "";
+			if (!l.isEmpty())
+				System.out.println(card.getMuId("en") + l);
+			insert("cards", CARD_COLUMNS, card.getMuId("en") + l, card.getMuId("de"), card.getMuId("fr"), card.getMuId("it"),
+					card.getMuId("es"), card.getMuId("pt"), card.getMuId("ru"), card.getMuId("cn"), card.getMuId("tw"),
+					card.getMuId("jp"), card.getMuId("ko"), card.getName().get("en"), card.getName().get("de"), card.getName().get("fr"),
 					card.getName().get("it"), card.getName().get("es"), card.getName().get("pt"), card.getName().get("ru"), card.getName().get("cn"), card.getName().get("tw"),
 					card.getName().get("jp"), card.getName().get("ko"), card.getNumber(), card.getMciNumber(), card.getSet().getCode(), card.getType().name().toLowerCase(),
 					gson.toJson(card.getSubtypes()), card.isLegendary(), card.isBasic(), card.isWorld(), card.isSnow(), card.isOngoing(), card.getPower(), card.getToughness(),
@@ -660,7 +667,13 @@ public class MySQL
 			while (cardsSet.next())
 			{
 				Card card = getCard(cardsSet);
-				cards.put(card.getMuId().get("en"), card);
+				if (cards.containsKey(card.getMuId("en")))
+				{
+					cards.get(card.getMuId("en")).setRelated(card);
+					card.setRelated(cards.get(card.getMuId("en")));
+				}
+				else
+					cards.put(card.getMuId().get("en"), card);
 				if (Utils.isDesktop() || cardsSet.getRow() % 100 == 0)
 					Loading.setLabel(cardsSet.getRow() + " cartes chargées");
 			}
@@ -710,13 +723,14 @@ public class MySQL
 				for (Card card : set.getCards())
 				{
 					int muId = card.getMuId().get("en");
+					insertSingleCard(card);
 					if (cards.containsKey(muId))
 					{
-						System.err.println("MuId already exists: " + muId + ". Perhaps a flip-card?");
-						continue;
+						cards.get(muId).setRelated(card);
+						card.setRelated(cards.get(muId));
 					}
-					insertSingleCard(card);
-					cards.put(muId, card);
+					else
+						cards.put(muId, card);
 				}
 				timestamp = System.currentTimeMillis();
 				insert("sets", new String[]{"name", "name_DE", "name_FR", "name_IT", "name_ES", "name_PT", "name_JP", "name_CN", "name_TW", "name_KO", "code", "magic_cards_info_code",

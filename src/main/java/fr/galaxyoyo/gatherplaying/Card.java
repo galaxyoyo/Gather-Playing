@@ -47,6 +47,7 @@ public class Card implements Comparable<Card>
 	private String artist;
 	private String imageName;
 	private String watermark;
+	private Card related;
 	private boolean preview = false;
 
 	public boolean isLegal(Rules rules) { return rules == Rules.FREEFORM || rules.isLegal(this) || isRestricted(rules); }
@@ -431,6 +432,16 @@ public class Card implements Comparable<Card>
 		this.imageName = imageName;
 	}
 
+	public Card getRelated()
+	{
+		return related;
+	}
+
+	public void setRelated(Card related)
+	{
+		this.related = related;
+	}
+
 	public String getWatermark()
 	{
 		return watermark;
@@ -460,7 +471,7 @@ public class Card implements Comparable<Card>
 	public static int getNextAvailableMuId()
 	{
 		AtomicInteger muId = new AtomicInteger(1000000);
-		while (MySQL.getAllCards().stream().filter(c -> c.getMuId().values().contains(muId.get())).findAny().isPresent())
+		while (MySQL.getAllCards().stream().anyMatch(c -> c.getMuId().values().contains(muId.get())))
 			muId.incrementAndGet();
 		return muId.get();
 	}

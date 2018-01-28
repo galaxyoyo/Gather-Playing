@@ -1,6 +1,5 @@
 package fr.galaxyoyo.gatherplaying;
 
-import com.gluonhq.charm.down.common.PlatformFactory;
 import com.google.common.base.Joiner;
 import fr.galaxyoyo.gatherplaying.protocol.ClientChannelInitializer;
 import fr.galaxyoyo.gatherplaying.protocol.ServerChannelInitializer;
@@ -38,7 +37,7 @@ import java.util.concurrent.TimeoutException;
 public class Utils
 {
 	public static final Random RANDOM = new Random();
-	private static final com.gluonhq.charm.down.common.Platform platform = PlatformFactory.getPlatform();
+	private static final com.gluonhq.charm.down.Platform platform = com.gluonhq.charm.down.Platform.getCurrent();
 	public static boolean DEBUG = false;
 	private static Side side = Side.CLIENT;
 
@@ -94,7 +93,7 @@ public class Utils
 		else
 		{
 			ServerBootstrap boot =
-					new ServerBootstrap().group(new NioEventLoopGroup(1), new NioEventLoopGroup(1)).channel(NioServerSocketChannel.class).option(ChannelOption.SO_KEEPALIVE, true)
+					new ServerBootstrap().group(new NioEventLoopGroup(1), new NioEventLoopGroup(1)).channel(NioServerSocketChannel.class)//.option(ChannelOption.SO_KEEPALIVE, true)
 							.option(ChannelOption.SO_BACKLOG, 100).childOption(ChannelOption.SO_RCVBUF, 0x42666).childOption(ChannelOption.TCP_NODELAY, true)
 							.childOption(ChannelOption.RCVBUF_ALLOCATOR, new FixedRecvByteBufAllocator(0x42666)).childHandler(new ServerChannelInitializer());
 			ChannelFuture f = boot.bind(42666);
@@ -168,7 +167,7 @@ public class Utils
 
 	public static boolean isDesktop()
 	{
-		return platform.getName().equals(PlatformFactory.DESKTOP);
+		return platform.equals(com.gluonhq.charm.down.Platform.DESKTOP);
 	}
 
 	public static void alert(String title, String header, String content)
@@ -188,22 +187,22 @@ public class Utils
 
 	public static File newFile(String path)
 	{
-		switch (getPlatform().getName())
+		switch (getPlatform())
 		{
-			case PlatformFactory.DESKTOP:
+			case DESKTOP:
 				return new File(path);
-			case PlatformFactory.ANDROID:
+			case ANDROID:
 				String DIR = System.getenv("EXTERNAL_STORAGE");
 				if (DIR == null || DIR.isEmpty())
 					DIR = "/storage/sdcard0";
 				DIR += "/Gather Playing";
 				return new File(DIR, path);
 			default:
-				throw new RuntimeException("OS not recognized: " + PlatformFactory.getPlatform().getName());
+				throw new RuntimeException("OS not recognized: " + platform);
 		}
 	}
 
-	public static com.gluonhq.charm.down.common.Platform getPlatform()
+	public static com.gluonhq.charm.down.Platform getPlatform()
 	{
 		return platform;
 	}
@@ -211,13 +210,13 @@ public class Utils
 	@SuppressWarnings("unused")
 	public static boolean isAndroid()
 	{
-		return platform.getName().equals(PlatformFactory.ANDROID);
+		return platform == com.gluonhq.charm.down.Platform.ANDROID;
 	}
 
 	@SuppressWarnings("unused")
 	public static boolean isIOS()
 	{
-		return platform.getName().equals(PlatformFactory.IOS);
+		return platform == com.gluonhq.charm.down.Platform.IOS;
 	}
 
 	public static boolean isMobile()

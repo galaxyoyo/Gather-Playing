@@ -35,7 +35,7 @@ public class HttpRequest extends DefaultFullHttpRequest
 
 	public boolean getHeaderBoolean(HttpHeader header)
 	{
-		return headers().getBoolean(header.getName());
+		return Boolean.getBoolean(headers().get(header.getName()));
 	}
 
 	public int getHeaderInt(HttpHeader header)
@@ -45,12 +45,12 @@ public class HttpRequest extends DefaultFullHttpRequest
 
 	public double getHeaderDouble(HttpHeader header)
 	{
-		return headers().getDouble(header.getName());
+		return Double.parseDouble(headers().get(header.getName()));
 	}
 
 	public long getHeaderLong(HttpHeader header)
 	{
-		return headers().getLong(header.getName());
+		return Long.parseLong(headers().get(header.getName()));
 	}
 
 	public Date getHeaderDate(HttpHeader header)

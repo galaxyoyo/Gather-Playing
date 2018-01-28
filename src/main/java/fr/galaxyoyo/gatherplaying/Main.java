@@ -507,22 +507,22 @@ public class Main
 	private static void detectDependencies()
 	{
 		File dir = new File("libs");
-		detectDependency("java8.lang.FunctionalInterface", new File(dir, "streamsupport-1.4.2.jar"),
-				"http://central.maven.org/maven2/net/sourceforge/streamsupport/streamsupport/1.4.2/streamsupport-1.4.2.jar");
-		detectDependency("com.gluonhq.charm.glisten.Glisten", new File(dir, "charm-2.0.0.jar"),
-				"http://nexus.gluonhq.com/nexus/content/repositories/releases/com/gluonhq/charm/2.0.0/charm-2.0.0.jar");
-		detectDependency("com.gluonhq.charm.down.desktop.DesktopPlatform", new File(dir, "charm-desktop-2.0.0.jar"),
-				"http://nexus.gluonhq.com/nexus/content/repositories/releases/com/gluonhq/charm-desktop/2.0.0/charm-desktop-2.0.0.jar");
-		detectDependency("org.sqlite.JDBC", new File(dir, "sqlite-jdbc-3.8.11.2.jar"), "http://central.maven.org/maven2/org/xerial/sqlite-jdbc/3.8.11.2/sqlite-jdbc-3.8.11.2.jar");
-		detectDependency("com.google.gson.Gson", new File(dir, "gson-2.5.jar"), "https://repo1.maven.org/maven2/com/google/code/gson/gson/2.5/gson-2.5.jar");
-		detectDependency("com.google.common.base.Joiner", new File(dir, "guava-19.0-rc3.jar"), "https://repo1.maven.org/maven2/com/google/guava/guava/19.0-rc3/guava-19.0-rc3.jar");
-		detectDependency("org.apache.commons.io.IOUtils", new File(dir, "commons-io-2.4.jar"), "https://repo1.maven.org/maven2/commons-io/commons-io/2.4/commons-io-2.4.jar");
-		detectDependency("org.apache.commons.lang3.StringUtils", new File(dir, "commons-lang3-2.4.jar"),
-				" https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.4/commons-lang3-3.4.jar");
-		detectDependency("io.netty.bootstrap.Bootstrap", new File(dir, "netty-all-5.0.0.Alpha2.jar"),
-				"https://repo1.maven.org/maven2/io/netty/netty-all/5.0.0.Alpha2/netty-all-5.0.0.Alpha2.jar");
+		detectDependency("java8.lang.FunctionalInterface", new File(dir, "streamsupport-1.6.0.jar"),
+				"http://central.maven.org/maven2/net/sourceforge/streamsupport/streamsupport/1.6.0/streamsupport-1.6.0.jar");
+	//	detectDependency("com.gluonhq.charm.application.MobileApplication", new File(dir, "charm-4.4.1.jar"),
+	//			"http://nexus.gluonhq.com/nexus/content/repositories/releases/com/gluonhq/charm/4.4.1/charm-4.4.1.jar");
+	//	detectDependency("com.gluonhq.impl.charm.glisten.desktop.DesktopPlatform", new File(dir, "charm-desktop-3.0.0.jar"),
+	//			"http://nexus.gluonhq.com/nexus/content/repositories/releases/com/gluonhq/charm-desktop/3.0.0/charm-desktop-3.0.0.jar");
+		detectDependency("org.sqlite.JDBC", new File(dir, "sqlite-jdbc-3.21.0.1.jar"), "http://central.maven.org/maven2/org/xerial/sqlite-jdbc/3.21.0.1/sqlite-jdbc-3.21.0.1.jar");
+		detectDependency("com.google.gson.Gson", new File(dir, "gson-2.8.2.jar"), "https://repo1.maven.org/maven2/com/google/code/gson/gson/2.8.2/gson-2.8.2.jar");
+		detectDependency("com.google.common.base.Joiner", new File(dir, "guava-23.6-jre.jar"), "https://repo1.maven.org/maven2/com/google/guava/guava/23.6-jre/guava-23.6-jre.jar");
+		detectDependency("org.apache.commons.io.IOUtils", new File(dir, "commons-io-2.6.jar"), "https://repo1.maven.org/maven2/commons-io/commons-io/2.6/commons-io-2.6.jar");
+		detectDependency("org.apache.commons.lang3.StringUtils", new File(dir, "commons-lang3-3.7.jar"),
+				" https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.7/commons-lang3-3.7.jar");
+		detectDependency("io.netty.bootstrap.Bootstrap", new File(dir, "netty-all-4.1.21.jar"),
+				"https://oss.sonatype.org/content/repositories/snapshots/io/netty/netty-all/4.1.21.Final-SNAPSHOT/netty-all-4.1.21.Final-20180128.120537-8.jar");
 		detectDependency("com.google.protobuf.Any", new File(dir, "protobuf-java-3.0.0-beta-1.jar"),
-				"https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.0.0-beta-1/protobuf-java-3.0.0-beta-1.jar");
+				"https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.5.1/protobuf-java-3.5.1.jar");
 	}
 
 	private static void detectDependency(String clazz, File file, String urlDL)

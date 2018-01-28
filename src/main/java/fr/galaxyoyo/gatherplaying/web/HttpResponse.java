@@ -40,12 +40,12 @@ public class HttpResponse extends DefaultFullHttpResponse
 
 	public boolean getHeaderBoolean(HttpHeader header)
 	{
-		return headers().getBoolean(header.getName());
+		return Boolean.getBoolean(headers().get(header.getName()));
 	}
 
 	public void setHeader(HttpHeader header, boolean value)
 	{
-		headers().setBoolean(header.getName(), value);
+		headers().set(header.getName(), value);
 	}
 
 	public int getHeaderInt(HttpHeader header)
@@ -60,22 +60,22 @@ public class HttpResponse extends DefaultFullHttpResponse
 
 	public double getHeaderDouble(HttpHeader header)
 	{
-		return headers().getDouble(header.getName());
+		return Double.parseDouble(headers().get(header.getName()));
 	}
 
 	public void setHeader(HttpHeader header, double value)
 	{
-		headers().setDouble(header.getName(), value);
+		headers().get(header.getName(), Double.toString(value));
 	}
 
 	public long getHeaderLong(HttpHeader header)
 	{
-		return headers().getLong(header.getName());
+		return Long.parseLong(headers().get(header.getName()));
 	}
 
 	public void setHeader(HttpHeader header, long value)
 	{
-		headers().setLong(header.getName(), value);
+		headers().set(header.getName(), value);
 	}
 
 	public Date getHeaderDate(HttpHeader header)

@@ -51,7 +51,7 @@ public class Client extends Application
 	}
 
 	@Override
-	public void start(Stage stage) throws Exception
+	public void start(Stage stage)
 	{
 		Client.stage = stage;
 		stage.setTitle("Gather Playing");
@@ -86,7 +86,6 @@ public class Client extends Application
 		stage.close();
 		if (localPlayer != null)
 			localPlayer.connection.close();
-		Utils.getPlatform().finish();
 		System.exit(0);
 	}
 
@@ -149,7 +148,7 @@ public class Client extends Application
 						View v = new View(className);
 						FXMLLoader loader = new FXMLLoader();
 						loader.setLocation(getClass().getResource("/views/" + className + ".fxml"));
-						Parent parent = null;
+						Parent parent;
 						parent = loader.load();
 						currentController = loader.getController();
 						VBox box = new VBox(parent);
@@ -161,7 +160,8 @@ public class Client extends Application
 						pane.setAlignment(Pos.CENTER);
 						v.setCenter(pane);
 						return v;
-					} catch (Throwable t)
+					}
+					catch (Throwable t)
 					{
 						t.printStackTrace();
 						return new View(className);

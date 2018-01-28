@@ -25,13 +25,13 @@ public class ClientChannelHandler extends ChannelHandlerAdapter
 	}
 
 	@Override
-	public void channelActive(ChannelHandlerContext ctx) throws Exception
+	public void handlerAdded(ChannelHandlerContext ctx)
 	{
 		ctx.channel().config().setMaxMessagesPerRead(1);
 		Client.localPlayer = new Player(ctx.channel());
 		Platform.runLater(() -> Client.show(LoginDialog.class));
 	}
 
-	@Override
-	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception { ctx.flush(); }
+	/*@Override
+	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception { ctx.flush(); }*/
 }

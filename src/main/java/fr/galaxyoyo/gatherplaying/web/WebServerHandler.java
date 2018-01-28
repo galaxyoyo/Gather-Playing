@@ -44,7 +44,7 @@ public class WebServerHandler extends SimpleChannelInboundHandler<FullHttpReques
 	}
 
 	@Override
-	protected void messageReceived(ChannelHandlerContext ctx, FullHttpRequest _req) throws Exception
+	protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest _req)
 	{
 		if (!_req.decoderResult().isSuccess())
 		{
@@ -120,7 +120,7 @@ public class WebServerHandler extends SimpleChannelInboundHandler<FullHttpReques
 	}
 
 	@Override
-	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
 	{
 		sendError(ctx, INTERNAL_SERVER_ERROR, cause);
 	}

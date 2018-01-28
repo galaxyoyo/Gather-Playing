@@ -61,7 +61,8 @@ public class M15Renderer extends CardRenderer
 		System.out.print(".");
 
 		String holoFoil = "";
-		if ((getCard().getRarity() == Rarity.RARE || getCard().getRarity() == Rarity.MYTHIC || getCard().getRarity() == Rarity.SPECIAL) && !getCard().getNumber().endsWith("b"))
+		if ((getCard().getRarity() == Rarity.RARE || getCard().getRarity() == Rarity.MYTHIC || getCard().getRarity() == Rarity.SPECIAL) && getCard().getNumber() != null
+				&& !getCard().getNumber().endsWith("b"))
 			holoFoil = "_H";
 
 		BufferedImage borderImage = null;
@@ -109,6 +110,14 @@ public class M15Renderer extends CardRenderer
 				costColors = "C";
 			else if (costColors.isEmpty())
 				costColors = "Art";
+			for (SubType st : getCard().getSubtypes())
+			{
+				if (st.name.equalsIgnoreCase("Vehicle"))
+				{
+					costColors = "Vehicle";
+					break;
+				}
+			}
 			if (getCard().getType().is(CardType.CONSPIRACY))
 				bgImage = readImage(new File(frameDir, "cards/Conspiracy.png"));
 			else if (isEldrazi && !devoid)
@@ -117,7 +126,7 @@ public class M15Renderer extends CardRenderer
 				bgImage = readImage(new File(frameDir, "cards/Devoid_Gld" + holoFoil + ".png"));
 			else if (devoid)
 				bgImage = readImage(new File(frameDir, "cards/Devoid_" + costColors + holoFoil + ".png"));
-			else if (costColors.equals("Art") || getCard().getType().is(CardType.ARTIFACT))
+			else if (costColors.equals("Art"))
 			{
 				bgImage = readImage(new File(frameDir, "cards/Art" + holoFoil + ".png"));
 				if (!StringUtils.isAllUpperCase(costColors) || costColors.length() <= 2)
@@ -252,7 +261,7 @@ public class M15Renderer extends CardRenderer
 			g.setFont(Fonts.TEXT);
 			if ((legalTemp.length() <= 40 ||
 					Pattern.matches("(?u)(?s)([\\#]{0,1}[\\((]\\{T\\}[ \\::]{1,2}.*?\\{[WUBRG]\\}.*?\\{[WUBRG]\\}.*?[\\.?][\\))][\\#]{0,1})(?!.)", legalTemp)) &&
-					!legalTemp.contains("\r") && getCard().getFlavorMap().get("en").isEmpty())
+					!legalTemp.contains("\r") && (getCard().getFlavorMap().get("en") == null || getCard().getFlavorMap().get("en").isEmpty()))
 				drawText(g, 358, 783, 99999, legal, true, true);
 			else
 				drawLegalAndFlavorText(g, 647, 52, 920, 668, legal, getCard().getFlavor(), 14);
@@ -262,7 +271,7 @@ public class M15Renderer extends CardRenderer
 			g.setFont(Fonts.TEXT);
 			if ((legalTemp.length() <= 40 ||
 					Pattern.matches("(?u)(?s)([\\#]{0,1}[\\((]\\{T\\}[ \\::]{1,2}.*?\\{[WUBRG]\\}.*?\\{[WUBRG]\\}.*?[\\.?][\\))][\\#]{0,1})(?!.)", legalTemp)) &&
-					!legalTemp.contains("\n") && getCard().getFlavorMap().get("en").isEmpty())
+					!legalTemp.contains("\n") && (getCard().getFlavorMap().get("en") == null || getCard().getFlavorMap().get("en").isEmpty()))
 				drawText(g, 358, 788, 99999, legal, true, true);
 			else
 				drawLegalAndFlavorText(g, 647, 52, 930, 668, legal, getCard().getFlavor(), 0);
@@ -271,11 +280,13 @@ public class M15Renderer extends CardRenderer
 		g.setColor(Color.WHITE);
 		g.setFont(Fonts.COLLECTION);
 
-		StringBuilder collectorNumber = new StringBuilder(getCard().getNumber().replaceAll("[^\\d]", "") + "/");
+		StringBuilder collectorNumber = new StringBuilder((getCard().getNumber() == null ? getCard().getMciNumber() : getCard().getNumber())
+				.replaceAll("[^\\d]", "") + "/");
 		while (collectorNumber.length() < 4)
 			collectorNumber.insert(0, "0");
 		AtomicInteger max = new AtomicInteger(0);
-		getCard().getSet().getCards().forEach(c -> max.set(Math.max(max.get(), Integer.parseInt(c.getNumber().replaceAll("[^\\d]", "")))));
+		getCard().getSet().getCards().stream().filter(c -> c != null && c.getMciNumber() != null).forEach(c -> max.set(Math.max(max.get(), Integer.parseInt((c.getNumber() == null ?
+				c.getMciNumber() : c.getNumber()).replaceAll("[^\\d]", "")))));
 		collectorNumber.append(max.get());
 
 		String collectionTxtL1 = collectorNumber.toString();

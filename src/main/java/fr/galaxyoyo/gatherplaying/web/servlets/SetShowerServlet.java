@@ -27,6 +27,7 @@ public class SetShowerServlet extends AbstractWebServlet
 	@Override
 	public void doGet(HttpRequest request, HttpResponse resp)
 	{
+		String locale = "fr";
 		String code = request.uri().substring(5);
 		Set set = MySQL.getSet(code);
 		if (set == null)
@@ -79,9 +80,13 @@ public class SetShowerServlet extends AbstractWebServlet
 		{
 			Integer muId = card.getMuId("fr");
 			if (muId == null)
+			{
 				muId = card.getMuId("en");
+				locale = "en";
+			}
+			System.out.println(locale);
 			html.append("<a href=\"/card/").append(muId).append("\">");
-			html.append("<img src=\"/render-card?muId=").append(card.getMuId("en")).append("&locale=fr\" />");
+			html.append("<img src=\"/render-card?muId=").append(card.getMuId("en")).append("&locale=").append(locale).append("\" />");
 		/*	if (card.isPreview())
 				html += "<img src=\"" + card.getImageName() + "\" />";
 			else

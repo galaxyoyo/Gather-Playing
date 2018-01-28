@@ -12,6 +12,7 @@ import io.netty.buffer.Unpooled;
 
 import javax.imageio.ImageIO;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 
@@ -38,7 +39,10 @@ public class RenderCardServet extends AbstractWebServlet
 
 		try
 		{
-			ImageIO.write(w.getRenderers().values().iterator().next(), "JPEG", baos);
+			if (card == null)
+				ImageIO.write(ImageIO.read(new File("cardgen/images/m15/regular/cards", "back.png")), "JPEG", baos);
+			else
+				ImageIO.write(w.getRenderers().values().iterator().next(), "JPEG", baos);
 		}
 		catch (IOException e)
 		{

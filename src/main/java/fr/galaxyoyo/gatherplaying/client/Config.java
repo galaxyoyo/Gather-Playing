@@ -15,7 +15,6 @@ public class Config
 	private static final ObjectProperty<Locale> locale = new SimpleObjectProperty<>(Locale.getDefault());
 	private static final ObjectProperty<Rules> format = new SimpleObjectProperty<>(Rules.LEGACY);
 	private static final BooleanProperty stayLogged = new SimpleBooleanProperty(false);
-	private static final BooleanProperty hqCards = new SimpleBooleanProperty(false);
 	private static final BooleanProperty stackCards = new SimpleBooleanProperty(false);
 
 	public static Rules getFormat()
@@ -57,10 +56,6 @@ public class Config
 		return stayLogged;
 	}
 
-	public static boolean getHqCards() { return hqCards.get(); }
-
-	public static BooleanProperty hqCardsProperty() { return hqCards; }
-
 	public static boolean getStackCards()
 	{
 		return stackCards.get();
@@ -92,9 +87,6 @@ public class Config
 		format.addListener((observable, oldValue, newValue) -> MySQL.setConfig("preferred-format", newValue.name()));
 
 		stayLogged.addListener((observable, oldValue, newValue) -> MySQL.setConfig("stay-logged", newValue.toString()));
-
-		hqCards.set(MySQL.getBooleanConfig("hq-cards", false));
-		hqCards.addListener((observable, oldValue, newValue) -> MySQL.setConfig("hq-cards", newValue.toString()));
 
 		stackCards.set(MySQL.getBooleanConfig("stack-cards", false));
 		stackCards.addListener((observable, oldValue, newValue) -> MySQL.setConfig("stack-cards", newValue.toString()));

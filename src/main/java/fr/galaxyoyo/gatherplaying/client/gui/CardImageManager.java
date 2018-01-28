@@ -60,32 +60,29 @@ public class CardImageManager
 				url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=-1&type=card");
 			else
 			{
-				if (Config.getHqCards())
+				Image img = new Image("http://galaxyoyo.com:42000/render-card?muId=" + card.getMuId("en") + "&locale=" + Config.getLocaleCode());
+				if (!img.isError())
 				{
-					Image img = new Image("http://galaxyoyo.com:42000/render-card?muId=" + card.getMuId("en") + "&locale=" + Config.getLocaleCode());
-					if (!img.isError())
+					img.progressProperty().addListener((observable, oldValue, newValue) ->
 					{
-						img.progressProperty().addListener((observable, oldValue, newValue) ->
+						if (newValue.doubleValue() >= 1.0D)
 						{
-							if (newValue.doubleValue() >= 1.0D)
+							try
 							{
-								try
-								{
-									File f = new File(DIR, card.getSet().getCode().replace("CON", "CON ") + File.separatorChar + card.getPreferredMuID() + "_HQ.png");
-									if (Utils.isDesktop())
-										ImageIO.write(SwingFXUtils.fromFXImage(img, null), "PNG", f);
-									else
-										FileUtils.copyURLToFile(new URL("http://galaxyoyo.com:42000/render-card?muId=" + card.getMuId("en") + "&locale=" + Config.getLocaleCode()), f);
-									images.put(muId, img);
-								}
-								catch (IOException ex)
-								{
-									ex.printStackTrace();
-								}
+								File f = new File(DIR, card.getSet().getCode().replace("CON", "CON ") + File.separatorChar + card.getPreferredMuID() + "_HQ.png");
+								if (Utils.isDesktop())
+									ImageIO.write(SwingFXUtils.fromFXImage(img, null), "PNG", f);
+								else
+									FileUtils.copyURLToFile(new URL("http://galaxyoyo.com:42000/render-card?muId=" + card.getMuId("en") + "&locale=" + Config.getLocaleCode()), f);
+								images.put(muId, img);
 							}
-						});
-						return img;
-					}
+							catch (IOException ex)
+							{
+								ex.printStackTrace();
+							}
+						}
+					});
+					return img;
 				}
 
 				url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + (card.getMuId(locale) != null ? card.getMuId(locale) : muId) + "&type=card");
@@ -95,7 +92,7 @@ public class CardImageManager
 			if (card != null && (co.getResponseCode() == 404 || co.getContentLength() == 73739L || co.getContentLength() == 0L))
 			{
 				co.disconnect();
-				co = (HttpURLConnection) new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + muId+ "&type=card").openConnection();
+				co = (HttpURLConnection) new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + muId + "&type=card").openConnection();
 				co.connect();
 			}
 			Image img = new Image(co.getURL().toString(), 0, 0, true, true, true);

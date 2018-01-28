@@ -10,8 +10,6 @@
     <ChoiceBox fx:id="preferredFormat" maxWidth="1.7976931348623157E308" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"/>
     <CheckBox fx:id="stayLogged" text="Rester connecté" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2"
               GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS"/>
-    <CheckBox fx:id="hqCards" text="Préferer une version HQ des images (français uniquement)" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS"
-              GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS"/>
     <CheckBox fx:id="stackCards" text="Éditeur de decks - préférer la dernière version de la carte" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS"
               GridPane.rowIndex="4" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS"/>
     <Button fx:id="save" alignment="CENTER" defaultButton="true" maxWidth="1.7976931348623157E308" onAction="#save" text="Sauvegarder" textAlignment="CENTER"

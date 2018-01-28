@@ -46,7 +46,6 @@ public class HelpAndSettings extends AbstractController
 		preferredFormat.getItems().setAll(RefStreams.of(Rules.values()).filter(rules -> !rules.isLimited()).collect(Collectors.toList()));
 		preferredFormat.setValue(Config.getFormat());
 		stayLogged.setSelected(Config.getStayLogged());
-		hqCards.setSelected(Config.getHqCards());
 		stackCards.setSelected(Config.getStackCards());
 
 		((GridPane) getParent()).maxWidthProperty().bind(Client.getStage().widthProperty().divide(2));
@@ -62,7 +61,6 @@ public class HelpAndSettings extends AbstractController
 		Config.localeProperty().set(locale.getValue());
 		Config.formatProperty().set(preferredFormat.getValue());
 		Config.stayLoggedProperty().set(stayLogged.isSelected());
-		Config.hqCardsProperty().set(hqCards.isSelected());
 		Config.stackCardsProperty().set(stackCards.isSelected());
 		Client.show(MainMenu.class);
 	}

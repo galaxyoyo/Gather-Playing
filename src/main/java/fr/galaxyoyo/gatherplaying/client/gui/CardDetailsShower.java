@@ -3,7 +3,6 @@ package fr.galaxyoyo.gatherplaying.client.gui;
 import com.google.common.base.MoreObjects;
 import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.client.Client;
-import fr.galaxyoyo.gatherplaying.client.Config;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -49,7 +48,7 @@ public class CardDetailsShower extends AbstractController implements Initializab
 			image.setFitWidth(74.0D);
 			image.setFitHeight(103.0D);
 		}
-		else if (Config.getHqCards())
+		else
 		{
 			image.setFitWidth(720.0D / 2.0D);
 		//	image.setFitHeight(1024.0D / 3.0D);
@@ -74,15 +73,10 @@ public class CardDetailsShower extends AbstractController implements Initializab
 					doubleFacedImage.setFitWidth(74.0D);
 					doubleFacedImage.setFitHeight(103.0D);
 				}
-				else if (Config.getHqCards())
+				else
 				{
 					doubleFacedImage.setFitWidth(720.0D / 3.0D);
 					doubleFacedImage.setFitHeight(1024.0D / 3.0D);
-				}
-				else
-				{
-					doubleFacedImage.setFitWidth(223.0D);
-					doubleFacedImage.setFitHeight(310.0D);
 				}
 			}
 			else

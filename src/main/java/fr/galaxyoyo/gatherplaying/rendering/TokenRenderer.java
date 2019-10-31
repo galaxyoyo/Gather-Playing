@@ -3,8 +3,6 @@ package fr.galaxyoyo.gatherplaying.rendering;
 import com.google.common.collect.Maps;
 import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.client.Config;
-import java8.util.stream.Collectors;
-import java8.util.stream.RefStreams;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
@@ -15,8 +13,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static fr.galaxyoyo.gatherplaying.rendering.CardRenderer.ARTDIR;
 
@@ -91,7 +91,7 @@ public class TokenRenderer extends Renderer
 			ManaColor[] cost = getToken().getColor();
 			if (cost == null)
 				cost = new ManaColor[0];
-			costColors = String.join("", RefStreams.of(cost).filter(color -> !color.name().contains("NEUTRAL")).map(ManaColor::getAbbreviate).distinct().collect(Collectors.toList()));
+			costColors = Arrays.stream(cost).filter(color -> !color.name().contains("NEUTRAL")).map(ManaColor::getAbbreviate).distinct().collect(Collectors.joining(""));
 			if (!useMulticolorFrame && costColors.length() >= 2)
 				costColors = "Gld";
 			else if (costColors.isEmpty())
@@ -230,7 +230,7 @@ public class TokenRenderer extends Renderer
 		StringBuilder collectorNumber = new StringBuilder(getToken().getNumber() + "/");
 		while (collectorNumber.length() < 4)
 			collectorNumber.insert(0, "0");
-		int max = (int) RefStreams.of(Token.values()).filter(t -> t.getSet() == getToken().getSet()).count();
+		int max = (int) Arrays.stream(Token.values()).filter(t -> t.getSet() == getToken().getSet()).count();
 		collectorNumber.append(max < 10 ? "00" + max : max < 100 ? "0" + max : "" + max);
 
 		String collectionTxtL1 = collectorNumber.toString();

@@ -2,7 +2,6 @@ package fr.galaxyoyo.gatherplaying;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import java8.util.stream.StreamSupport;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -31,7 +30,7 @@ public class Deck
 		{
 			if (card.getCard().isBasic())
 				continue;
-			StreamSupport.stream((Collection<Rules>) legalities.clone()).filter(r -> !card.getCard().isLegal(r)).forEach(r -> legalities.remove(r));
+			((Collection<Rules>) legalities.clone()).stream().filter(r -> !card.getCard().isLegal(r)).forEach(r -> legalities.remove(r));
 		}
 	}
 
@@ -51,7 +50,7 @@ public class Deck
 				counts.put(c, counts.get(c) + 1);
 		}
 		//noinspection unchecked
-		StreamSupport.stream(counts.entrySet()).filter(entry -> entry.getValue() < 10).forEach(counts::remove);
+		counts.entrySet().stream().filter(entry -> entry.getValue() < 10).forEach(counts::remove);
 		colors = counts.keySet().toArray(new ManaColor[counts.size()]);
 	}
 

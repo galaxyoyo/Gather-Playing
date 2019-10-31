@@ -4,7 +4,6 @@ import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.MySQL.Condition;
 import fr.galaxyoyo.gatherplaying.MySQL.Value;
 import io.netty.buffer.ByteBuf;
-import java8.util.stream.StreamSupport;
 
 public class PacketMixDeck extends Packet
 {
@@ -43,7 +42,7 @@ public class PacketMixDeck extends Packet
 		if (type == Type.CREATING)
 			player.decks.add(deck);
 		else
-			StreamSupport.stream(player.decks).filter(deck -> deck.getUuid().equals(this.deck.getUuid())).findAny().get().importDeck(deck);
+			player.decks.stream().filter(deck -> deck.getUuid().equals(this.deck.getUuid())).findAny().get().importDeck(deck);
 		if (Utils.getSide() == Side.SERVER)
 			MySQL.saveDeck(deck);
 	}

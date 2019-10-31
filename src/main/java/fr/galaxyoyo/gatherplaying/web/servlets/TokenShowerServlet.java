@@ -8,11 +8,11 @@ import fr.galaxyoyo.gatherplaying.web.HttpResponse;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.util.CharsetUtil;
-import java8.util.stream.RefStreams;
 
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.regex.Matcher;
 
@@ -23,7 +23,7 @@ public class TokenShowerServlet extends AbstractWebServlet
 	{
 		String path = request.uri().substring(7);
 		Set set = MySQL.getSet(path.split("/")[0]);
-		Token token = RefStreams.of(Token.values()).filter(t -> t.getSet() == set && t.getNumber().equals(path.split("/")[1])).findAny().get();
+		Token token = Arrays.stream(Token.values()).filter(t -> t.getSet() == set && t.getNumber().equals(path.split("/")[1])).findAny().get();
 
 		String locale = Config.getLocaleCode();
 		StringBuilder html = new StringBuilder("<!doctype html><html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\" /><title>");
@@ -82,7 +82,7 @@ public class TokenShowerServlet extends AbstractWebServlet
 		}
 		if (token.getType().is(CardType.CREATURE))
 			html.append("<tr><td><b>Force / Endurance :</b></td><td>").append(token.getPower()).append("/").append(token.getToughness()).append("</td></tr>");
-		int max = (int) RefStreams.of(Token.values()).filter(t -> t.getSet() == token.getSet()).count();
+		int max = (int) Arrays.stream(Token.values()).filter(t -> t.getSet() == token.getSet()).count();
 			html.append("<tr><td><b>Numéro de carte :</b></td><td>").append(token.getNumber()).append("/").append(max).append("</td></tr>");
 		html.append("<tr><td><b>Artiste :</b></td><td>" + /*card.getArtist() +*/ "</td></tr>");
 		html.append("<tr><td><b>Extension :</b></td><td><a style=\"color: black; text-decoration: none;\" href=\"/set/").append(token.getSet().getCode()).append("\">")

@@ -5,8 +5,6 @@ import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketInSelectDeck;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketManager;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketMixUpdatePartyInfos;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,6 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class SelectPartyMenu extends AbstractController implements Initializable
 {
@@ -77,7 +76,7 @@ public class SelectPartyMenu extends AbstractController implements Initializable
 			}
 			else
 			{
-				com.gluonhq.charm.glisten.control.Dialog<Button> dialog = new com.gluonhq.charm.glisten.control.Dialog<>("Paramètres de la partie :");
+			/*	com.gluonhq.charm.glisten.control.Dialog<Button> dialog = new com.gluonhq.charm.glisten.control.Dialog<>("Paramètres de la partie :");
 				Button create = new Button("Créer");
 				create.setOnAction(event -> {
 					dialog.setResult(create);
@@ -87,7 +86,7 @@ public class SelectPartyMenu extends AbstractController implements Initializable
 				cancel.setOnAction(event -> dialog.hide());
 				dialog.getButtons().addAll(create, cancel);
 				dialog.setContent(p);
-				dialog.showAndWait().filter(button -> button == create).ifPresent(button -> creater.create());
+				dialog.showAndWait().filter(button -> button == create).ifPresent(button -> creater.create());*/
 			}
 
 		} catch (IOException ex)
@@ -102,7 +101,7 @@ public class SelectPartyMenu extends AbstractController implements Initializable
 		Party party = parties.getSelectionModel().getSelectedItem();
 		if (party == null)
 			return;
-		List<Deck> decks = StreamSupport.stream(Client.localPlayer.decks).filter(deck -> deck.getLegalities().contains(party.getRules())).collect(Collectors.toList());
+		List<Deck> decks = Client.localPlayer.decks.stream().filter(deck -> deck.getLegalities().contains(party.getRules())).collect(Collectors.toList());
 		if (!party.getRules().isLimited() && decks.isEmpty())
 		{
 			Utils.alert("Pas de deck", "Aucun deck à jouer", "Vous ne possédez aucun deck légal dans le format " + party.getRules(), Alert.AlertType.WARNING);

@@ -2,8 +2,6 @@ package fr.galaxyoyo.gatherplaying.rendering;
 
 import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.client.Config;
-import java8.util.stream.Collectors;
-import java8.util.stream.RefStreams;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -12,8 +10,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class M15AfterMathRender extends M15Renderer
 {
@@ -96,8 +96,8 @@ public class M15AfterMathRender extends M15Renderer
 			costLeft = new ManaColor[0];
 		if (costRight == null)
 			costRight = new ManaColor[0];
-		colorsLeft = String.join("", RefStreams.of(costLeft).filter(color -> !color.name().contains("NEUTRAL")).map(ManaColor::getAbbreviate).distinct().collect(Collectors.toList()));
-		colorsRight = String.join("", RefStreams.of(costRight).filter(color -> !color.name().contains("NEUTRAL")).map(ManaColor::getAbbreviate).distinct().collect(Collectors.toList()));
+		colorsLeft = Arrays.stream(costLeft).filter(color -> !color.name().contains("NEUTRAL")).map(ManaColor::getAbbreviate).distinct().collect(Collectors.joining(""));
+		colorsRight = Arrays.stream(costRight).filter(color -> !color.name().contains("NEUTRAL")).map(ManaColor::getAbbreviate).distinct().collect(Collectors.joining(""));
 		bgImageLeft = readImage(new File(frameDirLeft, "cards/" + colorsLeft + ".png"));
 		bgImageRight = readImage(new File(frameDirRight, "cards/" + colorsRight + holoFoil + ".png"));
 

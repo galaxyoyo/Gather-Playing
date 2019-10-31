@@ -6,9 +6,6 @@ import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import fr.galaxyoyo.gatherplaying.client.Config;
-import java8.util.function.Predicate;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +15,10 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class Set implements Comparable<Set>
 {
@@ -109,7 +109,7 @@ public class Set implements Comparable<Set>
 				throw new FileNotFoundException();
 			}
 			System.out.println("Getting language '" + language + "' of " + name + "...");
-			String json = IOUtils.toString(co.getInputStream(), "UTF-8");
+			String json = IOUtils.toString(co.getInputStream(), StandardCharsets.UTF_8);
 			co.disconnect();
 			Gson gson = new GsonBuilder().registerTypeAdapter(Layout.class, CardSerializer.LAYOUT).create();
 			LanguageData data = gson.fromJson(json, LanguageData.class);
@@ -117,7 +117,7 @@ public class Set implements Comparable<Set>
 			{
 				if ((cardData.layout == Layout.DOUBLE_FACED || cardData.layout == Layout.MELD) && cardData.number.endsWith("b"))
 					cardData.multiverseid++;
-				Card card = StreamSupport.stream(cards).filter(c -> c.getMuId(language) != null && cardData.multiverseid == c.getMuId(language)).findAny().orElse(null);
+				Card card = cards.stream().filter(c -> c.getMuId(language) != null && cardData.multiverseid == c.getMuId(language)).findAny().orElse(null);
 				if (card != null && card.getLayout() == Layout.AFTERMATH && card.getRelated() != null && !card.getNumber().equals(cardData.number))
 				{
 					card = card.getRelated();
@@ -125,7 +125,7 @@ public class Set implements Comparable<Set>
 				}
 				if (card == null)
 				{
-					StreamSupport.stream(cards).filter(Card::isBasic).forEach(c -> System.out.println(c.getMuId("fr")));
+					cards.stream().filter(Card::isBasic).forEach(c -> System.out.println(c.getMuId("fr")));
 					continue;
 				}
 				if (cardData.names != null && cardData.names.length > 1 && card.getName().get(language) == null)
@@ -175,7 +175,7 @@ public class Set implements Comparable<Set>
 				p = card -> card.getRarity() == Rarity.UNCOMMON;
 			else
 				p = card -> card.getRarity() == Rarity.COMMON;
-			List<Card> matching = StreamSupport.stream(cards).filter(p).collect(Collectors.toList());
+			List<Card> matching = cards.stream().filter(p).collect(Collectors.toList());
 			foilCard = matching.get(random.nextInt(matching.size()));
 			booster.add(foilCard);
 			universe = ArrayUtils.removeElement(universe, "common");
@@ -209,21 +209,21 @@ public class Set implements Comparable<Set>
 			try
 			{
 				Rarity r = Rarity.valueOf(name);
-				matching = StreamSupport.stream(cards).filter(card -> card.getLayout() == Layout.NORMAL).filter(card -> card.getRarity() == r).collect(Collectors.toList());
+				matching = cards.stream().filter(card -> card.getLayout() == Layout.NORMAL).filter(card -> card.getRarity() == r).collect(Collectors.toList());
 			}
 			catch (IllegalArgumentException e1)
 			{
 				try
 				{
 					Layout l = Layout.valueOf(name);
-					matching = StreamSupport.stream(cards).filter(card -> card.getLayout() == l && card.getNumber().endsWith("a")).collect(Collectors.toList());
+					matching = cards.stream().filter(card -> card.getLayout() == l && card.getNumber().endsWith("a")).collect(Collectors.toList());
 				}
 				catch (IllegalArgumentException e2)
 				{
 					try
 					{
 						CardType t = CardType.valueOf(name);
-						matching = StreamSupport.stream(cards).filter(card -> card.getLayout() == Layout.NORMAL).filter(card -> card.getType() == t).collect(Collectors.toList());
+						matching = cards.stream().filter(card -> card.getLayout() == Layout.NORMAL).filter(card -> card.getType() == t).collect(Collectors.toList());
 					}
 					catch (IllegalArgumentException e3)
 					{

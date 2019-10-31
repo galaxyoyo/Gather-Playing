@@ -3,8 +3,6 @@ package fr.galaxyoyo.gatherplaying.client.gui;
 import com.google.common.collect.Lists;
 import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.client.Config;
-import java8.util.stream.Collectors;
-import java8.util.stream.RefStreams;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,9 +10,11 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class DeckEditorFilter extends AbstractController implements Initializable
 {
@@ -100,7 +100,7 @@ public class DeckEditorFilter extends AbstractController implements Initializabl
 		}
 
 		type.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-		type.getItems().addAll(RefStreams.of(CardType.values())
+		type.getItems().addAll(Arrays.stream(CardType.values())
 				.filter(type -> !type.name().contains("TOKEN") && type != CardType.EMBLEM && type != CardType.MONARCH && type != CardType.PHENOMENON && type != CardType.PLANE && type !=
 						CardType.SCHEME &&
 						type != CardType.PLAYER && type != CardType.CREATURE_PLANESWALKER).collect(Collectors.toList()));
@@ -108,7 +108,7 @@ public class DeckEditorFilter extends AbstractController implements Initializabl
 
 		subtypes.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		subtypes.getItems().add(null);
-		subtypes.getItems().addAll(RefStreams.of(SubType.values()).filter(subType -> subType.canApplicate(type.getItems())).collect(Collectors.toList()));
+		subtypes.getItems().addAll(Arrays.stream(SubType.values()).filter(subType -> subType.canApplicate(type.getItems())).collect(Collectors.toList()));
 		subtypes.setCellFactory(param -> new ListCell<SubType>()
 		{
 			@Override
@@ -141,7 +141,7 @@ public class DeckEditorFilter extends AbstractController implements Initializabl
 		});
 
 		rules.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-		rules.getItems().addAll(RefStreams.of(Rules.values()).filter(rules -> !rules.isLimited()).collect(Collectors.toList()));
+		rules.getItems().addAll(Arrays.stream(Rules.values()).filter(rules -> !rules.isLimited()).collect(Collectors.toList()));
 		rules.getSelectionModel().select(Config.getFormat());
 		DeckShower.setRulesProp(rules.getSelectionModel().selectedItemProperty());
 

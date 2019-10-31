@@ -5,7 +5,6 @@ import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.client.gui.CardShower;
 import fr.galaxyoyo.gatherplaying.client.gui.GameMenu;
 import io.netty.buffer.ByteBuf;
-import java8.util.stream.StreamSupport;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.layout.HBox;
@@ -117,7 +116,7 @@ public class PacketMixPlayDestroyed extends Packet
 		else if (dest == Destination.OTHER_BATTLEFIELD)
 		{
 			java.util.Set<Player> onlinePlayers = player.runningParty.getOnlinePlayers();
-			c.setController(StreamSupport.stream(onlinePlayers).filter(pl -> !pl.uuid.equals(p.uuid)).findAny().get());
+			c.setController(onlinePlayers.stream().filter(pl -> !pl.uuid.equals(p.uuid)).findAny().get());
 			data.getPlayed().add(c);
 			if (c.getType().is(CardType.LAND))
 			{

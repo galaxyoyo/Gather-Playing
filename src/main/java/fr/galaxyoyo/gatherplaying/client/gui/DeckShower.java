@@ -8,8 +8,6 @@ import fr.galaxyoyo.gatherplaying.protocol.packets.PacketInSelectDeck;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketManager;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketMixDeck;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketMixUpdatePartyInfos;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.collections.SetChangeListener;
@@ -53,6 +51,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class DeckShower extends AbstractController implements Initializable
 {
@@ -360,7 +359,7 @@ public class DeckShower extends AbstractController implements Initializable
 							for (int j = 0; j < element.getElementsByTagName("card").getLength(); ++j)
 							{
 								Element cardElem = (Element) element.getElementsByTagName("card").item(j);
-								List<Card> matches = StreamSupport.stream(MySQL.getAllCards()).filter(card -> card.getName().get("en").equals(cardElem.getAttribute("name")
+								List<Card> matches = MySQL.getAllCards().stream().filter(card -> card.getName().get("en").equals(cardElem.getAttribute("name")
 										.replace("AEt", "Æt"))).filter(card -> Utils.DEBUG || card.getSet().getReleaseDate().getTime() < System.currentTimeMillis())
 										.collect(Collectors.toList());
 								Collections.sort(matches);
@@ -373,7 +372,7 @@ public class DeckShower extends AbstractController implements Initializable
 							for (int j = 0; j < element.getElementsByTagName("card").getLength(); ++j)
 							{
 								Element cardElem = (Element) element.getElementsByTagName("card").item(j);
-								List<Card> matches = StreamSupport.stream(MySQL.getAllCards()).filter(card -> card.getName().get("en").equals(cardElem.getAttribute("name")))
+								List<Card> matches = MySQL.getAllCards().stream().filter(card -> card.getName().get("en").equals(cardElem.getAttribute("name")))
 										.filter(card -> Utils.DEBUG || card.getSet().getReleaseDate().getTime() < System.currentTimeMillis()).collect(Collectors.toList());
 								Collections.sort(matches);
 								Collections.reverse(matches);

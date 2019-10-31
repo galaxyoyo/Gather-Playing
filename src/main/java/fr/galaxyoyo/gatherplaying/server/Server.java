@@ -8,7 +8,6 @@ import fr.galaxyoyo.gatherplaying.protocol.packets.PacketMixChat;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketMixUpdatePartyInfos;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketMixUpdatePartyInfos.Type;
 import io.netty.channel.Channel;
-import java8.util.stream.StreamSupport;
 
 import java.util.Collection;
 import java.util.Map;
@@ -61,7 +60,7 @@ public class Server
 
 	public static Player getPlayer(Channel channel)
 	{
-		return StreamSupport.stream(players.values()).filter(p -> p.connection.remoteAddress().equals(channel.remoteAddress())).findAny().orElse(connectings.get(channel));
+		return players.values().stream().filter(p -> p.connection.remoteAddress().equals(channel.remoteAddress())).findAny().orElse(connectings.get(channel));
 	}
 
 	public static void endParty(Party party) { parties.remove(party.getId()); }

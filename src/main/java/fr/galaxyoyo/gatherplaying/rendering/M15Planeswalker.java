@@ -5,8 +5,6 @@ import fr.galaxyoyo.gatherplaying.Layout;
 import fr.galaxyoyo.gatherplaying.ManaColor;
 import fr.galaxyoyo.gatherplaying.Rarity;
 import fr.galaxyoyo.gatherplaying.client.Config;
-import java8.util.stream.Collectors;
-import java8.util.stream.RefStreams;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -14,8 +12,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class M15Planeswalker extends CardRenderer
 {
@@ -34,7 +34,7 @@ public class M15Planeswalker extends CardRenderer
 		File frameDir = getFrameDir();
 
 		ManaColor[] colorsObj = getCard().getColors();
-		String colors = String.join("", RefStreams.of(colorsObj).map(ManaColor::getAbbreviate).collect(Collectors.toList()));
+		String colors = String.join("", Arrays.stream(colorsObj).map(ManaColor::getAbbreviate).collect(Collectors.toList()));
 		switch (colors)
 		{
 			case "WG":

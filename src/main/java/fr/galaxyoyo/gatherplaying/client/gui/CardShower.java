@@ -7,9 +7,6 @@ import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.markers.Marker;
 import fr.galaxyoyo.gatherplaying.markers.MarkerType;
 import fr.galaxyoyo.gatherplaying.protocol.packets.*;
-import java8.util.stream.Collectors;
-import java8.util.stream.RefStreams;
-import java8.util.stream.StreamSupport;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ListChangeListener;
@@ -25,10 +22,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 public class CardShower extends AnchorPane
 {
@@ -414,7 +413,7 @@ public class CardShower extends AnchorPane
 								pkt.newSubtypes = Sets.newHashSet();
 								//noinspection unchecked
 								pkt.newSubtypes
-										.addAll(StreamSupport.stream(map.entrySet()).filter(entry -> entry.getValue().isSelected()).map(Map.Entry::getKey).collect(Collectors.toList
+										.addAll(map.entrySet().stream().filter(entry -> entry.getValue().isSelected()).map(Map.Entry::getKey).collect(Collectors.toList
 												()));
 								PacketManager.sendPacketToServer(pkt);
 							}
@@ -423,7 +422,7 @@ public class CardShower extends AnchorPane
 					menu.getItems().add(subtypes);
 					menu.getItems().add(new SeparatorMenuItem());
 
-					List<Token> canCreate = RefStreams.of(Token.values()).filter(token -> card.isCard() && token.getRelated().contains(card.getCard())).collect(Collectors.toList());
+					List<Token> canCreate = Arrays.stream(Token.values()).filter(token -> card.isCard() && token.getRelated().contains(card.getCard())).collect(Collectors.toList());
 
 					Menu invokeToken = new Menu("Invoquer un jeton ...");
 					for (Token token : canCreate)

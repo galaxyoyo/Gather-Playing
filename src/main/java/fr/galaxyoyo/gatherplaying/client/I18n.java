@@ -5,17 +5,16 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+import static fr.galaxyoyo.gatherplaying.client.Config.getLocale;
+
 public class I18n
 {
-	private static final ResourceBundle.Control control = new ResourceBundle.Control()
+/*	private static final ResourceBundle.Control control = new ResourceBundle.Control()
 	{
 		@Override
 		public ResourceBundle newBundle(String baseName, Locale locale, String format, ClassLoader loader, boolean reload)
@@ -29,8 +28,21 @@ public class I18n
 				bundle = new PropertyResourceBundle(new InputStreamReader(is, StandardCharsets.UTF_8));
 			return bundle;
 		}
-	};
-	private static ResourceBundle bundle, bundle_EN = ResourceBundle.getBundle("", Locale.US, control);
+	};*/
+
+	private static ResourceBundle bundle, bundle_EN = null;
+
+	static {
+		try
+		{
+			bundle_EN = new PropertyResourceBundle(I18n.class.getResourceAsStream("/translations/en.properties"));
+			bundle = bundle_EN;
+		}
+		catch (IOException ex)
+		{
+			ex.printStackTrace();
+		}
+	}
 
 	public static StringBinding tr(String toTranslate, String... args)
 	{
@@ -74,5 +86,6 @@ public class I18n
 		}
 	}
 
-	public static void reloadTranslations() throws IOException { bundle = ResourceBundle.getBundle("", Config.getLocale(), control); }
+	public static void reloadTranslations() throws IOException { bundle =
+			new PropertyResourceBundle(I18n.class.getResourceAsStream("/translations/" + getLocale().getLanguage() + ".properties")); }
 }

@@ -2,8 +2,6 @@ package fr.galaxyoyo.gatherplaying.rendering;
 
 import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.client.Config;
-import java8.util.stream.Collectors;
-import java8.util.stream.RefStreams;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -13,8 +11,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class M15Renderer extends CardRenderer
 {
@@ -94,7 +94,8 @@ public class M15Renderer extends CardRenderer
 				cost = getCard().getColors();
 			if (cost == null)
 				cost = new ManaColor[0];
-			costColors = String.join("", RefStreams.of(cost).filter(color -> !color.name().contains("NEUTRAL")).map(ManaColor::getAbbreviate).distinct().collect(Collectors.toList())).replace("/P", "");
+			costColors = String.join("", Arrays.stream(cost).filter(color -> !color.name().contains("NEUTRAL")).map(ManaColor::getAbbreviate).distinct().collect(Collectors.toList())).replace(
+							"/P", "");
 			switch (costColors)
 			{
 				case "WG":

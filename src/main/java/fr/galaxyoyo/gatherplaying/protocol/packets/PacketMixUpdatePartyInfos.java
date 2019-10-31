@@ -7,7 +7,6 @@ import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.client.gui.SelectPartyMenu;
 import fr.galaxyoyo.gatherplaying.server.Server;
 import io.netty.buffer.ByteBuf;
-import java8.util.stream.StreamSupport;
 
 import java.util.HashSet;
 import java.util.List;
@@ -142,7 +141,7 @@ public class PacketMixUpdatePartyInfos extends Packet
 					if (party.getPlayer(uuid) == null)
 						party.addPlayer(p);
 				}
-				StreamSupport.stream(party.getOnlinePlayers()).filter(p -> !connecteds.contains(p.uuid)).forEach(p -> party.removePlayer(p));
+				party.getOnlinePlayers().stream().filter(p -> !connecteds.contains(p.uuid)).forEach(p -> party.removePlayer(p));
 			}
 		}
 	}

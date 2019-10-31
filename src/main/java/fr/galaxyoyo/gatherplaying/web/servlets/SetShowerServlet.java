@@ -2,6 +2,7 @@ package fr.galaxyoyo.gatherplaying.web.servlets;
 
 import com.google.common.collect.Lists;
 import fr.galaxyoyo.gatherplaying.*;
+import fr.galaxyoyo.gatherplaying.Set;
 import fr.galaxyoyo.gatherplaying.web.HttpHeader;
 import fr.galaxyoyo.gatherplaying.web.HttpRequest;
 import fr.galaxyoyo.gatherplaying.web.HttpResponse;
@@ -9,18 +10,14 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.util.CharsetUtil;
-import java8.util.stream.Collectors;
-import java8.util.stream.RefStreams;
 
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class SetShowerServlet extends AbstractWebServlet
 {
@@ -93,7 +90,7 @@ public class SetShowerServlet extends AbstractWebServlet
 				html += "<img src=\"http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + muId + "&type=card\" />";*/
 			html.append("</a>\n");
 		}
-		List<Token> tokens = RefStreams.of(Token.values()).filter(t -> t.getSet() == set).collect(Collectors.toList());
+		List<Token> tokens = Arrays.stream(Token.values()).filter(t -> t.getSet() == set).collect(Collectors.toList());
 		for (Token token : tokens)
 		{
 			html.append("<a href=\"/token/").append(token.getSet().getCode()).append("/").append(token.getNumber()).append("\"/>");

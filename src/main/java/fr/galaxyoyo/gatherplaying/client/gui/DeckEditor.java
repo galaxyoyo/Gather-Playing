@@ -4,8 +4,6 @@ import com.google.common.base.Strings;
 import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.client.Config;
-import java8.util.stream.RefStreams;
-import java8.util.stream.StreamSupport;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.IntegerBinding;
@@ -32,6 +30,7 @@ import javafx.scene.layout.HBox;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
@@ -99,7 +98,7 @@ public class DeckEditor extends AbstractController implements Initializable
 		{
 			ObservableList<Card> stackedCards = FXCollections.observableArrayList();
 			ObservableSet<String> added = FXCollections.observableSet();
-			StreamSupport.stream(allCards).filter(card -> !added.contains(card.getName().get("en"))).forEach(card -> {
+			allCards.stream().filter(card -> !added.contains(card.getName().get("en"))).forEach(card -> {
 				stackedCards.add(card);
 				added.add(card.getName().get("en"));
 			});
@@ -130,7 +129,7 @@ public class DeckEditor extends AbstractController implements Initializable
 					return false;
 			}
 			List<ManaColor> colors = filters.getColor().getSelectionModel().getSelectedItems();
-			if (RefStreams.of(card.getColors()).noneMatch(colors::contains))
+			if (Arrays.stream(card.getColors()).noneMatch(colors::contains))
 				return false;
 			if (!filters.getCmc().getSelectionModel().getSelectedItems().contains((int) card.getCmc()))
 				return false;
@@ -148,7 +147,7 @@ public class DeckEditor extends AbstractController implements Initializable
 				if (subtypes.get(0) != null)
 					return false;
 			}
-			else if (RefStreams.of(card.getSubtypes()).noneMatch(subtypes::contains))
+			else if (Arrays.stream(card.getSubtypes()).noneMatch(subtypes::contains))
 				return false;
 			return (Utils.DEBUG || card.getSet().getReleaseDate().getTime() < System.currentTimeMillis()) &&
 					filters.getSet().getSelectionModel().getSelectedItems().contains(card.getSet()) && card.isLegal(filters.getRules().getSelectionModel().getSelectedItem());

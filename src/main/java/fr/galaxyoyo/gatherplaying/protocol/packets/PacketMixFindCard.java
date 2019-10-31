@@ -4,9 +4,6 @@ import com.google.common.collect.Lists;
 import fr.galaxyoyo.gatherplaying.*;
 import fr.galaxyoyo.gatherplaying.client.gui.FoundCardShower;
 import io.netty.buffer.ByteBuf;
-import java8.util.stream.Collectors;
-import java8.util.stream.Stream;
-import java8.util.stream.StreamSupport;
 import javafx.application.Platform;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -15,6 +12,8 @@ import javafx.scene.layout.HBox;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PacketMixFindCard extends Packet
 {
@@ -29,7 +28,7 @@ public class PacketMixFindCard extends Packet
 		{
 			Library lib = player.getData().getLibrary();
 			List<OwnedCard> list = null;
-			Stream<OwnedCard> allCards = StreamSupport.stream(lib.getSortedCards());
+			Stream<OwnedCard> allCards = lib.getSortedCards().stream();
 			switch (type)
 			{
 				case RARITY:

@@ -1,9 +1,9 @@
 package fr.galaxyoyo.gatherplaying.client;
 
-import com.gluonhq.charm.glisten.application.GlassPane;
+/* import com.gluonhq.charm.glisten.application.GlassPane;
 import com.gluonhq.charm.glisten.application.MobileApplication;
 import com.gluonhq.charm.glisten.mvc.View;
-import com.gluonhq.charm.glisten.visual.Swatch;
+import com.gluonhq.charm.glisten.visual.Swatch; */
 import fr.galaxyoyo.gatherplaying.Party;
 import fr.galaxyoyo.gatherplaying.Player;
 import fr.galaxyoyo.gatherplaying.Utils;
@@ -34,8 +34,8 @@ public class Client extends Application
 
 	public static StackPane getStackPane()
 	{
-		if (Utils.isMobile())
-			return MobileClient.getStackPane();
+	//	if (Utils.isMobile())
+	//		return MobileClient.getStackPane();
 		return (StackPane) getStage().getScene().getRoot();
 	}
 
@@ -93,7 +93,7 @@ public class Client extends Application
 	{
 		if (Utils.isMobile())
 		{
-			MobileClient.show(clazz);
+			//MobileClient.show(clazz);
 			return null;
 		}
 
@@ -126,7 +126,7 @@ public class Client extends Application
 
 	public static Party getRunningParty() { return localPlayer.runningParty; }
 
-	public static class MobileClient extends MobileApplication
+/*	public static class MobileClient extends MobileApplication
 	{
 		private static StackPane getStackPane() { return (StackPane) getInstance().getView().getCenter(); }
 
@@ -145,7 +145,7 @@ public class Client extends Application
 				addViewFactory(className, () -> {
 					try
 					{
-						View v = new View(className);
+						View v = new View();
 						FXMLLoader loader = new FXMLLoader();
 						loader.setLocation(getClass().getResource("/views/" + className + ".fxml"));
 						Parent parent;
@@ -164,7 +164,7 @@ public class Client extends Application
 					catch (Throwable t)
 					{
 						t.printStackTrace();
-						return new View(className);
+						return new View();
 					}
 				});
 			}
@@ -175,5 +175,5 @@ public class Client extends Application
 		{
 			getInstance().switchView(clazz.getSimpleName());
 		}
-	}
+	}*/
 }

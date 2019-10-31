@@ -9,8 +9,6 @@ import fr.galaxyoyo.gatherplaying.protocol.packets.PacketManager;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketMixChat;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketMixSetPhase;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketMixUpdatePartyInfos;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -37,6 +35,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class GameMenu extends AbstractController implements Initializable
 {
@@ -143,7 +142,7 @@ public class GameMenu extends AbstractController implements Initializable
 				}
 			}
 			ObservableList<Node> nodes = Client.getStackPane().getChildren();
-			nodes.removeAll(StreamSupport.stream(nodes).filter(node -> node instanceof Arrow).collect(Collectors.toList()));
+			nodes.removeAll(nodes.stream().filter(node -> node instanceof Arrow).collect(Collectors.toList()));
 		});
 	}
 

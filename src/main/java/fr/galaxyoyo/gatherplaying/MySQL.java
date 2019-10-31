@@ -10,7 +10,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import fr.galaxyoyo.gatherplaying.client.Config;
 import fr.galaxyoyo.gatherplaying.client.gui.Loading;
-import java8.util.stream.StreamSupport;
 import javafx.collections.FXCollections;
 import org.apache.commons.io.IOUtils;
 
@@ -749,9 +748,9 @@ public class MySQL
 			}
 			Loading.setLabel("Mise à jour des traductions");
 			if (Utils.getSide() == Side.CLIENT)
-				StreamSupport.stream(sets.values()).forEach(set -> set.addLang(Config.getLocaleCode()));
+				sets.values().stream().forEach(set -> set.addLang(Config.getLocaleCode()));
 			else
-				StreamSupport.stream(sets.values()).forEach(set -> {
+				sets.values().stream().forEach(set -> {
 					for (String locale : LOCALES)
 					{
 						set.addLang(locale);
@@ -824,7 +823,7 @@ public class MySQL
 								String version = m.group().substring(10, m.group().length() - 1);
 								System.out.println(version);
 								int ver = Integer.parseInt(version);
-								card = StreamSupport.stream(set.getCards()).filter(c -> c.getName().get("en").equals(s)).findAny().orElse(null);
+								card = set.getCards().stream().filter(c -> c.getName().get("en").equals(s)).findAny().orElse(null);
 								if (card == null)
 									continue;
 								System.out.println(Arrays.toString(card.getVariations()));
@@ -833,7 +832,7 @@ public class MySQL
 								System.out.println(card);
 							}
 							else
-								card = StreamSupport.stream(set.getCards()).filter(c -> c.getName().get("en").equals(productName)).findAny().orElse(null);
+								card = set.getCards().stream().filter(c -> c.getName().get("en").equals(productName)).findAny().orElse(null);
 							if (card == null)
 								System.err.println(productName);
 							else

@@ -7,8 +7,6 @@ import fr.galaxyoyo.gatherplaying.client.Config;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketInSelectDeck;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketManager;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketMixUpdatePartyInfos;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -22,6 +20,7 @@ import java.net.URL;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class PartyCreater extends AbstractController implements Initializable
 {
@@ -47,8 +46,8 @@ public class PartyCreater extends AbstractController implements Initializable
 	{
 		if (rules.getValue().isLimited())
 		{
-			List<Set> withBoosters = StreamSupport.stream(MySQL.getAllSets()).filter(set -> set.booster != null && set.booster.length > 0).collect(Collectors.toList());
-			withBoosters.sort(((Comparator<Set>) Set::compareTo).reversed());
+			List<Set> withBoosters = MySQL.getAllSets().stream().filter(set -> set.booster != null && set.booster.length > 0).sorted(((Comparator<Set>) Set::compareTo).reversed())
+					.collect(Collectors.toList());
 			List<Set> chosen = Lists.newArrayList(null, null, null);
 			if (rules.getValue() == Rules.SEALED)
 				chosen.addAll(Lists.newArrayList(null, null, null));
@@ -112,7 +111,7 @@ public class PartyCreater extends AbstractController implements Initializable
 		}
 		else
 		{
-			List<Deck> decks = StreamSupport.stream(Client.localPlayer.decks).filter(deck -> deck.getLegalities().contains(rules.getValue())).collect(Collectors.toList());
+			List<Deck> decks = Client.localPlayer.decks.stream().filter(deck -> deck.getLegalities().contains(rules.getValue())).collect(Collectors.toList());
 			if (decks.isEmpty())
 			{
 				Utils.alert("Pas de deck", "Aucun deck à jouer", "Vous ne possédez aucun deck légal dans le format " + rules.getValue(), Alert.AlertType.WARNING);
@@ -145,7 +144,7 @@ public class PartyCreater extends AbstractController implements Initializable
 			}
 			else
 			{
-				com.gluonhq.charm.glisten.control.Dialog<Deck> deckSelector = new com.gluonhq.charm.glisten.control.Dialog<>("Sélectionnez votre deck à jouer");
+			/*	com.gluonhq.charm.glisten.control.Dialog<Deck> deckSelector = new com.gluonhq.charm.glisten.control.Dialog<>("Sélectionnez votre deck à jouer");
 				ComboBox<Deck> box = new ComboBox<>(FXCollections.observableArrayList(Client.localPlayer.decks));
 				deckSelector.setContent(box);
 				Button play = new Button("Jouer");
@@ -163,7 +162,7 @@ public class PartyCreater extends AbstractController implements Initializable
 					PacketInSelectDeck p = PacketManager.createPacket(PacketInSelectDeck.class);
 					p.library = new Library(deck);
 					PacketManager.sendPacketToServer(p);
-				});
+				});*/
 			}
 		}
 	}

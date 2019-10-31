@@ -1,14 +1,13 @@
 package fr.galaxyoyo.gatherplaying;
 
 import fr.galaxyoyo.gatherplaying.client.I18n;
-import java8.util.stream.Collectors;
-import java8.util.stream.RefStreams;
-import java8.util.stream.StreamSupport;
 import javafx.beans.binding.StringBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public enum Rules
 {
@@ -59,7 +58,7 @@ public enum Rules
 						legals.add(card.getName().get("en"));
 						return true;
 					default:
-						for (Set set : RefStreams.of("KLD", "AER", "AKH", "HOU", "IXN", "W17", "RIX").map(MySQL::getSet).collect(Collectors.toSet()))
+						for (Set set : Arrays.stream(new String[]{"KLD", "AER", "AKH", "HOU", "IXN", "W17", "RIX"}).map(MySQL::getSet).collect(Collectors.toSet()))
 						{
 							if (set == null)
 								continue;
@@ -297,11 +296,11 @@ public enum Rules
 					return false;
 			}
 			List<Set> matching =
-					StreamSupport.stream(MySQL.getAllSets()).filter(set -> set.getBlock() != null && set.getBlock().equalsIgnoreCase(name().replace("_BLOCK", "").replace("_", " ")))
+					MySQL.getAllSets().stream().filter(set -> set.getBlock() != null && set.getBlock().equalsIgnoreCase(name().replace("_BLOCK", "").replace("_", " ")))
 							.collect(Collectors.toList());
 			for (Set set : matching)
 			{
-				if (StreamSupport.stream(set.getCards()).anyMatch(c -> c.getName().get("en").equals(card.getName().get("en"))))
+				if (set.getCards().stream().anyMatch(c -> c.getName().get("en").equals(card.getName().get("en"))))
 				{
 					legals.add(card.getName().get("en"));
 					return true;

@@ -91,7 +91,7 @@ public class PlayerInfos extends AbstractController implements Initializable
 				}
 				else
 				{
-					com.gluonhq.charm.glisten.control.Dialog<Integer> dialog = new com.gluonhq.charm.glisten.control.Dialog<>("Définition des points de vie");
+				/*	com.gluonhq.charm.glisten.control.Dialog<Integer> dialog = new com.gluonhq.charm.glisten.control.Dialog<>("Définition des points de vie");
 					Spinner<Integer> spinner = new Spinner<>(0, 9999, player.getData().getHp());
 					dialog.setContent(spinner);
 					Button apply = new Button("Appliquer");
@@ -109,7 +109,7 @@ public class PlayerInfos extends AbstractController implements Initializable
 						pkt.newLife = spinner.getValue();
 						PacketManager.sendPacketToServer(pkt);
 
-					});
+					});*/
 				}
 			});
 			menu.getItems().add(define);
@@ -188,7 +188,7 @@ public class PlayerInfos extends AbstractController implements Initializable
 				}
 				else
 				{
-					com.gluonhq.charm.glisten.control.Dialog<Integer> dialog = new com.gluonhq.charm.glisten.control.Dialog<>("Piocher des cartes");
+				/*	com.gluonhq.charm.glisten.control.Dialog<Integer> dialog = new com.gluonhq.charm.glisten.control.Dialog<>("Piocher des cartes");
 					Spinner<Integer> spinner = new Spinner<>(1, 1, getLibrary());
 					dialog.setContent(spinner);
 					Button ok = new Button("Ok");
@@ -202,7 +202,7 @@ public class PlayerInfos extends AbstractController implements Initializable
 						PacketMixDrawCard pkt = PacketManager.createPacket(PacketMixDrawCard.class);
 						pkt.count = integer;
 						PacketManager.sendPacketToServer(pkt);
-					});
+					});*/
 				}
 			});
 			menu.getItems().add(draw);
@@ -287,7 +287,7 @@ public class PlayerInfos extends AbstractController implements Initializable
 				}
 				else
 				{
-					com.gluonhq.charm.glisten.control.Dialog<ButtonType> dialog = new com.gluonhq.charm.glisten.control.Dialog<>("Chercher une carte");
+				/*	com.gluonhq.charm.glisten.control.Dialog<ButtonType> dialog = new com.gluonhq.charm.glisten.control.Dialog<>("Chercher une carte");
 					dialog.setContent(pane);
 					Button apply = new Button("Appliquer");
 					apply.setOnAction(event1 -> dialog.setResult(ButtonType.APPLY));
@@ -298,7 +298,7 @@ public class PlayerInfos extends AbstractController implements Initializable
 						pkt.type = filterType.getValue();
 						pkt.filter = filter.getValue();
 						PacketManager.sendPacketToServer(pkt);
-					});
+					});*/
 				}
 			});
 			menu.getItems().add(findCard);
@@ -340,11 +340,11 @@ public class PlayerInfos extends AbstractController implements Initializable
 				}
 				else
 				{
-					com.gluonhq.charm.glisten.control.Dialog<Object> dialog = new com.gluonhq.charm.glisten.control.Dialog<>("Visualisation du cimetière");
+				/*	com.gluonhq.charm.glisten.control.Dialog<Object> dialog = new com.gluonhq.charm.glisten.control.Dialog<>("Visualisation du cimetière");
 					dialog.setContent(box);
 					Button close = new Button("Fermer");
 					close.setOnAction(event1 -> dialog.hide());
-					dialog.showAndWait();
+					dialog.showAndWait();*/
 				}
 			});
 			menu.getItems().add(show);

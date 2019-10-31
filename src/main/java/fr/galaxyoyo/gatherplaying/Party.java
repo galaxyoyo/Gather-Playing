@@ -8,7 +8,6 @@ import fr.galaxyoyo.gatherplaying.client.gui.GameMenu;
 import fr.galaxyoyo.gatherplaying.client.gui.PlayerInfos;
 import fr.galaxyoyo.gatherplaying.protocol.packets.*;
 import fr.galaxyoyo.gatherplaying.server.Server;
-import java8.util.stream.StreamSupport;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 
@@ -57,7 +56,7 @@ public class Party
 						for (Set set : boosters)
 							list.addAll(Lists.newArrayList(set.generateBooster()));
 						for (String basicLandName : new String[] {"Plains", "Island", "Swamp", "Forest", "Mountain"})
-							list.add(StreamSupport.stream(MySQL.getAllCards()).filter(card -> card.isBasic() && card.getName().get("en").equals(basicLandName)).sorted(Card::compareTo)
+							list.add(MySQL.getAllCards().stream().filter(card -> card.isBasic() && card.getName().get("en").equals(basicLandName)).sorted(Card::compareTo)
 									.findFirst().get());
 						PacketOutOpenBooster pkt = PacketManager.createPacket(PacketOutOpenBooster.class);
 						pkt.cards = list;
@@ -75,7 +74,7 @@ public class Party
 						{
 							List<Card> list = draftPicked.get(player);
 							for (String basicLandName : new String[] {"Plains", "Island", "Swamp", "Forest", "Mountain"})
-								list.add(StreamSupport.stream(MySQL.getAllCards()).filter(card -> card.isBasic() && card.getName().get("en").equals(basicLandName)).sorted(Card::compareTo)
+								list.add(MySQL.getAllCards().stream().filter(card -> card.isBasic() && card.getName().get("en").equals(basicLandName)).sorted(Card::compareTo)
 										.findFirst().get());
 							PacketOutOpenBooster pkt = PacketManager.createPacket(PacketOutOpenBooster.class);
 							pkt.cards = list;

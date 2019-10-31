@@ -3,7 +3,6 @@ package fr.galaxyoyo.gatherplaying.client.gui;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import fr.galaxyoyo.gatherplaying.*;
-import java8.util.stream.StreamSupport;
 import javafx.beans.property.*;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
@@ -63,7 +62,7 @@ public class DeckStats extends AbstractController
 			}
 		}
 
-		StreamSupport.stream(Lists.newArrayList(colors.getData())).filter(data -> data.getPieValue() == 0).forEach(data -> colors.getData().remove(data));
+		colors.getData().stream().filter(data -> data.getPieValue() == 0).forEach(data -> colors.getData().remove(data));
 
 		for (Map.Entry<CardType, Map<Card, AtomicInteger>> entry : deck.cardsByType().entrySet())
 		{
@@ -95,7 +94,7 @@ public class DeckStats extends AbstractController
 			cmcData.get((int) card.getCard().getCmc()).set(cmcData.get((int) card.getCard().getCmc()).get() + 1);
 		}
 
-		StreamSupport.stream(cmcData.entrySet()).forEach(entry -> cmc.getData()
+		cmcData.entrySet().stream().forEach(entry -> cmc.getData()
 				.add(new PieChart.Data(entry.getKey() + " : " + entry.getValue().divide(sizeWithoutColors).multiply(100).asString("%.1f").get() + " %", entry.getValue().get())));
 	}
 }

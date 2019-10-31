@@ -3,11 +3,10 @@ package fr.galaxyoyo.gatherplaying;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import fr.galaxyoyo.gatherplaying.client.I18n;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
 import javafx.beans.binding.StringBinding;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static fr.galaxyoyo.gatherplaying.CardType.*;
 
@@ -1035,7 +1034,7 @@ public enum Token
 		List<Integer> ids = Lists.newArrayList();
 		for (int id : relatedCards)
 			ids.add(id);
-		related = StreamSupport.stream(ids).map(MySQL::getCard).collect(Collectors.toList());
+		related = ids.stream().map(MySQL::getCard).collect(Collectors.toList());
 	}
 
 	Token(CardType type, String set, String number, String ability_EN, String ability_FR, SubType subtype, int... relatedCards)

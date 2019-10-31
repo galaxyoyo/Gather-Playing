@@ -4,8 +4,6 @@ import fr.galaxyoyo.gatherplaying.Rules;
 import fr.galaxyoyo.gatherplaying.Utils;
 import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.client.Config;
-import java8.util.stream.Collectors;
-import java8.util.stream.RefStreams;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -14,8 +12,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class HelpAndSettings extends AbstractController
 {
@@ -43,7 +43,7 @@ public class HelpAndSettings extends AbstractController
 		locale.getItems().addAll(Locale.ENGLISH, Locale.GERMAN, Locale.FRENCH, Locale.ITALIAN, new Locale("es"), new Locale("pt", "BR"), new Locale("ru"), Locale.PRC,
 				Locale.TAIWAN, Locale.JAPANESE, Locale.KOREAN);
 		locale.setValue(Config.getLocale());
-		preferredFormat.getItems().setAll(RefStreams.of(Rules.values()).filter(rules -> !rules.isLimited()).collect(Collectors.toList()));
+		preferredFormat.getItems().setAll(Arrays.stream(Rules.values()).filter(rules -> !rules.isLimited()).collect(Collectors.toList()));
 		preferredFormat.setValue(Config.getFormat());
 		stayLogged.setSelected(Config.getStayLogged());
 		stackCards.setSelected(Config.getStackCards());

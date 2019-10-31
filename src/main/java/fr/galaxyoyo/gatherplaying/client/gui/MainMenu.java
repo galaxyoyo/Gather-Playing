@@ -52,12 +52,13 @@ public class MainMenu extends AbstractController
 					if (button == ButtonType.OK)
 						Client.close();
 				});
-			} else
+			}
+			else
 			{
-				com.gluonhq.charm.glisten.control.Alert alert = new com.gluonhq.charm.glisten.control.Alert(Alert.AlertType.CONFIRMATION);
+			/*	com.gluonhq.charm.glisten.control.Alert alert = new com.gluonhq.charm.glisten.control.Alert(Alert.AlertType.CONFIRMATION);
 				alert.setTitleText("Vous vous apprêtez à fermer le jeu");
 				alert.setContentText("Êtes-vous sûr de vouloir quitter ?");
-				alert.showAndWait().filter(o -> o == ButtonType.OK).ifPresent(button -> Client.close());
+				alert.showAndWait().filter(o -> o == ButtonType.OK).ifPresent(button -> Client.close());*/
 			}
 		});
 	}

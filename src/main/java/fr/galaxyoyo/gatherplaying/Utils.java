@@ -37,7 +37,7 @@ import java.util.concurrent.TimeoutException;
 public class Utils
 {
 	public static final Random RANDOM = new Random();
-	private static final com.gluonhq.charm.down.Platform platform = com.gluonhq.charm.down.Platform.getCurrent();
+	//private static final com.gluonhq.charm.down.Platform platform = com.gluonhq.charm.down.Platform.getCurrent();
 	public static boolean DEBUG = false;
 	private static Side side = Side.CLIENT;
 
@@ -144,10 +144,10 @@ public class Utils
 				}
 				else
 				{
-					com.gluonhq.charm.glisten.control.Alert alert = new com.gluonhq.charm.glisten.control.Alert(Alert.AlertType.CONFIRMATION);
+				/*	com.gluonhq.charm.glisten.control.Alert alert = new com.gluonhq.charm.glisten.control.Alert(Alert.AlertType.CONFIRMATION);
 					alert.setTitleText(header);
 					alert.setContentText(content);
-					alert.showAndWait();
+					alert.showAndWait();*/
 				}
 			});
 			return Optional.empty();
@@ -167,7 +167,7 @@ public class Utils
 
 	public static boolean isDesktop()
 	{
-		return platform.equals(com.gluonhq.charm.down.Platform.DESKTOP);
+		return true; //platform.equals(com.gluonhq.charm.down.Platform.DESKTOP);
 	}
 
 	public static void alert(String title, String header, String content)
@@ -187,7 +187,8 @@ public class Utils
 
 	public static File newFile(String path)
 	{
-		switch (getPlatform())
+		return new File(path);
+	/*	switch (getPlatform())
 		{
 			case DESKTOP:
 				return new File(path);
@@ -199,24 +200,24 @@ public class Utils
 				return new File(DIR, path);
 			default:
 				throw new RuntimeException("OS not recognized: " + platform);
-		}
+		}*/
 	}
 
-	public static com.gluonhq.charm.down.Platform getPlatform()
+/*	public static com.gluonhq.charm.down.Platform getPlatform()
 	{
 		return platform;
-	}
+	}*/
 
 	@SuppressWarnings("unused")
 	public static boolean isAndroid()
 	{
-		return platform == com.gluonhq.charm.down.Platform.ANDROID;
+		return false; // platform == com.gluonhq.charm.down.Platform.ANDROID;
 	}
 
 	@SuppressWarnings("unused")
 	public static boolean isIOS()
 	{
-		return platform == com.gluonhq.charm.down.Platform.IOS;
+		return false; // platform == com.gluonhq.charm.down.Platform.IOS;
 	}
 
 	public static boolean isMobile()

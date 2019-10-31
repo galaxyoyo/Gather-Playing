@@ -11,7 +11,6 @@ import fr.galaxyoyo.gatherplaying.markers.MarkerType;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketManager;
 import fr.galaxyoyo.gatherplaying.protocol.packets.PacketMixDestroyCard;
 import fr.galaxyoyo.gatherplaying.server.Server;
-import java8.util.stream.StreamSupport;
 import javafx.application.Platform;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.IntegerProperty;
@@ -63,17 +62,17 @@ public class PlayedCard implements Targetable
 			String number = card.getCard().getNumber().replaceAll("[^\\d]", "");
 			String letter = card.getCard().getNumber().replace(number, "");
 			if (letter.equals("a"))
-				relatedCard = StreamSupport.stream(MySQL.getAllCards()).filter(c -> c.getSet() == card.getCard().getSet() && (number + "b").equals(c.getMciNumber())).findAny().get();
+				relatedCard = MySQL.getAllCards().stream().filter(c -> c.getSet() == card.getCard().getSet() && (number + "b").equals(c.getMciNumber())).findAny().get();
 			else if (letter.equals("b") && card.getCard().getMuId("en").equals("74358"))
-				relatedCard = StreamSupport.stream(MySQL.getAllCards()).filter(c -> c.getSet() == card.getCard().getSet() && (number + "c").equals(c.getMciNumber())).findAny().get();
+				relatedCard = MySQL.getAllCards().stream().filter(c -> c.getSet() == card.getCard().getSet() && (number + "c").equals(c.getMciNumber())).findAny().get();
 			else if (letter.equals("b"))
-				relatedCard = StreamSupport.stream(MySQL.getAllCards()).filter(c -> c.getSet() == card.getCard().getSet() && (number + "a").equals(c.getMciNumber())).findAny().get();
+				relatedCard = MySQL.getAllCards().stream().filter(c -> c.getSet() == card.getCard().getSet() && (number + "a").equals(c.getMciNumber())).findAny().get();
 			else if (letter.equals("c"))
-				relatedCard = StreamSupport.stream(MySQL.getAllCards()).filter(c -> c.getSet() == card.getCard().getSet() && (number + "d").equals(c.getMciNumber())).findAny().get();
+				relatedCard = MySQL.getAllCards().stream().filter(c -> c.getSet() == card.getCard().getSet() && (number + "d").equals(c.getMciNumber())).findAny().get();
 			else if (letter.equals("d"))
-				relatedCard = StreamSupport.stream(MySQL.getAllCards()).filter(c -> c.getSet() == card.getCard().getSet() && (number + "e").equals(c.getMciNumber())).findAny().get();
+				relatedCard = MySQL.getAllCards().stream().filter(c -> c.getSet() == card.getCard().getSet() && (number + "e").equals(c.getMciNumber())).findAny().get();
 			else
-				relatedCard = StreamSupport.stream(MySQL.getAllCards()).filter(c -> c.getSet() == card.getCard().getSet() && (number + "a").equals(c.getMciNumber())).findAny().get();
+				relatedCard = MySQL.getAllCards().stream().filter(c -> c.getSet() == card.getCard().getSet() && (number + "a").equals(c.getMciNumber())).findAny().get();
 		}
 		else if (card.getCard().getAbilityMap().get("en") != null && card.getCard().getAbilityMap().get("en").contains("Morph"))
 			relatedCard = card.getCard();

@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -14,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 public class PreconstructedDeck
 {
@@ -71,7 +70,7 @@ public class PreconstructedDeck
 			deck.getCards().add(new OwnedCard(card, player, card == foilCard));
 		deck.calculateColors();
 		deck.calculateLegalities();
-		player.cards.addAll(StreamSupport.stream(deck.getCards()).collect(Collectors.toList()));
+		player.cards.addAll(deck.getCards().stream().collect(Collectors.toList()));
 		MySQL.savePlayer(player);
 		MySQL.saveDeck(deck);
 		return deck;

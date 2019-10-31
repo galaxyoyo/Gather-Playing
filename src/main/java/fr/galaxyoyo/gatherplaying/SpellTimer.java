@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import fr.galaxyoyo.gatherplaying.client.Client;
 import fr.galaxyoyo.gatherplaying.client.gui.CardShower;
 import fr.galaxyoyo.gatherplaying.client.gui.GameMenu;
-import java8.util.stream.StreamSupport;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -93,7 +92,7 @@ public class SpellTimer
 				party.getData(card.getController()).getGraveyard().add(card);
 				if (Utils.getSide() == Side.CLIENT)
 				{
-					Platform.runLater(() -> StreamSupport.stream(spells).forEach(c -> Client.getStackPane().getChildren().remove(CardShower.getShower(c))));
+					Platform.runLater(() -> spells.stream().forEach(c -> Client.getStackPane().getChildren().remove(CardShower.getShower(c))));
 					if (card.getOwner() == Client.localPlayer)
 						GameMenu.instance().playerInfos.graveyard(card);
 					else
